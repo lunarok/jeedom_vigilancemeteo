@@ -1,0 +1,11 @@
+==== Vigilance Météo
+
+Ce plugin permet d'obtenir le niveau de vigilance de Météo France pour :
+
+- vigilance (vert, jaune, orange, rouge)
+
+- crue (vert, jaune, orange, rouge)
+
+- risque (vent, pluie-inondation, orages, inondations, neige-verglas, grand-froid)
+
+- Sur le widget un clique sue le bouton information, vous permet d'accéder au site Vigilance Météo pour votre département

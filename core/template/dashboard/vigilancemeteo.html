@@ -1,0 +1,24 @@
+<div class="eqLogic-widget eqLogic allowResize vigilancemeteo" style="height: #height#;width: #width#;background-color: #background_color#; padding : 0px; #style#" data-eqLogic_id="#id#" data-version="dashboard" >
+    <center><a href="#eqLink#" style="font-size : 1.5em;"> #name# </a></center>
+    <div class="row">
+
+	<div class="col-sm-12">
+	<center>
+	 <span class="vigilance #vigilance_history#" data-cmd_id="#vigilance_id#" title="Vigilance (#vigilance_collect#)"><i id="#vigilance_id#" class="icon jeedom-alerte"></i>    <i class="fa fa-circle fa-lg" style="color : #vigilance#; Cursor:default"></i></span>
+	<span style="margin-left: 30px;" class="crue #crue_history#" data-cmd_id="#crue_id#"><span title="Risque crue (#crue_collect#)"><i id="#crue_id#" class="icon jeedom-eau"></i>    <i class="fa fa-circle fa-lg" style="color : #crue#; Cursor:default"></i></span>
+   </center>
+	</div>
+	</div>
+	<center>
+       <span class="risque #risque_history#" data-cmd_id="#risque_id#" title="Risque en cours Cliquez pour plus de détails (#risque_collect#)" style="text-decoration: none; cursor:default;font-size : 1.3em;"><i id="yourvigilance#id#" class="fa fa-info-circle cursor"></i> #risque#</span>
+    </center>
+<script>
+$('#yourvigilance#id#').on('click', function() {
+			$('#md_modal2').dialog({
+				title: "Votre Vigilance"
+			});
+
+			$('#md_modal2').load('index.php?v=d&plugin=vigilancemeteo&modal=your.vigilancemeteo&id='+ #id#).dialog('open');
+		});
+</script>
+</div>

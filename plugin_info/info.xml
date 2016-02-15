@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<info>
+    <id>vigilancemeteo</id>
+    <name>Vigilance Météo</name>
+    <licence>AGPL</licence>
+    <author>lunarok</author>
+    <require>2.1</require>
+    <category>weather</category>
+</info>

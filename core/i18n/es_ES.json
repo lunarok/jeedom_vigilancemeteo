@@ -1,0 +1,37 @@
+{
+    "plugins/vigilancemeteo/plugin_info/info.xml": {
+        "Plugin pour récupérer les alertes de vigilance de Météo France": "Plugin pour récupérer les alertes de vigilance de Météo France",
+        "Aucune": "Ninguna"
+    },
+    "plugins/vigilancemeteo/desktop/php/vigilancemeteo.php": {
+        "Ajouter un équipement": "Añadir un dispositivo",
+        "Rechercher": "Buscar",
+        "Mes vigilancemeteo": "Mes vigilancemeteo",
+        "Général": "General",
+        "Lieu vigilancemeteo": "Lieu vigilancemeteo",
+        "Nom de l'équipement vigilancemeteo": "Nom de l'équipement vigilancemeteo",
+        "Objet parent": "Objeto padre",
+        "Aucun": "Ningún",
+        "Catégorie": "Categoría",
+        "Activer": "Activar",
+        "Visible": "Visible",
+        "Commentaire": "Comentario",
+        "Informations": "información",
+        "Département": "Provincia",
+        "Nom": "Nombre",
+        "Valeur": "Valor",
+        "Paramètres": "Parámetros",
+        "Supprimer": "Borrar",
+        "Sauvegarder": "Salvaguardar"
+    },
+    "plugins/vigilancemeteo/desktop/js/vigilancemeteo.js": {
+        "Historiser": "Historizar",
+        "Afficher": "Mostrar",
+        "Evénement seulement": "sólo Evento"
+    },
+    "plugins/vigilancemeteo/core/class/vigilancemeteo.class.php": {
+        "Vigilance": "Vigilance",
+        "Crue": "Crue",
+        "Risque": "Risque"
+    }
+}

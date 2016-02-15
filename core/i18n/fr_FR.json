@@ -1,0 +1,37 @@
+{
+    "plugins\/vigilancemeteo\/plugin_info\/info.xml": {
+        "Plugin pour récupérer les alertes de vigilance de Météo France": "Plugin pour récupérer les alertes de vigilance de Météo France",
+        "Aucune": "Aucune"
+    },
+    "plugins\/vigilancemeteo\/desktop\/php\/vigilancemeteo.php": {
+        "Ajouter un équipement": "Ajouter un équipement",
+        "Rechercher": "Rechercher",
+        "Mes vigilancemeteo": "Mes vigilancemeteo",
+        "Général": "Général",
+        "Lieu vigilancemeteo": "Lieu vigilancemeteo",
+        "Nom de l'équipement vigilancemeteo": "Nom de l'équipement vigilancemeteo",
+        "Objet parent": "Objet parent",
+        "Aucun": "Aucun",
+        "Catégorie": "Catégorie",
+        "Activer": "Activer",
+        "Visible": "Visible",
+        "Commentaire": "Commentaire",
+        "Informations": "Informations",
+        "Département": "Département",
+        "Nom": "Nom",
+        "Valeur": "Valeur",
+        "Paramètres": "Paramètres",
+        "Supprimer": "Supprimer",
+        "Sauvegarder": "Sauvegarder"
+    },
+    "plugins\/vigilancemeteo\/desktop\/js\/vigilancemeteo.js": {
+        "Historiser": "Historiser",
+        "Afficher": "Afficher",
+        "Evénement seulement": "Evénement seulement"
+    },
+    "plugins\/vigilancemeteo\/core\/class\/vigilancemeteo.class.php": {
+        "Vigilance": "Vigilance",
+        "Crue": "Crue",
+        "Risque": "Risque"
+    }
+}

@@ -1,0 +1,11 @@
+==== Version 1.2
+
+Ajout des alertes bords de mer
+
+==== Version 1.1
+
+refreshWidget
+
+==== Version 1
+
+Création du plugin

@@ -1,0 +1,37 @@
+{
+    "plugins/vigilancemeteo/plugin_info/info.xml": {
+        "Plugin pour récupérer les alertes de vigilance de Météo France": "Plugin pour récupérer les alertes de vigilance de Météo France",
+        "Aucune": "Tak ada"
+    },
+    "plugins/vigilancemeteo/desktop/php/vigilancemeteo.php": {
+        "Ajouter un équipement": "Tambahan peralatan",
+        "Rechercher": "Mencari",
+        "Mes vigilancemeteo": "Mes vigilancemeteo",
+        "Général": "Umum",
+        "Lieu vigilancemeteo": "Lieu vigilancemeteo",
+        "Nom de l'équipement vigilancemeteo": "Nom de l'équipement vigilancemeteo",
+        "Objet parent": "Objek induk",
+        "Aucun": "Tak ada",
+        "Catégorie": "Kategori",
+        "Activer": "Mengaktifkan",
+        "Visible": "Terlihat",
+        "Commentaire": "Komentar",
+        "Informations": "Informasi",
+        "Département": "Département",
+        "Nom": "Nama",
+        "Valeur": "Nilai",
+        "Paramètres": "Parameter²",
+        "Supprimer": "Menghapus",
+        "Sauvegarder": "Menyimpan"
+    },
+    "plugins/vigilancemeteo/desktop/js/vigilancemeteo.js": {
+        "Historiser": "Historicize",
+        "Afficher": "Memenitikan",
+        "Evénement seulement": "Peristiwa hanya"
+    },
+    "plugins/vigilancemeteo/core/class/vigilancemeteo.class.php": {
+        "Vigilance": "Vigilance",
+        "Crue": "Crue",
+        "Risque": "Risque"
+    }
+}
