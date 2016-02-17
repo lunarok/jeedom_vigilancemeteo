@@ -51,7 +51,7 @@ class vigilancemeteo extends eqLogic {
       if (!is_object($cmdlogic)) {
         $cmdlogic = new vigilancemeteoCmd();
         $cmdlogic->setName(__('Vigilance', __FILE__));
-        $cmdlogic->setEqLogic_id($this->id);
+        $cmdlogic->setEqLogic_id($vigilancemeteo->id);
         $cmdlogic->setLogicalId('vigilance');
         $cmdlogic->setConfiguration('data', 'vigilance');
       }
@@ -63,7 +63,7 @@ class vigilancemeteo extends eqLogic {
       if (!is_object($cmdlogic)) {
         $cmdlogic = new vigilancemeteoCmd();
         $cmdlogic->setName(__('Crue', __FILE__));
-        $cmdlogic->setEqLogic_id($this->id);
+        $cmdlogic->setEqLogic_id($vigilancemeteo->id);
         $cmdlogic->setLogicalId('crue');
         $cmdlogic->setConfiguration('data', 'crue');
       }
@@ -75,7 +75,7 @@ class vigilancemeteo extends eqLogic {
       if (!is_object($cmdlogic)) {
         $cmdlogic = new vigilancemeteoCmd();
         $cmdlogic->setName(__('Risque', __FILE__));
-        $cmdlogic->setEqLogic_id($this->id);
+        $cmdlogic->setEqLogic_id($vigilancemeteo->id);
         $cmdlogic->setLogicalId('risque');
         $cmdlogic->setConfiguration('data', 'risque');
       }
@@ -83,12 +83,12 @@ class vigilancemeteo extends eqLogic {
       $cmdlogic->setSubType('string');
       $cmdlogic->save();
 
-      if (in_array($this->getConfiguration('departement'), $depmer)) {
+      if (in_array($vigilancemeteo->getConfiguration('departement'), $depmer)) {
         $cmdlogic = vigilancemeteoCmd::byEqLogicIdAndLogicalId($vigilancemeteo->getId(),'mer');
         if (!is_object($cmdlogic)) {
           $cmdlogic = new vigilancemeteoCmd();
           $cmdlogic->setName(__('Mer', __FILE__));
-          $cmdlogic->setEqLogic_id($this->id);
+          $cmdlogic->setEqLogic_id($vigilancemeteo->id);
           $cmdlogic->setLogicalId('mer');
           $cmdlogic->setConfiguration('data', 'mer');
         }
