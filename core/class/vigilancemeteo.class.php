@@ -21,16 +21,11 @@ require_once dirname(__FILE__) . '/../../../../core/php/core.inc.php';
 
 class vigilancemeteo extends eqLogic {
 
+  public static $_widgetPossibility = array('custom' => true);
+
   public static function cron15() {
     foreach (eqLogic::byType('vigilancemeteo', true) as $vigilancemeteo) {
         $vigilancemeteo->getInformations();
-        $mc = cache::byKey('vigilancemeteoWidgetdashboard' . $vigilancemeteo->getId());
-        $mc->remove();
-        $vigilancemeteo->toHtml('dashboard');
-        $mc = cache::byKey('vigilancemeteoWidgetmobile' . $vigilancemeteo->getId());
-        $mc->remove();
-        $vigilancemeteo->toHtml('mobile');
-        $vigilancemeteo->refreshWidget();
     }
     log::add('vigilancemeteo', 'debug', 'pull cron');
   }
@@ -350,53 +345,15 @@ class vigilancemeteo extends eqLogic {
   }
 
   public function toHtml($_version = 'dashboard') {
-    $mc = cache::byKey('vigilancemeteoWidget' . $_version . $this->getId());
-    if ($mc->getValue() != '') {
-      return $mc->getValue();
+    $replace = $this->preToHtml($_version);
+    if (!is_array($replace)) {
+      return $replace;
     }
-    if ($this->getIsEnable() != 1) {
-            return '';
-        }
-        if (!$this->hasRight('r')) {
-            return '';
-        }
-        $_version = jeedom::versionAlias($_version);
-        if ($this->getDisplay('hideOn' . $_version) == 1) {
-            return '';
-        }
-        $vcolor = 'cmdColor';
-        if ($_version == 'mobile') {
-            $vcolor = 'mcmdColor';
-        }
-        $parameters = $this->getDisplay('parameters');
-        $cmdColor = ($this->getPrimaryCategory() == '') ? '' : jeedom::getConfiguration('eqLogic:category:' . $this->getPrimaryCategory() . ':' . $vcolor);
-        if (is_array($parameters) && isset($parameters['background_cmd_color'])) {
-            $cmdColor = $parameters['background_cmd_color'];
-        }
+    $version = jeedom::versionAlias($_version);
+    if ($this->getDisplay('hideOn' . $version) == 1) {
+      return '';
+    }
 
-        if (($_version == 'dview' || $_version == 'mview') && $this->getDisplay('doNotShowNameOnView') == 1) {
-            $replace['#name#'] = '';
-            $replace['#object_name#'] = (is_object($object)) ? $object->getName() : '';
-        }
-        if (($_version == 'mobile' || $_version == 'dashboard') && $this->getDisplay('doNotShowNameOnDashboard') == 1) {
-            $replace['#name#'] = '<br/>';
-            $replace['#object_name#'] = (is_object($object)) ? $object->getName() : '';
-        }
-
-        if (is_array($parameters)) {
-            foreach ($parameters as $key => $value) {
-                $replace['#' . $key . '#'] = $value;
-            }
-        }
-    $background=$this->getBackgroundColor($_version);
-    $replace = array(
-      '#name#' => $this->getName(),
-      '#id#' => $this->getId(),
-      '#background_color#' => $background,
-      '#height#' => $this->getDisplay('height', 'auto'),
-      '#width#' => $this->getDisplay('width', '200px'),
-      '#eqLink#' => ($this->hasRight('w')) ? $this->getLinkToConfiguration() : '#',
-    );
     foreach ($this->getCmd('info') as $cmd) {
       $replace['#' . $cmd->getLogicalId() . '_history#'] = '';
       $replace['#' . $cmd->getLogicalId() . '_id#'] = $cmd->getId();
@@ -425,7 +382,6 @@ class vigilancemeteo extends eqLogic {
     }
 
     $html = template_replace($replace, getTemplate('core', $_version, 'vigilancemeteo', 'vigilancemeteo'));
-    cache::set('vigilancemeteoWidget' . $_version . $this->getId(), $html, 0);
     return $html;
   }
 
