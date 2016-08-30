@@ -381,8 +381,7 @@ class vigilancemeteo extends eqLogic {
 
     }
 
-    $html = template_replace($replace, getTemplate('core', $version, 'vigilancemeteo', 'vigilancemeteo'));
-    return $html;
+    return $this->postToHtml($_version, template_replace($replace, getTemplate('core', $version, 'current', 'vigilancemeteo')));
   }
 
 }
