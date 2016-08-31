@@ -380,6 +380,12 @@ class vigilancemeteo extends eqLogic {
       }
 
     }
+    $parameters = $this->getDisplay('parameters');
+    if (is_array($parameters)) {
+      foreach ($parameters as $key => $value) {
+        $replace['#' . $key . '#'] = $value;
+      }
+    }
 
     return $this->postToHtml($_version, template_replace($replace, getTemplate('core', $version, 'current', 'vigilancemeteo')));
   }
@@ -387,17 +393,9 @@ class vigilancemeteo extends eqLogic {
 }
 
 class vigilancemeteoCmd extends cmd {
-  /*     * *************************Attributs****************************** */
-
-
-
-  /*     * ***********************Methode static*************************** */
-
-  /*     * *********************Methode d'instance************************* */
   public function execute($_options = null) {
               return $this->getConfiguration('value');
     }
-
 }
 
 ?>
