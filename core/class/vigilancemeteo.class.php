@@ -284,7 +284,7 @@ class vigilancemeteo extends eqLogic {
             $cmd->setConfiguration('alert', '1');
             $cmdalerte = cmd::byId($alert);
             $options['title'] = "Alerte Météo";
-            $options['message'] = "Niveau " . $lvigilance . " pour la vigilance";
+            $options['message'] = "Dpt ".$departement.": Niveau " . $lvigilance . " pour la vigilance";
             $cmdalerte->execCmd($options);
           }
         } else {
@@ -300,7 +300,7 @@ class vigilancemeteo extends eqLogic {
             $cmd->setConfiguration('alert', '1');
             $cmdalerte = cmd::byId($alert);
             $options['title'] = "Alerte Météo";
-            $options['message'] = "Niveau " . $lcrue . " pour le risque de crue";
+            $options['message'] = "Dpt ".$departement.": Niveau " . $lcrue . " pour le risque de crue";
             $cmdalerte->execCmd($options);
           }
         } else {
@@ -315,7 +315,7 @@ class vigilancemeteo extends eqLogic {
             $cmd->setConfiguration('alert', '1');
             $cmdalerte = cmd::byId($alert);
             $options['title'] = "Alerte Météo";
-            $options['message'] = "Risque " . $lrisque;
+            $options['message'] = "Dpt ".$departement.": Risque " . $lrisque;
             $cmdalerte->execCmd($options);
           }
         } else {
@@ -330,7 +330,7 @@ class vigilancemeteo extends eqLogic {
             $cmd->setConfiguration('alert', '1');
             $cmdalerte = cmd::byId($alert);
             $options['title'] = "Alerte Météo";
-            $options['message'] = "Niveau " . $lmer . " pour le risque bord de mer";
+            $options['message'] = "Dpt ".$departement.": Niveau " . $lmer . " pour le risque bord de mer";
             $cmdalerte->execCmd($options);
           }
         } else {
