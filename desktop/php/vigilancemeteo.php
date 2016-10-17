@@ -126,14 +126,14 @@ $eqLogics = eqLogic::byType('vigilancemeteo');
             </div>
 
             <div class="form-group">
-                    <label class="col-lg-2 control-label" >{{Ville}}</label>
-                    <div class="col-lg-2">
+                    <label class="col-sm-3 control-label" >{{Ville}}</label>
+                    <div class="col-sm-3">
                         <input class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="villeNom" type="text" placeholder="{{Ville}}" id="mfVilleNom" disabled>
                     </div>
-                    <div class="col-lg-2">
+                    <div class="col-sm-3">
                         <input class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="ville" type="text" placeholder="{{ID Ville}}" id="mfVilleId" disabled>
                     </div>
-                    <div class="col-lg-2">
+                    <div class="col-sm-3">
                        <a class="btn btn-default" id='btnSearchCity'><i class="fa fa-search"></i> {{Trouver la ville}}</a>
                     </div>
                 </div>
