@@ -1,6 +1,6 @@
 {
 	"id" : "vigilancemeteo",
-	"name" : "Viglance Météo",
+	"name" : "Vigilance Météo",
 	"licence" : "AGPL",
 	"author" : "lunarok",
 	"require" : "2.4",

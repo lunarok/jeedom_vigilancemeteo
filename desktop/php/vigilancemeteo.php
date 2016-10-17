@@ -116,7 +116,7 @@ $eqLogics = eqLogic::byType('vigilancemeteo');
             <div class="form-group">
               <label class="col-sm-3 control-label" >{{Type de Vigilance}}</label>
               <div class="col-sm-3">
-                <select class="form-control eqLogicAttr" data-l1key="object_id">
+                <select class="form-control eqLogicAttr" data-l1key="configuration" data-l2key="type">
                   <option value="vigilance">{{Vigilance Météo France}}</option>
                   <option value="pluie1h">{{Pluie à 1h Météo France}}</option>
                   <option value="crue">{{Vigicrues}}</option>
