@@ -678,7 +678,7 @@ class vigilancemeteo extends eqLogic {
         if ($cmd->getLogicalId() == 'maree') {
           $replace['#' . $cmd->getLogicalId() . '#'] = $cmd->execCmd();
         } else {
-          $replace['#' . $cmd->getLogicalId() . '#'] = substr_replace($cmd->execCmd(),':',-2,0);
+          $replace['#' . $cmd->getLogicalId() . '#'] = substr_replace(str_pad($cmd->execCmd(), 4, '0'),':',-2,0);
         }
         $replace['#' . $cmd->getLogicalId() . '_collect#'] = $cmd->getCollectDate();
         if ($cmd->getIsHistorized() == 1) {
