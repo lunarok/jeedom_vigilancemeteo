@@ -23,16 +23,16 @@ class vigilancemeteo extends eqLogic {
 
   public static function cron15() {
     foreach (eqLogic::byType('vigilancemeteo', true) as $vigilancemeteo) {
-      if ($this->getConfiguration('type') == 'vigilance') {
+      if ($vigilancemeteo->getConfiguration('type') == 'vigilance') {
         $vigilancemeteo->getVigilance();
       }
-      if ($this->getConfiguration('type') == 'pluie1h') {
+      if ($vigilancemeteo->getConfiguration('type') == 'pluie1h') {
         $vigilancemeteo->getPluie();
       }
-      if ($this->getConfiguration('type') == 'maree') {
+      if ($vigilancemeteo->getConfiguration('type') == 'maree') {
         $vigilancemeteo->getMaree();
       }
-      if ($this->getConfiguration('type') == 'crues') {
+      if ($vigilancemeteo->getConfiguration('type') == 'crues') {
         $vigilancemeteo->getCrue();
       }
     }
