@@ -20,6 +20,11 @@ $('#bt_selectMailCmd').on('click', function () {
     });
 });
 
+$('#btnSearchCity').on('click', function () {
+    $('#md_modal').dialog({title: "{{Trouver la ville}}"});
+    $('#md_modal').load('index.php?v=d&plugin=vigilancemeteo&modal=searchCity').dialog('open');
+});
+
 $("#table_cmd").delegate(".listEquipementInfo", 'click', function() {
     var el = $(this);
     jeedom.cmd.getSelectModal({cmd: {type: 'info'}}, function(result) {

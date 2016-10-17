@@ -103,9 +103,9 @@ class vigilancemeteo extends eqLogic {
       $this->getVigilance();
     }
     if ($this->getConfiguration('type') == 'maree') {
-      $cmdlogic = mareeCmd::byEqLogicIdAndLogicalId($this->getId(),'maree');
+      $cmdlogic = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'maree');
       if (!is_object($cmdlogic)) {
-        $cmdlogic = new mareeCmd();
+        $cmdlogic = new vigilancemeteoCmd();
         $cmdlogic->setName(__('Indicateur Marée', __FILE__));
         $cmdlogic->setEqLogic_id($this->getId());
         $cmdlogic->setLogicalId('maree');
@@ -114,9 +114,9 @@ class vigilancemeteo extends eqLogic {
       $cmdlogic->setSubType('numeric');
       $cmdlogic->save();
 
-      $cmdlogic = mareeCmd::byEqLogicIdAndLogicalId($this->getId(),'pleine');
+      $cmdlogic = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'pleine');
       if (!is_object($cmdlogic)) {
-        $cmdlogic = new mareeCmd();
+        $cmdlogic = new vigilancemeteoCmd();
         $cmdlogic->setName(__('Pleine Mer', __FILE__));
         $cmdlogic->setEqLogic_id($this->getId());
         $cmdlogic->setLogicalId('pleine');
@@ -125,9 +125,9 @@ class vigilancemeteo extends eqLogic {
       $cmdlogic->setSubType('numeric');
       $cmdlogic->save();
 
-      $cmdlogic = mareeCmd::byEqLogicIdAndLogicalId($this->getId(),'basse');
+      $cmdlogic = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'basse');
       if (!is_object($cmdlogic)) {
-        $cmdlogic = new mareeCmd();
+        $cmdlogic = new vigilancemeteoCmd();
         $cmdlogic->setName(__('Basse Mer', __FILE__));
         $cmdlogic->setEqLogic_id($this->getId());
         $cmdlogic->setLogicalId('basse');
@@ -139,9 +139,9 @@ class vigilancemeteo extends eqLogic {
       $this->getMaree();
     }
     if ($this->getConfiguration('type') == 'crue') {
-      $cmdlogic = cruesCmd::byEqLogicIdAndLogicalId($this->getId(),'niveau');
+      $cmdlogic = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'niveau');
       if (!is_object($cmdlogic)) {
-        $cmdlogic = new cruesCmd();
+        $cmdlogic = new vigilancemeteoCmd();
         $cmdlogic->setName(__('Niveau d\'eau', __FILE__));
         $cmdlogic->setEqLogic_id($this->getId());
         $cmdlogic->setLogicalId('niveau');
@@ -153,59 +153,59 @@ class vigilancemeteo extends eqLogic {
       $this->getCrue();
     }
     if ($this->getConfiguration('type') == 'pluie1h') {
-      $previsionpluieCmd = $this->getCmd(null, 'prevTexte');
-      if (!is_object($previsionpluieCmd)) {
-        $previsionpluieCmd = new previsionpluieCmd();
+      $vigilancemeteoCmd = $this->getCmd(null, 'prevTexte');
+      if (!is_object($vigilancemeteoCmd)) {
+        $vigilancemeteoCmd = new vigilancemeteoCmd();
       }
-      $previsionpluieCmd->setName(__('Previsions Textuelles', __FILE__));
-      $previsionpluieCmd->setEqLogic_id($this->id);
-      $previsionpluieCmd->setLogicalId('prevTexte');
-      $previsionpluieCmd->setType('info');
-      $previsionpluieCmd->setSubType('other');
-      $previsionpluieCmd->setEventOnly(1);
-      $previsionpluieCmd->setIsVisible(1);
-      $previsionpluieCmd->save();
+      $vigilancemeteoCmd->setName(__('Previsions Textuelles', __FILE__));
+      $vigilancemeteoCmd->setEqLogic_id($this->id);
+      $vigilancemeteoCmd->setLogicalId('prevTexte');
+      $vigilancemeteoCmd->setType('info');
+      $vigilancemeteoCmd->setSubType('other');
+      $vigilancemeteoCmd->setEventOnly(1);
+      $vigilancemeteoCmd->setIsVisible(1);
+      $vigilancemeteoCmd->save();
 
-      $previsionpluieCmd = $this->getCmd(null, 'lastUpdate');
-      if (!is_object($previsionpluieCmd)) {
-        $previsionpluieCmd = new previsionpluieCmd();
+      $vigilancemeteoCmd = $this->getCmd(null, 'lastUpdate');
+      if (!is_object($vigilancemeteoCmd)) {
+        $vigilancemeteoCmd = new vigilancemeteoCmd();
       }
-      $previsionpluieCmd->setName(__('Dernière mise à jour', __FILE__));
-      $previsionpluieCmd->setEqLogic_id($this->id);
-      $previsionpluieCmd->setLogicalId('lastUpdate');
-      $previsionpluieCmd->setType('info');
-      $previsionpluieCmd->setSubType('other');
-      $previsionpluieCmd->setEventOnly(1);
-      $previsionpluieCmd->setIsVisible(1);
-      $previsionpluieCmd->save();
+      $vigilancemeteoCmd->setName(__('Dernière mise à jour', __FILE__));
+      $vigilancemeteoCmd->setEqLogic_id($this->id);
+      $vigilancemeteoCmd->setLogicalId('lastUpdate');
+      $vigilancemeteoCmd->setType('info');
+      $vigilancemeteoCmd->setSubType('other');
+      $vigilancemeteoCmd->setEventOnly(1);
+      $vigilancemeteoCmd->setIsVisible(1);
+      $vigilancemeteoCmd->save();
 
-      $previsionpluieCmd = $this->getCmd(null, 'pluieDanslHeure');
-      if (!is_object($previsionpluieCmd)) {
-        $previsionpluieCmd = new previsionpluieCmd();
+      $vigilancemeteoCmd = $this->getCmd(null, 'pluieDanslHeure');
+      if (!is_object($vigilancemeteoCmd)) {
+        $vigilancemeteoCmd = new vigilancemeteoCmd();
       }
-      $previsionpluieCmd->setName(__('Pluie prévue dans l heure', __FILE__));
-      $previsionpluieCmd->setEqLogic_id($this->id);
-      $previsionpluieCmd->setLogicalId('pluieDanslHeure');
-      $previsionpluieCmd->setType('info');
-      $previsionpluieCmd->setSubType('other');
-      $previsionpluieCmd->setEventOnly(1);
-      $previsionpluieCmd->setIsVisible(1);
-      $previsionpluieCmd->save();
+      $vigilancemeteoCmd->setName(__('Pluie prévue dans l heure', __FILE__));
+      $vigilancemeteoCmd->setEqLogic_id($this->id);
+      $vigilancemeteoCmd->setLogicalId('pluieDanslHeure');
+      $vigilancemeteoCmd->setType('info');
+      $vigilancemeteoCmd->setSubType('other');
+      $vigilancemeteoCmd->setEventOnly(1);
+      $vigilancemeteoCmd->setIsVisible(1);
+      $vigilancemeteoCmd->save();
 
       for($i=0; $i <= 11; $i++){
 
-        $previsionpluieCmd = $this->getCmd(null, 'prev' . $i*5);
-        if (!is_object($previsionpluieCmd)) {
-          $previsionpluieCmd = new previsionpluieCmd();
+        $vigilancemeteoCmd = $this->getCmd(null, 'prev' . $i*5);
+        if (!is_object($vigilancemeteoCmd)) {
+          $vigilancemeteoCmd = new vigilancemeteoCmd();
         }
-        $previsionpluieCmd->setName(__('Prévision à ' . ($i*5) . '-' . ($i*5+5), __FILE__));
-        $previsionpluieCmd->setEqLogic_id($this->id);
-        $previsionpluieCmd->setLogicalId('prev' . $i*5);
-        $previsionpluieCmd->setType('info');
-        $previsionpluieCmd->setSubType('other');
-        $previsionpluieCmd->setEventOnly(1);
-        $previsionpluieCmd->setIsVisible(0);
-        $previsionpluieCmd->save();
+        $vigilancemeteoCmd->setName(__('Prévision à ' . ($i*5) . '-' . ($i*5+5), __FILE__));
+        $vigilancemeteoCmd->setEqLogic_id($this->id);
+        $vigilancemeteoCmd->setLogicalId('prev' . $i*5);
+        $vigilancemeteoCmd->setType('info');
+        $vigilancemeteoCmd->setSubType('other');
+        $vigilancemeteoCmd->setEventOnly(1);
+        $vigilancemeteoCmd->setIsVisible(0);
+        $vigilancemeteoCmd->save();
       }
 
       $this->getPluie();
@@ -496,17 +496,17 @@ class vigilancemeteo extends eqLogic {
 
     log::add('maree', 'debug', 'Marée ' . $maree . ', Pleine ' . $pleine . ', Basse ' . $basse);
 
-    $cmdlogic = mareeCmd::byEqLogicIdAndLogicalId($this->getId(),'maree');
+    $cmdlogic = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'maree');
     $cmdlogic->setConfiguration('value', $maree);
     $cmdlogic->save();
     $cmdlogic->event($maree);
 
-    $cmdlogic = mareeCmd::byEqLogicIdAndLogicalId($this->getId(),'pleine');
+    $cmdlogic = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'pleine');
     $cmdlogic->setConfiguration('value', $pleine);
     $cmdlogic->save();
     $cmdlogic->event($pleine);
 
-    $cmdlogic = mareeCmd::byEqLogicIdAndLogicalId($this->getId(),'basse');
+    $cmdlogic = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'basse');
     $cmdlogic->setConfiguration('value', $basse);
     $cmdlogic->save();
     $cmdlogic->event($basse);
@@ -544,7 +544,7 @@ class vigilancemeteo extends eqLogic {
 
     log::add('crues', 'debug', 'Valeur ' . $datareleve[0]);
 
-    $cmdlogic = cruesCmd::byEqLogicIdAndLogicalId($this->getId(),'niveau');
+    $cmdlogic = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'niveau');
     $cmdlogic->setConfiguration('value', $datareleve[0]);
     $cmdlogic->save();
     $cmdlogic->event($datareleve[0]);
@@ -683,7 +683,7 @@ class vigilancemeteo extends eqLogic {
 
       return $this->postToHtml($_version, template_replace($replace, getTemplate('core', $version, 'maree', 'maree')));
     } else if ($this->getConfiguration('type') == 'crue') {
-      $cmd = cruesCmd::byEqLogicIdAndLogicalId($this->getId(),'niveau');
+      $cmd = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'niveau');
         $replace['#crue_history#'] = '';
         $replace['#crue_id#'] = $cmd->getId();
 
