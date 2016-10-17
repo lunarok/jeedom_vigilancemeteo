@@ -29,6 +29,12 @@ class vigilancemeteo extends eqLogic {
       if ($vigilancemeteo->getConfiguration('type') == 'pluie1h') {
         $vigilancemeteo->getPluie();
       }
+    }
+    log::add('vigilancemeteo', 'debug', '15mn cron');
+  }
+
+  public static function cronHourly() {
+    foreach (eqLogic::byType('vigilancemeteo', true) as $vigilancemeteo) {
       if ($vigilancemeteo->getConfiguration('type') == 'maree') {
         $vigilancemeteo->getMaree();
       }
@@ -681,7 +687,7 @@ class vigilancemeteo extends eqLogic {
 
       }
 
-      return $this->postToHtml($_version, template_replace($replace, getTemplate('core', $version, 'vigilancemeteo', 'maree')));
+      return $this->postToHtml($_version, template_replace($replace, getTemplate('core', $version, 'maree', 'vigilancemeteo')));
     } else if ($this->getConfiguration('type') == 'crue') {
       $cmd = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'niveau');
         $replace['#crue_history#'] = '';
@@ -692,7 +698,7 @@ class vigilancemeteo extends eqLogic {
           $replace['#crue_history#'] = 'history cursor';
         }
 
-      return $this->postToHtml($_version, template_replace($replace, getTemplate('core', $version, 'vigilancemeteo', 'crue')));
+      return $this->postToHtml($_version, template_replace($replace, getTemplate('core', $version, 'crue', 'vigilancemeteo')));
     } else if ($this->getConfiguration('type') == 'pluie1h') {
       $replace['#ville#'] = $this->getConfiguration('ville');
       $prevTexte = $this->getCmd(null,'prevTexte');
