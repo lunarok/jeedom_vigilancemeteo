@@ -691,6 +691,7 @@ class vigilancemeteo extends eqLogic {
     } else if ($this->getConfiguration('type') == 'crue') {
       $cmd = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'niveau');
         $replace['#crue_history#'] = '';
+        $replace['#crue#'] = $cmd->getConfiguration('value');
         $replace['#crue_id#'] = $cmd->getId();
 
         $replace['#crue_collect#'] = $cmd->getCollectDate();

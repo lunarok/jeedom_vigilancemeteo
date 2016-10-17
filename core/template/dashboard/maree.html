@@ -4,16 +4,16 @@
 
 	<div class="col-sm-12">
 	<center>
-	 <span class="basse #basse_history#" data-cmd_id="#basse_id#" title="Basse Mer (#bassee_collect#)"><img src="plugins/vigilancemeteo/doc/images/maree2-basse.png" height="30" width="30" />  #basse#</span>
+	 <span class="basse #basse_history#" data-cmd_id="#basse_id#" title="Basse Mer (#basse_collect#)"><img src="plugins/vigilancemeteo/doc/images/maree2-basse.png" height="30" width="30" />  #basse#</span>
 	<span style="margin-left: 30px;" class="pleine #pleine_history#" data-cmd_id="#pleine_id#"><span title="Pleine Mer (#pleine_collect#)"><img src="plugins/vigilancemeteo/doc/images/maree2-haute.png" height="30" width="30" />  #pleine#</span>
    </center>
 	</div>
 	</div>
 	<center>
-       <span class="risque #risque_history#" data-cmd_id="#maree_id#" title="Indice de Marée" style="text-decoration: none; cursor:default;font-size : 1.3em;"><i id="#maree_id#" class="fa fa-info-circle cursor"></i>  #maree#</span>
+       <span class="risque #risque_history#" data-cmd_id="#maree_id#" title="Indice de Marée" style="text-decoration: none; cursor:default;font-size : 1.3em;"><i id="#maree#maree_id#" class="fa fa-info-circle cursor"></i>  #maree#</span>
     </center>
     <script>
-$('#maree_id#').on('click', function() {
+$('#maree#maree_id#').on('click', function() {
 			$('#md_modal2').dialog({
 				title: "Votre Port"
 			});
