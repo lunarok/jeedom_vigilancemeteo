@@ -181,10 +181,10 @@ $eqLogics = eqLogic::byType('vigilancemeteo');
       <table id="table_cmd" class="table table-bordered table-condensed">
         <thead>
           <tr>
-            <th style="width: 50px;">#</th>
+            <th style="width: 100px;">#</th>
             <th style="width: 300px;">{{Nom}}</th>
-            <th style="width: 250px;">{{Valeur}}</th>
-            <th style="width: 100px;"></th>
+            <th style="width: 200px;">{{Options}}</th>
+            <th style="width: 150px;"></th>
           </tr>
         </thead>
         <tbody>
