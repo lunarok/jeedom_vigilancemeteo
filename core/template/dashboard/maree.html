@@ -1,0 +1,23 @@
+<div class="eqLogic-widget eqLogic allowResize" style="height: #height#;width: #width#;border:#border#;border-radius:#border-radius#;background-color: #background-color#;color: #color#;#style#" data-eqLogic_id="#id#" data-eqLogic_uid="#uid#" data-version="dashboard" >
+      <center><a href="#eqLink#" style="font-size : 1.5em;#hideEqLogicName#">#name_display#</a></strong></center><br />
+    <div class="row">
+
+	<div class="col-sm-12">
+	<center>
+	 <span class="basse #basse_history#" data-cmd_id="#basse_id#" title="Basse Mer (#bassee_collect#)"><img src="plugins/maree/doc/images/maree2-basse.png" height="30" width="30" />  #basse#</span>
+	<span style="margin-left: 30px;" class="pleine #pleine_history#" data-cmd_id="#pleine_id#"><span title="Pleine Mer (#pleine_collect#)"><img src="plugins/maree/doc/images/maree2-haute.png" height="30" width="30" />  #pleine#</span>
+   </center>
+	</div>
+	</div>
+	<center>
+       <span class="risque #risque_history#" data-cmd_id="#maree_id#" title="Indice de Marée" style="text-decoration: none; cursor:default;font-size : 1.3em;"><i id="#maree_id#" class="fa fa-info-circle cursor"></i>  #maree#</span>
+    </center>
+    <script>
+$('#maree_id#').on('click', function() {
+			$('#md_modal2').dialog({
+				title: "Votre Port"
+			});
+			$('#md_modal2').load('index.php?v=d&plugin=maree&modal=maree&id='+ #portid#).dialog('open');
+		});
+</script>
+</div>
