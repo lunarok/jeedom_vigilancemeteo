@@ -4,8 +4,8 @@
 
 	<div class="col-sm-12">
 	<center>
-	 <span class="basse #basse_history#" data-cmd_id="#basse_id#" title="Basse Mer (#bassee_collect#)"><img src="plugins/maree/doc/images/maree2-basse.png" height="30" width="30" />  #basse#</span>
-	<span style="margin-left: 30px;" class="pleine #pleine_history#" data-cmd_id="#pleine_id#"><span title="Pleine Mer (#pleine_collect#)"><img src="plugins/maree/doc/images/maree2-haute.png" height="30" width="30" />  #pleine#</span>
+	 <span class="basse #basse_history#" data-cmd_id="#basse_id#" title="Basse Mer (#bassee_collect#)"><img src="plugins/vigilancemeteo/doc/images/maree2-basse.png" height="30" width="30" />  #basse#</span>
+	<span style="margin-left: 30px;" class="pleine #pleine_history#" data-cmd_id="#pleine_id#"><span title="Pleine Mer (#pleine_collect#)"><img src="plugins/vigilancemeteo/doc/images/maree2-haute.png" height="30" width="30" />  #pleine#</span>
    </center>
 	</div>
 	</div>
@@ -17,7 +17,7 @@ $('#maree_id#').on('click', function() {
 			$('#md_modal2').dialog({
 				title: "Votre Port"
 			});
-			$('#md_modal2').load('index.php?v=d&plugin=maree&modal=maree&id='+ #portid#).dialog('open');
+			$('#md_modal2').load('index.php?v=d&plugin=vigilancemeteo&modal=maree&id='+ #portid#).dialog('open');
 		});
 </script>
 </div>
