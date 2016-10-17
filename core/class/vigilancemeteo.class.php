@@ -500,7 +500,7 @@ class vigilancemeteo extends eqLogic {
     $basse = substr($basse[1], 0, 5);
     $basse = str_replace('h', '', $basse);
 
-    log::add('maree', 'debug', 'Marée ' . $maree . ', Pleine ' . $pleine . ', Basse ' . $basse);
+    log::add('vigilancemeteo', 'debug', 'Marée ' . $maree . ', Pleine ' . $pleine . ', Basse ' . $basse);
 
     $cmdlogic = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'maree');
     $cmdlogic->setConfiguration('value', $maree);
@@ -523,7 +523,7 @@ class vigilancemeteo extends eqLogic {
   public function getCrue() {
     $station = $this->getConfiguration('station');
     if ($station == '') {
-      log::add('crues', 'error', 'Station non saisie');
+      log::add('vigilancemeteo', 'error', 'Station non saisie');
       return;
     }
     $url = "http://www.vigicrues.gouv.fr/niveau3.php?CdStationHydro=".$station."&typegraphe=h&AffProfondeur=24&nbrstations=2&ong=2&Submit=Refaire+le+tableau+-+Valider+la+s%C3%A9lection";
@@ -548,7 +548,7 @@ class vigilancemeteo extends eqLogic {
     $data = explode("<td align='right'>",$tableau[0],2);
     $datareleve = explode("</td>",$data[1],2);
 
-    log::add('crues', 'debug', 'Valeur ' . $datareleve[0]);
+    log::add('vigilancemeteo', 'debug', 'Valeur ' . $datareleve[0]);
 
     $cmdlogic = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'niveau');
     $cmdlogic->setConfiguration('value', $datareleve[0]);
@@ -569,14 +569,14 @@ class vigilancemeteo extends eqLogic {
       $prevPluieData = json_decode($prevPluieJson, true);
 
       if(count($prevPluieData) == 0){
-        log::add('previsionpluie', 'debug', 'Impossible d\'obtenir les informations Météo France... On refait une tentative...');
+        log::add('vigilancemeteo', 'debug', 'Impossible d\'obtenir les informations Météo France... On refait une tentative...');
 
         sleep(3);
         $prevPluieJson = file_get_contents('http://www.meteofrance.com/mf3-rpc-portlet/rest/pluie/' . $this->getConfiguration('ville'));
         $prevPluieData = json_decode($prevPluieJson, true);
 
         if(count($prevPluieData) == 0){
-          log::add('previsionpluie', 'debug', 'Impossible d\'obtenir les informations Météo France... ');
+          log::add('vigilancemeteo', 'debug', 'Impossible d\'obtenir les informations Météo France... ');
           return false;
         }
       }
