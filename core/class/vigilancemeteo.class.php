@@ -697,7 +697,7 @@ class vigilancemeteo extends eqLogic {
       }
 
       if (strpos(network::getNetworkAccess('external'),'https') !== false) {
-        $replace['#icone#'] = '<a target="_blank" href="http://maree.info/' . $this->getId() . '"><i class="fa fa-info-circle cursor"></i></a>';
+        $replace['#icone#'] = '<a target="_blank" href="http://maree.info/' . $this->getConfiguration('port') . '"><i class="fa fa-info-circle cursor"></i></a>';
       } else {
         $replace['#icone#'] = '<i id="maree' . $this->getId() . '" class="fa fa-info-circle cursor"></i>';
       }
