@@ -692,6 +692,12 @@ class vigilancemeteo extends eqLogic {
 
       }
 
+      if (strpos(network::getNetworkAccess('external'),'https') !== false) {
+        $replace['#icone#'] = '<a target="_blank" href="http://maree.info/' . $this->getId() . '"><i class="fa fa-info-circle cursor"></i></a>';
+      } else {
+        $replace['#icone#'] = '<i id="maree' . $this->getId() . '" class="fa fa-info-circle cursor"></i>';
+      }
+
       return $this->postToHtml($_version, template_replace($replace, getTemplate('core', $version, 'maree', 'vigilancemeteo')));
     } else if ($this->getConfiguration('type') == 'crue') {
       $cmd = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'niveau');
