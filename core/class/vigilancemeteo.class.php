@@ -665,6 +665,11 @@ class vigilancemeteo extends eqLogic {
           $replace['#' . $key . '#'] = $value;
         }
       }
+      if (strpos(network::getNetworkAccess('external'),'https') !== false) {
+        $replace['#icone#'] = '<a target="_blank" href="http://vigilance.meteofrance.com/Bulletin_sans.html?a=dept' . $this->getConfiguration('departement') . '&b=2&c="><i class="fa fa-info-circle cursor"></i></a>';
+      } else {
+        $replace['#icone#'] = '<i id="yourvigilance' . $this->getId() . ' class="fa fa-info-circle cursor"></i>';
+      }
 
       return $this->postToHtml($_version, template_replace($replace, getTemplate('core', $version, 'vigilancemeteo', 'vigilancemeteo')));
 
@@ -690,14 +695,14 @@ class vigilancemeteo extends eqLogic {
       return $this->postToHtml($_version, template_replace($replace, getTemplate('core', $version, 'maree', 'vigilancemeteo')));
     } else if ($this->getConfiguration('type') == 'crue') {
       $cmd = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'niveau');
-        $replace['#crue_history#'] = '';
-        $replace['#crue#'] = $cmd->getConfiguration('value');
-        $replace['#crue_id#'] = $cmd->getId();
+      $replace['#crue_history#'] = '';
+      $replace['#crue#'] = $cmd->getConfiguration('value');
+      $replace['#crue_id#'] = $cmd->getId();
 
-        $replace['#crue_collect#'] = $cmd->getCollectDate();
-        if ($cmd->getIsHistorized() == 1) {
-          $replace['#crue_history#'] = 'history cursor';
-        }
+      $replace['#crue_collect#'] = $cmd->getCollectDate();
+      if ($cmd->getIsHistorized() == 1) {
+        $replace['#crue_history#'] = 'history cursor';
+      }
 
       return $this->postToHtml($_version, template_replace($replace, getTemplate('core', $version, 'crue', 'vigilancemeteo')));
     } else if ($this->getConfiguration('type') == 'pluie1h') {
