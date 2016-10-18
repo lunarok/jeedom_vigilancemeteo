@@ -116,7 +116,7 @@ $eqLogics = eqLogic::byType('vigilancemeteo');
             <div class="form-group">
               <label class="col-sm-3 control-label" >{{Type de Vigilance}}</label>
               <div class="col-sm-3">
-                <select class="form-control eqLogicAttr" data-l1key="configuration" data-l2key="type">
+                <select id="typeEq" class="form-control eqLogicAttr" data-l1key="configuration" data-l2key="type">
                   <option value="vigilance">{{Vigilance Météo France}}</option>
                   <option value="pluie1h">{{Pluie à 1h Météo France}}</option>
                   <option value="crue">{{Vigicrues}}</option>
@@ -125,7 +125,7 @@ $eqLogics = eqLogic::byType('vigilancemeteo');
               </div>
             </div>
 
-            <div class="form-group">
+            <div id="villeEq" class="form-group">
                     <label class="col-sm-3 control-label" >{{Ville}}</label>
                     <div class="col-sm-3">
                         <input class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="villeNom" type="text" placeholder="{{Ville}}" id="mfVilleNom" disabled>
@@ -138,7 +138,7 @@ $eqLogics = eqLogic::byType('vigilancemeteo');
                     </div>
                 </div>
 
-            <div class="form-group">
+            <div id="portEq" class="form-group">
               <label class="col-sm-3 control-label">{{Port}}</label>
               <div class="col-sm-3">
                 <input type="text" class="eqLogicAttr configuration form-control" data-l1key="configuration" data-l2key="port" placeholder="exemple 122"/>
@@ -146,7 +146,7 @@ $eqLogics = eqLogic::byType('vigilancemeteo');
             </div>
           </div>
 
-          <div class="form-group">
+          <div id="stationEq" class="form-group">
             <label class="col-sm-3 control-label">{{Station}}</label>
             <div class="col-sm-3">
               <input type="text" class="eqLogicAttr configuration form-control" data-l1key="configuration" data-l2key="station" placeholder="exemple 122"/>
@@ -154,7 +154,7 @@ $eqLogics = eqLogic::byType('vigilancemeteo');
           </div>
         </div>
 
-            <div class="form-group">
+            <div id="departementEq" class="form-group">
               <label class="col-sm-3 control-label">{{Département}}</label>
               <div class="col-sm-3">
                 <input type="text" class="eqLogicAttr configuration form-control" data-l1key="configuration" data-l2key="departement" placeholder="exemple 75"/>
@@ -162,7 +162,7 @@ $eqLogics = eqLogic::byType('vigilancemeteo');
             </div>
           </div>
 
-          <div class="form-group">
+          <div id="alertEq" class="form-group">
             <label class="col-sm-3 control-label">{{Commande Alerte}}</label>
             <div class="col-sm-3">
               <div class="input-group">

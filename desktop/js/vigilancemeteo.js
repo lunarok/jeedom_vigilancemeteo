@@ -25,6 +25,38 @@ $('#btnSearchCity').on('click', function () {
     $('#md_modal').load('index.php?v=d&plugin=vigilancemeteo&modal=searchCity').dialog('open');
 });
 
+$('#typeEq').change(function(){
+  var text = $("#typeEq").val();
+  if (text == 'vigilance') {
+    $('#villeEq').hide();
+    $('#portEq').hide();
+    $('#stationEq').hide();
+    $('#departementEq').show();
+    $('#alertEq').show();
+  }
+  if (text == 'pluie1h') {
+    $('#villeEq').show();
+    $('#portEq').hide();
+    $('#stationEq').hide();
+    $('#departementEq').hide();
+    $('#alertEq').hide();
+  }
+  if (text == 'maree') {
+    $('#villeEq').hide();
+    $('#portEq').show();
+    $('#stationEq').hide();
+    $('#departementEq').hide();
+    $('#alertEq').hide();
+  }
+  if (text == 'crue') {
+    $('#villeEq').hide();
+    $('#portEq').hide();
+    $('#stationEq').show();
+    $('#departementEq').hide();
+    $('#alertEq').hide();
+  }
+});
+
 function addCmdToTable(_cmd) {
     if (!isset(_cmd)) {
         var _cmd = {configuration: {}};
