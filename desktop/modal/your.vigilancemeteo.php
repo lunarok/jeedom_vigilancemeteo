@@ -22,12 +22,12 @@ if (init('id') == '') {
 
 $id = init('id');
 $vigilancemeteo = vigilancemeteo::byId($id);
-	if (!is_object($vigilancemeteo)) { 
-			  
+	if (!is_object($vigilancemeteo)) {
+
 	 throw new Exception(__('Aucun equipement ne  correspond : Il faut (re)-enregistrer l\'équipement ', __FILE__) . init('action'));
 	 }
 $departement = $vigilancemeteo->getConfiguration('departement');
 $link='http://vigilance.meteofrance.com/Bulletin_sans.html?a=dept'.$departement.'&b=2&c=';
+$file = file_get_contents($link);
+echo $file
 ?>
-
-<iframe src="<?php echo $link; ?>" height="100%" width="100%">You need a Frames Capable browser to view this content.</iframe>
