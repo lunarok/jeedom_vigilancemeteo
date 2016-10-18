@@ -1,5 +1,11 @@
 [panel,primary]
 .Est-ce que le plugin s'appuie sur des API tiers ?
 --
-Oui il utilise le site de Météo France en source.
+Oui il utilise des sites pour récupérer ses infos.
+--
+
+[panel,danger]
+.Je n'ai pas d'informations qui remontent
+--
+Il faut bien créer un équipement et choisir le type qui correspond à l'usage souhaité.
 --

@@ -1,11 +1,11 @@
 ==== Vigilance Météo
 
-Ce plugin permet d'obtenir le niveau de vigilance de Météo France pour :
+Ce plugin permet de créer des équipements météo de plusieurs types :
 
-- vigilance (vert, jaune, orange, rouge)
+ - Vigilance Météo : informations communiquées par Météo France qui sont les alertes sur tout risque météo
 
-- crue (vert, jaune, orange, rouge)
+ - Crues : information du niveau d'eau des stations disponibles sur vigicrues
 
-- risque (vent, pluie-inondation, orages, inondations, neige-verglas, grand-froid)
+ - Marée : information sur les heures de maréé et l'indice
 
-- Sur le widget un clique sue le bouton information, vous permet d'accéder au site Vigilance Météo pour votre département
+ - Prévision Pluie à 1H : permet de récupérer les informations sur les prévisions pluies à l'heure qui suit par Météo France

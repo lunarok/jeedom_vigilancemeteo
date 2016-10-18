@@ -1,5 +1,0 @@
-[panel,danger]
-.Je n'ai pas d'informations qui remontent
---
-Il faut bien créer un équipement et attendre que Jeedom récupère les informations du site de Météo France
---

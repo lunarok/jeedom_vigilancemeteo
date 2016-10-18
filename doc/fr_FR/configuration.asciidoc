@@ -1,7 +1,0 @@
-==== Configuration du plugin
-
-Le plugin ne comporte pas de configuration générale.
-
-Il faut choisir son département sur la page de l'équipement.
-
-La commande d'alerte permet de recevoir directement une notification en cas de niveau de vigilance jaune ou rouge ainsi que la présence d'un risque.
