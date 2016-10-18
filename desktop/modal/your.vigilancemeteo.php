@@ -28,6 +28,9 @@ $vigilancemeteo = vigilancemeteo::byId($id);
 	 }
 $departement = $vigilancemeteo->getConfiguration('departement');
 $link='http://vigilance.meteofrance.com/Bulletin_sans.html?a=dept'.$departement.'&b=2&c=';
-$file = file_get_contents($link);
-echo $file
+$ch = curl_init();
+curl_setopt($ch, CURLOPT_URL, $link);
+$data = curl_exec($ch);
+curl_close($ch);
+echo $data; 
 ?>
