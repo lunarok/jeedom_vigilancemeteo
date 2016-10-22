@@ -261,42 +261,11 @@ class vigilancemeteo extends eqLogic {
     foreach($doc->getElementsByTagName('datavigilance') as $data) {
       if ($data->getAttribute('dep') == $departement) {
         // On récupère le niveau général
-        switch ($data->getAttribute('couleur')) {
-          case 0:
-          $lvigilance = "vert";
-          break;
-          case 1:
-          $lvigilance = "vert";
-          break;
-          case 2:
-          $lvigilance = "jaune";
-          break;
-          case 3:
-          $lvigilance = "orange";
-          break;
-          case 4:
-          $lvigilance = "rouge";
-          break;
-        }
+        $lvigilance = self::LEVEL[$data->getAttribute('couleur')];
+
         // On cherche les alertes "crue"
         foreach($data->getElementsByTagName('crue') as $crue) {
-          switch ($crue->getAttribute('valeur')) {
-            case 0:
-            $lcrue = "vert";
-            break;
-            case 1:
-            $lcrue = "vert";
-            break;
-            case 2:
-            $lcrue = "jaune";
-            break;
-            case 3:
-            $lcrue = "orange";
-            break;
-            case 4:
-            $lcrue = "rouge";
-            break;
-          }
+          $lcrue = self::LEVEL[$crue->getAttribute('valeur')];
         }
         foreach($data->getElementsByTagName('risque') as $risque) {
           switch ($risque->getAttribute('valeur')) {
