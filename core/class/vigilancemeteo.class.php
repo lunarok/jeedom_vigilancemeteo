@@ -19,6 +19,8 @@ require_once dirname(__FILE__) . '/../../../../core/php/core.inc.php';
 
 class vigilancemeteo extends eqLogic {
 
+  const LEVEL = array('vert', 'vert', 'jaune', 'orange', 'rouge');
+
   public static $_widgetPossibility = array('custom' => true);
 
   public static function cron15() {
@@ -235,6 +237,24 @@ class vigilancemeteo extends eqLogic {
 
     $doc = new DOMDocument();
     $doc->load('http://vigilance.meteofrance.com/data/NXFR34_LFPW_.xml');
+
+    /* exemple extrait du fichier, il y a différents niveaux possibles pour les risques
+    <DV dep="33" coul="1"/>
+    <DV dep="3310" coul="1"/>
+    <DV dep="34" coul="3">
+    <risque val="4"/>
+    <risque val="3"/>
+    <risque val="2"/>
+    </DV>
+    <DV dep="34" coul="2">
+    <risque val="1"/>
+    </DV>
+    <DV dep="3410" coul="2">
+    <risque val="9"/>
+    </DV>
+    <DV dep="35" coul="1"/>
+    <DV dep="3510" coul="1"/>
+    */
     $doc2 = new DOMDocument();
     $doc2->load('http://vigilance.meteofrance.com/data/NXFR33_LFPW_.xml');
 
@@ -329,69 +349,70 @@ class vigilancemeteo extends eqLogic {
 
     foreach($doc2->getElementsByTagName('DV') as $data) {
       if ($data->getAttribute('dep') == $departement) {
+        $couleur = self::LEVEL[$data->getAttribute('coul')];
         foreach($data->getElementsByTagName('risque') as $risque) {
           switch ($risque->getAttribute('val')) {
             case 1:
             if ($lrisque == "RAS") {
-              $lrisque = "vent";
+              $lrisque = "vent ".$couleur;
             } else {
-              $lrisque = $lrisque . ", vent";
+              $lrisque = $lrisque . ", vent ".$couleur;
             }
             break;
             case 2:
             if ($lrisque == "RAS") {
-              $lrisque = "pluie-inondation";
+              $lrisque = "pluie-inondation ".$couleur;
             } else {
-              $lrisque = $lrisque . ", pluie-inondation";
+              $lrisque = $lrisque . ", pluie-inondation ".$couleur;
             }
             break;
             case 3:
             if ($lrisque == "RAS") {
-              $lrisque = "orages";
+              $lrisque = "orages ".$couleur;
             } else {
-              $lrisque = $lrisque . ", orages";
+              $lrisque = $lrisque . ", orages ".$couleur;
             }
             break;
             case 4:
             if ($lrisque == "RAS") {
-              $lrisque = "inondations";
+              $lrisque = "inondations ".$couleur;
             } else {
-              $lrisque = $lrisque . ", inondations";
+              $lrisque = $lrisque . ", inondations ".$couleur;
             }
             break;
             case 5:
             if ($lrisque == "RAS") {
-              $lrisque = "neige-verglas";
+              $lrisque = "neige-verglas ".$couleur;
             } else {
-              $lrisque = $lrisque . ", neige-verglas";
+              $lrisque = $lrisque . ", neige-verglas ".$couleur;
             }
             break;
             case 6:
             if ($lrisque == "RAS") {
-              $lrisque = "canicule";
+              $lrisque = "canicule ".$couleur;
             } else {
-              $lrisque = $lrisque . ", canicule";
+              $lrisque = $lrisque . ", canicule ".$couleur;
             }
             break;
             case 7:
             if ($lrisque == "RAS") {
-              $lrisque = "grand-froid";
+              $lrisque = "grand-froid ".$couleur;
             } else {
-              $lrisque = $lrisque . ", grand-froid";
+              $lrisque = $lrisque . ", grand-froid ".$couleur;
             }
             break;
             case 8:
             if ($lrisque == "RAS") {
-              $lrisque = "avalanches";
+              $lrisque = "avalanches ".$couleur;
             } else {
-              $lrisque = $lrisque . ", avalanches";
+              $lrisque = $lrisque . ", avalanches ".$couleur;
             }
             break;
             case 9:
             if ($lrisque == "RAS") {
-              $lrisque = "vagues-submersion";
+              $lrisque = "vagues-submersion ".$couleur;
             } else {
-              $lrisque = $lrisque . ", vagues-submersion";
+              $lrisque = $lrisque . ", vagues-submersion ".$couleur;
             }
             break;
           }
