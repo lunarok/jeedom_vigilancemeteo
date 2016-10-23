@@ -616,7 +616,6 @@ class vigilancemeteo extends eqLogic {
   }
 
   public function toHtml($_version = 'dashboard') {
-
     $replace = $this->preToHtml($_version);
     if (!is_array($replace)) {
       return $replace;
