@@ -665,8 +665,7 @@ class vigilancemeteo extends eqLogic {
         $replace['#icone#'] = '<i id="yourvigilance' . $this->getId() . ' class="fa fa-info-circle cursor"></i>';
       }
 
-      return $this->postToHtml($_version, template_replace($replace, getTemplate('core', $version, 'vigilancemeteo', 'vigilancemeteo')));
-
+      $templatename = 'vigilancemeteo';
     } else if ($this->getConfiguration('type') == 'maree') {
       $replace['#portid#'] = $this->getConfiguration('port');
 
@@ -692,7 +691,7 @@ class vigilancemeteo extends eqLogic {
         $replace['#icone#'] = '<i id="maree' . $this->getId() . '" class="fa fa-info-circle cursor"></i>';
       }
 
-      return $this->postToHtml($_version, template_replace($replace, getTemplate('core', $version, 'maree', 'vigilancemeteo')));
+      $templatename = 'maree';
     } else if ($this->getConfiguration('type') == 'crue') {
       $cmd = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'niveau');
       $replace['#crue_history#'] = '';
@@ -704,7 +703,7 @@ class vigilancemeteo extends eqLogic {
         $replace['#crue_history#'] = 'history cursor';
       }
 
-      return $this->postToHtml($_version, template_replace($replace, getTemplate('core', $version, 'crue', 'vigilancemeteo')));
+      $templatename = 'crue';
     } else if ($this->getConfiguration('type') == 'pluie1h') {
       $replace['#ville#'] = $this->getConfiguration('ville');
       $prevTexte = $this->getCmd(null,'prevTexte');
@@ -745,8 +744,9 @@ class vigilancemeteo extends eqLogic {
         }
       }
 
-      return $this->postToHtml($_version, template_replace($replace, getTemplate('core', $version, 'previsionpluie', 'vigilancemeteo')));
+      $templatename = 'previsionpluie';
     }
+    return $this->postToHtml($_version, template_replace($replace, getTemplate('core', $version, $templatename, 'vigilancemeteo')));
   }
 
 }
