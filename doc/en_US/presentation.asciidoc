@@ -1,0 +1,11 @@
+==== Vigilance Météo
+
+Ce plugin permet de créer des équipements météo de plusieurs types :
+
+ - Vigilance Météo : informations communiquées par Météo France qui sont les alertes sur tout risque météo
+
+ - Crues : information du niveau d'eau des stations disponibles sur vigicrues
+
+ - Marée : information sur les heures de maréé et l'indice
+
+ - Prévision Pluie à 1H : permet de récupérer les informations sur les prévisions pluies à l'heure qui suit par Météo France
