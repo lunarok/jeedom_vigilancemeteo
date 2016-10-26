@@ -29,12 +29,22 @@ class vigilancemeteo extends eqLogic {
         $vigilancemeteo->getVigilance();
         $vigilancemeteo->refreshWidget();
       }
+      if ($vigilancemeteo->getConfiguration('type') == 'crues') {
+        $vigilancemeteo->getCrue();
+        $vigilancemeteo->refreshWidget();
+      }
+    }
+    log::add('vigilancemeteo', 'debug', '15mn cron');
+  }
+  
+  public static function cron5() {
+    foreach (eqLogic::byType('vigilancemeteo', true) as $vigilancemeteo) {
       if ($vigilancemeteo->getConfiguration('type') == 'pluie1h') {
         $vigilancemeteo->getPluie();
         $vigilancemeteo->refreshWidget();
       }
     }
-    log::add('vigilancemeteo', 'debug', '15mn cron');
+    log::add('vigilancemeteo', 'debug', '5mn cron');
   }
 
   public static function cronHourly() {
@@ -42,11 +52,7 @@ class vigilancemeteo extends eqLogic {
       if ($vigilancemeteo->getConfiguration('type') == 'maree') {
         $vigilancemeteo->getMaree();
         $vigilancemeteo->refreshWidget();
-      }
-      if ($vigilancemeteo->getConfiguration('type') == 'crues') {
-        $vigilancemeteo->getCrue();
-        $vigilancemeteo->refreshWidget();
-      }
+      } 
     }
     log::add('vigilancemeteo', 'debug', 'Hourly cron');
   }
