@@ -623,7 +623,7 @@ class vigilancemeteo extends eqLogic {
       log::add('vigilancemeteo', 'error', 'API non saisie');
       return;
     }
-    if (null !== ($heliotrope->getConfiguration('geoloc', '')) && $heliotrope->getConfiguration('geoloc', '') != 'none') {
+    if (null !== ($this->getConfiguration('geoloc', '')) && $this->getConfiguration('geoloc', '') != 'none') {
       $geoloc = $this->getConfiguration('geoloc', '');
     $geolocCmd = geolocCmd::byId($geoloc);
     if ($geolocCmd->getConfiguration('mode') == 'fixe') {
