@@ -176,7 +176,15 @@ $eqLogics = eqLogic::byType('vigilancemeteo');
             </div>
           </div>
 
-          <div id="stationEq" class="form-group">
+          <div id="geolocEq" class="form-group">
+            <label class="col-sm-3 control-label">{{Geolocolisation à utiliser}}</label>
+            <div class="col-sm-3">
+              <input type="text" class="eqLogicAttr configuration form-control" data-l1key="configuration" data-l2key="breezometer" placeholder="exemple 122"/>
+            </select>
+          </div>
+        </div>
+
+          <div id="breezeEq" class="form-group">
             <label class="col-sm-3 control-label">{{Clef Breezometer}}</label>
             <div class="col-sm-3">
               <input type="text" class="eqLogicAttr configuration form-control" data-l1key="configuration" data-l2key="breezometer" placeholder="exemple 122"/>
@@ -184,7 +192,7 @@ $eqLogics = eqLogic::byType('vigilancemeteo');
           </div>
         </div>
 
-            <div id="departementEq" class="form-group">
+            <div id="seismeEq" class="form-group">
               <label class="col-sm-3 control-label">{{Ville OpenHazards}}</label>
               <div class="col-sm-3">
                 <input type="text" class="eqLogicAttr configuration form-control" data-l1key="configuration" data-l2key="openhazards" placeholder="exemple Paris"/>

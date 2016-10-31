@@ -33,6 +33,9 @@ $('#typeEq').change(function(){
     $('#stationEq').hide();
     $('#departementEq').show();
     $('#alertEq').show();
+    $('#geolocEq').hide();
+    $('#breezeEq').hide();
+    $('#seismeEq').hide();
   }
   if (text == 'pluie1h') {
     $('#villeEq').show();
@@ -40,6 +43,9 @@ $('#typeEq').change(function(){
     $('#stationEq').hide();
     $('#departementEq').hide();
     $('#alertEq').hide();
+    $('#geolocEq').hide();
+    $('#breezeEq').hide();
+    $('#seismeEq').hide();
   }
   if (text == 'maree') {
     $('#villeEq').hide();
@@ -47,6 +53,9 @@ $('#typeEq').change(function(){
     $('#stationEq').hide();
     $('#departementEq').hide();
     $('#alertEq').hide();
+    $('#geolocEq').hide();
+    $('#breezeEq').hide();
+    $('#seismeEq').hide();
   }
   if (text == 'crue') {
     $('#villeEq').hide();
@@ -54,6 +63,29 @@ $('#typeEq').change(function(){
     $('#stationEq').show();
     $('#departementEq').hide();
     $('#alertEq').hide();
+    $('#geolocEq').hide();
+    $('#breezeEq').hide();
+    $('#seismeEq').hide();
+  }
+  if (text == 'seisme') {
+    $('#villeEq').hide();
+    $('#portEq').hide();
+    $('#stationEq').hide();
+    $('#departementEq').hide();
+    $('#alertEq').hide();
+    $('#geolocEq').hide();
+    $('#breezeEq').hide();
+    $('#seismeEq').show();
+  }
+  if (text == 'air') {
+    $('#villeEq').hide();
+    $('#portEq').hide();
+    $('#stationEq').hide();
+    $('#departementEq').hide();
+    $('#alertEq').hide();
+    $('#geolocEq').show();
+    $('#breezeEq').show();
+    $('#seismeEq').hide();
   }
 });
 
