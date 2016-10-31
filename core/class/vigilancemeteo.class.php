@@ -588,10 +588,9 @@ class vigilancemeteo extends eqLogic {
     $url = 'http://api.openhazards.com/GetEarthquakeProbability?q=' . $city . '&m=5&r=100&w=3';
     $doc = new DOMDocument();
     $doc->load($url);
-    $xpath = new DOMXPath( $doc );
 
-    foreach($xpath->getElementsByTagName('prob') as $data) {
-      $result = str_replace("%", "", $data->nodeValue());
+    foreach($doc->getElementsByTagName('prob') as $data) {
+      $result = str_replace("%", "", $data->nodeValue);
     }
 
     log::add('vigilancemeteo', 'debug', 'Valeur ' . $result);
