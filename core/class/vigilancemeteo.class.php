@@ -189,6 +189,17 @@ class vigilancemeteo extends eqLogic {
       $cmdlogic->setSubType('numeric');
       $cmdlogic->save();
 
+      $cmdlogic = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'color');
+      if (!is_object($cmdlogic)) {
+        $cmdlogic = new vigilancemeteoCmd();
+        $cmdlogic->setName(__('Couleur Qualité Air', __FILE__));
+        $cmdlogic->setEqLogic_id($this->getId());
+        $cmdlogic->setLogicalId('color');
+      }
+      $cmdlogic->setType('info');
+      $cmdlogic->setSubType('numeric');
+      $cmdlogic->save();
+
       $this->getAir();
     }
     if ($this->getConfiguration('type') == 'seisme') {
@@ -635,13 +646,18 @@ class vigilancemeteo extends eqLogic {
       $latitude = trim($geoloctab[0]);
       $longitude = trim($geoloctab[1]);
       $url = 'http://api.breezometer.com/baqi/?lat=' . $latitude . '&lon=' . $longitude . '&key=' . $apikey;
-      $json = json_decode(file_get_contents($url));
+      $json = json_decode(file_get_contents($url), true);
       log::add('vigilancemeteo', 'debug', 'Air ' . print_r($json, true));
 
       $cmdlogic = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'aqi');
       $cmdlogic->setConfiguration('value', $json['breezometer_aqi']);
       $cmdlogic->save();
       $cmdlogic->event($json['breezometer_aqi']);
+
+      $cmdlogic = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'color');
+      $cmdlogic->setConfiguration('value', $json['breezometer_color']);
+      $cmdlogic->save();
+      $cmdlogic->event($json['breezometer_color']);
     }
     return ;
   }
@@ -794,6 +810,20 @@ class vigilancemeteo extends eqLogic {
       $replace['#crue_collect#'] = $cmd->getCollectDate();
       if ($cmd->getIsHistorized() == 1) {
         $replace['#crue_history#'] = 'history cursor';
+      }
+
+      $templatename = 'crue';
+    } else if ($this->getConfiguration('type') == 'air') {
+      $cmd = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'aqi');
+      $cmdcolor = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'color');
+      $replace['#aqi_history#'] = '';
+      $replace['#aqi#'] = $cmd->getConfiguration('value');
+      $replace['#aqicolor#'] = $cmdcolor->getConfiguration('value');
+      $replace['#aqi_id#'] = $cmd->getId();
+
+      $replace['#aqi_collect#'] = $cmd->getCollectDate();
+      if ($cmd->getIsHistorized() == 1) {
+        $replace['#aqi_history#'] = 'history cursor';
       }
 
       $templatename = 'crue';
