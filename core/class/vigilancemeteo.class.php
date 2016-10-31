@@ -777,7 +777,7 @@ class vigilancemeteo extends eqLogic {
         $replace['#risk_history#'] = 'history cursor';
       }
 
-      $templatename = 'crue';
+      $templatename = 'seisme';
     } else if ($this->getConfiguration('type') == 'pluie1h') {
       $replace['#ville#'] = $this->getConfiguration('ville');
       $prevTexte = $this->getCmd(null,'prevTexte');
