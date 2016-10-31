@@ -655,9 +655,9 @@ class vigilancemeteo extends eqLogic {
       $cmdlogic->event($json['breezometer_aqi']);
 
       $cmdlogic = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'color');
-      $cmdlogic->setConfiguration('value', $json['breezometer_color']);
+      $cmdlogic->setConfiguration('value', str_replace('#','',$json['breezometer_color']));
       $cmdlogic->save();
-      $cmdlogic->event($json['breezometer_color']);
+      $cmdlogic->event(str_replace('#','',$json['breezometer_color']));
     }
     return ;
   }
@@ -818,7 +818,7 @@ class vigilancemeteo extends eqLogic {
       $cmdcolor = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'color');
       $replace['#aqi_history#'] = '';
       $replace['#aqi#'] = $cmd->getConfiguration('value');
-      $replace['#aqicolor#'] = $cmdcolor->getConfiguration('value');
+      $replace['#aqicolor#'] = '#' . $cmdcolor->getConfiguration('value');
       $replace['#aqi_id#'] = $cmd->getId();
 
       $replace['#aqi_collect#'] = $cmd->getCollectDate();
