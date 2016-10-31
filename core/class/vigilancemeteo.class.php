@@ -591,7 +591,7 @@ class vigilancemeteo extends eqLogic {
     $xpath = new DOMXPath( $doc );
 
     foreach($xpath->getElementsByTagName('prob') as $data) {
-      $result = str_replace("%", "", $data->nodeValue();
+      $result = str_replace("%", "", $data->nodeValue());
     }
 
     log::add('vigilancemeteo', 'debug', 'Valeur ' . $result);
