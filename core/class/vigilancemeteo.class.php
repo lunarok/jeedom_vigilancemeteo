@@ -632,11 +632,16 @@ class vigilancemeteo extends eqLogic {
         $geolocval = $geolocCmd->execCmd();
       }
       $geoloctab = explode(',', trim($geolocval));
-      $latitude = $geoloctab[0];
-      $longitude = $geoloctab[1];
+      $latitude = trim($geoloctab[0]);
+      $longitude = trim($geoloctab[1]);
       $url = 'http://api.breezometer.com/baqi/?lat=' . $latitude . '&lon=' . $longitude . '&key=' . $apikey;
       $json = json_decode(file_get_contents($url));
       log::add('vigilancemeteo', 'debug', 'Air ' . print_r($json, true));
+
+      $cmdlogic = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'aqi');
+      $cmdlogic->setConfiguration('value', $json['breezometer_aqi']);
+      $cmdlogic->save();
+      $cmdlogic->event($json['breezometer_aqi']);
     }
     return ;
   }

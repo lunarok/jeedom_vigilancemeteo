@@ -22,5 +22,9 @@ include::pluie1h.asciidoc[]
 include::seisme.asciidoc[]
 
 '''
+== Qualité d'Air
+include::air.asciidoc[]
+
+'''
 == FAQ
 include::faq.asciidoc[]
