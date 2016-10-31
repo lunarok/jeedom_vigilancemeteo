@@ -197,7 +197,7 @@ class vigilancemeteo extends eqLogic {
         $cmdlogic->setLogicalId('color');
       }
       $cmdlogic->setType('info');
-      $cmdlogic->setSubType('numeric');
+      $cmdlogic->setSubType('string');
       $cmdlogic->save();
 
       $this->getAir();
@@ -647,7 +647,7 @@ class vigilancemeteo extends eqLogic {
       $longitude = trim($geoloctab[1]);
       $url = 'http://api.breezometer.com/baqi/?lat=' . $latitude . '&lon=' . $longitude . '&key=' . $apikey;
       $json = json_decode(file_get_contents($url), true);
-      //log::add('vigilancemeteo', 'debug', 'Air ' . print_r($json, true));
+      log::add('vigilancemeteo', 'debug', 'Air ' . $json['breezometer_aqi'] . ' ' . $json['breezometer_color']);
 
       $cmdlogic = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'aqi');
       $cmdlogic->setConfiguration('value', $json['breezometer_aqi']);
@@ -655,9 +655,9 @@ class vigilancemeteo extends eqLogic {
       $cmdlogic->event($json['breezometer_aqi']);
 
       $cmdlogic = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'color');
-      $cmdlogic->setConfiguration('value', str_replace('#','',$json['breezometer_color']));
+      $cmdlogic->setConfiguration('value', $json['breezometer_color']);
       $cmdlogic->save();
-      $cmdlogic->event(str_replace('#','',$json['breezometer_color']));
+      $cmdlogic->event($json['breezometer_color']);
     }
     return ;
   }
@@ -818,7 +818,7 @@ class vigilancemeteo extends eqLogic {
       $cmdcolor = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'color');
       $replace['#aqi_history#'] = '';
       $replace['#aqi#'] = $cmd->getConfiguration('value');
-      $replace['#aqicolor#'] = '#' . $cmdcolor->getConfiguration('value');
+      $replace['#aqicolor#'] = $cmdcolor->getConfiguration('value');
       $replace['#aqi_id#'] = $cmd->getId();
 
       $replace['#aqi_collect#'] = $cmd->getCollectDate();
@@ -826,7 +826,7 @@ class vigilancemeteo extends eqLogic {
         $replace['#aqi_history#'] = 'history cursor';
       }
 
-      $templatename = 'crue';
+      $templatename = 'air';
     } else if ($this->getConfiguration('type') == 'seisme') {
       $cmd = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'risk');
       $replace['#seisme_history#'] = '';
