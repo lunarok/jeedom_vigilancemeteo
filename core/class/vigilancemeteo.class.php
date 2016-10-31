@@ -177,6 +177,20 @@ class vigilancemeteo extends eqLogic {
 
       $this->getCrue();
     }
+    if ($this->getConfiguration('type') == 'air') {
+      $cmdlogic = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'aqi');
+      if (!is_object($cmdlogic)) {
+        $cmdlogic = new vigilancemeteoCmd();
+        $cmdlogic->setName(__('Index Qualité Air', __FILE__));
+        $cmdlogic->setEqLogic_id($this->getId());
+        $cmdlogic->setLogicalId('aqi');
+      }
+      $cmdlogic->setType('info');
+      $cmdlogic->setSubType('numeric');
+      $cmdlogic->save();
+
+      $this->getAir();
+    }
     if ($this->getConfiguration('type') == 'seisme') {
       $cmdlogic = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'risk');
       if (!is_object($cmdlogic)) {
@@ -606,12 +620,24 @@ class vigilancemeteo extends eqLogic {
   public function getAir() {
     $apikey = $this->getConfiguration('breezometer');
     if ($apikey == '') {
-      log::add('vigilancemeteo', 'error', 'Ville non saisie');
+      log::add('vigilancemeteo', 'error', 'API non saisie');
       return;
     }
-
-    log::add('vigilancemeteo', 'debug', 'Valeur ' . $result);
-
+    if (null !== ($heliotrope->getConfiguration('geoloc', '')) && $heliotrope->getConfiguration('geoloc', '') != 'none') {
+      $geoloc = $this->getConfiguration('geoloc', '');
+    $geolocCmd = geolocCmd::byId($geoloc);
+    if ($geolocCmd->getConfiguration('mode') == 'fixe') {
+      $geolocval = $geolocCmd->getConfiguration('coordinate');
+    } else {
+      $geolocval = $geolocCmd->execCmd();
+    }
+    $geoloctab = explode(',', trim($geolocval));
+    $latitude = $geoloctab[0];
+    $longitude = $geoloctab[1];
+    $url = 'https://api.breezometer.com/baqi/?lat=' . $latitude . '&lon=' . $longitude . '&key=' . $apikey;
+    $json = json_decode(file_get_contents($url));
+      log::add('vigilancemeteo', 'debug', 'Air ' . print_r($json, true));
+    }
     return ;
   }
 

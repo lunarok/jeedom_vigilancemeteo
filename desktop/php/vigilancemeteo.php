@@ -179,8 +179,21 @@ $eqLogics = eqLogic::byType('vigilancemeteo');
           <div id="geolocEq" class="form-group">
             <label class="col-sm-3 control-label">{{Geolocolisation à utiliser}}</label>
             <div class="col-sm-3">
-              <input type="text" class="eqLogicAttr configuration form-control" data-l1key="configuration" data-l2key="breezometer" placeholder="exemple 122"/>
-            </select>
+              <select class="form-control eqLogicAttr configuration" id="geoloc" data-l1key="configuration" data-l2key="geoloc">
+                  <?php
+                  if (class_exists('geolocCmd')) {
+                    foreach (eqLogic::byType('geoloc') as $geoloc) {
+                      foreach (geolocCmd::byEqLogicId($geoloc->getId()) as $geoinfo) {
+                        if ($geoinfo->getConfiguration('mode') == 'fixe' || $geoinfo->getConfiguration('mode') == 'dynamic') {
+                          echo '<option value="' . $geoinfo->getId() . '">' . $geoinfo->getName() . '</option>';
+                        }
+                      }
+                    }
+                  } else {
+                    echo '<option value="none">Geoloc absent</option>';
+                  }
+                  ?>
+                </select>
           </div>
         </div>
 
