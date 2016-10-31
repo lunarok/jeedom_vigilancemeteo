@@ -625,17 +625,17 @@ class vigilancemeteo extends eqLogic {
     }
     if (null !== ($this->getConfiguration('geoloc', '')) && $this->getConfiguration('geoloc', '') != 'none') {
       $geoloc = $this->getConfiguration('geoloc', '');
-    $geolocCmd = geolocCmd::byId($geoloc);
-    if ($geolocCmd->getConfiguration('mode') == 'fixe') {
-      $geolocval = $geolocCmd->getConfiguration('coordinate');
-    } else {
-      $geolocval = $geolocCmd->execCmd();
-    }
-    $geoloctab = explode(',', trim($geolocval));
-    $latitude = $geoloctab[0];
-    $longitude = $geoloctab[1];
-    $url = 'https://api.breezometer.com/baqi/?lat=' . $latitude . '&lon=' . $longitude . '&key=' . $apikey;
-    $json = json_decode(file_get_contents($url));
+      $geolocCmd = geolocCmd::byId($geoloc);
+      if ($geolocCmd->getConfiguration('mode') == 'fixe') {
+        $geolocval = $geolocCmd->getConfiguration('coordinate');
+      } else {
+        $geolocval = $geolocCmd->execCmd();
+      }
+      $geoloctab = explode(',', trim($geolocval));
+      $latitude = $geoloctab[0];
+      $longitude = $geoloctab[1];
+      $url = 'http://api.breezometer.com/baqi/?lat=' . $latitude . '&lon=' . $longitude . '&key=' . $apikey;
+      $json = json_decode(file_get_contents($url));
       log::add('vigilancemeteo', 'debug', 'Air ' . print_r($json, true));
     }
     return ;
