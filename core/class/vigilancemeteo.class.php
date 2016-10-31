@@ -768,13 +768,13 @@ class vigilancemeteo extends eqLogic {
       $templatename = 'crue';
     } else if ($this->getConfiguration('type') == 'seisme') {
       $cmd = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'risk');
-      $replace['#risk_history#'] = '';
-      $replace['#risk#'] = $cmd->getConfiguration('value');
-      $replace['#risk_id#'] = $cmd->getId();
+      $replace['#seisme_history#'] = '';
+      $replace['#seisme#'] = $cmd->getConfiguration('value');
+      $replace['#seisme_id#'] = $cmd->getId();
 
-      $replace['#risk_collect#'] = $cmd->getCollectDate();
+      $replace['#seisme_collect#'] = $cmd->getCollectDate();
       if ($cmd->getIsHistorized() == 1) {
-        $replace['#risk_history#'] = 'history cursor';
+        $replace['#seisme_history#'] = 'history cursor';
       }
 
       $templatename = 'seisme';
