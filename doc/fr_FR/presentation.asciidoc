@@ -9,3 +9,5 @@ Ce plugin permet de créer des équipements météo de plusieurs types :
  - Marée : information sur les heures de maréé et l'indice
 
  - Prévision Pluie à 1H : permet de récupérer les informations sur les prévisions pluies à l'heure qui suit par Météo France
+
+ - Séisme : permet de récupérer la probabilité de séisme de magnitude 5 ou plus dans les 3 prochains jours

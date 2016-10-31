@@ -593,7 +593,12 @@ class vigilancemeteo extends eqLogic {
       $result = str_replace("%", "", $data->nodeValue);
     }
 
-    log::add('vigilancemeteo', 'debug', 'Valeur ' . $result);
+    $cmdlogic = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'risk');
+    $cmdlogic->setConfiguration('value', $result);
+    $cmdlogic->save();
+    $cmdlogic->event($result);
+
+    log::add('vigilancemeteo', 'debug', 'Seisme ' . $result);
 
     return ;
   }
@@ -758,6 +763,18 @@ class vigilancemeteo extends eqLogic {
       $replace['#crue_collect#'] = $cmd->getCollectDate();
       if ($cmd->getIsHistorized() == 1) {
         $replace['#crue_history#'] = 'history cursor';
+      }
+
+      $templatename = 'crue';
+    } else if ($this->getConfiguration('type') == 'seisme') {
+      $cmd = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'risk');
+      $replace['#risk_history#'] = '';
+      $replace['#risk#'] = $cmd->getConfiguration('value');
+      $replace['#risk_id#'] = $cmd->getId();
+
+      $replace['#risk_collect#'] = $cmd->getCollectDate();
+      if ($cmd->getIsHistorized() == 1) {
+        $replace['#risk_history#'] = 'history cursor';
       }
 
       $templatename = 'crue';

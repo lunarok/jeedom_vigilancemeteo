@@ -18,5 +18,9 @@ include::maree.asciidoc[]
 include::pluie1h.asciidoc[]
 
 '''
+== Séisme
+include::seisme.asciidoc[]
+
+'''
 == FAQ
 include::faq.asciidoc[]
