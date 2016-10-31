@@ -121,6 +121,8 @@ $eqLogics = eqLogic::byType('vigilancemeteo');
                   <option value="pluie1h">{{Pluie à 1h Météo France}}</option>
                   <option value="crue">{{Vigicrues}}</option>
                   <option value="maree">{{Marées}}</option>
+                  <option value="air">{{Qualité d'Air}}</option>
+                  <option value="seisme">{{Séisme}}</option>
                 </select>
               </div>
             </div>
@@ -173,6 +175,23 @@ $eqLogics = eqLogic::byType('vigilancemeteo');
               </div>
             </div>
           </div>
+
+          <div id="stationEq" class="form-group">
+            <label class="col-sm-3 control-label">{{Clef Breezometer}}</label>
+            <div class="col-sm-3">
+              <input type="text" class="eqLogicAttr configuration form-control" data-l1key="configuration" data-l2key="breezometer" placeholder="exemple 122"/>
+            </select>
+          </div>
+        </div>
+
+            <div id="departementEq" class="form-group">
+              <label class="col-sm-3 control-label">{{Ville OpenHazards}}</label>
+              <div class="col-sm-3">
+                <input type="text" class="eqLogicAttr configuration form-control" data-l1key="configuration" data-l2key="openhazards" placeholder="exemple Paris"/>
+              </select>
+            </div>
+          </div>
+
         </fieldset>
       </form>
     </div>

@@ -18,7 +18,6 @@
 require_once dirname(__FILE__) . '/../../../../core/php/core.inc.php';
 
 class vigilancemeteo extends eqLogic {
-
   const LEVEL = array('vert', 'vert', 'jaune', 'orange', 'rouge');
 
   public static $_widgetPossibility = array('custom' => true);
@@ -36,7 +35,7 @@ class vigilancemeteo extends eqLogic {
     }
     log::add('vigilancemeteo', 'debug', '15mn cron');
   }
-  
+
   public static function cron5() {
     foreach (eqLogic::byType('vigilancemeteo', true) as $vigilancemeteo) {
       if ($vigilancemeteo->getConfiguration('type') == 'pluie1h') {
@@ -52,7 +51,15 @@ class vigilancemeteo extends eqLogic {
       if ($vigilancemeteo->getConfiguration('type') == 'maree') {
         $vigilancemeteo->getMaree();
         $vigilancemeteo->refreshWidget();
-      } 
+      }
+      if ($vigilancemeteo->getConfiguration('type') == 'air') {
+        $vigilancemeteo->getAir();
+        $vigilancemeteo->refreshWidget();
+      }
+      if ($vigilancemeteo->getConfiguration('type') == 'seisme') {
+        $vigilancemeteo->getSeisme();
+        $vigilancemeteo->refreshWidget();
+      }
     }
     log::add('vigilancemeteo', 'debug', 'Hourly cron');
   }
@@ -169,6 +176,20 @@ class vigilancemeteo extends eqLogic {
       $cmdlogic->save();
 
       $this->getCrue();
+    }
+    if ($this->getConfiguration('type') == 'seisme') {
+      $cmdlogic = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'risk');
+      if (!is_object($cmdlogic)) {
+        $cmdlogic = new vigilancemeteoCmd();
+        $cmdlogic->setName(__('Probabilité de séisme magnitude 5 dans les 3 jours', __FILE__));
+        $cmdlogic->setEqLogic_id($this->getId());
+        $cmdlogic->setLogicalId('risk');
+      }
+      $cmdlogic->setType('info');
+      $cmdlogic->setSubType('numeric');
+      $cmdlogic->save();
+
+      $this->getSeisme();
     }
     if ($this->getConfiguration('type') == 'pluie1h') {
       $vigilancemeteoCmd = $this->getCmd(null, 'prevTexte');
@@ -554,6 +575,37 @@ class vigilancemeteo extends eqLogic {
     $cmdlogic->setConfiguration('value', $datareleve[0]);
     $cmdlogic->save();
     $cmdlogic->event($datareleve[0]);
+
+    return ;
+  }
+
+  public function getSeisme() {
+    $city = $this->getConfiguration('openhazards');
+    if ($city == '') {
+      log::add('vigilancemeteo', 'error', 'Ville non saisie');
+      return;
+    }
+    $url = 'http://api.openhazards.com/GetEarthquakeProbability?q=' . $city . '&m=5&r=100&w=3';
+    $doc = new DOMDocument();
+    $doc->load($url);
+
+    foreach($doc->getElementsByTagName('prob') as $data) {
+      $result = str_replace("%", "", $data->nodeValue());
+    }
+
+    log::add('vigilancemeteo', 'debug', 'Valeur ' . $result);
+
+    return ;
+  }
+
+  public function getAir() {
+    $apikey = $this->getConfiguration('breezometer');
+    if ($apikey == '') {
+      log::add('vigilancemeteo', 'error', 'Ville non saisie');
+      return;
+    }
+
+    log::add('vigilancemeteo', 'debug', 'Valeur ' . $result);
 
     return ;
   }
