@@ -448,7 +448,21 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_informations_disponibles_4">5.3. Informations disponibles</a></li>
 </ul>
 </li>
-<li><a href="#_faq">6. FAQ</a></li>
+<li><a href="#_séisme">6. Séisme</a>
+<ul class="sectlevel3">
+<li><a href="#_présentation_5">6.1. Présentation</a></li>
+<li><a href="#_configuration_du_type_5">6.2. Configuration du type</a></li>
+<li><a href="#_informations_disponibles_5">6.3. Informations disponibles</a></li>
+</ul>
+</li>
+<li><a href="#_qualité_d_air">7. Qualité d&#8217;Air</a>
+<ul class="sectlevel3">
+<li><a href="#_présentation_6">7.1. Présentation</a></li>
+<li><a href="#_configuration_du_type_6">7.2. Configuration du type</a></li>
+<li><a href="#_informations_disponibles_6">7.3. Informations disponibles</a></li>
+</ul>
+</li>
+<li><a href="#_faq">8. FAQ</a></li>
 </ul>
 </div>
 </div>
@@ -474,6 +488,9 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </li>
 <li>
 <p>Prévision Pluie à 1H : permet de récupérer les informations sur les prévisions pluies à l&#8217;heure qui suit par Météo France</p>
+</li>
+<li>
+<p>Séisme : permet de récupérer la probabilité de séisme de magnitude 5 ou plus dans les 3 prochains jours</p>
 </li>
 </ul>
 </div>
@@ -662,7 +679,69 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </div>
 </div>
 <div class="sect1">
-<h2 id="_faq">6. FAQ</h2>
+<h2 id="_séisme">6. Séisme</h2>
+<div class="sectionbody">
+<div class="sect3">
+<h4 id="_présentation_5">6.1. Présentation</h4>
+<div class="paragraph">
+<p>Ce plugin permet d&#8217;obtenir la probabilité de séisme depuis <a href="http://www.openhazards.com/data/GetEarthquakeProbability" class="bare">http://www.openhazards.com/data/GetEarthquakeProbability</a></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_configuration_du_type_5">6.2. Configuration du type</h4>
+<div class="paragraph">
+<p>Il faut renseigner une ville voulue dans le champ de configuration (l&#8217;information est récupérée pour un rayon de 100kms)</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_informations_disponibles_5">6.3. Informations disponibles</h4>
+<div class="paragraph">
+<p>Ce plugin permet d&#8217;obtenir des informations de risque de séisme :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>probabibilité de séisme de magnitude 5 ou plus dans les 3 prochains jours (en %)</p>
+</li>
+</ul>
+</div>
+<hr>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_qualité_d_air">7. Qualité d&#8217;Air</h2>
+<div class="sectionbody">
+<div class="sect3">
+<h4 id="_présentation_6">7.1. Présentation</h4>
+<div class="paragraph">
+<p>Ce plugin permet d&#8217;obtenir l&#8217;indice de qualité d&#8217;air depuis <a href="https://breezometer.com/api/" class="bare">https://breezometer.com/api/</a></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_configuration_du_type_6">7.2. Configuration du type</h4>
+<div class="paragraph">
+<p>Il faut renseigner une geoloc voulue dans le champ de configuration et la clef API</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_informations_disponibles_6">7.3. Informations disponibles</h4>
+<div class="paragraph">
+<p>Ce plugin permet d&#8217;obtenir les informations de qualité d&#8217;air :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>indice de qualité général</p>
+</li>
+</ul>
+</div>
+<hr>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_faq">8. FAQ</h2>
 <div class="sectionbody">
 <div class="openblock panel">
 <div class="title">Est-ce que le plugin s&#8217;appuie sur des API tiers ?</div><div class="content">
