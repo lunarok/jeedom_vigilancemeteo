@@ -28,7 +28,7 @@ class vigilancemeteo extends eqLogic {
         $vigilancemeteo->getVigilance();
         $vigilancemeteo->refreshWidget();
       }
-      if ($vigilancemeteo->getConfiguration('type') == 'crues') {
+      if ($vigilancemeteo->getConfiguration('type') == 'crue') {
         $vigilancemeteo->getCrue();
         $vigilancemeteo->refreshWidget();
       }
