@@ -174,6 +174,17 @@ class vigilancemeteo extends eqLogic {
       $cmdlogic->setType('info');
       $cmdlogic->setSubType('numeric');
       $cmdlogic->save();
+      
+      $cmdlogic = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'date');
+      if (!is_object($cmdlogic)) {
+        $cmdlogic = new vigilancemeteoCmd();
+        $cmdlogic->setName(__('Dernier relevé', __FILE__));
+        $cmdlogic->setEqLogic_id($this->getId());
+        $cmdlogic->setLogicalId('date');
+      }
+      $cmdlogic->setType('info');
+      $cmdlogic->setSubType('string');
+      $cmdlogic->save();
 
       $this->getCrue();
     }
@@ -572,34 +583,23 @@ class vigilancemeteo extends eqLogic {
       log::add('vigilancemeteo', 'error', 'Station non saisie');
       return;
     }
-    $url = "http://www.vigicrues.gouv.fr/niveau3.php?CdStationHydro=".$station."&typegraphe=h&AffProfondeur=24&nbrstations=2&ong=2&Submit=Refaire+le+tableau+-+Valider+la+s%C3%A9lection";
-    //r�cup�ration des donn�es
-    $html = file_get_contents($url);
+    $url = 'http://www.vigicrues.gouv.fr/services/observations.xml/?CdStationHydro='.$station
+    $doc = new DOMDocument();
+    $doc->load($url);
+    
+    $result = 0;
+    foreach($doc->getElementsByTagName('ResObsHydro') as $data) {
+      $result = $data->nodeValue;
+    }
+    
+    $date = 0;
+    foreach($doc->getElementsByTagName('DtObsHydro') as $data) {
+      $date = $data->nodeValue;
+    }
 
-    // from Hervé http://www.abavala.com
-    // nom de la station de relev� et type d'information r�cup�r�e
-    $info = explode("<p class='titre_cadre'>", $html,2);
-    $station = explode(" - ", $info[1],2);
-    $info = explode("</p>", $station[1],2);
-
-    //r�cup�ration du tableau de donn�es
-    $tableau = explode("<table  class='liste'>", $html,2);
-    $tableau = explode("</table>", $tableau[1],2);
-
-    //lecture de la prem�re date du tableau
-    $data = explode("<td>",$tableau[0],2);
-    $datadate = explode("</td>",$data[1],2);
-
-    //lecture du relev� associ�
-    $data = explode("<td align='right'>",$tableau[0],2);
-    $datareleve = explode("</td>",$data[1],2);
-
-    log::add('vigilancemeteo', 'debug', 'Valeur ' . $datareleve[0]);
-
-    $cmdlogic = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'niveau');
-    $cmdlogic->setConfiguration('value', $datareleve[0]);
-    $cmdlogic->save();
-    $cmdlogic->event($datareleve[0]);
+    log::add('vigilancemeteo', 'debug', 'Valeur ' . $result);
+    $this->checkAndUpdateCmd('niveau', $result);
+    $this->checkAndUpdateCmd('date', $date);
 
     return ;
   }
