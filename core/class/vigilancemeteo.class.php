@@ -614,6 +614,7 @@ class vigilancemeteo extends eqLogic {
     $doc = new DOMDocument();
     $doc->load($url);
 
+     $result = 0;
     foreach($doc->getElementsByTagName('prob') as $data) {
       $result = str_replace("%", "", $data->nodeValue);
     }
