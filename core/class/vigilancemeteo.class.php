@@ -583,7 +583,7 @@ class vigilancemeteo extends eqLogic {
       log::add('vigilancemeteo', 'error', 'Station non saisie');
       return;
     }
-    $url = 'http://www.vigicrues.gouv.fr/services/observations.xml/?CdStationHydro='.$station
+    $url = 'http://www.vigicrues.gouv.fr/services/observations.xml/?CdStationHydro='.$station;
     $doc = new DOMDocument();
     $doc->load($url);
     
