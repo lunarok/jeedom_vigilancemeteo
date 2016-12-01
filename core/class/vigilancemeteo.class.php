@@ -175,12 +175,34 @@ class vigilancemeteo extends eqLogic {
       $cmdlogic->setSubType('numeric');
       $cmdlogic->save();
       
-      $cmdlogic = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'date');
+      $cmdlogic = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'dateniveau');
       if (!is_object($cmdlogic)) {
         $cmdlogic = new vigilancemeteoCmd();
-        $cmdlogic->setName(__('Dernier relevé', __FILE__));
+        $cmdlogic->setName(__('Dernier relevé niveau', __FILE__));
         $cmdlogic->setEqLogic_id($this->getId());
-        $cmdlogic->setLogicalId('date');
+        $cmdlogic->setLogicalId('dateniveau');
+      }
+      $cmdlogic->setType('info');
+      $cmdlogic->setSubType('string');
+      $cmdlogic->save();
+      
+      $cmdlogic = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'debit');
+      if (!is_object($cmdlogic)) {
+        $cmdlogic = new vigilancemeteoCmd();
+        $cmdlogic->setName(__('Débit d\'eau', __FILE__));
+        $cmdlogic->setEqLogic_id($this->getId());
+        $cmdlogic->setLogicalId('debit');
+      }
+      $cmdlogic->setType('info');
+      $cmdlogic->setSubType('numeric');
+      $cmdlogic->save();
+      
+      $cmdlogic = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'datedebit');
+      if (!is_object($cmdlogic)) {
+        $cmdlogic = new vigilancemeteoCmd();
+        $cmdlogic->setName(__('Dernier relevé débit', __FILE__));
+        $cmdlogic->setEqLogic_id($this->getId());
+        $cmdlogic->setLogicalId('datedebit');
       }
       $cmdlogic->setType('info');
       $cmdlogic->setSubType('string');
@@ -599,7 +621,25 @@ class vigilancemeteo extends eqLogic {
 
     log::add('vigilancemeteo', 'debug', 'Valeur ' . $result);
     $this->checkAndUpdateCmd('niveau', $result);
-    $this->checkAndUpdateCmd('date', $date);
+    $this->checkAndUpdateCmd('dateniveau', $date);
+    
+     $url = 'http://www.vigicrues.gouv.fr/services/observations.xml/?CdStationHydro='.$station.'&GrdSerie=Q';
+    $doc = new DOMDocument();
+    $doc->load($url);
+    
+    $result = 0;
+    foreach($doc->getElementsByTagName('ResObsHydro') as $data) {
+      $result = $data->nodeValue;
+    }
+    
+    $date = 0;
+    foreach($doc->getElementsByTagName('DtObsHydro') as $data) {
+      $date = $data->nodeValue;
+    }
+
+    log::add('vigilancemeteo', 'debug', 'Valeur ' . $result);
+    $this->checkAndUpdateCmd('debit', $result);
+    $this->checkAndUpdateCmd('datedebit', $date);
 
     return ;
   }
