@@ -1,11 +1,11 @@
 {
     "plugins\/vigilancemeteo\/desktop\/php\/vigilancemeteo.php": {
-        "Ajouter un équipement": "Ajouter un équipement",
-        "Rechercher": "Rechercher",
+        "Ajouter un équipement": "Add an equipment",
+        "Rechercher": "Search",
         "Mes Vigilances Météo": "Mes Vigilances Météo",
-        "Sauvegarder": "Sauvegarder",
-        "Supprimer": "Supprimer",
-        "Configuration avancée": "Configuration avancée",
+        "Sauvegarder": "Save",
+        "Supprimer": "Delete",
+        "Configuration avancée": "Advanced setup",
         "Equipement": "Equipement",
         "Commandes": "Commandes",
         "Nom": "Nom",

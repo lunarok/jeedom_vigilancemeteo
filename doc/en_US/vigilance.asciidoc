@@ -1,4 +1,4 @@
-==== Présentation
+==== Introduction
 
 Ce plugin permet d'obtenir des informations de vigilance météo fournis par Météo France
 

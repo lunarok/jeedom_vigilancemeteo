@@ -1,4 +1,4 @@
-==== Présentation
+==== Introduction
 
 Ce plugin permet d'obtenir des informations sur les heures et l'indice de marée depuis http://maree.info/
 

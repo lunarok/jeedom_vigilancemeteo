@@ -1,4 +1,4 @@
-==== Présentation
+==== Introduction
 
 Le plugin permet de récupérer les données de Météo France pour la prévision pluie à 1H.
 

@@ -1,4 +1,4 @@
-==== Présentation
+==== Introduction
 
 Ce plugin permet d'obtenir des informations sur le niveau d'eau depuis http://www.vigicrues.gouv.fr/
 

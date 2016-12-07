@@ -1,6 +1,6 @@
-==== Présentation
+==== Introduction
 
-Ce plugin permet d'obtenir la probabilité de séisme depuis http://www.openhazards.com/data/GetEarthquakeProbability
+This plugin allows to get the probability of earthquake since http://www.openhazards.com/data/GetEarthquakeProbability
 
 ==== Configuration du type
 

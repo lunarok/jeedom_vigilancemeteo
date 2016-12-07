@@ -1,4 +1,4 @@
-==== Présentation
+==== Introduction
 
 Ce plugin permet d'obtenir l'indice de qualité d'air depuis https://breezometer.com/api/
 
