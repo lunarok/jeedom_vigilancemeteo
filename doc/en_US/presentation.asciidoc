@@ -1,4 +1,4 @@
-==== Vigilance Météo
+==== Vigilance weather
 
 Ce plugin permet de créer des équipements météo de plusieurs types :
 
