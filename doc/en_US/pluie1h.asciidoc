@@ -6,7 +6,7 @@ La couverture de ce service n’est pas disponible sur toute la France en raison
 
 http://www.meteofrance.com/previsions-meteo-france/previsions-pluie
 
-==== Configuration du type
+==== Type Configuration 
 
 Puis il faut renseigner la ville, pour cela, cliquer sur le bouton "Trouver la ville".
 

@@ -5,7 +5,7 @@ Ce plugin permet d'obtenir des informations de vigilance météo fournis par Mé
 Sur le widget un clique sue le bouton information, vous permet d'accéder au site Vigilance Météo pour votre département
 
 
-==== Configuration du type
+==== Type Configuration 
 
 Il faut choisir son département sur la page de l'équipement.
 

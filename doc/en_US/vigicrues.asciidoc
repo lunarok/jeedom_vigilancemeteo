@@ -2,7 +2,7 @@
 
 Ce plugin permet d'obtenir des informations sur le niveau d'eau depuis http://www.vigicrues.gouv.fr/
 
-==== Configuration du type
+==== Type Configuration 
 
 Il faut choisir sa station sur la page de l'équipement.
 

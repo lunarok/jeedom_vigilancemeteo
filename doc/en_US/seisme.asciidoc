@@ -2,7 +2,7 @@
 
 This plugin allows to get the probability of earthquake since http://www.openhazards.com/data/GetEarthquakeProbability
 
-==== Configuration du type
+==== Type Configuration 
 
 Il faut renseigner une ville voulue dans le champ de configuration (l'information est récupérée pour un rayon de 100kms)
 

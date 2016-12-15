@@ -2,7 +2,7 @@
 
 Ce plugin permet d'obtenir l'indice de qualité d'air depuis https://breezometer.com/api/
 
-==== Configuration du type
+==== Type Configuration 
 
 Il faut renseigner une geoloc voulue dans le champ de configuration et la clef API
 
