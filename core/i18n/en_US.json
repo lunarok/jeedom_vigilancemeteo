@@ -23,7 +23,7 @@
         "Marées": "Marées",
         "Qualité d'Air": "Qualité d'Air",
         "Séisme": "Séisme",
-        "Ville": "Ville",
+        "Ville": "City",
         "ID Ville": "ID Ville",
         "Trouver la ville": "Trouver la ville",
         "Port": "Port",
@@ -48,9 +48,9 @@
         "Indicateur Marée": "Indicateur Marée",
         "Pleine Mer": "Pleine Mer",
         "Basse Mer": "Basse Mer",
-        "Niveau d'eau": "Niveau d'eau",
+        "Niveau d'eau": "Water level",
         "Previsions Textuelles": "Previsions Textuelles",
-        "Dernière mise à jour": "Dernière mise à jour",
+        "Dernière mise à jour": "Last updated",
         "Pluie prévue dans l heure": "Pluie prévue dans l heure",
         "Prévision à 0-5": "Prévision à 0-5",
         "Prévision à 5-10": "Prévision à 5-10",
@@ -65,7 +65,7 @@
         "Prévision à 50-55": "Prévision à 50-55",
         "Prévision à 55-60": "Prévision à 55-60",
         "Vigilance": "Vigilance",
-        "Crue": "Crue",
+        "Crue": "Flood",
         "Risque": "Risque"
     }
 }
