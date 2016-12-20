@@ -103,13 +103,6 @@ $eqLogics = eqLogic::byType('vigilancemeteo');
             </div>
 
             <div class="form-group">
-              <label class="col-sm-3 control-label">{{Commentaire}}</label>
-              <div class="col-sm-3">
-                <textarea class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="commentaire" ></textarea>
-              </div>
-            </div>
-
-            <div class="form-group">
               <label class="col-sm-3 control-label" >{{Type de Vigilance}}</label>
               <div class="col-sm-3">
                 <select id="typeEq" class="form-control eqLogicAttr" data-l1key="configuration" data-l2key="type">
@@ -117,8 +110,9 @@ $eqLogics = eqLogic::byType('vigilancemeteo');
                   <option value="pluie1h">{{Pluie à 1h Météo France}}</option>
                   <option value="crue">{{Vigicrues}}</option>
                   <option value="maree">{{Marées}}</option>
-                  <option value="air">{{Qualité d'Air}}</option>
+                  <option value="surf">{{Surf}}</option>
                   <option value="seisme">{{Séisme}}</option>
+                  <option value="air">{{Qualité d'Air}}</option>
                 </select>
               </div>
             </div>
@@ -208,6 +202,22 @@ $eqLogics = eqLogic::byType('vigilancemeteo');
               </select>
             </div>
           </div>
+
+          <div id="surfEq" class="form-group" style="display:none">
+            <label class="col-sm-3 control-label">{{ID Spot}}</label>
+            <div class="col-sm-3">
+              <input type="text" class="eqLogicAttr configuration form-control" data-l1key="configuration" data-l2key="surf" placeholder="exemple 1"/>
+            </select>
+          </div>
+        </div>
+
+        <div id="mswEq" class="form-group" style="display:none">
+          <label class="col-sm-3 control-label">{{Clef Magicseaweed}}</label>
+          <div class="col-sm-3">
+            <input type="text" class="eqLogicAttr configuration form-control" data-l1key="configuration" data-l2key="magicseaweed" placeholder="clef API"/>
+          </select>
+        </div>
+      </div>
 
         </fieldset>
       </form>
