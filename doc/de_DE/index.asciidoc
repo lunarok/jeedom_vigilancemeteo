@@ -26,5 +26,9 @@ include::seisme.asciidoc[]
 include::air.asciidoc[]
 
 '''
+== Surf
+include::surf.asciidoc[]
+
+'''
 == FAQ
 include::faq.asciidoc[]
