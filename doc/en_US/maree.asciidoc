@@ -1,6 +1,6 @@
 ==== Introduction
 
-Ce plugin permet d'obtenir des informations sur les heures et l'indice de marée depuis http://maree.info/
+This plugin allows to obtain information on the hours and the tide index from http://maree.info/
 
 ==== Type Configuration 
 

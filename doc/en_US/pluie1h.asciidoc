@@ -1,6 +1,6 @@
 ==== Introduction
 
-Le plugin permet de récupérer les données de Météo France pour la prévision pluie à 1H.
+The plugin allows to recover the data of Météo France for rain forecast within 1 hour.
 
 La couverture de ce service n’est pas disponible sur toute la France en raison des reliefs, voici la carte de couveture Météo France:
 
