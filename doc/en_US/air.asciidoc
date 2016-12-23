@@ -1,6 +1,6 @@
 ==== Introduction
 
-Ce plugin permet d'obtenir l'indice de qualité d'air depuis https://breezometer.com/api/
+This plugin allows to get from https://breezometer.com/api/ air quality index
 
 ==== Type Configuration 
 
