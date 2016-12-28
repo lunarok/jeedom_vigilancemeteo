@@ -1,4 +1,4 @@
-==== Présentation
+==== Introduction
 
 Ce plugin permet d'obtenir des informations sur les vagues depuis http://magicseaweed.com/
 
