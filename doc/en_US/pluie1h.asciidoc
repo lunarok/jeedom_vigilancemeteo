@@ -2,7 +2,7 @@
 
 The plugin allows to recover the data of Météo France for rain forecast within 1 hour.
 
-La couverture de ce service n’est pas disponible sur toute la France en raison des reliefs, voici la carte de couveture Météo France:
+The coverage of this service is not available on all France due to reliefs, here is the map of coverage from Météo France:
 
 http://www.meteofrance.com/previsions-meteo-france/previsions-pluie
 

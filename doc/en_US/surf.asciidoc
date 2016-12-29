@@ -1,6 +1,6 @@
 ==== Introduction
 
-Ce plugin permet d'obtenir des informations sur les vagues depuis http://magicseaweed.com/
+This plugin allows to get information about the waves from http://magicseaweed.com/
 
 ==== Configuration du type
 
