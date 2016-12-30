@@ -72,6 +72,7 @@ class vigilancemeteo extends eqLogic {
         foreach (eqLogic::byType('vigilancemeteo', true) as $vigilancemeteo) {
             foreach ($vigilancemeteo->getCmd() as $cmd) {
                 $cmd->setConfiguration('alert', '0');
+                $cmd->setConfiguration('repeatEventManagement','always');
                 $cmd->save();
             }
         }
