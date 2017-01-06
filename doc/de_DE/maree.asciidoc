@@ -1,8 +1,8 @@
-==== Présentation
+==== Präsentation
 
 Ce plugin permet d'obtenir des informations sur les heures et l'indice de marée depuis http://maree.info/
 
-==== Configuration du type
+==== Typ Konfiguration
 
 Le numéro de port se récupère en allant sur http://maree.info/, on clique le port voulu et on obtient une url contenant une valeur numérique, c'est elle qui fait saisir
 

@@ -1,4 +1,4 @@
-==== Présentation
+==== Präsentation
 
 Le plugin permet de récupérer les données de Météo France pour la prévision pluie à 1H.
 
@@ -6,13 +6,13 @@ La couverture de ce service n’est pas disponible sur toute la France en raison
 
 http://www.meteofrance.com/previsions-meteo-france/previsions-pluie
 
-==== Configuration du type
+==== Typ Konfiguration
 
 Puis il faut renseigner la ville, pour cela, cliquer sur le bouton "Trouver la ville".
 
 Dans la fenêtre qui s’ouvre, rentrer le nom de la ville (ou les premiers caractères), et cliquer sur la ville qui doit apparaitre en dessous.
 
-==== Informations disponibles
+==== Verfügbare Informationen 
 
 Le plugin affiche une barre d’une durée de 1H, qui présente la prévision de pluie par tranche de 5 minutes.
 
