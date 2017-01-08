@@ -1,0 +1,13 @@
+==== Präsentation
+
+Ce plugin permet d'obtenir la probabilité de séisme depuis http://www.openhazards.com/data/GetEarthquakeProbability
+
+==== Typ Konfiguration
+
+Il faut renseigner une ville voulue dans le champ de configuration (l'information est récupérée pour un rayon de 100kms)
+
+==== Verfügbare Informationen 
+
+Ce plugin permet d'obtenir des informations de risque de séisme :
+
+- probabibilité de séisme de magnitude 5 ou plus dans les 3 prochains jours (en %)

@@ -1,0 +1,15 @@
+==== Introduction
+
+This plugin makes it possible to obtain information on the level of water from http://www.vigicrues.gouv.fr/
+
+==== Type Configuration 
+
+Il faut choisir sa station sur la page de l'équipement.
+
+Le numéro de station se récupère en allant sur http://www.vigicrues.gouv.fr/, on sélectionne la station voulue
+
+Dans l'url on a un paramètre CdStationHydro, c'est sa valeur qui est à mettre dans la page équipement
+
+==== Informations disponibles
+
+Seul le niveau d'eau du dernier relevé est remonté

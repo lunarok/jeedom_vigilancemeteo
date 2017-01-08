@@ -1,0 +1,13 @@
+==== Präsentation
+
+Ce plugin permet d'obtenir l'indice de qualité d'air depuis https://breezometer.com/api/
+
+==== Typ Konfiguration
+
+Il faut renseigner une geoloc voulue dans le champ de configuration et la clef API
+
+==== Verfügbare Informationen 
+
+Ce plugin permet d'obtenir les informations de qualité d'air :
+
+- indice de qualité général

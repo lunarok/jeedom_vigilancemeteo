@@ -1,0 +1,37 @@
+==== Präsentation
+
+Le plugin permet de récupérer les données de Météo France pour la prévision pluie à 1H.
+
+La couverture de ce service n’est pas disponible sur toute la France en raison des reliefs, voici la carte de couveture Météo France:
+
+http://www.meteofrance.com/previsions-meteo-france/previsions-pluie
+
+==== Typ Konfiguration
+
+Puis il faut renseigner la ville, pour cela, cliquer sur le bouton "Trouver la ville".
+
+Dans la fenêtre qui s’ouvre, rentrer le nom de la ville (ou les premiers caractères), et cliquer sur la ville qui doit apparaitre en dessous.
+
+==== Verfügbare Informationen 
+
+Le plugin affiche une barre d’une durée de 1H, qui présente la prévision de pluie par tranche de 5 minutes.
+
+Les prévisions possibles sont:
+
+  -  Pas de pluie (valeur 1)
+
+  -  Pluie Faible (valeur 2)
+
+  -  Pluie Modérée (valeur 3)
+
+  -  Pluie Forte (valeur 4)
+
+Il est possible d’obtenir la prévision potentielle de pluie dans l’heure à travers la commande "Pluie prévue dans l heure".
+
+Celle-ci est de type numérique et représente une probabilité globale de pluie dans l’heure.
+
+Si celle-ci est inférieure ou égale à 12 (12 périodes de valeur 1: pas de pluie), alors il n’y a pas de pluie prévue dans l’heure.
+
+Puis, plus la valeur augmente, plus la probabilité de pluie (et la quantité) augmente. La valeur maximale est de 48 (1H de pluie forte sur 12 périodes de valeur 4).
+
+Les prévisions par tranche de 5 min sont égalgement disponibles.

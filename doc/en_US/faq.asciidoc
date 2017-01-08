@@ -1,0 +1,11 @@
+[panel,primary]
+. Is the plugin relies on third-party API?
+--
+Oui il utilise des sites pour récupérer ses infos.
+--
+
+[panel,danger]
+.Je n'ai pas d'informations qui remontent
+--
+Il faut bien créer un équipement et choisir le type qui correspond à l'usage souhaité.
+--

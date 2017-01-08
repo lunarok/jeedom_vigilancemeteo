@@ -1,28 +1,28 @@
-== Description
+== Beschreibung
 include::presentation.asciidoc[]
 
 '''
-== Vigilance
+== Überwachung
 include::vigilance.asciidoc[]
 
 '''
-== Crue
+== Hochwasser
 include::vigicrues.asciidoc[]
 
 '''
-== Marée
+== Ebbe und Flut
 include::maree.asciidoc[]
 
 '''
-== Pluie 1H
+== Regen 1H
 include::pluie1h.asciidoc[]
 
 '''
-== Séisme
+== Erdbeben
 include::seisme.asciidoc[]
 
 '''
-== Qualité d'Air
+== Luftqualität
 include::air.asciidoc[]
 
 '''

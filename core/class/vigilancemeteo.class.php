@@ -18,753 +18,1016 @@
 require_once dirname(__FILE__) . '/../../../../core/php/core.inc.php';
 
 class vigilancemeteo extends eqLogic {
+    const LEVEL = array('vert', 'vert', 'jaune', 'orange', 'rouge');
 
-  public static $_widgetPossibility = array('custom' => true);
+    public static $_widgetPossibility = array('custom' => true);
 
-  public static function cron15() {
-    foreach (eqLogic::byType('vigilancemeteo', true) as $vigilancemeteo) {
-      if ($vigilancemeteo->getConfiguration('type') == 'vigilance') {
-        $vigilancemeteo->getVigilance();
-        $vigilancemeteo->refreshWidget();
-      }
-      if ($vigilancemeteo->getConfiguration('type') == 'pluie1h') {
-        $vigilancemeteo->getPluie();
-        $vigilancemeteo->refreshWidget();
-      }
-    }
-    log::add('vigilancemeteo', 'debug', '15mn cron');
-  }
-
-  public static function cronHourly() {
-    foreach (eqLogic::byType('vigilancemeteo', true) as $vigilancemeteo) {
-      if ($vigilancemeteo->getConfiguration('type') == 'maree') {
-        $vigilancemeteo->getMaree();
-        $vigilancemeteo->refreshWidget();
-      }
-      if ($vigilancemeteo->getConfiguration('type') == 'crues') {
-        $vigilancemeteo->getCrue();
-        $vigilancemeteo->refreshWidget();
-      }
-    }
-    log::add('vigilancemeteo', 'debug', 'Hourly cron');
-  }
-
-  public static function cronDaily() {
-    foreach (eqLogic::byType('vigilancemeteo', true) as $vigilancemeteo) {
-      foreach ($vigilancemeteo->getCmd() as $cmd) {
-        $cmd->setConfiguration('alert', '0');
-        $cmd->save();
-      }
-    }
-  }
-
-  public function postUpdate() {
-    $depmer = array("06","11","13","14","17","2A","2B","22","29","30","33","34","35","40","44","50","56","59","62","64","66","76","80","83","85");
-    if ($this->getConfiguration('type') == 'vigilance') {
-      $cmdlogic = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'vigilance');
-      if (!is_object($cmdlogic)) {
-        $cmdlogic = new vigilancemeteoCmd();
-        $cmdlogic->setName(__('Vigilance', __FILE__));
-        $cmdlogic->setEqLogic_id($this->getId());
-        $cmdlogic->setLogicalId('vigilance');
-        $cmdlogic->setConfiguration('data', 'vigilance');
-      }
-      $cmdlogic->setType('info');
-      $cmdlogic->setSubType('string');
-      $cmdlogic->save();
-
-      $cmdlogic = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'crue');
-      if (!is_object($cmdlogic)) {
-        $cmdlogic = new vigilancemeteoCmd();
-        $cmdlogic->setName(__('Crue', __FILE__));
-        $cmdlogic->setEqLogic_id($this->getId());
-        $cmdlogic->setLogicalId('crue');
-        $cmdlogic->setConfiguration('data', 'crue');
-      }
-      $cmdlogic->setType('info');
-      $cmdlogic->setSubType('string');
-      $cmdlogic->save();
-
-      $cmdlogic = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'risque');
-      if (!is_object($cmdlogic)) {
-        $cmdlogic = new vigilancemeteoCmd();
-        $cmdlogic->setName(__('Risque', __FILE__));
-        $cmdlogic->setEqLogic_id($this->getId());
-        $cmdlogic->setLogicalId('risque');
-        $cmdlogic->setConfiguration('data', 'risque');
-      }
-      $cmdlogic->setType('info');
-      $cmdlogic->setSubType('string');
-      $cmdlogic->save();
-
-      if (in_array($this->getConfiguration('departement'), $depmer)) {
-        $cmdlogic = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'mer');
-        if (!is_object($cmdlogic)) {
-          $cmdlogic = new vigilancemeteoCmd();
-          $cmdlogic->setName(__('Mer', __FILE__));
-          $cmdlogic->setEqLogic_id($this->getId());
-          $cmdlogic->setLogicalId('mer');
-          $cmdlogic->setConfiguration('data', 'mer');
+    public static function cron15() {
+        foreach (eqLogic::byType('vigilancemeteo', true) as $vigilancemeteo) {
+            if ($vigilancemeteo->getConfiguration('type') == 'vigilance') {
+                $vigilancemeteo->getVigilance();
+                $vigilancemeteo->refreshWidget();
+            }
+            if ($vigilancemeteo->getConfiguration('type') == 'crue') {
+                $vigilancemeteo->getCrue();
+                $vigilancemeteo->refreshWidget();
+            }
         }
-        $cmdlogic->setType('info');
-        $cmdlogic->setSubType('string');
+        log::add('vigilancemeteo', 'debug', '15mn cron');
+    }
+
+    public static function cron5() {
+        foreach (eqLogic::byType('vigilancemeteo', true) as $vigilancemeteo) {
+            if ($vigilancemeteo->getConfiguration('type') == 'pluie1h') {
+                $vigilancemeteo->getPluie();
+                $vigilancemeteo->refreshWidget();
+            }
+        }
+        log::add('vigilancemeteo', 'debug', '5mn cron');
+    }
+
+    public static function cronHourly() {
+        foreach (eqLogic::byType('vigilancemeteo', true) as $vigilancemeteo) {
+            if ($vigilancemeteo->getConfiguration('type') == 'maree') {
+                $vigilancemeteo->getMaree();
+                $vigilancemeteo->refreshWidget();
+            }
+            if ($vigilancemeteo->getConfiguration('type') == 'air') {
+                $vigilancemeteo->getAir();
+                $vigilancemeteo->refreshWidget();
+            }
+            if ($vigilancemeteo->getConfiguration('type') == 'seisme') {
+                $vigilancemeteo->getSeisme();
+                $vigilancemeteo->refreshWidget();
+            }
+            if ($vigilancemeteo->getConfiguration('type') == 'surf') {
+                $vigilancemeteo->getSurf();
+                $vigilancemeteo->refreshWidget();
+            }
+        }
+        log::add('vigilancemeteo', 'debug', 'Hourly cron');
+    }
+
+    public static function cronDaily() {
+        foreach (eqLogic::byType('vigilancemeteo', true) as $vigilancemeteo) {
+            foreach ($vigilancemeteo->getCmd() as $cmd) {
+                $cmd->setConfiguration('alert', '0');
+                $cmd->setConfiguration('repeatEventManagement','always');
+                $cmd->save();
+            }
+        }
+    }
+
+    public function postUpdate() {
+        $depmer = array("06","11","13","14","17","2A","2B","22","29","30","33","34","35","40","44","50","56","59","62","64","66","76","80","83","85");
+        if ($this->getConfiguration('type') == 'vigilance') {
+            $cmdlogic = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'vigilance');
+            if (!is_object($cmdlogic)) {
+                $cmdlogic = new vigilancemeteoCmd();
+                $cmdlogic->setName(__('Vigilance', __FILE__));
+                $cmdlogic->setEqLogic_id($this->getId());
+                $cmdlogic->setLogicalId('vigilance');
+                $cmdlogic->setConfiguration('data', 'vigilance');
+            }
+            $cmdlogic->setType('info');
+            $cmdlogic->setSubType('string');
+            $cmdlogic->save();
+
+            $cmdlogic = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'crue');
+            if (!is_object($cmdlogic)) {
+                $cmdlogic = new vigilancemeteoCmd();
+                $cmdlogic->setName(__('Crue', __FILE__));
+                $cmdlogic->setEqLogic_id($this->getId());
+                $cmdlogic->setLogicalId('crue');
+                $cmdlogic->setConfiguration('data', 'crue');
+            }
+            $cmdlogic->setType('info');
+            $cmdlogic->setSubType('string');
+            $cmdlogic->save();
+
+            $cmdlogic = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'risque');
+            if (!is_object($cmdlogic)) {
+                $cmdlogic = new vigilancemeteoCmd();
+                $cmdlogic->setName(__('Risque', __FILE__));
+                $cmdlogic->setEqLogic_id($this->getId());
+                $cmdlogic->setLogicalId('risque');
+                $cmdlogic->setConfiguration('data', 'risque');
+            }
+            $cmdlogic->setType('info');
+            $cmdlogic->setSubType('string');
+            $cmdlogic->save();
+
+            if (in_array($this->getConfiguration('departement'), $depmer)) {
+                $cmdlogic = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'mer');
+                if (!is_object($cmdlogic)) {
+                    $cmdlogic = new vigilancemeteoCmd();
+                    $cmdlogic->setName(__('Mer', __FILE__));
+                    $cmdlogic->setEqLogic_id($this->getId());
+                    $cmdlogic->setLogicalId('mer');
+                    $cmdlogic->setConfiguration('data', 'mer');
+                }
+                $cmdlogic->setType('info');
+                $cmdlogic->setSubType('string');
+                $cmdlogic->save();
+            }
+            $this->getVigilance();
+        }
+        if ($this->getConfiguration('type') == 'maree') {
+            $cmdlogic = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'maree');
+            if (!is_object($cmdlogic)) {
+                $cmdlogic = new vigilancemeteoCmd();
+                $cmdlogic->setName(__('Indicateur Marée', __FILE__));
+                $cmdlogic->setEqLogic_id($this->getId());
+                $cmdlogic->setLogicalId('maree');
+            }
+            $cmdlogic->setType('info');
+            $cmdlogic->setSubType('numeric');
+            $cmdlogic->save();
+
+            $cmdlogic = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'pleine');
+            if (!is_object($cmdlogic)) {
+                $cmdlogic = new vigilancemeteoCmd();
+                $cmdlogic->setName(__('Pleine Mer', __FILE__));
+                $cmdlogic->setEqLogic_id($this->getId());
+                $cmdlogic->setLogicalId('pleine');
+            }
+            $cmdlogic->setType('info');
+            $cmdlogic->setSubType('numeric');
+            $cmdlogic->save();
+
+            $cmdlogic = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'basse');
+            if (!is_object($cmdlogic)) {
+                $cmdlogic = new vigilancemeteoCmd();
+                $cmdlogic->setName(__('Basse Mer', __FILE__));
+                $cmdlogic->setEqLogic_id($this->getId());
+                $cmdlogic->setLogicalId('basse');
+            }
+            $cmdlogic->setType('info');
+            $cmdlogic->setSubType('numeric');
+            $cmdlogic->save();
+
+            $this->getMaree();
+        }
+        if ($this->getConfiguration('type') == 'crue') {
+            $cmdlogic = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'niveau');
+            if (!is_object($cmdlogic)) {
+                $cmdlogic = new vigilancemeteoCmd();
+                $cmdlogic->setName(__('Niveau d\'eau', __FILE__));
+                $cmdlogic->setEqLogic_id($this->getId());
+                $cmdlogic->setLogicalId('niveau');
+            }
+            $cmdlogic->setType('info');
+            $cmdlogic->setSubType('numeric');
+            $cmdlogic->save();
+
+            $cmdlogic = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'dateniveau');
+            if (!is_object($cmdlogic)) {
+                $cmdlogic = new vigilancemeteoCmd();
+                $cmdlogic->setName(__('Dernier relevé niveau', __FILE__));
+                $cmdlogic->setEqLogic_id($this->getId());
+                $cmdlogic->setLogicalId('dateniveau');
+            }
+            $cmdlogic->setType('info');
+            $cmdlogic->setSubType('string');
+            $cmdlogic->save();
+
+            $cmdlogic = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'debit');
+            if (!is_object($cmdlogic)) {
+                $cmdlogic = new vigilancemeteoCmd();
+                $cmdlogic->setName(__('Débit d\'eau', __FILE__));
+                $cmdlogic->setEqLogic_id($this->getId());
+                $cmdlogic->setLogicalId('debit');
+            }
+            $cmdlogic->setType('info');
+            $cmdlogic->setSubType('numeric');
+            $cmdlogic->save();
+
+            $cmdlogic = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'datedebit');
+            if (!is_object($cmdlogic)) {
+                $cmdlogic = new vigilancemeteoCmd();
+                $cmdlogic->setName(__('Dernier relevé débit', __FILE__));
+                $cmdlogic->setEqLogic_id($this->getId());
+                $cmdlogic->setLogicalId('datedebit');
+            }
+            $cmdlogic->setType('info');
+            $cmdlogic->setSubType('string');
+            $cmdlogic->save();
+
+            $this->getCrue();
+        }
+        if ($this->getConfiguration('type') == 'air') {
+            $cmdlogic = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'aqi');
+            if (!is_object($cmdlogic)) {
+                $cmdlogic = new vigilancemeteoCmd();
+                $cmdlogic->setName(__('Index Qualité Air', __FILE__));
+                $cmdlogic->setEqLogic_id($this->getId());
+                $cmdlogic->setLogicalId('aqi');
+            }
+            $cmdlogic->setType('info');
+            $cmdlogic->setSubType('numeric');
+            $cmdlogic->save();
+
+            $cmdlogic = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'color');
+            if (!is_object($cmdlogic)) {
+                $cmdlogic = new vigilancemeteoCmd();
+                $cmdlogic->setName(__('Couleur Qualité Air', __FILE__));
+                $cmdlogic->setEqLogic_id($this->getId());
+                $cmdlogic->setLogicalId('color');
+            }
+            $cmdlogic->setType('info');
+            $cmdlogic->setSubType('string');
+            $cmdlogic->save();
+
+            $this->getAir();
+        }
+        if ($this->getConfiguration('type') == 'surf') {
+            $cmdlogic = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'minimum');
+            if (!is_object($cmdlogic)) {
+                $cmdlogic = new vigilancemeteoCmd();
+                $cmdlogic->setName(__('Hauteur minimum des Vagues', __FILE__));
+                $cmdlogic->setEqLogic_id($this->getId());
+                $cmdlogic->setLogicalId('minimum');
+            }
+            $cmdlogic->setType('info');
+            $cmdlogic->setSubType('numeric');
+            $cmdlogic->save();
+
+            $cmdlogic = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'maximum');
+            if (!is_object($cmdlogic)) {
+                $cmdlogic = new vigilancemeteoCmd();
+                $cmdlogic->setName(__('Hauteur maximum des Vagues', __FILE__));
+                $cmdlogic->setEqLogic_id($this->getId());
+                $cmdlogic->setLogicalId('maximum');
+            }
+            $cmdlogic->setType('info');
+            $cmdlogic->setSubType('numeric');
+            $cmdlogic->save();
+
+            $cmdlogic = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'primaryHeight');
+            if (!is_object($cmdlogic)) {
+                $cmdlogic = new vigilancemeteoCmd();
+                $cmdlogic->setName(__('Hauteur des Vagues en arrivée', __FILE__));
+                $cmdlogic->setEqLogic_id($this->getId());
+                $cmdlogic->setLogicalId('primaryHeight');
+            }
+            $cmdlogic->setType('info');
+            $cmdlogic->setSubType('numeric');
+            $cmdlogic->save();
+
+            $cmdlogic = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'primaryPeriod');
+            if (!is_object($cmdlogic)) {
+                $cmdlogic = new vigilancemeteoCmd();
+                $cmdlogic->setName(__('Fréquence des Vagues en arrivée', __FILE__));
+                $cmdlogic->setEqLogic_id($this->getId());
+                $cmdlogic->setLogicalId('primaryPeriod');
+            }
+            $cmdlogic->setType('info');
+            $cmdlogic->setSubType('numeric');
+            $cmdlogic->save();
+
+            $cmdlogic = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'compassDirection');
+            if (!is_object($cmdlogic)) {
+                $cmdlogic = new vigilancemeteoCmd();
+                $cmdlogic->setName(__('Direction des Vagues', __FILE__));
+                $cmdlogic->setEqLogic_id($this->getId());
+                $cmdlogic->setLogicalId('compassDirection');
+            }
+            $cmdlogic->setType('info');
+            $cmdlogic->setSubType('string');
+            $cmdlogic->save();
+
+            $this->getSurf();
+        }
+        if ($this->getConfiguration('type') == 'seisme') {
+            $cmdlogic = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'risk');
+            if (!is_object($cmdlogic)) {
+                $cmdlogic = new vigilancemeteoCmd();
+                $cmdlogic->setName(__('Probabilité de séisme magnitude 5 dans les 3 jours', __FILE__));
+                $cmdlogic->setEqLogic_id($this->getId());
+                $cmdlogic->setLogicalId('risk');
+            }
+            $cmdlogic->setType('info');
+            $cmdlogic->setSubType('numeric');
+            $cmdlogic->save();
+
+            $this->getSeisme();
+        }
+        if ($this->getConfiguration('type') == 'pluie1h') {
+            $vigilancemeteoCmd = $this->getCmd(null, 'prevTexte');
+            if (!is_object($vigilancemeteoCmd)) {
+                $vigilancemeteoCmd = new vigilancemeteoCmd();
+            }
+            $vigilancemeteoCmd->setName(__('Previsions Textuelles', __FILE__));
+            $vigilancemeteoCmd->setEqLogic_id($this->id);
+            $vigilancemeteoCmd->setLogicalId('prevTexte');
+            $vigilancemeteoCmd->setType('info');
+            $vigilancemeteoCmd->setSubType('other');
+            $vigilancemeteoCmd->setEventOnly(1);
+            $vigilancemeteoCmd->setIsVisible(1);
+            $vigilancemeteoCmd->save();
+
+            $vigilancemeteoCmd = $this->getCmd(null, 'lastUpdate');
+            if (!is_object($vigilancemeteoCmd)) {
+                $vigilancemeteoCmd = new vigilancemeteoCmd();
+            }
+            $vigilancemeteoCmd->setName(__('Dernière mise à jour', __FILE__));
+            $vigilancemeteoCmd->setEqLogic_id($this->id);
+            $vigilancemeteoCmd->setLogicalId('lastUpdate');
+            $vigilancemeteoCmd->setType('info');
+            $vigilancemeteoCmd->setSubType('other');
+            $vigilancemeteoCmd->setEventOnly(1);
+            $vigilancemeteoCmd->setIsVisible(1);
+            $vigilancemeteoCmd->save();
+
+            $vigilancemeteoCmd = $this->getCmd(null, 'pluieDanslHeure');
+            if (!is_object($vigilancemeteoCmd)) {
+                $vigilancemeteoCmd = new vigilancemeteoCmd();
+            }
+            $vigilancemeteoCmd->setName(__('Pluie prévue dans l heure', __FILE__));
+            $vigilancemeteoCmd->setEqLogic_id($this->id);
+            $vigilancemeteoCmd->setLogicalId('pluieDanslHeure');
+            $vigilancemeteoCmd->setType('info');
+            $vigilancemeteoCmd->setSubType('other');
+            $vigilancemeteoCmd->setEventOnly(1);
+            $vigilancemeteoCmd->setIsVisible(1);
+            $vigilancemeteoCmd->save();
+
+            for($i=0; $i <= 11; $i++){
+
+                $vigilancemeteoCmd = $this->getCmd(null, 'prev' . $i*5);
+                if (!is_object($vigilancemeteoCmd)) {
+                    $vigilancemeteoCmd = new vigilancemeteoCmd();
+                }
+                $vigilancemeteoCmd->setName(__('Prévision à ' . ($i*5) . '-' . ($i*5+5), __FILE__));
+                $vigilancemeteoCmd->setEqLogic_id($this->id);
+                $vigilancemeteoCmd->setLogicalId('prev' . $i*5);
+                $vigilancemeteoCmd->setType('info');
+                $vigilancemeteoCmd->setSubType('other');
+                $vigilancemeteoCmd->setEventOnly(1);
+                $vigilancemeteoCmd->setIsVisible(0);
+                $vigilancemeteoCmd->save();
+            }
+
+            $this->getPluie();
+        }
+    }
+
+    public function getVigilance() {
+        $departement = $this->getConfiguration('departement');
+        $alert = str_replace('#','',$this->getConfiguration('alert'));
+        if ($departement == '92' || $departement == '93' || $departement == '94') {
+            $departement = '75';
+        }
+        $lvigilance = "vert";
+        $lcrue = "vert";
+        $lrisque = "RAS";
+        $lmer = "vert";
+
+        $doc = new DOMDocument();
+        $doc->load('http://vigilance.meteofrance.com/data/NXFR34_LFPW_.xml');
+
+        /* exemple extrait du fichier, il y a différents niveaux possibles pour les risques
+        <DV dep="33" coul="1"/>
+        <DV dep="3310" coul="1"/>
+        <DV dep="34" coul="3">
+        <risque val="4"/>
+        <risque val="3"/>
+        <risque val="2"/>
+        </DV>
+        <DV dep="34" coul="2">
+        <risque val="1"/>
+        </DV>
+        <DV dep="3410" coul="2">
+        <risque val="9"/>
+        </DV>
+        <DV dep="35" coul="1"/>
+        <DV dep="3510" coul="1"/>
+        */
+        $doc2 = new DOMDocument();
+        $doc2->load('http://vigilance.meteofrance.com/data/NXFR33_LFPW_.xml');
+
+        foreach($doc->getElementsByTagName('datavigilance') as $data) {
+            if ($data->getAttribute('dep') == $departement) {
+                // On récupère le niveau général
+                $lvigilance = self::LEVEL[$data->getAttribute('couleur')];
+
+                // On cherche les alertes "crue"
+                foreach($data->getElementsByTagName('crue') as $crue) {
+                    $lcrue = self::LEVEL[$crue->getAttribute('valeur')];
+                }
+                foreach($data->getElementsByTagName('risque') as $risque) {
+                    switch ($risque->getAttribute('valeur')) {
+                        case 1:
+                        $lrisque = "vent";
+                        break;
+                        case 2:
+                        $lrisque = "pluie-inondation";
+                        break;
+                        case 3:
+                        $lrisque = "orages";
+                        break;
+                        case 4:
+                        $lrisque = "inondations";
+                        break;
+                        case 5:
+                        $lrisque = "neige-verglas";
+                        break;
+                        case 6:
+                        $lrisque = "canicule";
+                        break;
+                        case 7:
+                        $lrisque = "grand-froid";
+                        break;
+                    }
+                }
+            }
+            if ($data->getAttribute('dep') == $departement.'10') {
+                //alerte mer
+                switch ($data->getAttribute('couleur')) {
+                    case 0:
+                    $lmer = "vert";
+                    break;
+                    case 1:
+                    $lmer = "vert";
+                    break;
+                    case 2:
+                    $lmer = "jaune";
+                    break;
+                    case 3:
+                    $lmer = "orange";
+                    break;
+                    case 4:
+                    $lmer = "rouge";
+                    break;
+                }
+
+            }
+        }
+
+        foreach($doc2->getElementsByTagName('DV') as $data) {
+            if ($data->getAttribute('dep') == $departement) {
+                $couleur = self::LEVEL[$data->getAttribute('coul')];
+                foreach($data->getElementsByTagName('risque') as $risque) {
+                    switch ($risque->getAttribute('val')) {
+                        case 1:
+                        if ($lrisque == "RAS") {
+                            $lrisque = "vent ".$couleur;
+                        } else {
+                            $lrisque = $lrisque . ", vent ".$couleur;
+                        }
+                        break;
+                        case 2:
+                        if ($lrisque == "RAS") {
+                            $lrisque = "pluie-inondation ".$couleur;
+                        } else {
+                            $lrisque = $lrisque . ", pluie-inondation ".$couleur;
+                        }
+                        break;
+                        case 3:
+                        if ($lrisque == "RAS") {
+                            $lrisque = "orages ".$couleur;
+                        } else {
+                            $lrisque = $lrisque . ", orages ".$couleur;
+                        }
+                        break;
+                        case 4:
+                        if ($lrisque == "RAS") {
+                            $lrisque = "inondations ".$couleur;
+                        } else {
+                            $lrisque = $lrisque . ", inondations ".$couleur;
+                        }
+                        break;
+                        case 5:
+                        if ($lrisque == "RAS") {
+                            $lrisque = "neige-verglas ".$couleur;
+                        } else {
+                            $lrisque = $lrisque . ", neige-verglas ".$couleur;
+                        }
+                        break;
+                        case 6:
+                        if ($lrisque == "RAS") {
+                            $lrisque = "canicule ".$couleur;
+                        } else {
+                            $lrisque = $lrisque . ", canicule ".$couleur;
+                        }
+                        break;
+                        case 7:
+                        if ($lrisque == "RAS") {
+                            $lrisque = "grand-froid ".$couleur;
+                        } else {
+                            $lrisque = $lrisque . ", grand-froid ".$couleur;
+                        }
+                        break;
+                        case 8:
+                        if ($lrisque == "RAS") {
+                            $lrisque = "avalanches ".$couleur;
+                        } else {
+                            $lrisque = $lrisque . ", avalanches ".$couleur;
+                        }
+                        break;
+                        case 9:
+                        if ($lrisque == "RAS") {
+                            $lrisque = "vagues-submersion ".$couleur;
+                        } else {
+                            $lrisque = $lrisque . ", vagues-submersion ".$couleur;
+                        }
+                        break;
+                    }
+                }
+            }
+        }
+
+        log::add('vigilancemeteo', 'debug', 'Vigilance ' . $lvigilance);
+        log::add('vigilancemeteo', 'debug', 'Crue ' . $lcrue);
+        log::add('vigilancemeteo', 'debug', 'Risque ' . $lrisque);
+
+        foreach ($this->getCmd() as $cmd) {
+            $alertmess = "";
+            //log::add('vigilancemeteo', 'debug', $cmd->getConfiguration('data'));
+            if($cmd->getConfiguration('data')=="vigilance"){
+                if ($lvigilance != "vert") {
+                    if ($cmd->getConfiguration('alert') == '0' && $alert != '') {
+                        $cmd->setConfiguration('alert', '1');
+                        $cmdalerte = cmd::byId($alert);
+                        if ($alertmess != "") {
+                            $alertmess = $alertmess . ", Niveau " . $lcrue . " pour la vigilance";
+                        } else {
+                            $alertmess = "Niveau " . $lcrue . " pour la vigilance";
+                        }
+                    }
+                } else {
+                    $cmd->setConfiguration('alert', '0');
+                }
+                $cmd->setConfiguration('value', $lvigilance);
+                $cmd->save();
+                $cmd->event($lvigilance);
+            }elseif($cmd->getConfiguration('data')=="crue") {
+                log::add('vigilancemeteo', 'debug', $cmd->getConfiguration('data') . ' ' . $lcrue . ' ' . $cmd->getConfiguration('alert'));
+                if ($lcrue != "vert") {
+                    if ($cmd->getConfiguration('alert') == '0' && $alert != '') {
+                        $cmd->setConfiguration('alert', '1');
+                        if ($alertmess != "") {
+                            $alertmess = $alertmess . ", Niveau " . $lcrue . " pour le risque de crue";
+                        } else {
+                            $alertmess = "Niveau " . $lcrue . " pour le risque de crue";
+                        }
+                    }
+                } else {
+                    $cmd->setConfiguration('alert', '0');
+                }
+                $cmd->setConfiguration('value', $lcrue);
+                $cmd->save();
+                $cmd->event($lcrue);
+            }elseif($cmd->getConfiguration('data')=="risque"){
+                if ($lrisque != "RAS") {
+                    if ($cmd->getConfiguration('alert') == '0' && $alert != '') {
+                        $cmd->setConfiguration('alert', '1');
+                        if ($alertmess != "") {
+                            $alertmess = $alertmess . ", Risque " . $lrisque;
+                        } else {
+                            $alertmess = "Risque " . $lrisque;
+                        }
+                    }
+                } else {
+                    $cmd->setConfiguration('alert', '0');
+                }
+                $cmd->setConfiguration('value', $lrisque);
+                $cmd->save();
+                $cmd->event($lrisque);
+            }elseif($cmd->getConfiguration('data')=="mer"){
+                if ($lmer != "vert") {
+                    if ($cmd->getConfiguration('alert') == '0' && $alert != '') {
+                        $cmd->setConfiguration('alert', '1');
+                        if ($alertmess != "") {
+                            $alertmess = $alertmess . ", Niveau " . $lmer . " pour le risque bord de mer";
+                        } else {
+                            $alertmess = "Niveau " . $lmer . " pour le risque bord de mer";
+                        }
+                    }
+                } else {
+                    $cmd->setConfiguration('alert', '0');
+                }
+                $cmd->setConfiguration('value', $lmer);
+                $cmd->save();
+                $cmd->event($lmer);
+            }
+            if ($alertmess != "") {
+                $cmdalerte = cmd::byId($alert);
+                $options['title'] = "Alerte Météo";
+                $options['message'] = "Dpt ".$departement." : " . $alertmess;
+                $cmdalerte->execCmd($options);
+            }
+        }
+        return ;
+    }
+
+    public function getMaree() {
+        $port = $this->getConfiguration('port');
+        if ($port == '') {
+            log::add('crues', 'error', 'Port non saisi');
+            return;
+        }
+        $url = 'http://horloge.maree.frbateaux.net/ws' . $port . '.js?col=1&c=0';
+        $result = file($url);
+
+        //log::add('maree', 'debug', 'Log ' . print_r($result, true));
+
+        $maree = explode('<br>', $result[14]);
+        $maree = explode('"', $maree[1]);
+        $maree = $maree[0];
+        $pleine = explode('PM ', $result[16] );
+        $pleine = substr($pleine[1], 0, 5);
+        $pleine = str_replace('h', '', $pleine);
+        $basse = explode('BM ', $result[16]);
+        $basse = substr($basse[1], 0, 5);
+        $basse = str_replace('h', '', $basse);
+
+        log::add('vigilancemeteo', 'debug', 'Marée ' . $maree . ', Pleine ' . $pleine . ', Basse ' . $basse);
+
+        $cmdlogic = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'maree');
+        $cmdlogic->setConfiguration('value', $maree);
         $cmdlogic->save();
-      }
-      $this->getVigilance();
+        $cmdlogic->event($maree);
+
+        $cmdlogic = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'pleine');
+        $cmdlogic->setConfiguration('value', $pleine);
+        $cmdlogic->save();
+        $cmdlogic->event($pleine);
+
+        $cmdlogic = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'basse');
+        $cmdlogic->setConfiguration('value', $basse);
+        $cmdlogic->save();
+        $cmdlogic->event($basse);
+
+        return ;
     }
-    if ($this->getConfiguration('type') == 'maree') {
-      $cmdlogic = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'maree');
-      if (!is_object($cmdlogic)) {
-        $cmdlogic = new vigilancemeteoCmd();
-        $cmdlogic->setName(__('Indicateur Marée', __FILE__));
-        $cmdlogic->setEqLogic_id($this->getId());
-        $cmdlogic->setLogicalId('maree');
-      }
-      $cmdlogic->setType('info');
-      $cmdlogic->setSubType('numeric');
-      $cmdlogic->save();
 
-      $cmdlogic = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'pleine');
-      if (!is_object($cmdlogic)) {
-        $cmdlogic = new vigilancemeteoCmd();
-        $cmdlogic->setName(__('Pleine Mer', __FILE__));
-        $cmdlogic->setEqLogic_id($this->getId());
-        $cmdlogic->setLogicalId('pleine');
-      }
-      $cmdlogic->setType('info');
-      $cmdlogic->setSubType('numeric');
-      $cmdlogic->save();
-
-      $cmdlogic = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'basse');
-      if (!is_object($cmdlogic)) {
-        $cmdlogic = new vigilancemeteoCmd();
-        $cmdlogic->setName(__('Basse Mer', __FILE__));
-        $cmdlogic->setEqLogic_id($this->getId());
-        $cmdlogic->setLogicalId('basse');
-      }
-      $cmdlogic->setType('info');
-      $cmdlogic->setSubType('numeric');
-      $cmdlogic->save();
-
-      $this->getMaree();
-    }
-    if ($this->getConfiguration('type') == 'crue') {
-      $cmdlogic = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'niveau');
-      if (!is_object($cmdlogic)) {
-        $cmdlogic = new vigilancemeteoCmd();
-        $cmdlogic->setName(__('Niveau d\'eau', __FILE__));
-        $cmdlogic->setEqLogic_id($this->getId());
-        $cmdlogic->setLogicalId('niveau');
-      }
-      $cmdlogic->setType('info');
-      $cmdlogic->setSubType('numeric');
-      $cmdlogic->save();
-
-      $this->getCrue();
-    }
-    if ($this->getConfiguration('type') == 'pluie1h') {
-      $vigilancemeteoCmd = $this->getCmd(null, 'prevTexte');
-      if (!is_object($vigilancemeteoCmd)) {
-        $vigilancemeteoCmd = new vigilancemeteoCmd();
-      }
-      $vigilancemeteoCmd->setName(__('Previsions Textuelles', __FILE__));
-      $vigilancemeteoCmd->setEqLogic_id($this->id);
-      $vigilancemeteoCmd->setLogicalId('prevTexte');
-      $vigilancemeteoCmd->setType('info');
-      $vigilancemeteoCmd->setSubType('other');
-      $vigilancemeteoCmd->setEventOnly(1);
-      $vigilancemeteoCmd->setIsVisible(1);
-      $vigilancemeteoCmd->save();
-
-      $vigilancemeteoCmd = $this->getCmd(null, 'lastUpdate');
-      if (!is_object($vigilancemeteoCmd)) {
-        $vigilancemeteoCmd = new vigilancemeteoCmd();
-      }
-      $vigilancemeteoCmd->setName(__('Dernière mise à jour', __FILE__));
-      $vigilancemeteoCmd->setEqLogic_id($this->id);
-      $vigilancemeteoCmd->setLogicalId('lastUpdate');
-      $vigilancemeteoCmd->setType('info');
-      $vigilancemeteoCmd->setSubType('other');
-      $vigilancemeteoCmd->setEventOnly(1);
-      $vigilancemeteoCmd->setIsVisible(1);
-      $vigilancemeteoCmd->save();
-
-      $vigilancemeteoCmd = $this->getCmd(null, 'pluieDanslHeure');
-      if (!is_object($vigilancemeteoCmd)) {
-        $vigilancemeteoCmd = new vigilancemeteoCmd();
-      }
-      $vigilancemeteoCmd->setName(__('Pluie prévue dans l heure', __FILE__));
-      $vigilancemeteoCmd->setEqLogic_id($this->id);
-      $vigilancemeteoCmd->setLogicalId('pluieDanslHeure');
-      $vigilancemeteoCmd->setType('info');
-      $vigilancemeteoCmd->setSubType('other');
-      $vigilancemeteoCmd->setEventOnly(1);
-      $vigilancemeteoCmd->setIsVisible(1);
-      $vigilancemeteoCmd->save();
-
-      for($i=0; $i <= 11; $i++){
-
-        $vigilancemeteoCmd = $this->getCmd(null, 'prev' . $i*5);
-        if (!is_object($vigilancemeteoCmd)) {
-          $vigilancemeteoCmd = new vigilancemeteoCmd();
+    public function getCrue() {
+        $station = $this->getConfiguration('station');
+        if ($station == '') {
+            log::add('vigilancemeteo', 'error', 'Station non saisie');
+            return;
         }
-        $vigilancemeteoCmd->setName(__('Prévision à ' . ($i*5) . '-' . ($i*5+5), __FILE__));
-        $vigilancemeteoCmd->setEqLogic_id($this->id);
-        $vigilancemeteoCmd->setLogicalId('prev' . $i*5);
-        $vigilancemeteoCmd->setType('info');
-        $vigilancemeteoCmd->setSubType('other');
-        $vigilancemeteoCmd->setEventOnly(1);
-        $vigilancemeteoCmd->setIsVisible(0);
-        $vigilancemeteoCmd->save();
-      }
+        $url = 'http://www.vigicrues.gouv.fr/services/observations.xml/?CdStationHydro='.$station;
+        $doc = new DOMDocument();
+        $doc->load($url);
 
-      $this->getPluie();
-    }
-  }
-
-  public function getVigilance() {
-    $departement = $this->getConfiguration('departement');
-    $alert = str_replace('#','',$this->getConfiguration('alert'));
-    if ($departement == '92' || $departement == '93' || $departement == '94') {
-      $departement = '75';
-    }
-    $lvigilance = "vert";
-    $lcrue = "vert";
-    $lrisque = "RAS";
-    $lmer = "vert";
-
-    $doc = new DOMDocument();
-    $doc->load('http://vigilance.meteofrance.com/data/NXFR34_LFPW_.xml');
-    $doc2 = new DOMDocument();
-    $doc2->load('http://vigilance.meteofrance.com/data/NXFR33_LFPW_.xml');
-
-    foreach($doc->getElementsByTagName('datavigilance') as $data) {
-      if ($data->getAttribute('dep') == $departement) {
-        // On récupère le niveau général
-        switch ($data->getAttribute('couleur')) {
-          case 0:
-          $lvigilance = "vert";
-          break;
-          case 1:
-          $lvigilance = "vert";
-          break;
-          case 2:
-          $lvigilance = "jaune";
-          break;
-          case 3:
-          $lvigilance = "orange";
-          break;
-          case 4:
-          $lvigilance = "rouge";
-          break;
-        }
-        // On cherche les alertes "crue"
-        foreach($data->getElementsByTagName('crue') as $crue) {
-          switch ($crue->getAttribute('valeur')) {
-            case 0:
-            $lcrue = "vert";
-            break;
-            case 1:
-            $lcrue = "vert";
-            break;
-            case 2:
-            $lcrue = "jaune";
-            break;
-            case 3:
-            $lcrue = "orange";
-            break;
-            case 4:
-            $lcrue = "rouge";
-            break;
-          }
-        }
-        foreach($data->getElementsByTagName('risque') as $risque) {
-          switch ($risque->getAttribute('valeur')) {
-            case 1:
-            $lrisque = "vent";
-            break;
-            case 2:
-            $lrisque = "pluie-inondation";
-            break;
-            case 3:
-            $lrisque = "orages";
-            break;
-            case 4:
-            $lrisque = "inondations";
-            break;
-            case 5:
-            $lrisque = "neige-verglas";
-            break;
-            case 6:
-            $lrisque = "canicule";
-            break;
-            case 7:
-            $lrisque = "grand-froid";
-            break;
-          }
-        }
-      }
-      if ($data->getAttribute('dep') == $departement.'10') {
-        //alerte mer
-        switch ($data->getAttribute('couleur')) {
-          case 0:
-          $lmer = "vert";
-          break;
-          case 1:
-          $lmer = "vert";
-          break;
-          case 2:
-          $lmer = "jaune";
-          break;
-          case 3:
-          $lmer = "orange";
-          break;
-          case 4:
-          $lmer = "rouge";
-          break;
+        $result = 0;
+        foreach($doc->getElementsByTagName('ResObsHydro') as $data) {
+            $result = $data->nodeValue;
         }
 
-      }
+        $date = 0;
+        foreach($doc->getElementsByTagName('DtObsHydro') as $data) {
+            $date = $data->nodeValue;
+        }
+
+        log::add('vigilancemeteo', 'debug', 'Valeur ' . $result);
+        $this->checkAndUpdateCmd('niveau', $result);
+        $this->checkAndUpdateCmd('dateniveau', $date);
+
+        $url = 'http://www.vigicrues.gouv.fr/services/observations.xml/?CdStationHydro='.$station.'&GrdSerie=Q';
+        $doc = new DOMDocument();
+        $doc->load($url);
+
+        $result = 0;
+        foreach($doc->getElementsByTagName('ResObsHydro') as $data) {
+            $result = $data->nodeValue;
+        }
+
+        $date = 0;
+        foreach($doc->getElementsByTagName('DtObsHydro') as $data) {
+            $date = $data->nodeValue;
+        }
+
+        log::add('vigilancemeteo', 'debug', 'Valeur ' . $result);
+        $this->checkAndUpdateCmd('debit', $result);
+        $this->checkAndUpdateCmd('datedebit', $date);
+
+        return ;
     }
 
-    foreach($doc2->getElementsByTagName('DV') as $data) {
-      if ($data->getAttribute('dep') == $departement) {
-        foreach($data->getElementsByTagName('risque') as $risque) {
-          switch ($risque->getAttribute('val')) {
-            case 1:
-            if ($lrisque == "RAS") {
-              $lrisque = "vent";
+    public function getSeisme() {
+        $city = $this->getConfiguration('openhazards');
+        if ($city == '') {
+            log::add('vigilancemeteo', 'error', 'Ville non saisie');
+            return;
+        }
+        $url = 'http://api.openhazards.com/GetEarthquakeProbability?q=' . $city . '&m=5&r=100&w=3';
+        $doc = new DOMDocument();
+        $doc->load($url);
+
+        $result = 0;
+        foreach($doc->getElementsByTagName('prob') as $data) {
+            $result = str_replace("%", "", $data->nodeValue);
+        }
+
+        $cmdlogic = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'risk');
+        $cmdlogic->setConfiguration('value', $result);
+        $cmdlogic->save();
+        $cmdlogic->event($result);
+
+        log::add('vigilancemeteo', 'debug', 'Seisme ' . $result);
+
+        return ;
+    }
+
+    public function getAir() {
+        $apikey = $this->getConfiguration('breezometer');
+        if ($apikey == '') {
+            log::add('vigilancemeteo', 'error', 'API non saisie');
+            return;
+        }
+        if (null !== ($this->getConfiguration('geoloc', '')) && $this->getConfiguration('geoloc', '') != 'none') {
+            $geoloc = $this->getConfiguration('geoloc', '');
+            $geolocCmd = geolocCmd::byId($geoloc);
+            if ($geolocCmd->getConfiguration('mode') == 'fixe') {
+                $geolocval = $geolocCmd->getConfiguration('coordinate');
             } else {
-              $lrisque = $lrisque . ", vent";
+                $geolocval = $geolocCmd->execCmd();
             }
-            break;
-            case 2:
-            if ($lrisque == "RAS") {
-              $lrisque = "pluie-inondation";
-            } else {
-              $lrisque = $lrisque . ", pluie-inondation";
-            }
-            break;
-            case 3:
-            if ($lrisque == "RAS") {
-              $lrisque = "orages";
-            } else {
-              $lrisque = $lrisque . ", orages";
-            }
-            break;
-            case 4:
-            if ($lrisque == "RAS") {
-              $lrisque = "inondations";
-            } else {
-              $lrisque = $lrisque . ", inondations";
-            }
-            break;
-            case 5:
-            if ($lrisque == "RAS") {
-              $lrisque = "neige-verglas";
-            } else {
-              $lrisque = $lrisque . ", neige-verglas";
-            }
-            break;
-            case 6:
-            if ($lrisque == "RAS") {
-              $lrisque = "canicule";
-            } else {
-              $lrisque = $lrisque . ", canicule";
-            }
-            break;
-            case 7:
-            if ($lrisque == "RAS") {
-              $lrisque = "grand-froid";
-            } else {
-              $lrisque = $lrisque . ", grand-froid";
-            }
-            break;
-            case 8:
-            if ($lrisque == "RAS") {
-              $lrisque = "avalanches";
-            } else {
-              $lrisque = $lrisque . ", avalanches";
-            }
-            break;
-            case 9:
-            if ($lrisque == "RAS") {
-              $lrisque = "vagues-submersion";
-            } else {
-              $lrisque = $lrisque . ", vagues-submersion";
-            }
-            break;
-          }
+            $geoloctab = explode(',', trim($geolocval));
+            $latitude = trim($geoloctab[0]);
+            $longitude = trim($geoloctab[1]);
+            $url = 'http://api.breezometer.com/baqi/?lat=' . $latitude . '&lon=' . $longitude . '&key=' . $apikey;
+            $json = json_decode(file_get_contents($url), true);
+            log::add('vigilancemeteo', 'debug', 'Air ' . $json['breezometer_aqi'] . ' ' . $json['breezometer_color']);
+
+            $cmdlogic = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'aqi');
+            $cmdlogic->setConfiguration('value', $json['breezometer_aqi']);
+            $cmdlogic->save();
+            $cmdlogic->event($json['breezometer_aqi']);
+
+            $cmdlogic = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'color');
+            $cmdlogic->setConfiguration('value', $json['breezometer_color']);
+            $cmdlogic->save();
+            $cmdlogic->event($json['breezometer_color']);
         }
-      }
+        return ;
     }
 
-    log::add('vigilancemeteo', 'debug', 'Vigilance ' . $lvigilance);
-    log::add('vigilancemeteo', 'debug', 'Crue ' . $lcrue);
-    log::add('vigilancemeteo', 'debug', 'Risque ' . $lrisque);
+    public function getSurf() {
+        $apikey = $this->getConfiguration('magicseaweed');
+        if ($apikey == '') {
+            log::add('vigilancemeteo', 'error', 'API non saisie');
+            return;
+        }
+        if (null !== ($this->getConfiguration('surf', ''))) {
+            $surf = $this->getConfiguration('surf', '');
+            $url = 'http://magicseaweed.com/api/' . $apikey . '/forecast/?spot_id=' . $surf;
+            $json = json_decode(file_get_contents($url), true);
 
-    foreach ($this->getCmd() as $cmd) {
-      $alertmess = "";
-      //log::add('vigilancemeteo', 'debug', $cmd->getConfiguration('data'));
-      if($cmd->getConfiguration('data')=="vigilance"){
-        if ($lvigilance != "vert") {
-          if ($cmd->getConfiguration('alert') == '0' && $alert != '') {
-            $cmd->setConfiguration('alert', '1');
-            $cmdalerte = cmd::byId($alert);
-            if ($alertmess != "") {
-              $alertmess = $alertmess . ", Niveau " . $lcrue . " pour la vigilance";
+            $this->checkAndUpdateCmd('minimum', $json[0]['swell']['minBreakingHeight']);
+            $this->checkAndUpdateCmd('maximum', $json[0]['swell']['maxBreakingHeight']);
+            $this->checkAndUpdateCmd('primaryHeight', $json[0]['swell']['components']['primary']['height']);
+            $this->checkAndUpdateCmd('primaryPeriod', $json[0]['swell']['components']['primary']['period']);
+            $this->checkAndUpdateCmd('compassDirection', $json[0]['swell']['components']['primary']['compassDirection']);
+
+        }
+        return ;
+    }
+
+    public function getPluie() {
+        //log::add('previsionpluie', 'debug', 'getInformation: go');
+
+        if($this->getConfiguration('ville') != ''){
+
+            //log::add('previsionpluie', 'debug', 'getInformation: ' .$this->getConfiguration('ville') );
+
+            $prevPluieJson = file_get_contents('http://www.meteofrance.com/mf3-rpc-portlet/rest/pluie/' . $this->getConfiguration('ville'));
+            $prevPluieData = json_decode($prevPluieJson, true);
+
+            if(count($prevPluieData) == 0){
+                log::add('vigilancemeteo', 'debug', 'Impossible d\'obtenir les informations Météo France... On refait une tentative...');
+
+                sleep(3);
+                $prevPluieJson = file_get_contents('http://www.meteofrance.com/mf3-rpc-portlet/rest/pluie/' . $this->getConfiguration('ville'));
+                $prevPluieData = json_decode($prevPluieJson, true);
+
+                if(count($prevPluieData) == 0){
+                    log::add('vigilancemeteo', 'debug', 'Impossible d\'obtenir les informations Météo France... ');
+                    return false;
+                }
+            }
+
+            //log::add('previsionpluie', 'debug', 'getInformation: length ' . count($prevPluieData));
+
+            if(count($prevPluieData) > 0){
+                $prevTexte = "";
+                foreach($prevPluieData['niveauPluieText'] as $prevTexteItem){
+                    $prevTexte .= substr_replace($prevTexteItem," ",2,0) . "\n";
+                    //log::add('previsionpluie', 'debug', 'prevTexteItem: ' . $prevTexteItem);
+                }
+                $prevTexteCmd = $this->getCmd(null,'prevTexte');
+                if(is_object($prevTexteCmd)){
+                    //log::add('previsionpluie', 'debug', 'prevTexte: ' . $prevTexte);
+                    $prevTexteCmd->event($prevTexte);
+                }
+                $lastUpdateCmd = $this->getCmd(null,'lastUpdate');
+                if(is_object($lastUpdateCmd)){
+                    //log::add('previsionpluie', 'debug', 'lastUpdate: ' . $prevPluieData['lastUpdate']);
+                    $lastUpdateCmd->event($prevPluieData['lastUpdate']);
+                }
+                $pluieDanslHeureCount = 0;
+
+                for($i=0; $i <= 11; $i++){
+                    $prevCmd = $this->getCmd(null,'prev' . $i*5);
+                    if(is_object($prevCmd)){
+                        //log::add('previsionpluie', 'debug', 'prev' . $i*5 . ': ' . $prevPluieData['dataCadran'][$i]['niveauPluie']);
+                        if($prevCmd->execCmd() != $prevPluieData['dataCadran'][$i]['niveauPluie']){
+                            $prevCmd->event($prevPluieData['dataCadran'][$i]['niveauPluie']);
+                        }
+                        $pluieDanslHeureCount = $pluieDanslHeureCount + $prevPluieData['dataCadran'][$i]['niveauPluie'];
+                    }
+                }
+
+                $pluieDanslHeure = $this->getCmd(null,'pluieDanslHeure');
+                if(is_object($pluieDanslHeure)){
+                    //log::add('previsionpluie', 'debug', 'pluieDanslHeure: ' . $pluieDanslHeureCount);
+                    $pluieDanslHeure->event($pluieDanslHeureCount);
+                }
+            }
+        }
+    }
+
+    public function toHtml($_version = 'dashboard') {
+        $replace = $this->preToHtml($_version);
+        if (!is_array($replace)) {
+            return $replace;
+        }
+        $version = jeedom::versionAlias($_version);
+        if ($this->getDisplay('hideOn' . $version) == 1) {
+            return '';
+        }
+
+        if ($this->getConfiguration('type') == 'vigilance') {
+            foreach ($this->getCmd('info') as $cmd) {
+                $replace['#' . $cmd->getLogicalId() . '_history#'] = '';
+                $replace['#' . $cmd->getLogicalId() . '_id#'] = $cmd->getId();
+                $valeur=ucfirst($cmd->execCmd());
+                switch ($valeur) {
+                    case 'Vert':
+                    $valeur = "#00ff1e";
+                    break;
+                    case 'Jaune':
+                    $valeur = "#FFFF00";
+                    break;
+                    case 'Orange':
+                    $valeur = "#FFA500";
+                    break;
+                    case 'Rouge':
+                    $valeur = "#E50000";
+                    break;
+                }
+
+                $replace['#' . $cmd->getLogicalId() . '#'] = $valeur;
+                $replace['#' . $cmd->getLogicalId() . '_collect#'] = $cmd->getCollectDate();
+                if ($cmd->getIsHistorized() == 1) {
+                    $replace['#' . $cmd->getLogicalId() . '_history#'] = 'history cursor';
+                }
+
+            }
+            $parameters = $this->getDisplay('parameters');
+            if (is_array($parameters)) {
+                foreach ($parameters as $key => $value) {
+                    $replace['#' . $key . '#'] = $value;
+                }
+            }
+            if (strpos(network::getNetworkAccess('external'),'https') !== false) {
+                $replace['#icone#'] = '<a target="_blank" href="http://vigilance.meteofrance.com/Bulletin_sans.html?a=dept' . $this->getConfiguration('departement') . '&b=2&c="><i class="fa fa-info-circle cursor"></i></a>';
             } else {
-              $alertmess = "Niveau " . $lcrue . " pour la vigilance";
+                $replace['#icone#'] = '<i id="yourvigilance' . $this->getId() . ' class="fa fa-info-circle cursor"></i>';
             }
-          }
-        } else {
-          $cmd->setConfiguration('alert', '0');
-        }
-        $cmd->setConfiguration('value', $lvigilance);
-        $cmd->save();
-        $cmd->event($lvigilance);
-      }elseif($cmd->getConfiguration('data')=="crue") {
-        log::add('vigilancemeteo', 'debug', $cmd->getConfiguration('data') . ' ' . $lcrue . ' ' . $cmd->getConfiguration('alert'));
-        if ($lcrue != "vert") {
-          if ($cmd->getConfiguration('alert') == '0' && $alert != '') {
-            $cmd->setConfiguration('alert', '1');
-            if ($alertmess != "") {
-              $alertmess = $alertmess . ", Niveau " . $lcrue . " pour le risque de crue";
+
+            $templatename = 'vigilancemeteo';
+        } else if ($this->getConfiguration('type') == 'maree') {
+            $replace['#portid#'] = $this->getConfiguration('port');
+
+            foreach ($this->getCmd('info') as $cmd) {
+                $replace['#' . $cmd->getLogicalId() . '_history#'] = '';
+                $replace['#' . $cmd->getLogicalId() . '_id#'] = $cmd->getId();
+
+                if ($cmd->getLogicalId() == 'maree') {
+                    $replace['#' . $cmd->getLogicalId() . '#'] = $cmd->execCmd();
+                } else {
+                    $replace['#' . $cmd->getLogicalId() . '#'] = substr_replace(str_pad($cmd->execCmd(), 4, '0', STR_PAD_LEFT),':',-2,0);
+                }
+                $replace['#' . $cmd->getLogicalId() . '_collect#'] = $cmd->getCollectDate();
+                if ($cmd->getIsHistorized() == 1) {
+                    $replace['#' . $cmd->getLogicalId() . '_history#'] = 'history cursor';
+                }
+
+            }
+
+            if (strpos(network::getNetworkAccess('external'),'https') !== false) {
+                $replace['#icone#'] = '<a target="_blank" href="http://maree.info/' . $this->getConfiguration('port') . '"><i class="fa fa-info-circle cursor"></i></a>';
             } else {
-              $alertmess = "Niveau " . $lcrue . " pour le risque de crue";
+                $replace['#icone#'] = '<i id="maree' . $this->getId() . '" class="fa fa-info-circle cursor"></i>';
             }
-          }
-        } else {
-          $cmd->setConfiguration('alert', '0');
-        }
-        $cmd->setConfiguration('value', $lcrue);
-        $cmd->save();
-        $cmd->event($lcrue);
-      }elseif($cmd->getConfiguration('data')=="risque"){
-        if ($lrisque != "RAS") {
-          if ($cmd->getConfiguration('alert') == '0' && $alert != '') {
-            $cmd->setConfiguration('alert', '1');
-            if ($alertmess != "") {
-              $alertmess = $alertmess . ", Risque " . $lrisque;
-            } else {
-              $alertmess = "Risque " . $lrisque;
+
+            $templatename = 'maree';
+        } else if ($this->getConfiguration('type') == 'surf') {
+            foreach ($this->getCmd('info') as $cmd) {
+                $replace['#' . $cmd->getLogicalId() . '_history#'] = '';
+                $replace['#' . $cmd->getLogicalId() . '_id#'] = $cmd->getId();
+                $replace['#' . $cmd->getLogicalId() . '#'] = $cmd->execCmd();
+                $replace['#' . $cmd->getLogicalId() . '_collect#'] = $cmd->getCollectDate();
+                if ($cmd->getIsHistorized() == 1) {
+                    $replace['#' . $cmd->getLogicalId() . '_history#'] = 'history cursor';
+                }
+
             }
-          }
-        } else {
-          $cmd->setConfiguration('alert', '0');
-        }
-        $cmd->setConfiguration('value', $lrisque);
-        $cmd->save();
-        $cmd->event($lrisque);
-      }elseif($cmd->getConfiguration('data')=="mer"){
-        if ($lmer != "vert") {
-          if ($cmd->getConfiguration('alert') == '0' && $alert != '') {
-            $cmd->setConfiguration('alert', '1');
-            if ($alertmess != "") {
-              $alertmess = $alertmess . ", Niveau " . $lmer . " pour le risque bord de mer";
-            } else {
-              $alertmess = "Niveau " . $lmer . " pour le risque bord de mer";
+
+            $templatename = 'surf';
+        } else if ($this->getConfiguration('type') == 'crue') {
+            $cmd = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'niveau');
+            $replace['#crue_history#'] = '';
+            $replace['#crue#'] = $cmd->getConfiguration('value');
+            $replace['#crue_id#'] = $cmd->getId();
+
+            $replace['#crue_collect#'] = $cmd->getCollectDate();
+            if ($cmd->getIsHistorized() == 1) {
+                $replace['#crue_history#'] = 'history cursor';
             }
-          }
-        } else {
-          $cmd->setConfiguration('alert', '0');
-        }
-        $cmd->setConfiguration('value', $lmer);
-        $cmd->save();
-        $cmd->event($lmer);
-      }
-      if ($alertmess != "") {
-        $cmdalerte = cmd::byId($alert);
-        $options['title'] = "Alerte Météo";
-        $options['message'] = "Dpt ".$departement." : " . $alertmess;
-        $cmdalerte->execCmd($options);
-      }
-    }
-    return ;
-  }
 
-  public function getMaree() {
-    $port = $this->getConfiguration('port');
-    if ($port == '') {
-      log::add('crues', 'error', 'Port non saisi');
-      return;
-    }
-    $url = 'http://horloge.maree.frbateaux.net/ws' . $port . '.js?col=1&c=0';
-    $result = file($url);
+            $templatename = 'crue';
+        } else if ($this->getConfiguration('type') == 'air') {
+            $cmd = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'aqi');
+            $cmdcolor = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'color');
+            $replace['#aqi_history#'] = '';
+            $replace['#aqi#'] = $cmd->getConfiguration('value');
+            $replace['#aqicolor#'] = $cmdcolor->getConfiguration('value');
+            $replace['#aqi_id#'] = $cmd->getId();
 
-    //log::add('maree', 'debug', 'Log ' . print_r($result, true));
-
-    $maree = explode('<br>', $result[14]);
-    $maree = explode('"', $maree[1]);
-    $maree = $maree[0];
-    $pleine = explode('PM ', $result[16] );
-    $pleine = substr($pleine[1], 0, 5);
-    $pleine = str_replace('h', '', $pleine);
-    $basse = explode('BM ', $result[16]);
-    $basse = substr($basse[1], 0, 5);
-    $basse = str_replace('h', '', $basse);
-
-    log::add('vigilancemeteo', 'debug', 'Marée ' . $maree . ', Pleine ' . $pleine . ', Basse ' . $basse);
-
-    $cmdlogic = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'maree');
-    $cmdlogic->setConfiguration('value', $maree);
-    $cmdlogic->save();
-    $cmdlogic->event($maree);
-
-    $cmdlogic = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'pleine');
-    $cmdlogic->setConfiguration('value', $pleine);
-    $cmdlogic->save();
-    $cmdlogic->event($pleine);
-
-    $cmdlogic = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'basse');
-    $cmdlogic->setConfiguration('value', $basse);
-    $cmdlogic->save();
-    $cmdlogic->event($basse);
-
-    return ;
-  }
-
-  public function getCrue() {
-    $station = $this->getConfiguration('station');
-    if ($station == '') {
-      log::add('vigilancemeteo', 'error', 'Station non saisie');
-      return;
-    }
-    $url = "http://www.vigicrues.gouv.fr/niveau3.php?CdStationHydro=".$station."&typegraphe=h&AffProfondeur=24&nbrstations=2&ong=2&Submit=Refaire+le+tableau+-+Valider+la+s%C3%A9lection";
-    //r�cup�ration des donn�es
-    $html = file_get_contents($url);
-
-    // from Hervé http://www.abavala.com
-    // nom de la station de relev� et type d'information r�cup�r�e
-    $info = explode("<p class='titre_cadre'>", $html,2);
-    $station = explode(" - ", $info[1],2);
-    $info = explode("</p>", $station[1],2);
-
-    //r�cup�ration du tableau de donn�es
-    $tableau = explode("<table  class='liste'>", $html,2);
-    $tableau = explode("</table>", $tableau[1],2);
-
-    //lecture de la prem�re date du tableau
-    $data = explode("<td>",$tableau[0],2);
-    $datadate = explode("</td>",$data[1],2);
-
-    //lecture du relev� associ�
-    $data = explode("<td align='right'>",$tableau[0],2);
-    $datareleve = explode("</td>",$data[1],2);
-
-    log::add('vigilancemeteo', 'debug', 'Valeur ' . $datareleve[0]);
-
-    $cmdlogic = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'niveau');
-    $cmdlogic->setConfiguration('value', $datareleve[0]);
-    $cmdlogic->save();
-    $cmdlogic->event($datareleve[0]);
-
-    return ;
-  }
-
-  public function getPluie() {
-    //log::add('previsionpluie', 'debug', 'getInformation: go');
-
-    if($this->getConfiguration('ville') != ''){
-
-      //log::add('previsionpluie', 'debug', 'getInformation: ' .$this->getConfiguration('ville') );
-
-      $prevPluieJson = file_get_contents('http://www.meteofrance.com/mf3-rpc-portlet/rest/pluie/' . $this->getConfiguration('ville'));
-      $prevPluieData = json_decode($prevPluieJson, true);
-
-      if(count($prevPluieData) == 0){
-        log::add('vigilancemeteo', 'debug', 'Impossible d\'obtenir les informations Météo France... On refait une tentative...');
-
-        sleep(3);
-        $prevPluieJson = file_get_contents('http://www.meteofrance.com/mf3-rpc-portlet/rest/pluie/' . $this->getConfiguration('ville'));
-        $prevPluieData = json_decode($prevPluieJson, true);
-
-        if(count($prevPluieData) == 0){
-          log::add('vigilancemeteo', 'debug', 'Impossible d\'obtenir les informations Météo France... ');
-          return false;
-        }
-      }
-
-      //log::add('previsionpluie', 'debug', 'getInformation: length ' . count($prevPluieData));
-
-      if(count($prevPluieData) > 0){
-        $prevTexte = "";
-        foreach($prevPluieData['niveauPluieText'] as $prevTexteItem){
-          $prevTexte .= substr_replace($prevTexteItem," ",2,0) . "\n";
-          //log::add('previsionpluie', 'debug', 'prevTexteItem: ' . $prevTexteItem);
-        }
-        $prevTexteCmd = $this->getCmd(null,'prevTexte');
-        if(is_object($prevTexteCmd)){
-          //log::add('previsionpluie', 'debug', 'prevTexte: ' . $prevTexte);
-          $prevTexteCmd->event($prevTexte);
-        }
-        $lastUpdateCmd = $this->getCmd(null,'lastUpdate');
-        if(is_object($lastUpdateCmd)){
-          //log::add('previsionpluie', 'debug', 'lastUpdate: ' . $prevPluieData['lastUpdate']);
-          $lastUpdateCmd->event($prevPluieData['lastUpdate']);
-        }
-        $pluieDanslHeureCount = 0;
-
-        for($i=0; $i <= 11; $i++){
-          $prevCmd = $this->getCmd(null,'prev' . $i*5);
-          if(is_object($prevCmd)){
-            //log::add('previsionpluie', 'debug', 'prev' . $i*5 . ': ' . $prevPluieData['dataCadran'][$i]['niveauPluie']);
-            if($prevCmd->execCmd() != $prevPluieData['dataCadran'][$i]['niveauPluie']){
-              $prevCmd->event($prevPluieData['dataCadran'][$i]['niveauPluie']);
+            $replace['#aqi_collect#'] = $cmd->getCollectDate();
+            if ($cmd->getIsHistorized() == 1) {
+                $replace['#aqi_history#'] = 'history cursor';
             }
-            $pluieDanslHeureCount = $pluieDanslHeureCount + $prevPluieData['dataCadran'][$i]['niveauPluie'];
-          }
-        }
 
-        $pluieDanslHeure = $this->getCmd(null,'pluieDanslHeure');
-        if(is_object($pluieDanslHeure)){
-          //log::add('previsionpluie', 'debug', 'pluieDanslHeure: ' . $pluieDanslHeureCount);
-          $pluieDanslHeure->event($pluieDanslHeureCount);
+            $templatename = 'air';
+        } else if ($this->getConfiguration('type') == 'seisme') {
+            $cmd = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'risk');
+            $replace['#seisme_history#'] = '';
+            $replace['#seisme#'] = $cmd->getConfiguration('value');
+            $replace['#seisme_id#'] = $cmd->getId();
+
+            $replace['#seisme_collect#'] = $cmd->getCollectDate();
+            if ($cmd->getIsHistorized() == 1) {
+                $replace['#seisme_history#'] = 'history cursor';
+            }
+
+            $templatename = 'seisme';
+        } else if ($this->getConfiguration('type') == 'pluie1h') {
+            $replace['#ville#'] = $this->getConfiguration('ville');
+            $prevTexte = $this->getCmd(null,'prevTexte');
+            $replace['#prevTexte#'] = (is_object($prevTexte)) ? nl2br($prevTexte->execCmd()) : '';
+            $replace['#prevTexte_display#'] = (is_object($prevTexte) && $prevTexte->getIsVisible()) ? "#prevTexte_display#" : "none";
+
+            $lastUpdate = $this->getCmd(null,'lastUpdate');
+            $replace['#lastUpdate#'] = (is_object($lastUpdate)) ? $lastUpdate->execCmd() : '';
+
+            $colors = Array();
+            $color[0] = '#D6D7D7';
+            $color[1] = '#FFFFFF';
+            $color[2] = '#AAE8FF';
+            $color[3] = '#48BFEA';
+            $color[4] = '#0094CE';
+
+            $text = Array();
+            $text[0] = '{{Données indisponibles}}';
+            $text[1] = '{{Pas de pluie}}';
+            $text[2] = '{{Pluie faible}}';
+            $text[3] = '{{Pluie modérée}}';
+            $text[4] = '{{Pluie forte}}';
+
+            for($i=0; $i <= 11; $i++){
+                $prev = $this->getCmd(null,'prev' . $i*5);
+                if(is_object($prev)){
+                    $prevision = $prev->execCmd();
+                    $replace['#prev' . ($i*5) . '#'] = $prevision;
+                    $replace['#prev' . ($i*5) . 'Color#'] = $color[$prevision];
+                    $replace['#prev' . ($i*5) . 'Text#'] = $text[$prevision];
+                }
+            }
+
+            $parameters = $this->getDisplay('parameters');
+            if (is_array($parameters)) {
+                foreach ($parameters as $key => $value) {
+                    $replace['#' . $key . '#'] = $value;
+                }
+            }
+
+            $templatename = 'previsionpluie';
         }
-      }
+        return $this->postToHtml($_version, template_replace($replace, getTemplate('core', $version, $templatename, 'vigilancemeteo')));
     }
-  }
-
-  public function toHtml($_version = 'dashboard') {
-
-    $replace = $this->preToHtml($_version);
-    if (!is_array($replace)) {
-      return $replace;
-    }
-    $version = jeedom::versionAlias($_version);
-    if ($this->getDisplay('hideOn' . $version) == 1) {
-      return '';
-    }
-
-    if ($this->getConfiguration('type') == 'vigilance') {
-      foreach ($this->getCmd('info') as $cmd) {
-        $replace['#' . $cmd->getLogicalId() . '_history#'] = '';
-        $replace['#' . $cmd->getLogicalId() . '_id#'] = $cmd->getId();
-        $valeur=ucfirst($cmd->execCmd());
-        switch ($valeur) {
-          case 'Vert':
-          $valeur = "#00ff1e";
-          break;
-          case 'Jaune':
-          $valeur = "#FFFF00";
-          break;
-          case 'Orange':
-          $valeur = "#FFA500";
-          break;
-          case 'Rouge':
-          $valeur = "#E50000";
-          break;
-        }
-
-        $replace['#' . $cmd->getLogicalId() . '#'] = $valeur;
-        $replace['#' . $cmd->getLogicalId() . '_collect#'] = $cmd->getCollectDate();
-        if ($cmd->getIsHistorized() == 1) {
-          $replace['#' . $cmd->getLogicalId() . '_history#'] = 'history cursor';
-        }
-
-      }
-      $parameters = $this->getDisplay('parameters');
-      if (is_array($parameters)) {
-        foreach ($parameters as $key => $value) {
-          $replace['#' . $key . '#'] = $value;
-        }
-      }
-      if (strpos(network::getNetworkAccess('external'),'https') !== false) {
-        $replace['#icone#'] = '<a target="_blank" href="http://vigilance.meteofrance.com/Bulletin_sans.html?a=dept' . $this->getConfiguration('departement') . '&b=2&c="><i class="fa fa-info-circle cursor"></i></a>';
-      } else {
-        $replace['#icone#'] = '<i id="yourvigilance' . $this->getId() . ' class="fa fa-info-circle cursor"></i>';
-      }
-
-      return $this->postToHtml($_version, template_replace($replace, getTemplate('core', $version, 'vigilancemeteo', 'vigilancemeteo')));
-
-    } else if ($this->getConfiguration('type') == 'maree') {
-      $replace['#portid#'] = $this->getConfiguration('port');
-
-      foreach ($this->getCmd('info') as $cmd) {
-        $replace['#' . $cmd->getLogicalId() . '_history#'] = '';
-        $replace['#' . $cmd->getLogicalId() . '_id#'] = $cmd->getId();
-
-        if ($cmd->getLogicalId() == 'maree') {
-          $replace['#' . $cmd->getLogicalId() . '#'] = $cmd->execCmd();
-        } else {
-          $replace['#' . $cmd->getLogicalId() . '#'] = substr_replace(str_pad($cmd->execCmd(), 4, '0', STR_PAD_LEFT),':',-2,0);
-        }
-        $replace['#' . $cmd->getLogicalId() . '_collect#'] = $cmd->getCollectDate();
-        if ($cmd->getIsHistorized() == 1) {
-          $replace['#' . $cmd->getLogicalId() . '_history#'] = 'history cursor';
-        }
-
-      }
-
-      if (strpos(network::getNetworkAccess('external'),'https') !== false) {
-        $replace['#icone#'] = '<a target="_blank" href="http://maree.info/' . $this->getConfiguration('port') . '"><i class="fa fa-info-circle cursor"></i></a>';
-      } else {
-        $replace['#icone#'] = '<i id="maree' . $this->getId() . '" class="fa fa-info-circle cursor"></i>';
-      }
-
-      return $this->postToHtml($_version, template_replace($replace, getTemplate('core', $version, 'maree', 'vigilancemeteo')));
-    } else if ($this->getConfiguration('type') == 'crue') {
-      $cmd = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'niveau');
-      $replace['#crue_history#'] = '';
-      $replace['#crue#'] = $cmd->getConfiguration('value');
-      $replace['#crue_id#'] = $cmd->getId();
-
-      $replace['#crue_collect#'] = $cmd->getCollectDate();
-      if ($cmd->getIsHistorized() == 1) {
-        $replace['#crue_history#'] = 'history cursor';
-      }
-
-      return $this->postToHtml($_version, template_replace($replace, getTemplate('core', $version, 'crue', 'vigilancemeteo')));
-    } else if ($this->getConfiguration('type') == 'pluie1h') {
-      $replace['#ville#'] = $this->getConfiguration('ville');
-      $prevTexte = $this->getCmd(null,'prevTexte');
-      $replace['#prevTexte#'] = (is_object($prevTexte)) ? nl2br($prevTexte->execCmd()) : '';
-      $replace['#prevTexte_display#'] = (is_object($prevTexte) && $prevTexte->getIsVisible()) ? "#prevTexte_display#" : "none";
-
-      $lastUpdate = $this->getCmd(null,'lastUpdate');
-      $replace['#lastUpdate#'] = (is_object($lastUpdate)) ? $lastUpdate->execCmd() : '';
-
-      $colors = Array();
-      $color[0] = '#D6D7D7';
-      $color[1] = '#FFFFFF';
-      $color[2] = '#AAE8FF';
-      $color[3] = '#48BFEA';
-      $color[4] = '#0094CE';
-
-      $text = Array();
-      $text[0] = '{{Données indisponibles}}';
-      $text[1] = '{{Pas de pluie}}';
-      $text[2] = '{{Pluie faible}}';
-      $text[3] = '{{Pluie modérée}}';
-      $text[4] = '{{Pluie forte}}';
-
-      for($i=0; $i <= 11; $i++){
-        $prev = $this->getCmd(null,'prev' . $i*5);
-        if(is_object($prev)){
-          $prevision = $prev->execCmd();
-          $replace['#prev' . ($i*5) . '#'] = $prevision;
-          $replace['#prev' . ($i*5) . 'Color#'] = $color[$prevision];
-          $replace['#prev' . ($i*5) . 'Text#'] = $text[$prevision];
-        }
-      }
-
-      $parameters = $this->getDisplay('parameters');
-      if (is_array($parameters)) {
-        foreach ($parameters as $key => $value) {
-          $replace['#' . $key . '#'] = $value;
-        }
-      }
-
-      return $this->postToHtml($_version, template_replace($replace, getTemplate('core', $version, 'previsionpluie', 'vigilancemeteo')));
-    }
-  }
 
 }
 
 class vigilancemeteoCmd extends cmd {
-  public function execute($_options = null) {
-    return $this->getConfiguration('value');
-  }
+    public function execute($_options = null) {
+        return $this->getConfiguration('value');
+    }
 }
 
 ?>

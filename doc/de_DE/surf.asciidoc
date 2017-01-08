@@ -1,0 +1,23 @@
+==== Präsentation
+
+Ce plugin permet d'obtenir des informations sur les vagues depuis http://magicseaweed.com/
+
+==== Typ Konfiguration
+
+Il faut renseigner le spot voulu dans le champ de configuration (exemple : http://magicseaweed.com/Anse-de-Pen-hat-Surf-Report/1521/ c'est 1521)
+
+Il faut aussi saisir la clef API
+
+==== Verfügbare Informationen 
+
+Ce plugin permet d'obtenir des informations sur les vagues :
+
+- hauteur minimum
+
+- hauteur maximum
+
+- hauteur en provenance
+
+- fréquence
+
+- direction

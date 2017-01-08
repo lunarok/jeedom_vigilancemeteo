@@ -48,23 +48,19 @@ $eqLogics = eqLogic::byType('vigilancemeteo');
   </div>
 
 
-  <div class="col-lg-10 col-md-9 col-sm-8 eqLogic" style="border-left: solid 1px #EEE; padding-left: 25px;display: none;">
-
-    <a class="btn btn-success eqLogicAction pull-right" data-action="save"><i class="fa fa-check-circle"></i> {{Sauvegarder}}</a>
-    <a class="btn btn-danger eqLogicAction pull-right" data-action="remove"><i class="fa fa-minus-circle"></i> {{Supprimer}}</a>
-
-    <ul class="nav nav-tabs" role="tablist">
-      <li role="presentation" class="active"><a href="#eqlogictab" aria-controls="home" role="tab" data-toggle="tab"><i class="fa fa-tachometer"></i> {{Equipement}}</a></li>
-      <li role="presentation"><a href="#commandtab" aria-controls="profile" role="tab" data-toggle="tab"><i class="fa fa-list-alt"></i> {{Commandes}}</a></li>
-    </ul>
-
-    <div class="tab-content" style="height:calc(100% - 50px);overflow:auto;overflow-x: hidden;">
-      <div role="tabpanel" class="tab-pane active" id="eqlogictab">
+<div class="col-lg-10 col-md-9 col-sm-8 eqLogic" style="border-left: solid 1px #EEE; padding-left: 25px;display: none;">
+ <a class="btn btn-success eqLogicAction pull-right" data-action="save"><i class="fa fa-check-circle"></i> {{Sauvegarder}}</a>
+ <a class="btn btn-danger eqLogicAction pull-right" data-action="remove"><i class="fa fa-minus-circle"></i> {{Supprimer}}</a>
+ <a class="btn btn-default eqLogicAction pull-right" data-action="configure"><i class="fa fa-cogs"></i> {{Configuration avancée}}</a>
+ <ul class="nav nav-tabs" role="tablist">
+  <li role="presentation"><a href="#" class="eqLogicAction" aria-controls="home" role="tab" data-toggle="tab" data-action="returnToThumbnailDisplay"><i class="fa fa-arrow-circle-left"></i></a></li>
+  <li role="presentation" class="active"><a href="#eqlogictab" aria-controls="home" role="tab" data-toggle="tab"><i class="fa fa-tachometer"></i> {{Equipement}}</a></li>
+  <li role="presentation"><a href="#commandtab" aria-controls="profile" role="tab" data-toggle="tab"><i class="fa fa-list-alt"></i> {{Commandes}}</a></li>
+</ul>
+<div class="tab-content" style="height:calc(100% - 50px);overflow:auto;overflow-x: hidden;">
+  <div role="tabpanel" class="tab-pane active" id="eqlogictab">
         <form class="form-horizontal">
           <fieldset>
-            <legend><i class="fa fa-arrow-circle-left eqLogicAction cursor" data-action="returnToThumbnailDisplay"></i>  {{Général}}
-              <i class='fa fa-cogs eqLogicAction pull-right cursor expertModeVisible' data-action='configure'></i>
-            </legend>
             <div class="form-group">
               <label class="col-sm-3 control-label">{{Nom}}</label>
               <div class="col-sm-3">
@@ -107,13 +103,6 @@ $eqLogics = eqLogic::byType('vigilancemeteo');
             </div>
 
             <div class="form-group">
-              <label class="col-sm-3 control-label">{{Commentaire}}</label>
-              <div class="col-sm-3">
-                <textarea class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="commentaire" ></textarea>
-              </div>
-            </div>
-
-            <div class="form-group">
               <label class="col-sm-3 control-label" >{{Type de Vigilance}}</label>
               <div class="col-sm-3">
                 <select id="typeEq" class="form-control eqLogicAttr" data-l1key="configuration" data-l2key="type">
@@ -121,11 +110,14 @@ $eqLogics = eqLogic::byType('vigilancemeteo');
                   <option value="pluie1h">{{Pluie à 1h Météo France}}</option>
                   <option value="crue">{{Vigicrues}}</option>
                   <option value="maree">{{Marées}}</option>
+                  <option value="surf">{{Surf}}</option>
+                  <option value="seisme">{{Séisme}}</option>
+                  <option value="air">{{Qualité d'Air}}</option>
                 </select>
               </div>
             </div>
 
-            <div id="villeEq" class="form-group">
+            <div id="villeEq" class="form-group" style="display:none">
                     <label class="col-sm-3 control-label" >{{Ville}}</label>
                     <div class="col-sm-3">
                         <input class="eqLogicAttr form-control" data-l1key="configuration" data-l2key="villeNom" type="text" placeholder="{{Ville}}" id="mfVilleNom" disabled>
@@ -138,7 +130,7 @@ $eqLogics = eqLogic::byType('vigilancemeteo');
                     </div>
                 </div>
 
-            <div id="portEq" class="form-group">
+            <div id="portEq" class="form-group" style="display:none">
               <label class="col-sm-3 control-label">{{Port}}</label>
               <div class="col-sm-3">
                 <input type="text" class="eqLogicAttr configuration form-control" data-l1key="configuration" data-l2key="port" placeholder="exemple 122"/>
@@ -146,7 +138,7 @@ $eqLogics = eqLogic::byType('vigilancemeteo');
             </div>
           </div>
 
-          <div id="stationEq" class="form-group">
+          <div id="stationEq" class="form-group" style="display:none">
             <label class="col-sm-3 control-label">{{Station}}</label>
             <div class="col-sm-3">
               <input type="text" class="eqLogicAttr configuration form-control" data-l1key="configuration" data-l2key="station" placeholder="exemple 122"/>
@@ -154,7 +146,7 @@ $eqLogics = eqLogic::byType('vigilancemeteo');
           </div>
         </div>
 
-            <div id="departementEq" class="form-group">
+            <div id="departementEq" class="form-group" style="display:none">
               <label class="col-sm-3 control-label">{{Département}}</label>
               <div class="col-sm-3">
                 <input type="text" class="eqLogicAttr configuration form-control" data-l1key="configuration" data-l2key="departement" placeholder="exemple 75"/>
@@ -173,6 +165,60 @@ $eqLogics = eqLogic::byType('vigilancemeteo');
               </div>
             </div>
           </div>
+
+          <div id="geolocEq" class="form-group" style="display:none">
+            <label class="col-sm-3 control-label">{{Geolocolisation à utiliser}}</label>
+            <div class="col-sm-3">
+              <select class="form-control eqLogicAttr configuration" id="geoloc" data-l1key="configuration" data-l2key="geoloc">
+                  <?php
+                  if (class_exists('geolocCmd')) {
+                    foreach (eqLogic::byType('geoloc') as $geoloc) {
+                      foreach (geolocCmd::byEqLogicId($geoloc->getId()) as $geoinfo) {
+                        if ($geoinfo->getConfiguration('mode') == 'fixe' || $geoinfo->getConfiguration('mode') == 'dynamic') {
+                          echo '<option value="' . $geoinfo->getId() . '">' . $geoinfo->getName() . '</option>';
+                        }
+                      }
+                    }
+                  } else {
+                    echo '<option value="none">Geoloc absent</option>';
+                  }
+                  ?>
+                </select>
+          </div>
+        </div>
+
+          <div id="breezeEq" class="form-group" style="display:none">
+            <label class="col-sm-3 control-label">{{Clef Breezometer}}</label>
+            <div class="col-sm-3">
+              <input type="text" class="eqLogicAttr configuration form-control" data-l1key="configuration" data-l2key="breezometer" placeholder="exemple 122"/>
+            </select>
+          </div>
+        </div>
+
+            <div id="seismeEq" class="form-group" style="display:none">
+              <label class="col-sm-3 control-label">{{Ville OpenHazards}}</label>
+              <div class="col-sm-3">
+                <input type="text" class="eqLogicAttr configuration form-control" data-l1key="configuration" data-l2key="openhazards" placeholder="exemple Paris"/>
+              </select>
+            </div>
+          </div>
+
+          <div id="surfEq" class="form-group" style="display:none">
+            <label class="col-sm-3 control-label">{{ID Spot}}</label>
+            <div class="col-sm-3">
+              <input type="text" class="eqLogicAttr configuration form-control" data-l1key="configuration" data-l2key="surf" placeholder="exemple 1"/>
+            </select>
+          </div>
+        </div>
+
+        <div id="mswEq" class="form-group" style="display:none">
+          <label class="col-sm-3 control-label">{{Clef Magicseaweed}}</label>
+          <div class="col-sm-3">
+            <input type="text" class="eqLogicAttr configuration form-control" data-l1key="configuration" data-l2key="magicseaweed" placeholder="clef API"/>
+          </select>
+        </div>
+      </div>
+
         </fieldset>
       </form>
     </div>

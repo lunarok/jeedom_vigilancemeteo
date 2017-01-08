@@ -1,6 +1,6 @@
-==== Vigilance Météo
+==== Vigilance weather
 
-Ce plugin permet de créer des équipements météo de plusieurs types :
+This plugin makes it possible to create weather equipment of several types:
 
  - Vigilance Météo : informations communiquées par Météo France qui sont les alertes sur tout risque météo
 

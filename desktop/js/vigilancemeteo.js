@@ -33,6 +33,11 @@ $('#typeEq').change(function(){
     $('#stationEq').hide();
     $('#departementEq').show();
     $('#alertEq').show();
+    $('#geolocEq').hide();
+    $('#breezeEq').hide();
+    $('#seismeEq').hide();
+    $('#surfEq').hide();
+    $('#mswEq').hide();
   }
   if (text == 'pluie1h') {
     $('#villeEq').show();
@@ -40,6 +45,11 @@ $('#typeEq').change(function(){
     $('#stationEq').hide();
     $('#departementEq').hide();
     $('#alertEq').hide();
+    $('#geolocEq').hide();
+    $('#breezeEq').hide();
+    $('#seismeEq').hide();
+    $('#surfEq').hide();
+    $('#mswEq').hide();
   }
   if (text == 'maree') {
     $('#villeEq').hide();
@@ -47,6 +57,23 @@ $('#typeEq').change(function(){
     $('#stationEq').hide();
     $('#departementEq').hide();
     $('#alertEq').hide();
+    $('#geolocEq').hide();
+    $('#breezeEq').hide();
+    $('#seismeEq').hide();
+    $('#surfEq').hide();
+    $('#mswEq').hide();
+  }
+  if (text == 'surf') {
+    $('#villeEq').hide();
+    $('#portEq').hide();
+    $('#surfEq').show();
+    $('#stationEq').hide();
+    $('#departementEq').hide();
+    $('#alertEq').hide();
+    $('#geolocEq').hide();
+    $('#breezeEq').hide();
+    $('#seismeEq').hide();
+    $('#mswEq').show();
   }
   if (text == 'crue') {
     $('#villeEq').hide();
@@ -54,6 +81,35 @@ $('#typeEq').change(function(){
     $('#stationEq').show();
     $('#departementEq').hide();
     $('#alertEq').hide();
+    $('#geolocEq').hide();
+    $('#breezeEq').hide();
+    $('#seismeEq').hide();
+    $('#surfEq').hide();
+    $('#mswEq').hide();
+  }
+  if (text == 'seisme') {
+    $('#villeEq').hide();
+    $('#portEq').hide();
+    $('#stationEq').hide();
+    $('#departementEq').hide();
+    $('#alertEq').hide();
+    $('#geolocEq').hide();
+    $('#breezeEq').hide();
+    $('#seismeEq').show();
+    $('#surfEq').hide();
+    $('#mswEq').hide();
+  }
+  if (text == 'air') {
+    $('#villeEq').hide();
+    $('#portEq').hide();
+    $('#stationEq').hide();
+    $('#departementEq').hide();
+    $('#alertEq').hide();
+    $('#geolocEq').show();
+    $('#breezeEq').show();
+    $('#seismeEq').hide();
+    $('#surfEq').hide();
+    $('#mswEq').hide();
   }
 });
 
