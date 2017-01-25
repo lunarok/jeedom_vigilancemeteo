@@ -2,7 +2,7 @@
 
 This plugin makes it possible to create weather equipment of several types:
 
- - Vigilance Météo : informations communiquées par Météo France qui sont les alertes sur tout risque météo
+ - Vigilance weather: information provided by Météo France which are all risk weather alerts
 
  - Crues : information du niveau d'eau des stations disponibles sur vigicrues
 

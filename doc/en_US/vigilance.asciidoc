@@ -2,7 +2,7 @@
 
 This plugin makes it possible to obtain information of weather vigilance provided by Météo France
 
-Sur le widget un clique sue le bouton information, vous permet d'accéder au site Vigilance Météo pour votre département
+On the widget , one click on the information button allows you to access the Vigilance weather site for your department
 
 
 ==== Type Configuration 

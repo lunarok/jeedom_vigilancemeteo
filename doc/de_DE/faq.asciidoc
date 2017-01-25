@@ -5,7 +5,7 @@ Oui il utilise des sites pour récupérer ses infos.
 --
 
 [panel,danger]
-.Je n'ai pas d'informations qui remontent
+.Ich bekomme keine Informationen, die zurückreichen
 --
 Il faut bien créer un équipement et choisir le type qui correspond à l'usage souhaité.
 --

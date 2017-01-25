@@ -10,7 +10,7 @@ Le numéro de port se récupère en allant sur http://maree.info/, on clique le 
 
 Ce plugin permet d'obtenir des informations des marées :
 
-- marée (l'indice)
+-Flut (Index)
 
 - pleine mer (l'heure)
 
