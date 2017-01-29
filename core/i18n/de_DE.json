@@ -30,7 +30,7 @@
         "Station": "Station",
         "Département": "Departement",
         "Commande Alerte": "Alarm Befehl",
-        "Geolocolisation à utiliser": "Geolocolisation à utiliser",
+        "Geolocolisation à utiliser": "Geolokalisierung verwenden",
         "Clef Breezometer": "Breezometer Schlüssel",
         "Ville OpenHazards": "OpenHazards Ort",
         "Options": "Optionen"
@@ -43,7 +43,7 @@
     },
     "plugins\/vigilancemeteo\/core\/class\/vigilancemeteo.class.php": {
         "Probabilité de séisme magnitude 5 dans les 3 jours": "Probabilité de séisme magnitude 5 dans les 3 jours",
-        "Index Qualité Air": "Index Qualité Air",
+        "Index Qualité Air": "Luftqualitäts Index",
         "Couleur Qualité Air": "Couleur Qualité Air",
         "Indicateur Marée": "Flut-Indikator",
         "Pleine Mer": "Pleine Mer",
