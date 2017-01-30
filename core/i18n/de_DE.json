@@ -42,19 +42,19 @@
         "Tester": "Testen"
     },
     "plugins\/vigilancemeteo\/core\/class\/vigilancemeteo.class.php": {
-        "Probabilité de séisme magnitude 5 dans les 3 jours": "Probabilité de séisme magnitude 5 dans les 3 jours",
+        "Probabilité de séisme magnitude 5 dans les 3 jours": "Erdbebenwahrscheinlichkeit der Stärke 5 innerhalb von 3 Tagen",
         "Index Qualité Air": "Luftqualitäts Index",
-        "Couleur Qualité Air": "Couleur Qualité Air",
+        "Couleur Qualité Air": "Farbe Luftqualität",
         "Indicateur Marée": "Flut-Indikator",
-        "Pleine Mer": "Pleine Mer",
+        "Pleine Mer": " Offenes Meer",
         "Basse Mer": "Meertiefe",
         "Niveau d'eau": "Wasserstand",
-        "Previsions Textuelles": "Previsions Textuelles",
-        "Dernière mise à jour": "Dernière mise à jour",
-        "Pluie prévue dans l heure": "Pluie prévue dans l heure",
+        "Previsions Textuelles": "Textvorhersage",
+        "Dernière mise à jour": "Zuletzt aktualisiert ",
+        "Pluie prévue dans l heure": "Regen vorgesehen in l Stunden",
         "Prévision à 0-5": "Prognose bei 0-5",
         "Prévision à 5-10": "Prognose bei 5-10",
-        "Prévision à 10-15": "Prévision à 10-15",
+        "Prévision à 10-15": "Prognose bei 10-15",
         "Prévision à 15-20": "Prognose bei 15-20",
         "Prévision à 20-25": "Prognose bei 20-25",
         "Prévision à 25-30": "Prognose bei 25-30",
@@ -63,9 +63,9 @@
         "Prévision à 40-45": "Prognose bei 40-45",
         "Prévision à 45-50": "Prognose bei 45-50",
         "Prévision à 50-55": "Prognose bei 50-55",
-        "Prévision à 55-60": "Prévision à 55-60",
-        "Vigilance": "Vigilance",
-        "Crue": "Crue",
-        "Risque": "Risque"
+        "Prévision à 55-60": "Prognose bei 55-60",
+        "Vigilance": "Überwachung",
+        "Crue": "Hochwasser",
+        "Risque": "Risiko"
     }
 }
