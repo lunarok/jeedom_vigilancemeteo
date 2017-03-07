@@ -238,6 +238,17 @@ class vigilancemeteo extends eqLogic {
             $cmdlogic->setSubType('string');
             $cmdlogic->save();
 
+            $cmdlogic = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'color');
+            if (!is_object($cmdlogic)) {
+                $cmdlogic = new vigilancemeteoCmd();
+                $cmdlogic->setName(__('Couleur Indice', __FILE__));
+                $cmdlogic->setEqLogic_id($this->getId());
+                $cmdlogic->setLogicalId('color');
+            }
+            $cmdlogic->setType('info');
+            $cmdlogic->setSubType('string');
+            $cmdlogic->save();
+
             $cmdlogic = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'no2');
             if (!is_object($cmdlogic)) {
                 $cmdlogic = new vigilancemeteoCmd();
@@ -838,7 +849,7 @@ class vigilancemeteo extends eqLogic {
             } else {
                 $color = 'red';
             }
-
+            $this->checkAndUpdateCmd('color', $color);
             $this->checkAndUpdateCmd('aqi', $json['data']['aqi']);
             $this->checkAndUpdateCmd('dominentpol', $json['data']['aqi']);
             $this->checkAndUpdateCmd('no2', $json['data']['iaqi']['no2']['v']);
