@@ -227,15 +227,92 @@ class vigilancemeteo extends eqLogic {
             $cmdlogic->setSubType('numeric');
             $cmdlogic->save();
 
-            $cmdlogic = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'color');
+            $cmdlogic = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'dominentpol');
             if (!is_object($cmdlogic)) {
                 $cmdlogic = new vigilancemeteoCmd();
-                $cmdlogic->setName(__('Couleur Qualité Air', __FILE__));
+                $cmdlogic->setName(__('Polluant Majoritaire', __FILE__));
                 $cmdlogic->setEqLogic_id($this->getId());
-                $cmdlogic->setLogicalId('color');
+                $cmdlogic->setLogicalId('dominentpol');
             }
             $cmdlogic->setType('info');
             $cmdlogic->setSubType('string');
+            $cmdlogic->save();
+
+            $cmdlogic = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'no2');
+            if (!is_object($cmdlogic)) {
+                $cmdlogic = new vigilancemeteoCmd();
+                $cmdlogic->setName(__('NO2', __FILE__));
+                $cmdlogic->setEqLogic_id($this->getId());
+                $cmdlogic->setLogicalId('no2');
+            }
+            $cmdlogic->setType('info');
+            $cmdlogic->setSubType('numeric');
+            $cmdlogic->save();
+
+            $cmdlogic = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'o3');
+            if (!is_object($cmdlogic)) {
+                $cmdlogic = new vigilancemeteoCmd();
+                $cmdlogic->setName(__('O3', __FILE__));
+                $cmdlogic->setEqLogic_id($this->getId());
+                $cmdlogic->setLogicalId('o3');
+            }
+            $cmdlogic->setType('info');
+            $cmdlogic->setSubType('numeric');
+            $cmdlogic->save();
+
+            $cmdlogic = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'pm10');
+            if (!is_object($cmdlogic)) {
+                $cmdlogic = new vigilancemeteoCmd();
+                $cmdlogic->setName(__('PM10', __FILE__));
+                $cmdlogic->setEqLogic_id($this->getId());
+                $cmdlogic->setLogicalId('pm10');
+            }
+            $cmdlogic->setType('info');
+            $cmdlogic->setSubType('numeric');
+            $cmdlogic->save();
+
+            $cmdlogic = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'pm25');
+            if (!is_object($cmdlogic)) {
+                $cmdlogic = new vigilancemeteoCmd();
+                $cmdlogic->setName(__('PM2.5', __FILE__));
+                $cmdlogic->setEqLogic_id($this->getId());
+                $cmdlogic->setLogicalId('pm25');
+            }
+            $cmdlogic->setType('info');
+            $cmdlogic->setSubType('numeric');
+            $cmdlogic->save();
+
+            $cmdlogic = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'t');
+            if (!is_object($cmdlogic)) {
+                $cmdlogic = new vigilancemeteoCmd();
+                $cmdlogic->setName(__('Température', __FILE__));
+                $cmdlogic->setEqLogic_id($this->getId());
+                $cmdlogic->setLogicalId('t');
+            }
+            $cmdlogic->setType('info');
+            $cmdlogic->setSubType('numeric');
+            $cmdlogic->save();
+
+            $cmdlogic = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'h');
+            if (!is_object($cmdlogic)) {
+                $cmdlogic = new vigilancemeteoCmd();
+                $cmdlogic->setName(__('Humidité', __FILE__));
+                $cmdlogic->setEqLogic_id($this->getId());
+                $cmdlogic->setLogicalId('h');
+            }
+            $cmdlogic->setType('info');
+            $cmdlogic->setSubType('numeric');
+            $cmdlogic->save();
+
+            $cmdlogic = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'p');
+            if (!is_object($cmdlogic)) {
+                $cmdlogic = new vigilancemeteoCmd();
+                $cmdlogic->setName(__('Pression', __FILE__));
+                $cmdlogic->setEqLogic_id($this->getId());
+                $cmdlogic->setLogicalId('p');
+            }
+            $cmdlogic->setType('info');
+            $cmdlogic->setSubType('numeric');
             $cmdlogic->save();
 
             $this->getAir();
@@ -733,7 +810,7 @@ class vigilancemeteo extends eqLogic {
     }
 
     public function getAir() {
-        $apikey = $this->getConfiguration('breezometer');
+        $apikey = $this->getConfiguration('aqicn');
         if ($apikey == '') {
             log::add('vigilancemeteo', 'error', 'API non saisie');
             return;
@@ -749,19 +826,28 @@ class vigilancemeteo extends eqLogic {
             $geoloctab = explode(',', trim($geolocval));
             $latitude = trim($geoloctab[0]);
             $longitude = trim($geoloctab[1]);
-            $url = 'http://api.breezometer.com/baqi/?lat=' . $latitude . '&lon=' . $longitude . '&key=' . $apikey;
+            $url = 'http://api.waqi.info/feed/geo:' . $latitude . ';' . $longitude . '/?token=' . $apikey;
             $json = json_decode(file_get_contents($url), true);
-            log::add('vigilancemeteo', 'debug', 'Air ' . $json['breezometer_aqi'] . ' ' . $json['breezometer_color']);
+            log::add('vigilancemeteo', 'debug', 'Air ' . $json['data']['aqi'] . ' ' . $json['data']['name']);
+            if ($json['data']['aqi'] <= 50) {
+                $color = 'green';
+            } else if ($json['data']['aqi'] <= 100) {
+                $color = 'yellow';
+            } else if ($json['data']['aqi'] <= 150) {
+                $color = 'orange';
+            } else {
+                $color = 'red';
+            }
 
-            $cmdlogic = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'aqi');
-            $cmdlogic->setConfiguration('value', $json['breezometer_aqi']);
-            $cmdlogic->save();
-            $cmdlogic->event($json['breezometer_aqi']);
-
-            $cmdlogic = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'color');
-            $cmdlogic->setConfiguration('value', $json['breezometer_color']);
-            $cmdlogic->save();
-            $cmdlogic->event($json['breezometer_color']);
+            $this->checkAndUpdateCmd('aqi', $json['data']['aqi']);
+            $this->checkAndUpdateCmd('dominentpol', $json['data']['aqi']);
+            $this->checkAndUpdateCmd('no2', $json['data']['iaqi']['no2']['v']);
+            $this->checkAndUpdateCmd('o3', $json['data']['iaqi']['o3']['v']);
+            $this->checkAndUpdateCmd('pm10', $json['data']['iaqi']['pm10']['v']);
+            $this->checkAndUpdateCmd('pm25', $json['data']['iaqi']['pm25']['v']);
+            $this->checkAndUpdateCmd('t', $json['data']['iaqi']['t']['v']);
+            $this->checkAndUpdateCmd('h', $json['data']['iaqi']['h']['v']);
+            $this->checkAndUpdateCmd('p', $json['data']['iaqi']['p']['v']);
         }
         return ;
     }
@@ -954,9 +1040,22 @@ class vigilancemeteo extends eqLogic {
         } else if ($this->getConfiguration('type') == 'air') {
             $cmd = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'aqi');
             $cmdcolor = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'color');
+            switch ($cmdcolor->getConfiguration('value')) {
+                case 'Vert':
+                $replace['#aqicolor#'] = "#00ff1e";
+                break;
+                case 'Jaune':
+                $replace['#aqicolor#'] = "#FFFF00";
+                break;
+                case 'Orange':
+                $replace['#aqicolor#'] = "#FFA500";
+                break;
+                case 'Rouge':
+                $replace['#aqicolor#'] = "#E50000";
+                break;
+            }
             $replace['#aqi_history#'] = '';
             $replace['#aqi#'] = $cmd->getConfiguration('value');
-            $replace['#aqicolor#'] = $cmdcolor->getConfiguration('value');
             $replace['#aqi_id#'] = $cmd->getId();
 
             $replace['#aqi_collect#'] = $cmd->getCollectDate();

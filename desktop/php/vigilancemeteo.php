@@ -188,9 +188,9 @@ $eqLogics = eqLogic::byType('vigilancemeteo');
         </div>
 
           <div id="breezeEq" class="form-group" style="display:none">
-            <label class="col-sm-3 control-label">{{Clef Breezometer}}</label>
+            <label class="col-sm-3 control-label">{{Clef AQICN}}</label>
             <div class="col-sm-3">
-              <input type="text" class="eqLogicAttr configuration form-control" data-l1key="configuration" data-l2key="breezometer" placeholder="exemple 122"/>
+              <input type="text" class="eqLogicAttr configuration form-control" data-l1key="configuration" data-l2key="aqicn" placeholder="exemple 122"/>
             </select>
           </div>
         </div>
