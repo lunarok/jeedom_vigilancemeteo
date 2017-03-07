@@ -851,7 +851,7 @@ class vigilancemeteo extends eqLogic {
             }
             $this->checkAndUpdateCmd('color', $color);
             $this->checkAndUpdateCmd('aqi', $json['data']['aqi']);
-            $this->checkAndUpdateCmd('dominentpol', $json['data']['aqi']);
+            $this->checkAndUpdateCmd('dominentpol', $json['data']['dominentpol']);
             $this->checkAndUpdateCmd('no2', $json['data']['iaqi']['no2']['v']);
             $this->checkAndUpdateCmd('o3', $json['data']['iaqi']['o3']['v']);
             $this->checkAndUpdateCmd('pm10', $json['data']['iaqi']['pm10']['v']);
@@ -1051,22 +1051,22 @@ class vigilancemeteo extends eqLogic {
         } else if ($this->getConfiguration('type') == 'air') {
             $cmd = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'aqi');
             $cmdcolor = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'color');
-            switch ($cmdcolor->getConfiguration('value')) {
-                case 'Vert':
+            switch ($cmdcolor->execCmd()) {
+                case 'green':
                 $replace['#aqicolor#'] = "#00ff1e";
                 break;
-                case 'Jaune':
+                case 'yellow':
                 $replace['#aqicolor#'] = "#FFFF00";
                 break;
-                case 'Orange':
+                case 'orange':
                 $replace['#aqicolor#'] = "#FFA500";
                 break;
-                case 'Rouge':
+                case 'red':
                 $replace['#aqicolor#'] = "#E50000";
                 break;
             }
             $replace['#aqi_history#'] = '';
-            $replace['#aqi#'] = $cmd->getConfiguration('value');
+            $replace['#aqi#'] = $cmd->execCmd();
             $replace['#aqi_id#'] = $cmd->getId();
 
             $replace['#aqi_collect#'] = $cmd->getCollectDate();
