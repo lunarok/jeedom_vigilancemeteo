@@ -1065,6 +1065,7 @@ class vigilancemeteo extends eqLogic {
                 $replace['#aqicolor#'] = "#E50000";
                 break;
             }
+
             $replace['#aqi_history#'] = '';
             $replace['#aqi#'] = $cmd->execCmd();
             $replace['#aqi_id#'] = $cmd->getId();
@@ -1073,6 +1074,15 @@ class vigilancemeteo extends eqLogic {
             if ($cmd->getIsHistorized() == 1) {
                 $replace['#aqi_history#'] = 'history cursor';
             }
+
+            $cmd = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'pm25');
+            $replace['#pm25#'] = $cmd->execCmd();
+            $cmd = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'pm10');
+            $replace['#pm10#'] = $cmd->execCmd();
+            $cmd = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'no2');
+            $replace['#no2#'] = $cmd->execCmd();
+            $cmd = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'o3');
+            $replace['#o3#'] = $cmd->execCmd();
 
             $templatename = 'air';
         } else if ($this->getConfiguration('type') == 'seisme') {
