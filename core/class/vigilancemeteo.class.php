@@ -1054,15 +1054,19 @@ class vigilancemeteo extends eqLogic {
             switch ($cmdcolor->execCmd()) {
                 case 'green':
                 $replace['#aqicolor#'] = "#00ff1e";
+                $replace['#aqilevel#'] = "Good";
                 break;
                 case 'yellow':
                 $replace['#aqicolor#'] = "#FFFF00";
+                $replace['#aqilevel#'] = "Moderate";
                 break;
                 case 'orange':
                 $replace['#aqicolor#'] = "#FFA500";
+                $replace['#aqilevel#'] = "Unhealthy Sensitive";
                 break;
                 case 'red':
                 $replace['#aqicolor#'] = "#E50000";
+                $replace['#aqilevel#'] = "Unhealthy";
                 break;
             }
 
