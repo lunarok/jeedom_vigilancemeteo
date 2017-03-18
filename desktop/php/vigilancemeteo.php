@@ -135,7 +135,6 @@ $eqLogics = eqLogic::byType('vigilancemeteo');
               <label class="col-sm-3 control-label">{{Port}}</label>
               <div class="col-sm-3">
                 <input type="text" class="eqLogicAttr configuration form-control" data-l1key="configuration" data-l2key="port" placeholder="exemple 122"/>
-              </select>
             </div>
           </div>
 
@@ -143,7 +142,6 @@ $eqLogics = eqLogic::byType('vigilancemeteo');
             <label class="col-sm-3 control-label">{{Station}}</label>
             <div class="col-sm-3">
               <input type="text" class="eqLogicAttr configuration form-control" data-l1key="configuration" data-l2key="station" placeholder="exemple 122"/>
-            </select>
           </div>
         </div>
 
@@ -151,7 +149,6 @@ $eqLogics = eqLogic::byType('vigilancemeteo');
               <label class="col-sm-3 control-label">{{Département}}</label>
               <div class="col-sm-3">
                 <input type="text" class="eqLogicAttr configuration form-control" data-l1key="configuration" data-l2key="departement" placeholder="exemple 75"/>
-              </select>
             </div>
           </div>
 
@@ -192,7 +189,6 @@ $eqLogics = eqLogic::byType('vigilancemeteo');
             <label class="col-sm-3 control-label">{{Clef AQICN}}</label>
             <div class="col-sm-3">
               <input type="text" class="eqLogicAttr configuration form-control" data-l1key="configuration" data-l2key="aqicn" placeholder="exemple 122"/>
-            </select>
           </div>
         </div>
 
@@ -200,7 +196,6 @@ $eqLogics = eqLogic::byType('vigilancemeteo');
               <label class="col-sm-3 control-label">{{Ville OpenHazards}}</label>
               <div class="col-sm-3">
                 <input type="text" class="eqLogicAttr configuration form-control" data-l1key="configuration" data-l2key="openhazards" placeholder="exemple Paris"/>
-              </select>
             </div>
           </div>
 
@@ -208,7 +203,6 @@ $eqLogics = eqLogic::byType('vigilancemeteo');
             <label class="col-sm-3 control-label">{{ID Spot}}</label>
             <div class="col-sm-3">
               <input type="text" class="eqLogicAttr configuration form-control" data-l1key="configuration" data-l2key="surf" placeholder="exemple 1"/>
-            </select>
           </div>
         </div>
 
@@ -216,7 +210,6 @@ $eqLogics = eqLogic::byType('vigilancemeteo');
           <label class="col-sm-3 control-label">{{Clef Magicseaweed}}</label>
           <div class="col-sm-3">
             <input type="text" class="eqLogicAttr configuration form-control" data-l1key="configuration" data-l2key="magicseaweed" placeholder="clef API"/>
-          </select>
         </div>
       </div>
 
