@@ -82,6 +82,29 @@ class vigilancemeteo extends eqLogic {
         }
     }
 
+    public function loadCmdFromConf($_update = false) {
+
+        if (!is_file(dirname(__FILE__) . '/../config/devices/' . $this->getConfiguration('type') . '.json')) {
+            return;
+        }
+        $content = file_get_contents(dirname(__FILE__) . '/../config/devices/' . $this->getConfiguration('type') . '.json');
+        if (!is_json($content)) {
+            return;
+        }
+        $device = json_decode($content, true);
+        if (!is_array($device) || !isset($device['commands'])) {
+            return true;
+        }
+        if (isset($device['name']) && !$_update) {
+            $this->setName('[' . $this->getLogicalId() . ']' . $device['name']);
+        }
+        $this->import($device);
+    }
+
+    public function postAjax() {
+        $this->loadCmdFromConf();
+    }
+
     public function postUpdate() {
         $depmer = array("06","11","13","14","17","2A","2B","22","29","30","33","34","35","40","44","50","56","59","62","64","66","76","80","83","85");
         if ($this->getConfiguration('type') == 'vigilance') {
