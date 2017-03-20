@@ -114,6 +114,7 @@ $eqLogics = eqLogic::byType('vigilancemeteo');
                   <option value="surf">{{Surf}}</option>
                   <option value="seisme">{{Séisme}}</option>
                   <option value="air">{{Qualité d'Air}}</option>
+                  <option value="pollen">{{Pollen}}</option>
                 </select>
               </div>
             </div>

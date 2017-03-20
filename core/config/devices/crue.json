@@ -1,0 +1,33 @@
+{
+    "name": "Crue",
+	"configuration" : {
+		"model" : "crue",
+        "type" : "crue"
+	},
+    "commands": [
+        {
+            "name": "Niveau Eau",
+            "type": "info",
+            "subtype": "numeric",
+            "logicalId": "niveau"
+        },
+        {
+            "name": "Dernier relevé niveau",
+            "type": "info",
+            "subtype": "string",
+            "logicalId": "dateniveau"
+        },
+        {
+            "name": "Débit Eau",
+            "type": "info",
+            "subtype": "numeric",
+            "logicalId": "debit"
+        },
+        {
+            "name": "Dernier relevé débit",
+            "type": "info",
+            "subtype": "string",
+            "logicalId": "datedebit"
+        }
+    ]
+}

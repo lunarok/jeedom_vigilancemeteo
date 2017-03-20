@@ -1,0 +1,129 @@
+{
+    "name": "Pollen",
+	"configuration" : {
+		"model" : "pollen",
+        "type" : "pollen"
+	},
+    "commands": [
+        {
+            "name": "General",
+            "type": "info",
+            "subtype": "numeric",
+            "logicalId": "General"
+        },
+        {
+            "name": "Cupressacées",
+            "type": "info",
+            "subtype": "numeric",
+            "logicalId": "Cupressacées"
+        },
+        {
+            "name": "Noisetier",
+            "type": "info",
+            "subtype": "numeric",
+            "logicalId": "Noisetier"
+        },
+        {
+            "name": "Aulne",
+            "type": "info",
+            "subtype": "numeric",
+            "logicalId": "Aulne"
+        },
+        {
+            "name": "Peuplier",
+            "type": "info",
+            "subtype": "numeric",
+            "logicalId": "Peuplier"
+        },
+        {
+            "name": "Saule",
+            "type": "info",
+            "subtype": "numeric",
+            "logicalId": "Saule"
+        },
+        {
+            "name": "Frêne",
+            "type": "info",
+            "subtype": "numeric",
+            "logicalId": "Frêne"
+        },
+        {
+            "name": "Charme",
+            "type": "info",
+            "subtype": "numeric",
+            "logicalId": "Charme"
+        },
+        {
+            "name": "Bouleau",
+            "type": "info",
+            "subtype": "numeric",
+            "logicalId": "Bouleau"
+        },
+        {
+            "name": "Platane",
+            "type": "info",
+            "subtype": "numeric",
+            "logicalId": "Platane"
+        },
+        {
+            "name": "Chêne",
+            "type": "info",
+            "subtype": "numeric",
+            "logicalId": "Chêne"
+        },
+        {
+            "name": "Olivier",
+            "type": "info",
+            "subtype": "numeric",
+            "logicalId": "Olivier"
+        },
+        {
+            "name": "Tilleul",
+            "type": "info",
+            "subtype": "numeric",
+            "logicalId": "Tilleul"
+        },
+        {
+            "name": "Châtaignier",
+            "type": "info",
+            "subtype": "numeric",
+            "logicalId": "Châtaignier"
+        },
+        {
+            "name": "Rumex",
+            "type": "info",
+            "subtype": "numeric",
+            "logicalId": "Rumex"
+        },
+        {
+            "name": "Graminées",
+            "type": "info",
+            "subtype": "numeric",
+            "logicalId": "Graminées"
+        },
+        {
+            "name": "Plantain",
+            "type": "info",
+            "subtype": "numeric",
+            "logicalId": "Plantain"
+        },
+        {
+            "name": "Urticacées",
+            "type": "info",
+            "subtype": "numeric",
+            "logicalId": "Urticacées"
+        },
+        {
+            "name": "Armoise",
+            "type": "info",
+            "subtype": "numeric",
+            "logicalId": "Armoise"
+        },
+        {
+            "name": "Ambroisies",
+            "type": "info",
+            "subtype": "numeric",
+            "logicalId": "Ambroisies"
+        }
+    ]
+}

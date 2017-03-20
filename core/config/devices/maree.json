@@ -1,0 +1,27 @@
+{
+    "name": "Marée",
+	"configuration" : {
+		"model" : "maree",
+        "type" : "maree"
+	},
+    "commands": [
+        {
+            "name": "Indicateur Marée",
+            "type": "info",
+            "subtype": "numeric",
+            "logicalId": "maree"
+        },
+        {
+            "name": "Pleine Mer",
+            "type": "info",
+            "subtype": "numeric",
+            "logicalId": "pleine"
+        },
+        {
+            "name": "Basse Mer",
+            "type": "info",
+            "subtype": "numeric",
+            "logicalId": "basse"
+        }
+    ]
+}

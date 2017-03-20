@@ -1,0 +1,27 @@
+{
+    "name": "Vigilance",
+	"configuration" : {
+		"model" : "vigilance",
+        "type" : "vigilance"
+	},
+    "commands": [
+        {
+            "name": "Vigilance",
+            "type": "info",
+            "subtype": "string",
+            "logicalId": "vigilance"
+        },
+        {
+            "name": "Crue",
+            "type": "info",
+            "subtype": "string",
+            "logicalId": "crue"
+        },
+        {
+            "name": "Risque",
+            "type": "info",
+            "subtype": "string",
+            "logicalId": "risque"
+        }
+    ]
+}

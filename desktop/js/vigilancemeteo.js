@@ -111,6 +111,18 @@ $('#typeEq').change(function(){
     $('#surfEq').hide();
     $('#mswEq').hide();
   }
+  if (text == 'pollen') {
+    $('#villeEq').hide();
+    $('#portEq').hide();
+    $('#stationEq').hide();
+    $('#departementEq').show();
+    $('#alertEq').hide();
+    $('#geolocEq').hide();
+    $('#breezeEq').hide();
+    $('#seismeEq').hide();
+    $('#surfEq').hide();
+    $('#mswEq').hide();
+  }
 });
 
 function addCmdToTable(_cmd) {

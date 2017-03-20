@@ -1,0 +1,15 @@
+{
+    "name": "Séisme",
+	"configuration" : {
+		"model" : "seisme",
+        "type" : "seisme"
+	},
+    "commands": [
+        {
+            "name": "Probabilité de séisme magnitude 5 dans les 3 jours",
+            "type": "info",
+            "subtype": "numeric",
+            "logicalId": "risk"
+        }
+    ]
+}

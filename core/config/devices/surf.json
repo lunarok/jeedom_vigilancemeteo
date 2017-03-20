@@ -1,0 +1,39 @@
+{
+    "name": "Surf",
+	"configuration" : {
+		"model" : "surf",
+        "type" : "surf"
+	},
+    "commands": [
+        {
+            "name": "Hauteur minimum des Vagues",
+            "type": "info",
+            "subtype": "numeric",
+            "logicalId": "minimum"
+        },
+        {
+            "name": "Hauteur maximum des Vagues",
+            "type": "info",
+            "subtype": "numeric",
+            "logicalId": "maximum"
+        },
+        {
+            "name": "Hauteur des Vagues en arrivée",
+            "type": "info",
+            "subtype": "numeric",
+            "logicalId": "primaryHeight"
+        },
+        {
+            "name": "Fréquence des Vagues en arrivée",
+            "type": "info",
+            "subtype": "numeric",
+            "logicalId": "primaryPeriod"
+        },
+        {
+            "name": "Direction des Vagues",
+            "type": "info",
+            "subtype": "numeric",
+            "logicalId": "compassDirection"
+        }
+    ]
+}

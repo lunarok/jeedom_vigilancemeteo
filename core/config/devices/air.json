@@ -1,0 +1,69 @@
+{
+    "name": "Qualité Air",
+	"configuration" : {
+		"model" : "air",
+        "type" : "air"
+	},
+    "commands": [
+        {
+            "name": "Index Qualité Air",
+            "type": "info",
+            "subtype": "numeric",
+            "logicalId": "aqi"
+        },
+        {
+            "name": "Polluant Dominant",
+            "type": "info",
+            "subtype": "string",
+            "logicalId": "dominentpol"
+        },
+        {
+            "name": "Couleur Indice",
+            "type": "info",
+            "subtype": "string",
+            "logicalId": "color"
+        },
+        {
+            "name": "NO2",
+            "type": "info",
+            "subtype": "numeric",
+            "logicalId": "no2"
+        },
+        {
+            "name": "O3",
+            "type": "info",
+            "subtype": "numeric",
+            "logicalId": "o3"
+        },
+        {
+            "name": "PM10",
+            "type": "info",
+            "subtype": "numeric",
+            "logicalId": "pm10"
+        },
+        {
+            "name": "PM2.5",
+            "type": "info",
+            "subtype": "numeric",
+            "logicalId": "pm25"
+        },
+        {
+            "name": "Température",
+            "type": "info",
+            "subtype": "numeric",
+            "logicalId": "t"
+        },
+        {
+            "name": "Pression",
+            "type": "info",
+            "subtype": "numeric",
+            "logicalId": "p"
+        },
+        {
+            "name": "Humidité",
+            "type": "info",
+            "subtype": "numeric",
+            "logicalId": "h"
+        }
+    ]
+}
