@@ -133,6 +133,9 @@ class vigilancemeteo extends eqLogic {
             $this->getAir();
         }
         if ($this->getConfiguration('type') == 'pollen') {
+            if (strlen($this->getConfiguration('departement')) == 1) {
+                $this->setConfiguration('departement',str_pad($this->getConfiguration('departement'),2,"0",STR_PAD_LEFT));
+            }
             $this->getPollen();
         }
         if ($this->getConfiguration('type') == 'surf') {
@@ -881,17 +884,16 @@ class vigilancemeteo extends eqLogic {
 
                 $templatename = 'surf';
             } else if ($this->getConfiguration('type') == 'pollen') {
-                $cmd = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'general');
-                $replace['#pollen_history#'] = '';
-                $replace['#pollen#'] = $cmd->execCmd();
-                $replace['#pollen_id#'] = $cmd->getId();
+                foreach ($this->getCmd('info') as $cmd) {
+                    $replace['#' . $cmd->getLogicalId() . '_history#'] = '';
+                    $replace['#' . $cmd->getLogicalId() . '_id#'] = $cmd->getId();
+                    $replace['#' . $cmd->getLogicalId() . '#'] = $cmd->execCmd();
+                    $replace['#' . $cmd->getLogicalId() . '_collect#'] = $cmd->getCollectDate();
+                    if ($cmd->getIsHistorized() == 1) {
+                        $replace['#' . $cmd->getLogicalId() . '_history#'] = 'history cursor';
+                    }
 
-                $replace['#pollen_collect#'] = $cmd->getCollectDate();
-                if ($cmd->getIsHistorized() == 1) {
-                    $replace['#pollen_history#'] = 'history cursor';
                 }
-
-
                 $templatename = 'pollen';
             } else if ($this->getConfiguration('type') == 'crue') {
                 $cmd = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'niveau');
