@@ -636,15 +636,15 @@ class vigilancemeteo extends eqLogic {
         }
 
         function getDep() {
-            $dep[01] = array(439,316);
-            $dep[02] = array(360,91);
-            $dep[03] = array(333,305);
-            $dep[04] = array(483,447);
-            $dep[05] = array(496,411);
-            $dep[06] = array(532,454);
-            $dep[07] = array(398,419);
-            
-            $dep[09] = array(266,531);
+            $dep[1] = array(439,316);
+            $dep[2] = array(360,91);
+            $dep[3] = array(333,305);
+            $dep[4] = array(483,447);
+            $dep[5] = array(496,411);
+            $dep[6] = array(532,454);
+            $dep[7] = array(398,419);
+            $dep[8] = array(403,93);
+            $dep[9] = array(266,531);
             $dep[10] = array(375,180);
             $dep[11] = array(305,520);
             $dep[12] = array(320,439);
