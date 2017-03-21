@@ -613,17 +613,16 @@ class vigilancemeteo extends eqLogic {
         public function getPollenLevel($red,$green,$blue) {
             //0 brown, 1 green, 2 yellow, 3 orange, 4 red, 5 violet
             log::add('vigilancemeteo', 'debug', 'Coordonnées ' . $red . ' ' . $green . ' ' . $blue);
-            if ($red == 255 && $green == 255 && $blue == 255 || $red == 135 && $green == 135 && $blue == 135) {
-                $level = 0;
-            } elseif ($red == 0 && $green == 255 && $blue == 0) {
+            $level = 0;
+            if ($red == 0 && $green == 255 && $blue == 0) {
                 $level = 1;
-            } elseif ($red == 0 && $green == 176 && $blue == 80) {
+            } elseif ($red == 0 && $green == 128 && $blue == 0) {
                 $level = 2;
             } elseif ($red == 255 && $green == 255 && $blue == 0) {
                 $level = 3;
-            } elseif ($red == 247 && $green == 150 && $blue == 70) {
+            } elseif ($red == 255 && $green == 127 && $blue == 42) {
                 $level = 4;
-            } else {
+            } elseif ($red == 255 && $green == 0 && $blue == 0) {
                 $level = 5;
             }
             return $level;
