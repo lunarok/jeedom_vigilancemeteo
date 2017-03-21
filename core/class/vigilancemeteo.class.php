@@ -624,7 +624,7 @@ class vigilancemeteo extends eqLogic {
             } elseif ($red == 255 && $green == 0 && $blue == 0) {
                 $level = 5;
             }
-            log::add('vigilancemeteo', 'debug', 'Couleur ' . $red . ' ' . $green . ' ' . $blue . ' : ' . $pollen);
+            log::add('vigilancemeteo', 'debug', 'Couleur ' . $red . ' ' . $green . ' ' . $blue . ' : ' . $level);
             return $level;
         }
 
