@@ -590,7 +590,8 @@ class vigilancemeteo extends eqLogic {
         }
         $im = @imagecreatefrompng("http://www.pollens.fr/docs/Departements_de_France-simple.png");
         $xy = vigilancemeteo::getDep();
-        $rgb = @imagecolorat($im, $xy[$departement][0], $xy[$departement][1]);
+        $dep0 = ltrim($departement, '0');
+        $rgb = @imagecolorat($im, $xy[$dep0][0], $xy[$dep0][1]);
         $colors = @imagecolorsforindex($im, $rgb);
         $pollen = vigilancemeteo::getPollenLevel($colors['red'],$colors['green'],$colors['blue']);
         //log::add('vigilancemeteo', 'debug', 'Coordonnées ' . $xy[$departement][0] . ' ' . $xy[$departement][1] . ' level : ' . $pollen);
