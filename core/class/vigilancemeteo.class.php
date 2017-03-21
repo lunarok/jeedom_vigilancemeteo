@@ -615,11 +615,11 @@ class vigilancemeteo extends eqLogic {
             $level = 0;
             if ($red == 0 && $green == 255 && $blue == 0) {
                 $level = 1;
-            } elseif ($red == 0 && $green == 176 && $blue == 80) {
+            } elseif (($red == 0 && $green == 176 && $blue == 80) || ($red == 0 && $green == 128 && $blue == 0)) {
                 $level = 2;
             } elseif ($red == 255 && $green == 255 && $blue == 0) {
                 $level = 3;
-            } elseif ($red == 247 && $green == 150 && $blue == 70) {
+            } elseif (($red == 247 && $green == 150 && $blue == 70) || ($red == 255 && $green == 127 && $blue == 42)) {
                 $level = 4;
             } elseif ($red == 255 && $green == 0 && $blue == 0) {
                 $level = 5;
