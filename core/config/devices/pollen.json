@@ -6,124 +6,144 @@
 	},
     "commands": [
         {
-            "name": "General",
+            "name": "Général",
             "type": "info",
             "subtype": "numeric",
-            "logicalId": "General"
+            "data": "Général",
+            "logicalId": "general"
         },
         {
             "name": "Cupressacées",
             "type": "info",
             "subtype": "numeric",
-            "logicalId": "Cupressacées"
+            "data": "Cupressacées",
+            "logicalId": "pollen1"
         },
         {
             "name": "Noisetier",
             "type": "info",
             "subtype": "numeric",
-            "logicalId": "Noisetier"
+            "data": "Noisetier",
+            "logicalId": "pollen2"
         },
         {
             "name": "Aulne",
             "type": "info",
             "subtype": "numeric",
-            "logicalId": "Aulne"
+            "data": "Aulne",
+            "logicalId": "pollen3"
         },
         {
             "name": "Peuplier",
             "type": "info",
             "subtype": "numeric",
-            "logicalId": "Peuplier"
+            "data": "Peuplier",
+            "logicalId": "pollen4"
         },
         {
             "name": "Saule",
             "type": "info",
             "subtype": "numeric",
-            "logicalId": "Saule"
+            "data": "Saule",
+            "logicalId": "pollen5"
         },
         {
             "name": "Frêne",
             "type": "info",
             "subtype": "numeric",
-            "logicalId": "Frêne"
+            "data": "Frêne",
+            "logicalId": "pollen6"
         },
         {
             "name": "Charme",
             "type": "info",
             "subtype": "numeric",
-            "logicalId": "Charme"
+            "data": "Charme",
+            "logicalId": "pollen7"
         },
         {
             "name": "Bouleau",
             "type": "info",
             "subtype": "numeric",
-            "logicalId": "Bouleau"
+            "data": "Bouleau",
+            "logicalId": "pollen8"
         },
         {
             "name": "Platane",
             "type": "info",
             "subtype": "numeric",
-            "logicalId": "Platane"
+            "data": "Platane",
+            "logicalId": "pollen9"
         },
         {
             "name": "Chêne",
             "type": "info",
             "subtype": "numeric",
-            "logicalId": "Chêne"
+            "data": "Chêne",
+            "logicalId": "pollen10"
         },
         {
             "name": "Olivier",
             "type": "info",
             "subtype": "numeric",
-            "logicalId": "Olivier"
+            "data": "Olivier",
+            "logicalId": "pollen11"
         },
         {
             "name": "Tilleul",
             "type": "info",
             "subtype": "numeric",
-            "logicalId": "Tilleul"
+            "data": "Tilleul",
+            "logicalId": "pollen12"
         },
         {
             "name": "Châtaignier",
             "type": "info",
             "subtype": "numeric",
-            "logicalId": "Châtaignier"
+            "data": "Châtaignier",
+            "logicalId": "pollen13"
         },
         {
             "name": "Rumex",
             "type": "info",
             "subtype": "numeric",
-            "logicalId": "Rumex"
+            "data": "Rumex",
+            "logicalId": "pollen14"
         },
         {
             "name": "Graminées",
             "type": "info",
             "subtype": "numeric",
-            "logicalId": "Graminées"
+            "data": "Graminées",
+            "logicalId": "pollen15"
         },
         {
             "name": "Plantain",
             "type": "info",
             "subtype": "numeric",
-            "logicalId": "Plantain"
+            "data": "Plantain",
+            "logicalId": "pollen16"
         },
         {
             "name": "Urticacées",
             "type": "info",
             "subtype": "numeric",
-            "logicalId": "Urticacées"
+            "data": "Urticacées",
+            "logicalId": "pollen17"
         },
         {
             "name": "Armoise",
             "type": "info",
             "subtype": "numeric",
-            "logicalId": "Armoise"
+            "data": "Armoise",
+            "logicalId": "pollen18"
         },
         {
             "name": "Ambroisies",
             "type": "info",
             "subtype": "numeric",
-            "logicalId": "Ambroisies"
+            "data": "Ambroisies",
+            "logicalId": "pollen19"
         }
     ]
 }

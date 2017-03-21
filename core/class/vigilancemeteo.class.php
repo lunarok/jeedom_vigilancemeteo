@@ -588,278 +588,420 @@ class vigilancemeteo extends eqLogic {
             log::add('vigilancemeteo', 'error', 'Département non saisi');
             return;
         }
-        $this->checkAndUpdateCmd('global', 0);
+        $im = @imagecreatefrompng("http://www.pollens.fr/docs/Departements_de_France-simple.png");
+        $xy = vigilancemeteo::getDep();
+        $rgb = @imagecolorat($im, $xy[$departement][0], $xy[$departement][1]);
+        $colors = @imagecolorsforindex($im, $rgb);
+        if ($colors['red'] == 0 && $colors['green'] == 128 && $colors['blue'] == 0) {
+            $pollen = 0;
+        } elseif ($colors['red'] == 255 && $colors['green'] == 255 && $colors['blue'] == 0) {
+            $pollen = 1;
+        } elseif ($colors['red'] == 255 && $colors['green'] == 153 && $colors['blue'] == 85) {
+            $pollen = 2;
+        } else {
+            $pollen = 3;
+        }
+        $this->checkAndUpdateCmd('global', $pollen);//0 green, 1 yellow, 2 orange, 3 red
+
+        $i = 1;
+        $im = @imagecreatefromgif("http://www.pollens.fr/docs/d%20".$dep.".gif");
+        $x = 116;$y = 45;
+        while ($i != 20) {
+            $rgb = @imagecolorat($im, $x, $y);
+            $colors = @imagecolorsforindex($im, $rgb);
+            $pollen = vigilancemeteo::getPollenLevel($colors['red'],$colors['green'],$colors['blue']);
+            $this->checkAndUpdateCmd('pollen' . $i, $pollen);
+            $y = $y + 20;
+            $i++;
+        }
         return ;
-    }
+        }
 
-    public function getPluie() {
-        //log::add('previsionpluie', 'debug', 'getInformation: go');
+        public function getPollenLevel($red,$green,$blue) {
+            //0 brown, 1 green, 2 yellow, 3 orange, 4 red, 5 violet
+            if ($red == 255 && $green == 255 && $blue == 255 || $red == 135 && $green == 135 && $blue == 135) {
+                $level = 0;
+            } elseif ($red == 0 && $green == 255 && $blue == 0) {
+                $level = 1;
+            } elseif ($red == 0 && $green == 176 && $blue == 80) {
+                $level = 2;
+            } elseif ($red == 255 && $green == 255 && $blue == 0) {
+                $level = 3;
+            } elseif ($red == 247 && $green == 150 && $blue == 70) {
+                $level = 4;
+            } else {
+                $level = 5;
+            }
+            return $level;
+        }
 
-        if($this->getConfiguration('ville') != ''){
+        function getDep() {
+            $dep[01] = array(439, 316);
+            $dep[02] = array(360, 91);
+            $dep[03] = array(333, 305);
+            $dep[04] = array(483, 447);
+            $dep[05] = array(496, 411);
+            $dep[06] = array(532, 454);
+            $dep[07] = array(398, 419);
+            $dep[08] = array(403, 93);
+            $dep[09] = array(266, 531);
+            $dep[10] = array(375, 180);
+            $dep[11] = array(305, 520);
+            $dep[12] = array(320, 439);
+            $dep[13] = array(435, 490);
+            $dep[14] = array(182, 124);
+            $dep[15] = array(321, 389);
+            $dep[16] = array(206, 346);
+            $dep[17] = array(167, 341);
+            $dep[18] = array(312, 275);
+            $dep[19] = array(282, 372);
+            $dep[20] = array(530, 557);
+            $dep[21] = array(411, 229);
+            $dep[22] = array(83, 167);
+            $dep[23] = array(292, 396);
+            $dep[24] = array(228, 389);
+            $dep[25] = array(483, 251);
+            $dep[26] = array(437, 411);
+            $dep[27] = array(243, 124);
+            $dep[28] = array(262, 175);
+            $dep[29] = array(33, 177);
+            $dep[30] = array(396, 456);
+            $dep[31] = array(262, 495);
+            $dep[32] = array(223, 480);
+            $dep[33] = array(169, 402);
+            $dep[34] = array(340, 490);
+            $dep[35] = array(135, 177);
+            $dep[36] = array(269, 275);
+            $dep[37] = array(232, 244);
+            $dep[38] = array(455, 370);
+            $dep[39] = array(461, 281);
+            $dep[40] = array(160, 462);
+            $dep[41] = array(262, 221);
+            $dep[42] = array(390, 354);
+            $dep[43] = array(359, 383);
+            $dep[44] = array(119, 240);
+            $dep[45] = array(314, 206);
+            $dep[46] = array(267, 419);
+            $dep[47] = array(210, 438);
+            $dep[48] = array(364, 434);
+            $dep[49] = array(178, 236);
+            $dep[50] = array(150, 130);
+            $dep[51] = array(385, 136);
+            $dep[52] = array(431, 184);
+            $dep[53] = array(163, 192);
+            $dep[54] = array(470, 156);
+            $dep[55] = array(439, 149);
+            $dep[56] = array(76, 203);
+            $dep[57] = array(485, 126);
+            $dep[58] = array(359, 259);
+            $dep[59] = array(355, 54);
+            $dep[60] = array(303, 115);
+            $dep[61] = array(215, 160);
+            $dep[62] = array(293, 39);
+            $dep[63] = array(340, 341);
+            $dep[64] = array(148, 505);
+            $dep[65] = array(206, 521);
+            $dep[66] = array(318, 549);
+            $dep[67] = array(532, 143);
+            $dep[68] = array(520, 197);
+            $dep[69] = array(409, 339);
+            $dep[70] = array(476, 221);
+            $dep[71] = array(396, 288);
+            $dep[72] = array(215, 197);
+            $dep[73] = array(494, 367);
+            $dep[74] = array(496, 322);
+            $dep[75] = array(308, 147);
+            $dep[76] = array(292, 65);
+            $dep[77] = array(331, 158);
+            $dep[78] = array(288, 149);
+            $dep[79] = array(187, 287);
+            $dep[80] = array(295, 74);
+            $dep[81] = array(293, 469);
+            $dep[82] = array(253, 452);
+            $dep[83] = array(494, 497);
+            $dep[84] = array(442, 460);
+            $dep[85] = array(146, 285);
+            $dep[86] = array(225, 290);
+            $dep[87] = array(258, 341);
+            $dep[88] = array(485, 186);
+            $dep[89] = array(360, 208);
+            $dep[90] = array(507, 219);
+            $dep[91] = array(305, 164);
+            $dep[92] = array(303, 149);
+            $dep[93] = array(314, 143);
+            $dep[94] = array(314, 152);
+            $dep[95] = array(301, 132);
+            return $dep;
+        }
 
-            //log::add('previsionpluie', 'debug', 'getInformation: ' .$this->getConfiguration('ville') );
+        public function getPluie() {
+            //log::add('previsionpluie', 'debug', 'getInformation: go');
 
-            $prevPluieJson = file_get_contents('http://www.meteofrance.com/mf3-rpc-portlet/rest/pluie/' . $this->getConfiguration('ville'));
-            $prevPluieData = json_decode($prevPluieJson, true);
+            if($this->getConfiguration('ville') != ''){
 
-            if(count($prevPluieData) == 0){
-                log::add('vigilancemeteo', 'debug', 'Impossible d\'obtenir les informations Météo France... On refait une tentative...');
+                //log::add('previsionpluie', 'debug', 'getInformation: ' .$this->getConfiguration('ville') );
 
-                sleep(3);
                 $prevPluieJson = file_get_contents('http://www.meteofrance.com/mf3-rpc-portlet/rest/pluie/' . $this->getConfiguration('ville'));
                 $prevPluieData = json_decode($prevPluieJson, true);
 
                 if(count($prevPluieData) == 0){
-                    log::add('vigilancemeteo', 'debug', 'Impossible d\'obtenir les informations Météo France... ');
-                    return false;
-                }
-            }
+                    log::add('vigilancemeteo', 'debug', 'Impossible d\'obtenir les informations Météo France... On refait une tentative...');
 
-            //log::add('previsionpluie', 'debug', 'getInformation: length ' . count($prevPluieData));
+                    sleep(3);
+                    $prevPluieJson = file_get_contents('http://www.meteofrance.com/mf3-rpc-portlet/rest/pluie/' . $this->getConfiguration('ville'));
+                    $prevPluieData = json_decode($prevPluieJson, true);
 
-            if(count($prevPluieData) > 0){
-                $prevTexte = "";
-                foreach($prevPluieData['niveauPluieText'] as $prevTexteItem){
-                    $prevTexte .= substr_replace($prevTexteItem," ",2,0) . "\n";
-                    //log::add('previsionpluie', 'debug', 'prevTexteItem: ' . $prevTexteItem);
-                }
-                $prevTexteCmd = $this->getCmd(null,'prevTexte');
-                if(is_object($prevTexteCmd)){
-                    //log::add('previsionpluie', 'debug', 'prevTexte: ' . $prevTexte);
-                    $prevTexteCmd->event($prevTexte);
-                }
-                $lastUpdateCmd = $this->getCmd(null,'lastUpdate');
-                if(is_object($lastUpdateCmd)){
-                    //log::add('previsionpluie', 'debug', 'lastUpdate: ' . $prevPluieData['lastUpdate']);
-                    $lastUpdateCmd->event($prevPluieData['lastUpdate']);
-                }
-                $pluieDanslHeureCount = 0;
-
-                for($i=0; $i <= 11; $i++){
-                    $prevCmd = $this->getCmd(null,'prev' . $i*5);
-                    if(is_object($prevCmd)){
-                        //log::add('previsionpluie', 'debug', 'prev' . $i*5 . ': ' . $prevPluieData['dataCadran'][$i]['niveauPluie']);
-                        if($prevCmd->execCmd() != $prevPluieData['dataCadran'][$i]['niveauPluie']){
-                            $prevCmd->event($prevPluieData['dataCadran'][$i]['niveauPluie']);
-                        }
-                        $pluieDanslHeureCount = $pluieDanslHeureCount + $prevPluieData['dataCadran'][$i]['niveauPluie'];
+                    if(count($prevPluieData) == 0){
+                        log::add('vigilancemeteo', 'debug', 'Impossible d\'obtenir les informations Météo France... ');
+                        return false;
                     }
                 }
 
-                $pluieDanslHeure = $this->getCmd(null,'pluieDanslHeure');
-                if(is_object($pluieDanslHeure)){
-                    //log::add('previsionpluie', 'debug', 'pluieDanslHeure: ' . $pluieDanslHeureCount);
-                    $pluieDanslHeure->event($pluieDanslHeureCount);
+                //log::add('previsionpluie', 'debug', 'getInformation: length ' . count($prevPluieData));
+
+                if(count($prevPluieData) > 0){
+                    $prevTexte = "";
+                    foreach($prevPluieData['niveauPluieText'] as $prevTexteItem){
+                        $prevTexte .= substr_replace($prevTexteItem," ",2,0) . "\n";
+                        //log::add('previsionpluie', 'debug', 'prevTexteItem: ' . $prevTexteItem);
+                    }
+                    $prevTexteCmd = $this->getCmd(null,'prevTexte');
+                    if(is_object($prevTexteCmd)){
+                        //log::add('previsionpluie', 'debug', 'prevTexte: ' . $prevTexte);
+                        $prevTexteCmd->event($prevTexte);
+                    }
+                    $lastUpdateCmd = $this->getCmd(null,'lastUpdate');
+                    if(is_object($lastUpdateCmd)){
+                        //log::add('previsionpluie', 'debug', 'lastUpdate: ' . $prevPluieData['lastUpdate']);
+                        $lastUpdateCmd->event($prevPluieData['lastUpdate']);
+                    }
+                    $pluieDanslHeureCount = 0;
+
+                    for($i=0; $i <= 11; $i++){
+                        $prevCmd = $this->getCmd(null,'prev' . $i*5);
+                        if(is_object($prevCmd)){
+                            //log::add('previsionpluie', 'debug', 'prev' . $i*5 . ': ' . $prevPluieData['dataCadran'][$i]['niveauPluie']);
+                            if($prevCmd->execCmd() != $prevPluieData['dataCadran'][$i]['niveauPluie']){
+                                $prevCmd->event($prevPluieData['dataCadran'][$i]['niveauPluie']);
+                            }
+                            $pluieDanslHeureCount = $pluieDanslHeureCount + $prevPluieData['dataCadran'][$i]['niveauPluie'];
+                        }
+                    }
+
+                    $pluieDanslHeure = $this->getCmd(null,'pluieDanslHeure');
+                    if(is_object($pluieDanslHeure)){
+                        //log::add('previsionpluie', 'debug', 'pluieDanslHeure: ' . $pluieDanslHeureCount);
+                        $pluieDanslHeure->event($pluieDanslHeureCount);
+                    }
                 }
             }
         }
-    }
 
-    public function toHtml($_version = 'dashboard') {
-        $replace = $this->preToHtml($_version);
-        if (!is_array($replace)) {
-            return $replace;
-        }
-        $version = jeedom::versionAlias($_version);
-        if ($this->getDisplay('hideOn' . $version) == 1) {
-            return '';
-        }
-
-        if ($this->getConfiguration('type') == 'vigilance') {
-            foreach ($this->getCmd('info') as $cmd) {
-                $replace['#' . $cmd->getLogicalId() . '_history#'] = '';
-                $replace['#' . $cmd->getLogicalId() . '_id#'] = $cmd->getId();
-                $valeur=ucfirst($cmd->execCmd());
-                switch ($valeur) {
-                    case 'Vert':
-                    $valeur = "#00ff1e";
-                    break;
-                    case 'Jaune':
-                    $valeur = "#FFFF00";
-                    break;
-                    case 'Orange':
-                    $valeur = "#FFA500";
-                    break;
-                    case 'Rouge':
-                    $valeur = "#E50000";
-                    break;
-                }
-
-                $replace['#' . $cmd->getLogicalId() . '#'] = $valeur;
-                $replace['#' . $cmd->getLogicalId() . '_collect#'] = $cmd->getCollectDate();
-                if ($cmd->getIsHistorized() == 1) {
-                    $replace['#' . $cmd->getLogicalId() . '_history#'] = 'history cursor';
-                }
-
+        public function toHtml($_version = 'dashboard') {
+            $replace = $this->preToHtml($_version);
+            if (!is_array($replace)) {
+                return $replace;
             }
-            $parameters = $this->getDisplay('parameters');
-            if (is_array($parameters)) {
-                foreach ($parameters as $key => $value) {
-                    $replace['#' . $key . '#'] = $value;
-                }
-            }
-            if (strpos(network::getNetworkAccess('external'),'https') !== false) {
-                $replace['#icone#'] = '<a target="_blank" href="http://vigilance.meteofrance.com/Bulletin_sans.html?a=dept' . $this->getConfiguration('departement') . '&b=2&c="><i class="fa fa-info-circle cursor"></i></a>';
-            } else {
-                $replace['#icone#'] = '<i id="yourvigilance' . $this->getId() . ' class="fa fa-info-circle cursor"></i>';
+            $version = jeedom::versionAlias($_version);
+            if ($this->getDisplay('hideOn' . $version) == 1) {
+                return '';
             }
 
-            $templatename = 'vigilancemeteo';
-        } else if ($this->getConfiguration('type') == 'maree') {
-            $replace['#portid#'] = $this->getConfiguration('port');
+            if ($this->getConfiguration('type') == 'vigilance') {
+                foreach ($this->getCmd('info') as $cmd) {
+                    $replace['#' . $cmd->getLogicalId() . '_history#'] = '';
+                    $replace['#' . $cmd->getLogicalId() . '_id#'] = $cmd->getId();
+                    $valeur=ucfirst($cmd->execCmd());
+                    switch ($valeur) {
+                        case 'Vert':
+                        $valeur = "#00ff1e";
+                        break;
+                        case 'Jaune':
+                        $valeur = "#FFFF00";
+                        break;
+                        case 'Orange':
+                        $valeur = "#FFA500";
+                        break;
+                        case 'Rouge':
+                        $valeur = "#E50000";
+                        break;
+                    }
 
-            foreach ($this->getCmd('info') as $cmd) {
-                $replace['#' . $cmd->getLogicalId() . '_history#'] = '';
-                $replace['#' . $cmd->getLogicalId() . '_id#'] = $cmd->getId();
+                    $replace['#' . $cmd->getLogicalId() . '#'] = $valeur;
+                    $replace['#' . $cmd->getLogicalId() . '_collect#'] = $cmd->getCollectDate();
+                    if ($cmd->getIsHistorized() == 1) {
+                        $replace['#' . $cmd->getLogicalId() . '_history#'] = 'history cursor';
+                    }
 
-                if ($cmd->getLogicalId() == 'maree') {
-                    $replace['#' . $cmd->getLogicalId() . '#'] = $cmd->execCmd();
+                }
+                $parameters = $this->getDisplay('parameters');
+                if (is_array($parameters)) {
+                    foreach ($parameters as $key => $value) {
+                        $replace['#' . $key . '#'] = $value;
+                    }
+                }
+                if (strpos(network::getNetworkAccess('external'),'https') !== false) {
+                    $replace['#icone#'] = '<a target="_blank" href="http://vigilance.meteofrance.com/Bulletin_sans.html?a=dept' . $this->getConfiguration('departement') . '&b=2&c="><i class="fa fa-info-circle cursor"></i></a>';
                 } else {
-                    $replace['#' . $cmd->getLogicalId() . '#'] = substr_replace(str_pad($cmd->execCmd(), 4, '0', STR_PAD_LEFT),':',-2,0);
+                    $replace['#icone#'] = '<i id="yourvigilance' . $this->getId() . ' class="fa fa-info-circle cursor"></i>';
                 }
-                $replace['#' . $cmd->getLogicalId() . '_collect#'] = $cmd->getCollectDate();
+
+                $templatename = 'vigilancemeteo';
+            } else if ($this->getConfiguration('type') == 'maree') {
+                $replace['#portid#'] = $this->getConfiguration('port');
+
+                foreach ($this->getCmd('info') as $cmd) {
+                    $replace['#' . $cmd->getLogicalId() . '_history#'] = '';
+                    $replace['#' . $cmd->getLogicalId() . '_id#'] = $cmd->getId();
+
+                    if ($cmd->getLogicalId() == 'maree') {
+                        $replace['#' . $cmd->getLogicalId() . '#'] = $cmd->execCmd();
+                    } else {
+                        $replace['#' . $cmd->getLogicalId() . '#'] = substr_replace(str_pad($cmd->execCmd(), 4, '0', STR_PAD_LEFT),':',-2,0);
+                    }
+                    $replace['#' . $cmd->getLogicalId() . '_collect#'] = $cmd->getCollectDate();
+                    if ($cmd->getIsHistorized() == 1) {
+                        $replace['#' . $cmd->getLogicalId() . '_history#'] = 'history cursor';
+                    }
+
+                }
+
+                if (strpos(network::getNetworkAccess('external'),'https') !== false) {
+                    $replace['#icone#'] = '<a target="_blank" href="http://maree.info/' . $this->getConfiguration('port') . '"><i class="fa fa-info-circle cursor"></i></a>';
+                } else {
+                    $replace['#icone#'] = '<i id="maree' . $this->getId() . '" class="fa fa-info-circle cursor"></i>';
+                }
+
+                $templatename = 'maree';
+            } else if ($this->getConfiguration('type') == 'surf') {
+                foreach ($this->getCmd('info') as $cmd) {
+                    $replace['#' . $cmd->getLogicalId() . '_history#'] = '';
+                    $replace['#' . $cmd->getLogicalId() . '_id#'] = $cmd->getId();
+                    $replace['#' . $cmd->getLogicalId() . '#'] = $cmd->execCmd();
+                    $replace['#' . $cmd->getLogicalId() . '_collect#'] = $cmd->getCollectDate();
+                    if ($cmd->getIsHistorized() == 1) {
+                        $replace['#' . $cmd->getLogicalId() . '_history#'] = 'history cursor';
+                    }
+
+                }
+
+                $templatename = 'surf';
+            } else if ($this->getConfiguration('type') == 'crue') {
+                $cmd = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'niveau');
+                $replace['#crue_history#'] = '';
+                $replace['#crue#'] = $cmd->execCmd();
+                $replace['#crue_id#'] = $cmd->getId();
+
+                $replace['#crue_collect#'] = $cmd->getCollectDate();
                 if ($cmd->getIsHistorized() == 1) {
-                    $replace['#' . $cmd->getLogicalId() . '_history#'] = 'history cursor';
+                    $replace['#crue_history#'] = 'history cursor';
                 }
 
-            }
+                $templatename = 'crue';
+            } else if ($this->getConfiguration('type') == 'air') {
+                $cmd = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'aqi');
+                $cmdcolor = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'color');
+                switch ($cmdcolor->execCmd()) {
+                    case 'green':
+                    $replace['#aqicolor#'] = "#00ff1e";
+                    $replace['#aqilevel#'] = "Good";
+                    break;
+                    case 'yellow':
+                    $replace['#aqicolor#'] = "#FFFF00";
+                    $replace['#aqilevel#'] = "Moderate";
+                    break;
+                    case 'orange':
+                    $replace['#aqicolor#'] = "#FFA500";
+                    $replace['#aqilevel#'] = "Unhealthy Sensitive";
+                    break;
+                    case 'red':
+                    $replace['#aqicolor#'] = "#E50000";
+                    $replace['#aqilevel#'] = "Unhealthy";
+                    break;
+                }
 
-            if (strpos(network::getNetworkAccess('external'),'https') !== false) {
-                $replace['#icone#'] = '<a target="_blank" href="http://maree.info/' . $this->getConfiguration('port') . '"><i class="fa fa-info-circle cursor"></i></a>';
-            } else {
-                $replace['#icone#'] = '<i id="maree' . $this->getId() . '" class="fa fa-info-circle cursor"></i>';
-            }
+                $replace['#aqi_history#'] = '';
+                $replace['#aqi#'] = $cmd->execCmd();
+                $replace['#aqi_id#'] = $cmd->getId();
 
-            $templatename = 'maree';
-        } else if ($this->getConfiguration('type') == 'surf') {
-            foreach ($this->getCmd('info') as $cmd) {
-                $replace['#' . $cmd->getLogicalId() . '_history#'] = '';
-                $replace['#' . $cmd->getLogicalId() . '_id#'] = $cmd->getId();
-                $replace['#' . $cmd->getLogicalId() . '#'] = $cmd->execCmd();
-                $replace['#' . $cmd->getLogicalId() . '_collect#'] = $cmd->getCollectDate();
+                $replace['#aqi_collect#'] = $cmd->getCollectDate();
                 if ($cmd->getIsHistorized() == 1) {
-                    $replace['#' . $cmd->getLogicalId() . '_history#'] = 'history cursor';
+                    $replace['#aqi_history#'] = 'history cursor';
                 }
 
-            }
+                $cmd = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'pm25');
+                $replace['#pm25#'] = $cmd->execCmd();
+                $cmd = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'pm10');
+                $replace['#pm10#'] = $cmd->execCmd();
+                $cmd = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'no2');
+                $replace['#no2#'] = $cmd->execCmd();
+                $cmd = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'o3');
+                $replace['#o3#'] = $cmd->execCmd();
 
-            $templatename = 'surf';
-        } else if ($this->getConfiguration('type') == 'crue') {
-            $cmd = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'niveau');
-            $replace['#crue_history#'] = '';
-            $replace['#crue#'] = $cmd->execCmd();
-            $replace['#crue_id#'] = $cmd->getId();
+                $templatename = 'air';
+            } else if ($this->getConfiguration('type') == 'seisme') {
+                $cmd = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'risk');
+                $replace['#seisme_history#'] = '';
+                $replace['#seisme#'] = $cmd->getConfiguration('value');
+                $replace['#seisme_id#'] = $cmd->getId();
 
-            $replace['#crue_collect#'] = $cmd->getCollectDate();
-            if ($cmd->getIsHistorized() == 1) {
-                $replace['#crue_history#'] = 'history cursor';
-            }
-
-            $templatename = 'crue';
-        } else if ($this->getConfiguration('type') == 'air') {
-            $cmd = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'aqi');
-            $cmdcolor = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'color');
-            switch ($cmdcolor->execCmd()) {
-                case 'green':
-                $replace['#aqicolor#'] = "#00ff1e";
-                $replace['#aqilevel#'] = "Good";
-                break;
-                case 'yellow':
-                $replace['#aqicolor#'] = "#FFFF00";
-                $replace['#aqilevel#'] = "Moderate";
-                break;
-                case 'orange':
-                $replace['#aqicolor#'] = "#FFA500";
-                $replace['#aqilevel#'] = "Unhealthy Sensitive";
-                break;
-                case 'red':
-                $replace['#aqicolor#'] = "#E50000";
-                $replace['#aqilevel#'] = "Unhealthy";
-                break;
-            }
-
-            $replace['#aqi_history#'] = '';
-            $replace['#aqi#'] = $cmd->execCmd();
-            $replace['#aqi_id#'] = $cmd->getId();
-
-            $replace['#aqi_collect#'] = $cmd->getCollectDate();
-            if ($cmd->getIsHistorized() == 1) {
-                $replace['#aqi_history#'] = 'history cursor';
-            }
-
-            $cmd = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'pm25');
-            $replace['#pm25#'] = $cmd->execCmd();
-            $cmd = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'pm10');
-            $replace['#pm10#'] = $cmd->execCmd();
-            $cmd = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'no2');
-            $replace['#no2#'] = $cmd->execCmd();
-            $cmd = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'o3');
-            $replace['#o3#'] = $cmd->execCmd();
-
-            $templatename = 'air';
-        } else if ($this->getConfiguration('type') == 'seisme') {
-            $cmd = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'risk');
-            $replace['#seisme_history#'] = '';
-            $replace['#seisme#'] = $cmd->getConfiguration('value');
-            $replace['#seisme_id#'] = $cmd->getId();
-
-            $replace['#seisme_collect#'] = $cmd->getCollectDate();
-            if ($cmd->getIsHistorized() == 1) {
-                $replace['#seisme_history#'] = 'history cursor';
-            }
-
-            $templatename = 'seisme';
-        } else if ($this->getConfiguration('type') == 'pluie1h') {
-            $replace['#ville#'] = $this->getConfiguration('ville');
-            $prevTexte = $this->getCmd(null,'prevTexte');
-            $replace['#prevTexte#'] = (is_object($prevTexte)) ? nl2br($prevTexte->execCmd()) : '';
-            $replace['#prevTexte_display#'] = (is_object($prevTexte) && $prevTexte->getIsVisible()) ? "#prevTexte_display#" : "none";
-
-            $lastUpdate = $this->getCmd(null,'lastUpdate');
-            $replace['#lastUpdate#'] = (is_object($lastUpdate)) ? $lastUpdate->execCmd() : '';
-
-            $colors = Array();
-            $color[0] = '#D6D7D7';
-            $color[1] = '#FFFFFF';
-            $color[2] = '#AAE8FF';
-            $color[3] = '#48BFEA';
-            $color[4] = '#0094CE';
-
-            $text = Array();
-            $text[0] = '{{Données indisponibles}}';
-            $text[1] = '{{Pas de pluie}}';
-            $text[2] = '{{Pluie faible}}';
-            $text[3] = '{{Pluie modérée}}';
-            $text[4] = '{{Pluie forte}}';
-
-            for($i=0; $i <= 11; $i++){
-                $prev = $this->getCmd(null,'prev' . $i*5);
-                if(is_object($prev)){
-                    $prevision = $prev->execCmd();
-                    $replace['#prev' . ($i*5) . '#'] = $prevision;
-                    $replace['#prev' . ($i*5) . 'Color#'] = $color[$prevision];
-                    $replace['#prev' . ($i*5) . 'Text#'] = $text[$prevision];
+                $replace['#seisme_collect#'] = $cmd->getCollectDate();
+                if ($cmd->getIsHistorized() == 1) {
+                    $replace['#seisme_history#'] = 'history cursor';
                 }
-            }
 
-            $parameters = $this->getDisplay('parameters');
-            if (is_array($parameters)) {
-                foreach ($parameters as $key => $value) {
-                    $replace['#' . $key . '#'] = $value;
+                $templatename = 'seisme';
+            } else if ($this->getConfiguration('type') == 'pluie1h') {
+                $replace['#ville#'] = $this->getConfiguration('ville');
+                $prevTexte = $this->getCmd(null,'prevTexte');
+                $replace['#prevTexte#'] = (is_object($prevTexte)) ? nl2br($prevTexte->execCmd()) : '';
+                $replace['#prevTexte_display#'] = (is_object($prevTexte) && $prevTexte->getIsVisible()) ? "#prevTexte_display#" : "none";
+
+                $lastUpdate = $this->getCmd(null,'lastUpdate');
+                $replace['#lastUpdate#'] = (is_object($lastUpdate)) ? $lastUpdate->execCmd() : '';
+
+                $colors = Array();
+                $color[0] = '#D6D7D7';
+                $color[1] = '#FFFFFF';
+                $color[2] = '#AAE8FF';
+                $color[3] = '#48BFEA';
+                $color[4] = '#0094CE';
+
+                $text = Array();
+                $text[0] = '{{Données indisponibles}}';
+                $text[1] = '{{Pas de pluie}}';
+                $text[2] = '{{Pluie faible}}';
+                $text[3] = '{{Pluie modérée}}';
+                $text[4] = '{{Pluie forte}}';
+
+                for($i=0; $i <= 11; $i++){
+                    $prev = $this->getCmd(null,'prev' . $i*5);
+                    if(is_object($prev)){
+                        $prevision = $prev->execCmd();
+                        $replace['#prev' . ($i*5) . '#'] = $prevision;
+                        $replace['#prev' . ($i*5) . 'Color#'] = $color[$prevision];
+                        $replace['#prev' . ($i*5) . 'Text#'] = $text[$prevision];
+                    }
                 }
-            }
 
-            $templatename = 'previsionpluie';
+                $parameters = $this->getDisplay('parameters');
+                if (is_array($parameters)) {
+                    foreach ($parameters as $key => $value) {
+                        $replace['#' . $key . '#'] = $value;
+                    }
+                }
+
+                $templatename = 'previsionpluie';
+            }
+            return $this->postToHtml($_version, template_replace($replace, getTemplate('core', $version, $templatename, 'vigilancemeteo')));
         }
-        return $this->postToHtml($_version, template_replace($replace, getTemplate('core', $version, $templatename, 'vigilancemeteo')));
+
     }
 
-}
-
-class vigilancemeteoCmd extends cmd {
-    public function execute($_options = null) {
-        return $this->getConfiguration('value');
+    class vigilancemeteoCmd extends cmd {
+        public function execute($_options = null) {
+            return $this->getConfiguration('value');
+        }
     }
-}
 
-?>
+    ?>
