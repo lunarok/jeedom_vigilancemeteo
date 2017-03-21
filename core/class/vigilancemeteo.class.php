@@ -593,7 +593,7 @@ class vigilancemeteo extends eqLogic {
         $rgb = @imagecolorat($im, $xy[$departement][0], $xy[$departement][1]);
         $colors = @imagecolorsforindex($im, $rgb);
         $pollen = vigilancemeteo::getPollenLevel($colors['red'],$colors['green'],$colors['blue']);
-        log::add('vigilancemeteo', 'debug', 'Coordonnées ' . $xy[$departement][0] . ' ' . $xy[$departement][1] . ' level : ' . $pollen);
+        //log::add('vigilancemeteo', 'debug', 'Coordonnées ' . $xy[$departement][0] . ' ' . $xy[$departement][1] . ' level : ' . $pollen);
         $this->checkAndUpdateCmd('general', $pollen);//0 green, 1 yellow, 2 orange, 3 red
 
         $i = 1;
@@ -612,7 +612,6 @@ class vigilancemeteo extends eqLogic {
 
         public function getPollenLevel($red,$green,$blue) {
             //0 brown, 1 green, 2 yellow, 3 orange, 4 red, 5 violet
-            log::add('vigilancemeteo', 'debug', 'Coordonnées ' . $red . ' ' . $green . ' ' . $blue);
             $level = 0;
             if ($red == 0 && $green == 255 && $blue == 0) {
                 $level = 1;
@@ -625,6 +624,7 @@ class vigilancemeteo extends eqLogic {
             } elseif ($red == 255 && $green == 0 && $blue == 0) {
                 $level = 5;
             }
+            log::add('vigilancemeteo', 'debug', 'Couleur ' . $red . ' ' . $green . ' ' . $blue . ' : ' . $pollen);
             return $level;
         }
 
