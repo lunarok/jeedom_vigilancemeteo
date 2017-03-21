@@ -892,6 +892,26 @@ class vigilancemeteo extends eqLogic {
                     if ($cmd->getIsHistorized() == 1) {
                         $replace['#' . $cmd->getLogicalId() . '_history#'] = 'history cursor';
                     }
+                    switch ($replace['#' . $cmd->getLogicalId() . '#']) {
+                        case '0':
+                            $replace['#' . $cmd->getLogicalId() . '_color#'] = 'black';
+                            break;
+                        case '1':
+                            $replace['#' . $cmd->getLogicalId() . '_color#'] = 'lime';
+                            break;
+                        case '2':
+                            $replace['#' . $cmd->getLogicalId() . '_color#'] = 'green';
+                            break;
+                        case '3':
+                            $replace['#' . $cmd->getLogicalId() . '_color#'] = 'yellow';
+                            break;
+                        case '4':
+                            $replace['#' . $cmd->getLogicalId() . '_color#'] = 'orange';
+                            break;
+                        case '5':
+                            $replace['#' . $cmd->getLogicalId() . '_color#'] = 'red';
+                            break;
+                }
 
                 }
                 $templatename = 'pollen';
