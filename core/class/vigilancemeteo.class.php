@@ -643,7 +643,7 @@ class vigilancemeteo extends eqLogic {
             $dep[05] = array(496,411);
             $dep[06] = array(532,454);
             $dep[07] = array(398,419);
-            $dep[08] = array(403,93);
+            
             $dep[09] = array(266,531);
             $dep[10] = array(375,180);
             $dep[11] = array(305,520);
