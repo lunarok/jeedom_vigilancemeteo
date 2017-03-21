@@ -611,7 +611,7 @@ class vigilancemeteo extends eqLogic {
         }
 
         public function getPollenLevel($red,$green,$blue) {
-            //0 brown, 1 green, 2 yellow, 3 orange, 4 red, 5 violet
+            //0 absence, 1 vert clair, 2 vert foncé, 3 jaune, 4 orange, 5 rouge
             $level = 0;
             if ($red == 0 && $green == 255 && $blue == 0) {
                 $level = 1;
@@ -879,6 +879,19 @@ class vigilancemeteo extends eqLogic {
                 }
 
                 $templatename = 'surf';
+            } else if ($this->getConfiguration('type') == 'pollen') {
+                $cmd = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'general');
+                $replace['#pollen_history#'] = '';
+                $replace['#pollen#'] = $cmd->execCmd();
+                $replace['#pollen_id#'] = $cmd->getId();
+
+                $replace['#pollen_collect#'] = $cmd->getCollectDate();
+                if ($cmd->getIsHistorized() == 1) {
+                    $replace['#pollen_history#'] = 'history cursor';
+                }
+
+
+                $templatename = 'pollen';
             } else if ($this->getConfiguration('type') == 'crue') {
                 $cmd = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'niveau');
                 $replace['#crue_history#'] = '';
