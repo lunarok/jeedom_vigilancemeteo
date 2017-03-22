@@ -873,7 +873,7 @@ class vigilancemeteo extends eqLogic {
                     $replace['#' . $cmd->getLogicalId() . '_history#'] = '';
                     $replace['#' . $cmd->getLogicalId() . '_id#'] = $cmd->getId();
                     $replace['#' . $cmd->getLogicalId() . '#'] = $cmd->execCmd();
-                    $replace['#' . $cmd->getLogicalId() . '_width#'] = $cmd->execCmd() * 10;
+                    $replace['#' . $cmd->getLogicalId() . '_width#'] = $cmd->execCmd() * 20;
                     $replace['#' . $cmd->getLogicalId() . '_collect#'] = $cmd->getCollectDate();
                     if ($cmd->getIsHistorized() == 1) {
                         $replace['#' . $cmd->getLogicalId() . '_history#'] = 'history cursor';
