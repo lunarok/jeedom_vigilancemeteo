@@ -1,0 +1,23 @@
+==== Présentation
+
+Ce type permet d'obtenir les niveaux de pollens depuis http://www.pollens.fr/docs/vigilance.html
+
+==== Configuration du type
+
+Il faut renseigner le département dans le champ (les DOM-TOM ne sont pas couverts)
+
+==== Informations disponibles
+
+Ce plugin permet d'obtenir des informations sur le niveau de pollen :
+
+- un niveau général
+- un niveu pour 19 types de pollens
+
+Les niveaux sont numériques et vont de 0 à 5 :
+
+- 0 : inconnu ou pas de pollen
+- 1 : vert pâle
+- 2 : vert foncé
+- 3 : jaune
+- 4 : orange
+- 5 : rouge

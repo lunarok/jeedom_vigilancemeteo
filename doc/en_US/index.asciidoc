@@ -30,5 +30,9 @@ include::air.asciidoc[]
 include::surf.asciidoc[]
 
 '''
+== Pollen
+include::pollen.asciidoc[]
+
+'''
 == FAQ
 include::faq.asciidoc[]
