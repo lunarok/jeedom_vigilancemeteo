@@ -432,21 +432,9 @@ class vigilancemeteo extends eqLogic {
         $basse = str_replace('h', '', $basse);
 
         log::add('vigilancemeteo', 'debug', 'Marée ' . $maree . ', Pleine ' . $pleine . ', Basse ' . $basse);
-
-        $cmdlogic = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'maree');
-        $cmdlogic->setConfiguration('value', $maree);
-        $cmdlogic->save();
-        $cmdlogic->event($maree);
-
-        $cmdlogic = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'pleine');
-        $cmdlogic->setConfiguration('value', $pleine);
-        $cmdlogic->save();
-        $cmdlogic->event($pleine);
-
-        $cmdlogic = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'basse');
-        $cmdlogic->setConfiguration('value', $basse);
-        $cmdlogic->save();
-        $cmdlogic->event($basse);
+        $this->checkAndUpdateCmd('maree', $maree);
+        $this->checkAndUpdateCmd('pleine', $pleine);
+        $this->checkAndUpdateCmd('basse', $basse);
 
         return ;
     }
@@ -511,10 +499,7 @@ class vigilancemeteo extends eqLogic {
             $result = str_replace("%", "", $data->nodeValue);
         }
 
-        $cmdlogic = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'risk');
-        $cmdlogic->setConfiguration('value', $result);
-        $cmdlogic->save();
-        $cmdlogic->event($result);
+        $this->checkAndUpdateCmd('risk', $result);
 
         log::add('vigilancemeteo', 'debug', 'Seisme ' . $result);
 
@@ -892,7 +877,7 @@ class vigilancemeteo extends eqLogic {
                     if ($cmd->getIsHistorized() == 1) {
                         $replace['#' . $cmd->getLogicalId() . '_history#'] = 'history cursor';
                     }
-                    switch ($replace['#' . $cmd->getLogicalId() . '#']) {
+                    switch ($cmd->execCmd()) {
                         case '0':
                             $replace['#' . $cmd->getLogicalId() . '_color#'] = 'black';
                             break;
