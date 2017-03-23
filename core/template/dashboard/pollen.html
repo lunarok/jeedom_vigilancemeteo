@@ -1,5 +1,5 @@
 <style>
-	#carousel {
+	#pollen_carousel {
 	  position: relative;
 	  width: 200px;
 	  margin: 0 auto;
@@ -7,14 +7,14 @@
 	  top: -9px;
 	}
 
-	#slides {	  
+	#pollen_slides {	  
 	  overflow: hidden;
 	  position: relative;
 	  width: 200px;
 	  height: 84px;
 	}
 
-	#slides ul {
+	#pollen_slides ul {
 	  list-style: none;
 	  width: 200px;
 	  height: 84px;
@@ -23,7 +23,7 @@
 	  position: relative;
 	}
 
-	#slides li {
+	#pollen_slides li {
 	  width: 200px;
 	  height: 84px;
 	  float: left;
@@ -31,9 +31,7 @@
 	  position: relative;
 	}
 
-	/* Styling for prev and next buttons */
-
-	.btn-bar {
+	.pollen_btn-bar {
 	  width: 25px;
 	  margin: 0 auto;
 	  position: relative;
@@ -42,11 +40,11 @@
 	  top: -9px;
 	}
 
-	#buttons {
+	#pollen_buttons {
 	  padding: 0 14px 0 8px;
 	}
 
-	#buttons a {
+	#pollen_buttons a {
 	  text-align: center;
 	  font-size: 25px;
 	  float: left;
@@ -56,12 +54,12 @@
 	  background-color: Gray;
 	}
 
-	a#prev:hover,
-	a#next:hover {
+	a#pollen_prev:hover,
+	a#pollen_next:hover {
 	  color: #b14943;
 	}
 
-	.quote-phrase {
+	.pollen_quote-phrase {
 	  text-align: left;
 	  width: 120px;
 	  display: table-cell;
@@ -71,39 +69,51 @@
 	  text-shadow: .5px 0px #b14943;
 	}
 
-	.quoteContainer {
+	.pollen_quoteContainer {
 	  display: table;
 	  width: 100%;
 	}
 	
-	.pollen {
+	.pollen_pollen {
 	  padding: 1px 0 1px;
 	}
 	
-	.pollen-label {
+	.pollen_label {
 	  display: table-cell;
 	  width: 87px;
 	  height: 19px;
 	}
 	
-	.pollen-value {
+	.pollen_value {
 	  display: table-cell;
 	  width: 15px;
 	  text-align: center;
 	}
 	
-	.pollen-graph {
+	.pollen_graph {
 	  display: table-cell;
 	  height: 19px;
 	}
+	
+	.pollen_general {
+	  display: table-cell;
+	  vertical-align: middle;
+	  align: center;
+	  border-radius:3px;
+	  width:35px;
+	  height:25px;
+	  cursor:default;
+	  font-size: 1.2em;
+	  font-weight: bold;
+	}
 </style>
 
-<div class="eqLogic-widget eqLogic allowResize" style="height: #height#;width: #width#;border:#border#;border-radius:#border-radius#;background-color: #background-color#;color: #color#;#style#" data-eqLogic_id="#id#" data-eqLogic_uid="#uid#" data-version="#version#" >
+<div class="eqLogic-widget eqLogic" style="min-height: 160px;min-width: 280px;border:#border#;border-radius:#border-radius#;background-color: #background-color#;color: #color#;#style#" data-eqLogic_id="#id#" data-eqLogic_uid="#uid#" data-version="#version#" >
 	<center class="widget-name"><a href="#eqLink#" style="font-size : 1.5em;#hideEqLogicName#">#name_display#</a></strong></center><br />
 
 		<center>
 			<div style="display: table; overflow: hidden; position: relative; top: -15px;">
-				<div data-cmd_id="#general_id#" title="Indice général (collecté le #general_collect#)" style="display: table-cell; vertical-align: middle;align: center;border-radius:3px;width:35px;height:25px;background-color:#general_color#;cursor:default;font-size: 1.2em;font-weight: bold;">#general#</div>
+				<div data-cmd_id="#general_id#" title="Indice général (collecté le #general_collect#)" class="pollen_general" style="background-color:#general_color#;"><center>#general#</center></div>
 			</div>
 
 			<div id="jquery-script-menu">
@@ -112,60 +122,60 @@
 				</div>
 			</div>
 			
-			<div class="btn-bar">
-				<div id="buttons"><a id="prev" href="#"><</a></br></br><a id="next" href="#">></a> </div>
+			<div class="pollen_btn-bar">
+				<div id="pollen_buttons"><a id="pollen_prev" href="#"><</a></br></br><a id="pollen_next" href="#">></a> </div>
 			</div>
 
-			<div id="carousel">
+			<div id="pollen_carousel">
 			
-			  <div id="slides">
+			  <div id="pollen_slides">
 				<ul>
-				  <li class="slide">
-					<div class="quoteContainer">
-						<div class="quote-phrase">
-						  <div class="pollen"><span class="pollen-label">Cupressacées</span><span class="pollen-value"><b>#pollen1#</b></span><span class="pollen-graph" style="width:#pollen1_width#px; background: linear-gradient(to right, #background-color#, #pollen1_color#);"> </span></div>
-						  <div class="pollen"><span class="pollen-label">Noisetier</span><span class="pollen-value"><b>#pollen2#</b></span><span class="pollen-graph" style="width:#pollen2_width#px; background: linear-gradient(to right, #background-color#, #pollen2_color#);"> </span></div>
-						  <div class="pollen"><span class="pollen-label">Aulne</span><span class="pollen-value"><b>#pollen3#</b></span><span class="pollen-graph" style="width:#pollen3_width#px; background: linear-gradient(to right, #background-color#, #pollen3_color#);"> </span></div>
-						  <div class="pollen"><span class="pollen-label">Peuplier</span><span class="pollen-value"><b>#pollen4#</b></span><span class="pollen-graph" style="width:#pollen4_width#px; background: linear-gradient(to right, #background-color#, #pollen4_color#);"> </span></div>
+				  <li class="pollen_slide">
+					<div class="pollen_quoteContainer">
+						<div class="pollen_quote-phrase">
+						  <div class="pollen_pollen"><span class="pollen_label">Cupressacées</span><span class="pollen_value"><b>#pollen1#</b></span><span class="pollen_graph" style="width:#pollen1_width#px; background: linear-gradient(to right, #background-color#, #pollen1_color#);">&nbsp;</span></div>
+						  <div class="pollen_pollen"><span class="pollen_label">Noisetier</span><span class="pollen_value"><b>#pollen2#</b></span><span class="pollen_graph" style="width:#pollen2_width#px; background: linear-gradient(to right, #background-color#, #pollen2_color#);">&nbsp;</span></div>
+						  <div class="pollen_pollen"><span class="pollen_label">Aulne</span><span class="pollen_value"><b>#pollen3#</b></span><span class="pollen_graph" style="width:#pollen3_width#px; background: linear-gradient(to right, #background-color#, #pollen3_color#);">&nbsp;</span></div>
+						  <div class="pollen_pollen"><span class="pollen_label">Peuplier</span><span class="pollen_value"><b>#pollen4#</b></span><span class="pollen_graph" style="width:#pollen4_width#px; background: linear-gradient(to right, #background-color#, #pollen4_color#);">&nbsp;</span></div>
 						</div>
 					</div>
 				  </li>
-				  <li class="slide">
-					<div class="quoteContainer">
-						<div class="quote-phrase">
-						  <div class="pollen"><span class="pollen-label">Saule</span><span class="pollen-value"><b>#pollen5#</b></span><span class="pollen-graph" style="width:#pollen5_width#px; background: linear-gradient(to right, #background-color#, #pollen5_color#);"> </span></div>
-						  <div class="pollen"><span class="pollen-label">Frêne</span><span class="pollen-value"><b>#pollen6#</b></span><span class="pollen-graph" style="width:#pollen6_width#px; background: linear-gradient(to right, #background-color#, #pollen6_color#);"> </span></div>
-						  <div class="pollen"><span class="pollen-label">Charme</span><span class="pollen-value"><b>#pollen7#</b></span><span class="pollen-graph" style="width:#pollen7_width#px; background: linear-gradient(to right, #background-color#, #pollen7_color#);"> </span></div>
-						  <div class="pollen"><span class="pollen-label">Bouleau</span><span class="pollen-value"><b>#pollen8#</b></span><span class="pollen-graph" style="width:#pollen8_width#px; background: linear-gradient(to right, #background-color#, #pollen8_color#);"> </span></div>
+				  <li class="pollen_slide">
+					<div class="pollen_quoteContainer">
+						<div class="pollen_quote-phrase">
+						  <div class="pollen_pollen"><span class="pollen_label">Saule</span><span class="pollen_value"><b>#pollen5#</b></span><span class="pollen_graph" style="width:#pollen5_width#px; background: linear-gradient(to right, #background-color#, #pollen5_color#);">&nbsp;</span></div>
+						  <div class="pollen_pollen"><span class="pollen_label">Frêne</span><span class="pollen_value"><b>#pollen6#</b></span><span class="pollen_graph" style="width:#pollen6_width#px; background: linear-gradient(to right, #background-color#, #pollen6_color#);">&nbsp;</span></div>
+						  <div class="pollen_pollen"><span class="pollen_label">Charme</span><span class="pollen_value"><b>#pollen7#</b></span><span class="pollen_graph" style="width:#pollen7_width#px; background: linear-gradient(to right, #background-color#, #pollen7_color#);">&nbsp;</span></div>
+						  <div class="pollen_pollen"><span class="pollen_label">Bouleau</span><span class="pollen_value"><b>#pollen8#</b></span><span class="pollen_graph" style="width:#pollen8_width#px; background: linear-gradient(to right, #background-color#, #pollen8_color#);">&nbsp;</span></div>
 						</div>
 					</div>
 				  </li>
-				  <li class="slide">
-					<div class="quoteContainer">
-						<div class="quote-phrase">
-						  <div class="pollen"><span class="pollen-label">Platane</span><span class="pollen-value"><b>#pollen9#</b></span><span class="pollen-graph" style="width:#pollen9_width#px; background: linear-gradient(to right, #background-color#, #pollen9_color#);"> </span></div>
-						  <div class="pollen"><span class="pollen-label">Chêne</span><span class="pollen-value"><b>#pollen10#</b></span><span class="pollen-graph" style="width:#pollen10_width#px; background: linear-gradient(to right, #background-color#, #pollen10_color#);"> </span></div>
-						  <div class="pollen"><span class="pollen-label">Olivier</span><span class="pollen-value"><b>#pollen11#</b></span><span class="pollen-graph" style="width:#pollen11_width#px; background: linear-gradient(to right, #background-color#, #pollen11_color#);"> </span></div>
-						  <div class="pollen"><span class="pollen-label">Tilleul</span><span class="pollen-value"><b>#pollen12#</b></span><span class="pollen-graph" style="width:#pollen12_width#px; background: linear-gradient(to right, #background-color#, #pollen12_color#);"> </span></div>
+				  <li class="pollen_slide">
+					<div class="pollen_quoteContainer">
+						<div class="pollen_quote-phrase">
+						  <div class="pollen_pollen"><span class="pollen_label">Platane</span><span class="pollen_value"><b>#pollen9#</b></span><span class="pollen_graph" style="width:#pollen9_width#px; background: linear-gradient(to right, #background-color#, #pollen9_color#);">&nbsp;</span></div>
+						  <div class="pollen_pollen"><span class="pollen_label">Chêne</span><span class="pollen_value"><b>#pollen10#</b></span><span class="pollen_graph" style="width:#pollen10_width#px; background: linear-gradient(to right, #background-color#, #pollen10_color#);">&nbsp;</span></div>
+						  <div class="pollen_pollen"><span class="pollen_label">Olivier</span><span class="pollen_value"><b>#pollen11#</b></span><span class="pollen_graph" style="width:#pollen11_width#px; background: linear-gradient(to right, #background-color#, #pollen11_color#);">&nbsp;</span></div>
+						  <div class="pollen_pollen"><span class="pollen_label">Tilleul</span><span class="pollen_value"><b>#pollen12#</b></span><span class="pollen_graph" style="width:#pollen12_width#px; background: linear-gradient(to right, #background-color#, #pollen12_color#);">&nbsp;</span></div>
 						</div>
 					</div>
 				  </li>
-				  <li class="slide">
-					<div class="quoteContainer">
-						<div class="quote-phrase">
-						  <div class="pollen"><span class="pollen-label">Châtaignier</span><span class="pollen-value"><b>#pollen13#</b></span><span class="pollen-graph" style="width:#pollen13_width#px; background: linear-gradient(to right, #background-color#, #pollen13_color#);"> </span></div>
-						  <div class="pollen"><span class="pollen-label">Rumex</span><span class="pollen-value"><b>#pollen14#</b></span><span class="pollen-graph" style="width:#pollen14_width#px; background: linear-gradient(to right, #background-color#, #pollen14_color#);"> </span></div>
-						  <div class="pollen"><span class="pollen-label">Graminées</span><span class="pollen-value"><b>#pollen15#</b></span><span class="pollen-graph" style="width:#pollen15_width#px; background: linear-gradient(to right, #background-color#, #pollen15_color#);"> </span></div>
-						  <div class="pollen"><span class="pollen-label">Plantain</span><span class="pollen-value"><b>#pollen16#</b></span><span class="pollen-graph" style="width:#pollen16_width#px; background: linear-gradient(to right, #background-color#, #pollen16_color#);"> </span></div>
+				  <li class="pollen_slide">
+					<div class="pollen_quoteContainer">
+						<div class="pollen_quote-phrase">
+						  <div class="pollen_pollen"><span class="pollen_label">Châtaignier</span><span class="pollen_value"><b>#pollen13#</b></span><span class="pollen_graph" style="width:#pollen13_width#px; background: linear-gradient(to right, #background-color#, #pollen13_color#);">&nbsp;</span></div>
+						  <div class="pollen_pollen"><span class="pollen_label">Rumex</span><span class="pollen_value"><b>#pollen14#</b></span><span class="pollen_graph" style="width:#pollen14_width#px; background: linear-gradient(to right, #background-color#, #pollen14_color#);">&nbsp;</span></div>
+						  <div class="pollen_pollen"><span class="pollen_label">Graminées</span><span class="pollen_value"><b>#pollen15#</b></span><span class="pollen_graph" style="width:#pollen15_width#px; background: linear-gradient(to right, #background-color#, #pollen15_color#);">&nbsp;</span></div>
+						  <div class="pollen_pollen"><span class="pollen_label">Plantain</span><span class="pollen_value"><b>#pollen16#</b></span><span class="pollen_graph" style="width:#pollen16_width#px; background: linear-gradient(to right, #background-color#, #pollen16_color#);">&nbsp;</span></div>
 						</div>
 					</div>
 				  </li>
-				  <li class="slide">
-					<div class="quoteContainer">
-						<div class="quote-phrase">
-						  <div class="pollen"><span class="pollen-label">Urticacées</span><span class="pollen-value"><b>#pollen17#</b></span><span class="pollen-graph" style="width:#pollen17_width#px; background: linear-gradient(to right, #background-color#, #pollen17_color#);"> </span></div>
-						  <div class="pollen"><span class="pollen-label">Armoise</span><span class="pollen-value"><b>#pollen18#</b></span><span class="pollen-graph" style="width:#pollen18_width#px; background: linear-gradient(to right, #background-color#, #pollen18_color#);"> </span></div>
-						  <div class="pollen"><span class="pollen-label">Ambroisies</span><span class="pollen-value"><b>#pollen19#</b></span><span class="pollen-graph" style="width:#pollen19_width#px; background: linear-gradient(to right, #background-color#, #pollen19_color#);"> </span></div>
+				  <li class="pollen_slide">
+					<div class="pollen_quoteContainer">
+						<div class="pollen_quote-phrase">
+						  <div class="pollen_pollen"><span class="pollen_label">Urticacées</span><span class="pollen_value"><b>#pollen17#</b></span><span class="pollen_graph" style="width:#pollen17_width#px; background: linear-gradient(to right, #background-color#, #pollen17_color#);">&nbsp;</span></div>
+						  <div class="pollen_pollen"><span class="pollen_label">Armoise</span><span class="pollen_value"><b>#pollen18#</b></span><span class="pollen_graph" style="width:#pollen18_width#px; background: linear-gradient(to right, #background-color#, #pollen18_color#);">&nbsp;</span></div>
+						  <div class="pollen_pollen"><span class="pollen_label">Ambroisies</span><span class="pollen_value"><b>#pollen19#</b></span><span class="pollen_graph" style="width:#pollen19_width#px; background: linear-gradient(to right, #background-color#, #pollen19_color#);">&nbsp;</span></div>
 						</div>
 					</div>
 				  </li>
@@ -173,8 +183,6 @@
 			  </div>
 			  
 			</div>
-			
-
 			
 		</center>
 
@@ -188,12 +196,12 @@ $(document).ready(function () {
     var speed = 4000;
     
     var run = setInterval(rotate, speed);
-    var slides = $('.slide');
-    var container = $('#slides ul');
+    var slides = $('.pollen_slide');
+    var container = $('#pollen_slides ul');
     var elm = container.find(':first-child').prop("tagName");
     var item_width = container.width();
-    var previous = 'prev'; //id of previous button
-    var next = 'next'; //id of next button
+    var previous = 'pollen_prev'; //id of previous button
+    var next = 'pollen_next'; //id of next button
     slides.width(item_width); //set the slides to the correct pixel width
     container.parent().width(item_width);
     container.width(slides.length * item_width); //set the slides container to the correct total width
@@ -203,7 +211,7 @@ $(document).ready(function () {
     
     //if user clicked on prev button
     
-    $('#buttons a').click(function (e) {
+    $('#pollen_buttons a').click(function (e) {
         //slide the item
         
         if (container.is(':animated')) {
@@ -252,6 +260,6 @@ $(document).ready(function () {
 //a timer will call this function, and the rotation will begin
 
 function rotate() {
-    $('#next').click();
+    $('#pollen_next').click();
 }
 </script>
