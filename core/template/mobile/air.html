@@ -1,12 +1,28 @@
-<div class="eqLogic-widget eqLogic" style="width: 240px;border:#border#;border-radius:#border-radius#;background-color: #background-color#;color: #color#;#style#; padding : 0px;" data-eqLogic_id="#id#" data-eqLogic_uid="#uid#" data-version="mobile" >
-  <center> #name_display# </center>
+<style>
+	.air-general {
+	  display: table-cell;
+	  border-style: solid;
+	  border-width: 1px;
+	  border-color: #ffffff;
+	  vertical-align: middle;
+	  align: center;
+	  border-radius:23px;
+	  width:46px;
+	  height:46px;
+	  cursor:default;
+	  font-size: 1.5em;
+	  font-weight: bold;
+	} 
+</style>
 
+<div class="eqLogic-widget eqLogic" style="min-height: 160px;min-width: 160px;border:#border#;border-radius:#border-radius#;background-color: #background-color#;color: #color#;#style#" data-eqLogic_id="#id#" data-eqLogic_uid="#uid#" data-version="#version#" >
+	<center class="widget-name"><a href="#eqLink#" style="font-size : 1.5em;#hideEqLogicName#">#name_display#</a></strong></center><br />
 	<div class="verticalAlign">
 		<center>
-			<div style="display: table; overflow: hidden;">
-				<div data-cmd_id="#aqi_id#" title="Indice de qualit&eacute; g&eacute;n&eacute;ral (collect&eacute; le #aqi_collect#)" style="display: table-cell; border-style: solid;border-width: 1px; border-color: #ffffff; vertical-align: middle;align: center;border-radius:15px;width:30px;height:30px;background-color:#aqicolor#;cursor:default;font-size: 1.1em;font-weight: bold;">#aqi#</div>
+			<div style="display: table; overflow: hidden; position: relative; top: -10px;">
+				<div data-cmd_id="#aqi_id#" title="Indice de qualit&eacute; g&eacute;n&eacute;ral (collect&eacute; le #aqi_collect#)" class="air-general" style="background-color:#aqicolor#;"><center>#aqi#</center></div>
 			</div>
-			<div style="font-size: 0.8em;">#aqilevel#</div>
+			<div style="font-size: 0.8em; position: relative; top: -10px;">#aqilevel#</div>
 			<div style="display: table; overflow: hidden; width: 95%">
 				<div style="display: table-row;">
 					<div style="display: table-cell; width: 25%;cursor:default;font-size: 1em;" class="cmd noRefresh" data-type="info" data-subtype="string" title="Dioxyde d&#145;azote">
