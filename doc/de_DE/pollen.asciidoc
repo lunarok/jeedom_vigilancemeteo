@@ -1,23 +1,23 @@
-==== Présentation
+==== Präsentation
 
 Ce type permet d'obtenir les niveaux de pollens depuis http://www.pollens.fr/docs/vigilance.html
 
-==== Configuration du type
+==== Typ Konfiguration
 
 Il faut renseigner le département dans le champ (les DOM-TOM ne sont pas couverts)
 
-==== Informations disponibles
+==== Verfügbare Informationen 
 
-Ce plugin permet d'obtenir des informations sur le niveau de pollen :
+Dieses Plugin ermöglicht es Pollenflug Informationen zu erhalten :
 
-- un niveau général
-- un niveu pour 19 types de pollens
+- eine allgemeine Ebene
+- eine Ebene für 19 Arten von Pollen
 
-Les niveaux sont numériques et vont de 0 à 5 :
+Die Ebenen sind digital und gehen von 0 bis 5 :
 
-- 0 : inconnu ou pas de pollen
-- 1 : vert pâle
-- 2 : vert foncé
-- 3 : jaune
+- 0 : unbekannt oder keine Pollen
+- 1 : hellgrün
+- 2 : dunkelgrün 
+- 3 : gelb
 - 4 : orange
-- 5 : rouge
+- 5 : rot
