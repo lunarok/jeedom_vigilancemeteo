@@ -898,6 +898,11 @@ class vigilancemeteo extends eqLogic {
                             $replace['#' . $cmd->getLogicalId() . '_color#'] = 'red';
                             break;
                 }
+                    if ($replace['#general_color#'] == "yellow" || $replace['#general_color#'] == "green") {
+                        $replace['#general_font#'] = "black";
+                    } else {
+                        $replace['#general_font#'] = "white";
+                    }
 
                 }
                 $templatename = 'pollen';
@@ -916,14 +921,17 @@ class vigilancemeteo extends eqLogic {
             } else if ($this->getConfiguration('type') == 'air') {
                 $cmd = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'aqi');
                 $cmdcolor = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'color');
+                $replace['#aqifont#'] = "white";
                 switch ($cmdcolor->execCmd()) {
                     case 'green':
                     $replace['#aqicolor#'] = "#00ff1e";
                     $replace['#aqilevel#'] = "Good";
+                    $replace['#aqifont#'] = "black";
                     break;
                     case 'yellow':
                     $replace['#aqicolor#'] = "#FFFF00";
                     $replace['#aqilevel#'] = "Moderate";
+                    $replace['#aqifont#'] = "black";
                     break;
                     case 'orange':
                     $replace['#aqicolor#'] = "#FFA500";
