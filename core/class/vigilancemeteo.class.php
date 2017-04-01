@@ -919,6 +919,7 @@ class vigilancemeteo extends eqLogic {
                     } else {
                         $replace['#slide5#'] .= $slide[$key];
                     }
+                    $i++;
                 }
                 $templatename = 'pollen';
             } else if ($this->getConfiguration('type') == 'crue') {
