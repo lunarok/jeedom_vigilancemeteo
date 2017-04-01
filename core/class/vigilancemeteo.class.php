@@ -870,40 +870,55 @@ class vigilancemeteo extends eqLogic {
                 $templatename = 'surf';
             } else if ($this->getConfiguration('type') == 'pollen') {
                 foreach ($this->getCmd('info') as $cmd) {
-                    $replace['#' . $cmd->getLogicalId() . '_history#'] = '';
-                    $replace['#' . $cmd->getLogicalId() . '_id#'] = $cmd->getId();
-                    $replace['#' . $cmd->getLogicalId() . '#'] = $cmd->execCmd();
-                    $replace['#' . $cmd->getLogicalId() . '_width#'] = $cmd->execCmd() * 20;
-                    $replace['#' . $cmd->getLogicalId() . '_collect#'] = $cmd->getCollectDate();
-                    if ($cmd->getIsHistorized() == 1) {
-                        $replace['#' . $cmd->getLogicalId() . '_history#'] = 'history cursor';
-                    }
                     switch ($cmd->execCmd()) {
                         case '0':
-                            $replace['#' . $cmd->getLogicalId() . '_color#'] = 'black';
+                            $color = 'black';
                             break;
                         case '1':
-                            $replace['#' . $cmd->getLogicalId() . '_color#'] = 'lime';
+                            $color = 'lime';
                             break;
                         case '2':
-                            $replace['#' . $cmd->getLogicalId() . '_color#'] = 'green';
+                            $color = 'green';
                             break;
                         case '3':
-                            $replace['#' . $cmd->getLogicalId() . '_color#'] = 'yellow';
+                            $color = 'yellow';
                             break;
                         case '4':
-                            $replace['#' . $cmd->getLogicalId() . '_color#'] = 'orange';
+                            $color = 'orange';
                             break;
                         case '5':
-                            $replace['#' . $cmd->getLogicalId() . '_color#'] = 'red';
+                            $color = 'red';
                             break;
                 }
-                    if ($replace['#general_color#'] == "yellow" || $replace['#general_color#'] == "green") {
-                        $replace['#general_font#'] = "black";
+                    if ($cmd->getLogicalId() == 'general') {
+                        $replace['#' . $cmd->getLogicalId() . '_color#'] = $color;
+                        if ($replace['#general_color#'] == "yellow" || $replace['#general_color#'] == "green") {
+                            $replace['#general_font#'] = "black";
+                        } else {
+                            $replace['#general_font#'] = "white";
+                        }
+                        $replace['#' . $cmd->getLogicalId() . '_id#'] = $cmd->getId();
+                        $replace['#' . $cmd->getLogicalId() . '#'] = $cmd->execCmd();
+                        $replace['#' . $cmd->getLogicalId() . '_collect#'] = $cmd->getCollectDate();
                     } else {
-                        $replace['#general_font#'] = "white";
+                        $sort[$cmd->getLogicalId()] = $cmd->execCmd();
+                        $slide[$cmd->getLogicalId()] = '<div class="pollen_pollen"><span class="pollen_label">' . $cmd->getName() . '</span><span class="pollen_value"><b>' . $cmd->execCmd() . '</b></span><span class="pollen_graph" style="width:' . $cmd->execCmd() * 20 . 'px; background: linear-gradient(to right, #background-color#, ' . $color . ');">&nbsp;</span></div>';
                     }
-
+                }
+                arsort($sort);
+                $i=0;
+                foreach ($sort as $key => $value) {
+                    if ($i<4) {
+                        $replace['#slide1#'] .= $slide[$key];
+                    } else if ($i<8) {
+                        $replace['#slide2#'] .= $slide[$key];
+                    } else if ($i<12) {
+                        $replace['#slide3#'] .= $slide[$key];
+                    } else if ($i<16) {
+                        $replace['#slide4#'] .= $slide[$key];
+                    } else {
+                        $replace['#slide5#'] .= $slide[$key];
+                    }
                 }
                 $templatename = 'pollen';
             } else if ($this->getConfiguration('type') == 'crue') {
