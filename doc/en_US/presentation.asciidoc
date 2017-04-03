@@ -13,3 +13,5 @@ This plugin makes it possible to create weather equipment of several types:
  - Séisme : permet de récupérer la probabilité de séisme de magnitude 5 ou plus dans les 3 prochains jours
 
  - Surf : permet de récupérer la hauteur des vagues, fréquence et direction
+ 
+ - Pollen : permet de récupérer un niveau général de pollen ou un niveau pour 19 types différents de pollens, par département
