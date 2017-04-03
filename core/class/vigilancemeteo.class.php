@@ -869,7 +869,7 @@ class vigilancemeteo extends eqLogic {
 
                 $templatename = 'surf';
             } else if ($this->getConfiguration('type') == 'pollen') {
-                $onetemplate = getTemplate('core', $version, '1pollen', 'pollen');
+                $onetemplate = getTemplate('core', $version, '1pollen', 'vigilancemeteo');
                 foreach ($this->getCmd('info') as $cmd) {
                     switch ($cmd->execCmd()) {
                         case '0':
@@ -1013,11 +1013,11 @@ class vigilancemeteo extends eqLogic {
                 $color[4] = '#0094CE';
 
                 $text = Array();
-                $text[0] = '{{Données indisponibles}}';
-                $text[1] = '{{Pas de pluie}}';
-                $text[2] = '{{Pluie faible}}';
-                $text[3] = '{{Pluie modérée}}';
-                $text[4] = '{{Pluie forte}}';
+                $text[0] = 'Données indisponibles';
+                $text[1] = 'Pas de pluie';
+                $text[2] = 'Pluie faible';
+                $text[3] = 'Pluie modérée';
+                $text[4] = 'Pluie forte';
 
                 for($i=0; $i <= 11; $i++){
                     $prev = $this->getCmd(null,'prev' . $i*5);
