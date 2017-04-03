@@ -193,6 +193,7 @@ $(document).ready(function () {
     container.width(slides.length * item_width); //set the slides container to the correct total width
     container.find(elm + ':first').before(container.find(elm + ':last'));
     resetSlides();
+    clearInterval(run);
 
 
     //if user clicked on prev button
@@ -227,11 +228,11 @@ $(document).ready(function () {
     });
 
     //if mouse hover, pause the auto rotation, otherwise rotate it
-    container.parent().mouseenter(function () {
-        clearInterval(run);
-    }).mouseleave(function () {
-        run = setInterval(rotate, speed);
-    });
+    //container.parent().mouseenter(function () {
+    //    clearInterval(run);
+    //}).mouseleave(function () {
+    //    run = setInterval(rotate, speed);
+    //});
 
 
     function resetSlides() {
