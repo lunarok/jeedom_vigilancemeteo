@@ -869,6 +869,7 @@ class vigilancemeteo extends eqLogic {
 
                 $templatename = 'surf';
             } else if ($this->getConfiguration('type') == 'pollen') {
+                $onetemplate = getTemplate('core', $version, '1pollen', 'pollen');
                 foreach ($this->getCmd('info') as $cmd) {
                     switch ($cmd->execCmd()) {
                         case '0':
@@ -902,7 +903,12 @@ class vigilancemeteo extends eqLogic {
                         $replace['#' . $cmd->getLogicalId() . '_collect#'] = $cmd->getCollectDate();
                     } else {
                         $sort[$cmd->getLogicalId()] = $cmd->execCmd();
-                        $slide[$cmd->getLogicalId()] = '<div class="pollen_pollen"><span class="pollen_label">' . $cmd->getName() . '</span><span class="pollen_value"><b>' . $cmd->execCmd() . '</b></span><span class="pollen_graph" style="width:' . $cmd->execCmd() * 20 . 'px; background: linear-gradient(to right, ' . $replace['#background-color#'] . ', ' . $color . ');">&nbsp;</span></div>';
+                        $unitreplace['#value#'] = $cmd->execCmd();
+                        $unitreplace['#name#'] = $cmd->getName();
+                        $unitreplace['#width#'] = $cmd->execCmd() * 20;
+                        $unitreplace['#color#'] = $color;
+                        $unitreplace['#background-color#'] = $replace['#background-color#'];
+                        $slide[$cmd->getLogicalId()] = template_replace($unitreplace, $onetemplate);
                     }
                 }
                 arsort($sort);
