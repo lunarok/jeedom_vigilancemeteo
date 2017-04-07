@@ -913,6 +913,7 @@ class vigilancemeteo extends eqLogic {
                 }
                 arsort($sort);
                 $i=0;
+                $replace['#slide1#'] = $replace['#slide2#'] = $replace['#slide3#'] = $replace['#slide4#'] =$replace['#slide5#'] = '';
                 foreach ($sort as $key => $value) {
                     if ($i<4) {
                         $replace['#slide1#'] .= $slide[$key];
