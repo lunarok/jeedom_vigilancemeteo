@@ -893,7 +893,7 @@ class vigilancemeteo extends eqLogic {
                 }
                     if ($cmd->getLogicalId() == 'general') {
                         $replace['#' . $cmd->getLogicalId() . '_color#'] = $color;
-                        if ($replace['#general_color#'] == "yellow" || $replace['#general_color#'] == "green") {
+                        if ($replace['#general_color#'] == "yellow" || $replace['#general_color#'] == "lime") {
                             $replace['#general_font#'] = "black";
                         } else {
                             $replace['#general_font#'] = "white";
