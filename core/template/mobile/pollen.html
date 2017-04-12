@@ -1,69 +1,67 @@
 <style>
 	#pollen_carousel {
 	  position: relative;
-	  width: 200px;
+	  width: 110px;
 	  margin: 0 auto;
 	  display: table-cell;
-	  top: -9px;
 	}
 
 	#pollen_slides {
 	  overflow: hidden;
 	  position: relative;
-	  width: 200px;
-	  height: 84px;
+	  width: 110px;
+	  height: 76px;
 	}
 
 	#pollen_slides ul {
 	  list-style: none;
-	  width: 200px;
-	  height: 84px;
+	  width: 110px;
+	  height: 76px;
 	  margin: 0;
 	  padding: 0;
 	  position: relative;
 	}
 
 	#pollen_slides li {
-	  width: 200px;
-	  height: 84px;
+	  width: 110px;
+	  height: 76px;
 	  float: left;
 	  text-align: center;
 	  position: relative;
 	}
 
 	.pollen_btn-bar {
-	  width: 25px;
-	  margin: 0 auto;
+	  position: relative;
 	  position: relative;
 	  display: table-cell;
-	  vertical-align: middle;
-	  top: -9px;
+	  height: 76px;
 	}
 
-	#pollen_buttons {
-	  padding: 0 14px 0 8px;
+	.pollen_button_L {
+	  padding: 0 20px 0 6px;
+	  display: table-cell;
+	}
+
+	.pollen_button_R {
+	  padding: 0 6px 0 15px;
+	  display: table-cell;
 	}
 
 	#pollen_buttons a {
-	  text-align: center;
-	  font-size: 25px;
+	  vertical-align: middle;
 	  float: left;
 	  outline: 0;
 	  text-decoration: none;
-	  width: 50px;
-	  background-color: Gray;
-	}
-
-	a#pollen_prev:hover,
-	a#pollen_next:hover {
-	  color: #b14943;
+	  width: 15px;
+	  height: 76px;
+	  opacity: 0.8;
+	  color: white;
 	}
 
 	.pollen_quote-phrase {
 	  text-align: left;
-	  width: 120px;
 	  display: table-cell;
-	  height: 84px;
+	  height: 76px;
 	  font-size: 12px;
 	  color: #FFF;
 	  text-shadow: .5px 0px #b14943;
@@ -80,39 +78,44 @@
 
 	.pollen_label {
 	  display: table-cell;
-	  width: 87px;
-	  height: 19px;
+	  font-size: 11px;
+	  width: 90px;
+	  height: 16px;
 	}
 
 	.pollen_value {
 	  display: table-cell;
 	  width: 15px;
 	  text-align: center;
+	  font-style: normal;
 	}
 
 	.pollen_graph {
 	  display: table-cell;
-	  height: 19px;
+	  height: 16px;
 	}
 
 	.pollen_general {
 	  display: table-cell;
 	  vertical-align: middle;
 	  align: center;
-	  border-radius:3px;
-	  width:35px;
-	  height:25px;
 	  cursor:default;
-	  font-size: 1.2em;
+	  font-size: 1.5em;
 	  font-weight: bold;
+	  border-style: solid;
+	  border-width: 1px;
+	  border-color: #ffffff;
+	  border-radius:19px;
+	  width:38px;
+	  height:38px;
 	}
 </style>
 
-<div class="eqLogic-widget eqLogic" style="min-height: 160px;min-width: 180px;border:#border#;border-radius:#border-radius#;background-color: #background-color#;color: #color#;#style#" data-eqLogic_id="#id#" data-eqLogic_uid="#uid#" data-version="#version#" >
+<div class="eqLogic-widget eqLogic" style="height: 160px;width: 240px;border:#border#;border-radius:#border-radius#;background-color: #background-color#;color: #color#;#style#" data-eqLogic_id="#id#" data-eqLogic_uid="#uid#" data-version="#version#" >
 	<center class="widget-name">#name_display#</center><br />
 
 		<center>
-			<div style="display: table; overflow: hidden; position: relative; top: -15px;">
+			<div style="display: table; overflow: hidden; position: relative; top: -19px;">
 				<div data-cmd_id="#general_id#" title="Indice général (collecté le #general_collect#)" class="pollen_general" style="background-color:#general_color#;color:#general_font#;"><center>#general#</center></div>
 			</div>
 
@@ -123,7 +126,7 @@
 			</div>
 
 			<div class="pollen_btn-bar">
-				<div id="pollen_buttons"><a id="pollen_prev" href="#"><</a></br></br><a id="pollen_next" href="#">></a> </div>
+				<div id="pollen_buttons" class="pollen_button_L"><a id="pollen_prev" href="#"><br><</a> </div>
 			</div>
 
 			<div id="pollen_carousel">
@@ -141,33 +144,37 @@
 					<div class="pollen_quoteContainer">
 						<div class="pollen_quote-phrase">
 						  #slide2#
+						</div>
+					</div>
+				  </li>
+				  <li class="pollen_slide">
+					<div class="pollen_quoteContainer">
+						<div class="pollen_quote-phrase">
+                          #slide3#
+                         </div>
+					</div>
+				  </li>
+				  <li class="pollen_slide">
+					<div class="pollen_quoteContainer">
+						<div class="pollen_quote-phrase">
+                          #slide4#
                         </div>
 					</div>
 				  </li>
 				  <li class="pollen_slide">
 					<div class="pollen_quoteContainer">
 						<div class="pollen_quote-phrase">
-						  #slide3#
-                        </div>
-					</div>
-				  </li>
-				  <li class="pollen_slide">
-					<div class="pollen_quoteContainer">
-						<div class="pollen_quote-phrase">
-						  #slide4#
-                        </div>
-					</div>
-				  </li>
-				  <li class="pollen_slide">
-					<div class="pollen_quoteContainer">
-						<div class="pollen_quote-phrase">
-						  #slide5#
+                          #slide5#
                         </div>
 					</div>
 				  </li>
 				</ul>
 			  </div>
 
+			</div>
+
+			<div class="pollen_btn-bar">
+				<div id="pollen_buttons" class="pollen_button_R"><a id="pollen_next" href="#"><br>></a> </div>
 			</div>
 
 		</center>
