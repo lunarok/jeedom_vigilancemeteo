@@ -170,7 +170,6 @@ class vigilancemeteo extends eqLogic {
 
     public function getVigilance() {
         $departement = $this->getConfiguration('departement');
-        $alert = str_replace('#','',$this->getConfiguration('alert'));
         if ($departement == '92' || $departement == '93' || $departement == '94') {
             $departement = '75';
         }
@@ -338,80 +337,23 @@ class vigilancemeteo extends eqLogic {
         log::add('vigilancemeteo', 'debug', 'Risque ' . $lrisque);
 
         foreach ($this->getCmd() as $cmd) {
-            $alertmess = "";
-            //log::add('vigilancemeteo', 'debug', $cmd->getConfiguration('data'));
             if($cmd->getConfiguration('data')=="vigilance"){
-                if ($lvigilance != "vert") {
-                    if ($cmd->getConfiguration('alert') == '0' && $alert != '') {
-                        $cmd->setConfiguration('alert', '1');
-                        $cmdalerte = cmd::byId($alert);
-                        if ($alertmess != "") {
-                            $alertmess = $alertmess . ", Niveau " . $lcrue . " pour la vigilance";
-                        } else {
-                            $alertmess = "Niveau " . $lcrue . " pour la vigilance";
-                        }
-                    }
-                } else {
-                    $cmd->setConfiguration('alert', '0');
-                }
                 $cmd->setConfiguration('value', $lvigilance);
                 $cmd->save();
                 $cmd->event($lvigilance);
             }elseif($cmd->getConfiguration('data')=="crue") {
                 log::add('vigilancemeteo', 'debug', $cmd->getConfiguration('data') . ' ' . $lcrue . ' ' . $cmd->getConfiguration('alert'));
-                if ($lcrue != "vert") {
-                    if ($cmd->getConfiguration('alert') == '0' && $alert != '') {
-                        $cmd->setConfiguration('alert', '1');
-                        if ($alertmess != "") {
-                            $alertmess = $alertmess . ", Niveau " . $lcrue . " pour le risque de crue";
-                        } else {
-                            $alertmess = "Niveau " . $lcrue . " pour le risque de crue";
-                        }
-                    }
-                } else {
-                    $cmd->setConfiguration('alert', '0');
-                }
                 $cmd->setConfiguration('value', $lcrue);
                 $cmd->save();
                 $cmd->event($lcrue);
             }elseif($cmd->getConfiguration('data')=="risque"){
-                if ($lrisque != "RAS") {
-                    if ($cmd->getConfiguration('alert') == '0' && $alert != '') {
-                        $cmd->setConfiguration('alert', '1');
-                        if ($alertmess != "") {
-                            $alertmess = $alertmess . ", Risque " . $lrisque;
-                        } else {
-                            $alertmess = "Risque " . $lrisque;
-                        }
-                    }
-                } else {
-                    $cmd->setConfiguration('alert', '0');
-                }
                 $cmd->setConfiguration('value', $lrisque);
                 $cmd->save();
                 $cmd->event($lrisque);
             }elseif($cmd->getConfiguration('data')=="mer"){
-                if ($lmer != "vert") {
-                    if ($cmd->getConfiguration('alert') == '0' && $alert != '') {
-                        $cmd->setConfiguration('alert', '1');
-                        if ($alertmess != "") {
-                            $alertmess = $alertmess . ", Niveau " . $lmer . " pour le risque bord de mer";
-                        } else {
-                            $alertmess = "Niveau " . $lmer . " pour le risque bord de mer";
-                        }
-                    }
-                } else {
-                    $cmd->setConfiguration('alert', '0');
-                }
                 $cmd->setConfiguration('value', $lmer);
                 $cmd->save();
                 $cmd->event($lmer);
-            }
-            if ($alertmess != "") {
-                $cmdalerte = cmd::byId($alert);
-                $options['title'] = "Alerte Météo";
-                $options['message'] = "Dpt ".$departement." : " . $alertmess;
-                $cmdalerte->execCmd($options);
             }
         }
         return ;
@@ -609,6 +551,15 @@ class vigilancemeteo extends eqLogic {
             $this->checkAndUpdateCmd('uvi', $json['result']['uviData']['uvi']);
             $this->checkAndUpdateCmd('uvimax', $json['result']['uviData']['uviMax']);
             $this->checkAndUpdateCmd('uvimaxtime', $json['result']['uviData']['uviMaxTime']);
+            $this->checkAndUpdateCmd('celtic', $json['result']['burnTime']['celtic']);
+            $this->checkAndUpdateCmd('pale', $json['result']['burnTime']['pale']);
+            $this->checkAndUpdateCmd('caucasian', $json['result']['burnTime']['caucasian']);
+            $this->checkAndUpdateCmd('mediterranean', $json['result']['burnTime']['mediterranean']);
+            $this->checkAndUpdateCmd('southAfrican', $json['result']['burnTime']['southAfrican']);
+            $this->checkAndUpdateCmd('negro', $json['result']['burnTime']['negro']);
+            $this->checkAndUpdateCmd('advice', $json['result']['sunAdvice']['advice']);
+            $this->checkAndUpdateCmd('protectionFrom', $json['result']['protectionTime']['protectionFrom']);
+            $this->checkAndUpdateCmd('protectionTo', $json['result']['protectionTime']['protectionTo']);
         }
         return ;
     }

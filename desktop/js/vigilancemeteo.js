@@ -32,7 +32,6 @@ $('#typeEq').change(function(){
     $('#portEq').hide();
     $('#stationEq').hide();
     $('#departementEq').show();
-    $('#alertEq').show();
     $('#geolocEq').hide();
     $('#uvimateEq').hide();
     $('#breezeEq').hide();
@@ -45,7 +44,6 @@ $('#typeEq').change(function(){
     $('#portEq').hide();
     $('#stationEq').hide();
     $('#departementEq').hide();
-    $('#alertEq').hide();
     $('#geolocEq').hide();
     $('#uvimateEq').hide();
     $('#breezeEq').hide();
@@ -58,7 +56,6 @@ $('#typeEq').change(function(){
     $('#portEq').show();
     $('#stationEq').hide();
     $('#departementEq').hide();
-    $('#alertEq').hide();
     $('#geolocEq').hide();
     $('#uvimateEq').hide();
     $('#breezeEq').hide();
@@ -72,7 +69,6 @@ $('#typeEq').change(function(){
     $('#surfEq').show();
     $('#stationEq').hide();
     $('#departementEq').hide();
-    $('#alertEq').hide();
     $('#uvimateEq').hide();
     $('#geolocEq').hide();
     $('#breezeEq').hide();
@@ -84,7 +80,6 @@ $('#typeEq').change(function(){
     $('#portEq').hide();
     $('#stationEq').show();
     $('#departementEq').hide();
-    $('#alertEq').hide();
     $('#geolocEq').hide();
     $('#uvimateEq').hide();
     $('#breezeEq').hide();
@@ -97,7 +92,6 @@ $('#typeEq').change(function(){
     $('#portEq').hide();
     $('#stationEq').hide();
     $('#departementEq').hide();
-    $('#alertEq').hide();
     $('#geolocEq').hide();
     $('#uvimateEq').hide();
     $('#breezeEq').hide();
@@ -110,7 +104,6 @@ $('#typeEq').change(function(){
     $('#portEq').hide();
     $('#stationEq').hide();
     $('#departementEq').hide();
-    $('#alertEq').hide();
     $('#geolocEq').show();
     $('#uvimateEq').hide();
     $('#breezeEq').show();
@@ -123,7 +116,6 @@ $('#typeEq').change(function(){
     $('#portEq').hide();
     $('#stationEq').hide();
     $('#departementEq').show();
-    $('#alertEq').hide();
     $('#geolocEq').hide();
     $('#uvimateEq').hide();
     $('#breezeEq').hide();
@@ -136,7 +128,6 @@ $('#typeEq').change(function(){
     $('#portEq').hide();
     $('#stationEq').hide();
     $('#departementEq').hide();
-    $('#alertEq').hide();
     $('#geolocEq').show();
     $('#uvimateEq').show();
     $('#breezeEq').hide();

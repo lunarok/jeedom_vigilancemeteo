@@ -22,6 +22,60 @@
             "type": "info",
             "subtype": "string",
             "logicalId": "uvimaxtime"
+        },
+        {
+            "name": "Temps Expo 1",
+            "type": "info",
+            "subtype": "numeric",
+            "logicalId": "celtic"
+        },
+        {
+            "name": "Temps Expo 2",
+            "type": "info",
+            "subtype": "numeric",
+            "logicalId": "pale"
+        },
+        {
+            "name": "Temps Expo 3",
+            "type": "info",
+            "subtype": "numeric",
+            "logicalId": "caucasian"
+        },
+        {
+            "name": "Temps Expo 4",
+            "type": "info",
+            "subtype": "numeric",
+            "logicalId": "mediterranean"
+        },
+        {
+            "name": "Temps Expo 5",
+            "type": "info",
+            "subtype": "numeric",
+            "logicalId": "southAfrican"
+        },
+        {
+            "name": "Temps Expo 6",
+            "type": "info",
+            "subtype": "numeric",
+            "logicalId": "negro"
+        },
+        {
+            "name": "Conseil du jour",
+            "type": "info",
+            "subtype": "string",
+            "logicalId": "advice"
+        },
+        {
+            "name": "Début période protection",
+            "type": "info",
+            "subtype": "string",
+            "logicalId": "protectionFrom"
+        },
+        {
+            "name": "Fin de période protection",
+            "type": "info",
+            "subtype": "string",
+            "logicalId": "protectionTo"
         }
     ]
 }
