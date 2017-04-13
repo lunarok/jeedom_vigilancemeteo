@@ -34,6 +34,7 @@ $('#typeEq').change(function(){
     $('#departementEq').show();
     $('#alertEq').show();
     $('#geolocEq').hide();
+    $('#uvimateEq').hide();
     $('#breezeEq').hide();
     $('#seismeEq').hide();
     $('#surfEq').hide();
@@ -46,6 +47,7 @@ $('#typeEq').change(function(){
     $('#departementEq').hide();
     $('#alertEq').hide();
     $('#geolocEq').hide();
+    $('#uvimateEq').hide();
     $('#breezeEq').hide();
     $('#seismeEq').hide();
     $('#surfEq').hide();
@@ -58,6 +60,7 @@ $('#typeEq').change(function(){
     $('#departementEq').hide();
     $('#alertEq').hide();
     $('#geolocEq').hide();
+    $('#uvimateEq').hide();
     $('#breezeEq').hide();
     $('#seismeEq').hide();
     $('#surfEq').hide();
@@ -70,6 +73,7 @@ $('#typeEq').change(function(){
     $('#stationEq').hide();
     $('#departementEq').hide();
     $('#alertEq').hide();
+    $('#uvimateEq').hide();
     $('#geolocEq').hide();
     $('#breezeEq').hide();
     $('#seismeEq').hide();
@@ -82,6 +86,7 @@ $('#typeEq').change(function(){
     $('#departementEq').hide();
     $('#alertEq').hide();
     $('#geolocEq').hide();
+    $('#uvimateEq').hide();
     $('#breezeEq').hide();
     $('#seismeEq').hide();
     $('#surfEq').hide();
@@ -94,6 +99,7 @@ $('#typeEq').change(function(){
     $('#departementEq').hide();
     $('#alertEq').hide();
     $('#geolocEq').hide();
+    $('#uvimateEq').hide();
     $('#breezeEq').hide();
     $('#seismeEq').show();
     $('#surfEq').hide();
@@ -106,6 +112,7 @@ $('#typeEq').change(function(){
     $('#departementEq').hide();
     $('#alertEq').hide();
     $('#geolocEq').show();
+    $('#uvimateEq').hide();
     $('#breezeEq').show();
     $('#seismeEq').hide();
     $('#surfEq').hide();
@@ -118,6 +125,20 @@ $('#typeEq').change(function(){
     $('#departementEq').show();
     $('#alertEq').hide();
     $('#geolocEq').hide();
+    $('#uvimateEq').hide();
+    $('#breezeEq').hide();
+    $('#seismeEq').hide();
+    $('#surfEq').hide();
+    $('#mswEq').hide();
+  }
+  if (text == 'uvi') {
+    $('#villeEq').hide();
+    $('#portEq').hide();
+    $('#stationEq').hide();
+    $('#departementEq').hide();
+    $('#alertEq').hide();
+    $('#geolocEq').hide();
+    $('#uvimateEq').show();
     $('#breezeEq').hide();
     $('#seismeEq').hide();
     $('#surfEq').hide();
