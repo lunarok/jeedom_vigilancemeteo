@@ -1,0 +1,27 @@
+{
+    "name": "Index UV",
+	"configuration" : {
+		"model" : "uvi",
+        "type" : "uvi"
+	},
+    "commands": [
+        {
+            "name": "Index UV",
+            "type": "info",
+            "subtype": "numeric",
+            "logicalId": "uvi"
+        },
+        {
+            "name": "Index UV Max du jour",
+            "type": "info",
+            "subtype": "numeric",
+            "logicalId": "uvimax"
+        },
+        {
+            "name": "Heure du maximum du jour",
+            "type": "info",
+            "subtype": "string",
+            "logicalId": "uvimaxtime"
+        }
+    ]
+}

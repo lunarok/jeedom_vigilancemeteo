@@ -68,6 +68,10 @@ class vigilancemeteo extends eqLogic {
                 $vigilancemeteo->getPollen();
                 $vigilancemeteo->refreshWidget();
             }
+            if ($vigilancemeteo->getConfiguration('type') == 'uvi') {
+                $vigilancemeteo->getUVI();
+                $vigilancemeteo->refreshWidget();
+            }
         }
         log::add('vigilancemeteo', 'debug', 'Hourly cron');
     }
@@ -143,6 +147,9 @@ class vigilancemeteo extends eqLogic {
         }
         if ($this->getConfiguration('type') == 'seisme') {
             $this->getSeisme();
+        }
+        if ($this->getConfiguration('type') == 'uvi') {
+            $this->getUVI();
         }
         if ($this->getConfiguration('type') == 'pluie1h') {
             for($i=0; $i <= 11; $i++){
@@ -566,6 +573,42 @@ class vigilancemeteo extends eqLogic {
             $this->checkAndUpdateCmd('primaryPeriod', $json[0]['swell']['components']['primary']['period']);
             $this->checkAndUpdateCmd('compassDirection', $json[0]['swell']['components']['primary']['compassDirection']);
 
+        }
+        return ;
+    }
+
+    public function getUVI() {
+        $apikey = $this->getConfiguration('uvimate');
+        if ($apikey == '') {
+            log::add('vigilancemeteo', 'error', 'UVIMate API non saisie');
+            return;
+        }
+        if (null !== ($this->getConfiguration('geoloc', '')) && $this->getConfiguration('geoloc', '') != 'none') {
+            $geoloc = $this->getConfiguration('geoloc', '');
+            $geolocCmd = geolocCmd::byId($geoloc);
+            if ($geolocCmd->getConfiguration('mode') == 'fixe') {
+                $geolocval = $geolocCmd->getConfiguration('coordinate');
+            } else {
+                $geolocval = $geolocCmd->execCmd();
+            }
+            $geoloctab = explode(',', trim($geolocval));
+            $latitude = trim($geoloctab[0]);
+            $longitude = trim($geoloctab[1]);
+            $url = 'https://uvimate.herokuapp.com/api/getUVI/' . $latitude . '/' . $longitude;
+            $curl = curl_init();
+            curl_setopt($curl, CURLOPT_URL,$url);
+            $headers = [
+                'x-access-token: ' . $apikey
+            ];
+            curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
+            curl_setopt($curl,CURLOPT_RETURNTRANSFER , 1);
+            $json = json_decode(curl_exec($curl), true);
+            curl_close ($curl);
+            log::add('vigilancemeteo', 'debug', 'Retour : ' . print_r($json, true));
+
+            $this->checkAndUpdateCmd('uvi', $json['result']['uviData']['uvi']);
+            $this->checkAndUpdateCmd('uvimax', $json['result']['uviData']['uviMax']);
+            $this->checkAndUpdateCmd('uvimaxtime', $json['result']['uviData']['uviMaxTime']);
         }
         return ;
     }
