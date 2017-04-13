@@ -137,7 +137,7 @@ $('#typeEq').change(function(){
     $('#stationEq').hide();
     $('#departementEq').hide();
     $('#alertEq').hide();
-    $('#geolocEq').hide();
+    $('#geolocEq').show();
     $('#uvimateEq').show();
     $('#breezeEq').hide();
     $('#seismeEq').hide();
