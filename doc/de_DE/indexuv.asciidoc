@@ -1,0 +1,23 @@
+==== Présentation
+
+Ce plugin permet d'obtenir des informations sur les index UV depuis https://uvimate.herokuapp.com/uvindex-api
+
+==== Configuration du type
+
+Il faut renseigner l'emplacement geoloc voulu
+
+Il faut aussi saisir la clef API (à obtenir ici https://uvimate.herokuapp.com/uvindex-api)
+
+==== Informations disponibles
+
+Ce plugin permet d'obtenir des informations sur les UV :
+
+- index en cours
+
+- index max du jour
+
+- heure du max
+
+- temps d'exposition à respecter pour différents types de peau
+
+- conseil du jour
