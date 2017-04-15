@@ -4,8 +4,18 @@
 
 	<div class="col-sm-12">
 	<center>
-	 <span class="seisme #seisme_history#" data-cmd_id="#seisme_id#" title="Crue (#seisme_collect#)">#seisme#</span>
+	 <canvas id="seisme#id#" width="56" height="56"></canvas><span class="seisme #seisme_history#" data-cmd_id="#seisme_id#" title="Crue (#seisme_collect#)">#seisme#</span>
    </center>
 	</div>
 	</div>
 </div>
+
+<script src="plugins/vigilancemeteo/desktop/js/skycons.js"></script>
+
+<script>
+  var skycons = new Skycons({'color':'#color#'});
+
+  skycons.set('seisme#id#', 'wi-earthquake');
+
+  skycons.play();
+</script>
