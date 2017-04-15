@@ -1,21 +1,13 @@
+<link rel="stylesheet" href="plugins/vigilancemeteo/desktop/weather-icons/css/weather-icons.css">
+
 <div class="eqLogic-widget eqLogic allowResize" style="height: #height#;width: #width#;border:#border#;border-radius:#border-radius#;background-color: #background-color#;color: #color#;#style#" data-eqLogic_id="#id#" data-eqLogic_uid="#uid#" data-version="#version#" >
       <center><a href="#eqLink#" style="font-size : 1.5em;#hideEqLogicName#">#name_display#</a></strong></center><br />
     <div class="row">
 
 	<div class="col-sm-12">
 	<center>
-	 <canvas id="seisme#id#" width="56" height="56"></canvas><span class="seisme #seisme_history#" data-cmd_id="#seisme_id#" title="Crue (#seisme_collect#)">#seisme#</span>
+	 <i class="wi wi-earthquake"></i><span class="seisme #seisme_history#" data-cmd_id="#seisme_id#" title="Crue (#seisme_collect#)">#seisme#</span>
    </center>
 	</div>
 	</div>
 </div>
-
-<script src="plugins/vigilancemeteo/desktop/js/skycons.js"></script>
-
-<script>
-  var skycons = new Skycons({'color':'white'});
-
-  skycons.set('seisme#id#', 'earthquake');
-
-  skycons.play();
-</script>
