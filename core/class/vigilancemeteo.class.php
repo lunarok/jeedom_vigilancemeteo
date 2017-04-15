@@ -1023,14 +1023,12 @@ class vigilancemeteo extends eqLogic {
                         $replace['#prev' . ($i*5) . 'Text#'] = $text[$prevision];
                     }
                 }
-
                 $parameters = $this->getDisplay('parameters');
                 if (is_array($parameters)) {
                     foreach ($parameters as $key => $value) {
                         $replace['#' . $key . '#'] = $value;
                     }
                 }
-
                 $templatename = 'previsionpluie';
             }
             return $this->postToHtml($_version, template_replace($replace, getTemplate('core', $version, $templatename, 'vigilancemeteo')));
