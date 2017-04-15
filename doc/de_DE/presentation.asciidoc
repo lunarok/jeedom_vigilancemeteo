@@ -15,3 +15,5 @@ Ce plugin permet de créer des équipements météo de plusieurs types :
  - Surf : permet de récupérer la hauteur des vagues, fréquence et direction
  
  - Pollen : permet de récupérer un niveau général de pollen ou un niveau pour 19 types différents de pollens, par département
+ 
+ - Indice UV : permet d’obtenir des informations sur les UV depuis Uvimate
