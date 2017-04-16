@@ -862,6 +862,19 @@ class vigilancemeteo extends eqLogic {
                 }
 
                 $templatename = 'surf';
+            } else if ($this->getConfiguration('type') == 'uvi') {
+                foreach ($this->getCmd('info') as $cmd) {
+                    $replace['#' . $cmd->getLogicalId() . '_history#'] = '';
+                    $replace['#' . $cmd->getLogicalId() . '_id#'] = $cmd->getId();
+                    $replace['#' . $cmd->getLogicalId() . '#'] = $cmd->execCmd();
+                    $replace['#' . $cmd->getLogicalId() . '_collect#'] = $cmd->getCollectDate();
+                    if ($cmd->getIsHistorized() == 1) {
+                        $replace['#' . $cmd->getLogicalId() . '_history#'] = 'history cursor';
+                    }
+
+                }
+
+                $templatename = 'uvi';
             } else if ($this->getConfiguration('type') == 'pollen') {
                 $onetemplate = getTemplate('core', $version, '1pollen', 'vigilancemeteo');
                 foreach ($this->getCmd('info') as $cmd) {
