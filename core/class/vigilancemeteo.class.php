@@ -548,7 +548,7 @@ class vigilancemeteo extends eqLogic {
             curl_close ($curl);
             log::add('vigilancemeteo', 'debug', 'Retour : ' . print_r($json, true));
 
-            $this->checkAndUpdateCmd('uvi', $json['result']['uviData']['uvi']);
+            $this->checkAndUpdateCmd('uvi', round($json['result']['uviData']['uvi'],2));
             $this->checkAndUpdateCmd('uvimax', $json['result']['uviData']['uviMax']);
             $this->checkAndUpdateCmd('uvimaxtime', $json['result']['uviData']['uviMaxTime']);
             $this->checkAndUpdateCmd('celtic', $json['result']['burnTime']['celtic']);
