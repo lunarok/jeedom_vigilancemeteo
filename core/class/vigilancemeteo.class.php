@@ -549,6 +549,25 @@ class vigilancemeteo extends eqLogic {
             log::add('vigilancemeteo', 'debug', 'Retour : ' . print_r($json, true));
 
             $this->checkAndUpdateCmd('uvi', round($json['result']['uviData']['uvi'],2));
+            if ($json['result']['uviData']['uvi'] >= 11) {
+                $this->checkAndUpdateCmd('uvirisk', 'Extrême');
+                $this->checkAndUpdateCmd('uvicolor', 'darkviolet');
+            } else if ($json['result']['uviData']['uvi'] >= 8) {
+                $this->checkAndUpdateCmd('uvirisk', 'Très Elevé');
+                $this->checkAndUpdateCmd('uvicolor', 'red');
+            } else if ($json['result']['uviData']['uvi'] >= 6) {
+                $this->checkAndUpdateCmd('uvirisk', 'Elevé');
+                $this->checkAndUpdateCmd('uvicolor', 'orange');
+            } else if ($json['result']['uviData']['uvi'] >= 3) {
+                $this->checkAndUpdateCmd('uvirisk', 'Modéré');
+                $this->checkAndUpdateCmd('uvicolor', 'yellow');
+            }else if ($json['result']['uviData']['uvi'] >= 1) {
+                $this->checkAndUpdateCmd('uvirisk', 'Faible');
+                $this->checkAndUpdateCmd('uvicolor', 'green');
+            } else {
+                $this->checkAndUpdateCmd('uvirisk', 'Absent');
+                $this->checkAndUpdateCmd('uvicolor', 'blue');
+            }
             $this->checkAndUpdateCmd('uvimax', $json['result']['uviData']['uviMax']);
             $this->checkAndUpdateCmd('uvimaxtime', $json['result']['uviData']['uviMaxTime']);
             $this->checkAndUpdateCmd('celtic', $json['result']['burnTime']['celtic']);
@@ -560,6 +579,7 @@ class vigilancemeteo extends eqLogic {
             $this->checkAndUpdateCmd('advice', $json['result']['sunAdvice']['advice']);
             $this->checkAndUpdateCmd('protectionFrom', $json['result']['protectionTime']['protectionFrom']);
             $this->checkAndUpdateCmd('protectionTo', $json['result']['protectionTime']['protectionTo']);
+            $this->checkAndUpdateCmd('weather', $json['result']['weather']['icon']);
         }
         return ;
     }

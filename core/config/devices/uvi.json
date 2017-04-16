@@ -6,13 +6,31 @@
 	},
     "commands": [
         {
-            "name": "Index UV",
+            "name": "Indice UV",
             "type": "info",
             "subtype": "numeric",
             "logicalId": "uvi"
         },
         {
-            "name": "Index UV Max du jour",
+            "name": "Niveau de risque",
+            "type": "info",
+            "subtype": "numeric",
+            "logicalId": "uvirisk"
+        },
+        {
+            "name": "Couleur de risque",
+            "type": "info",
+            "subtype": "string",
+            "logicalId": "uvicolor"
+        },
+        {
+            "name": "Icone météo",
+            "type": "info",
+            "subtype": "string",
+            "logicalId": "weather"
+        },
+        {
+            "name": "Indice UV Max du jour",
             "type": "info",
             "subtype": "numeric",
             "logicalId": "uvimax"
