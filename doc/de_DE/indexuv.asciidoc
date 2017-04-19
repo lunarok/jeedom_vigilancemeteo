@@ -1,23 +1,23 @@
-==== Présentation
+==== Präsentation
 
-Ce plugin permet d'obtenir des informations sur les index UV depuis https://uvimate.herokuapp.com/uvindex-api
+Diese Plugin liefert Informationen über den UV-Index von der Webseite https://uvimate.herokuapp.com/uvindex-api 
 
-==== Configuration du type
+==== Typ Konfiguration
 
-Il faut renseigner l'emplacement geoloc voulu
+Mann muß den gewünschten Geoloc Standort ermitteln.
 
-Il faut aussi saisir la clef API (à obtenir ici https://uvimate.herokuapp.com/uvindex-api)
+Man muss auch den API-Schlüssel abfragen (hier zu bekommen https://uvimate.herokuapp.com/uvindex-api)
 
-==== Informations disponibles
+==== Verfügbare Informationen 
 
-Ce plugin permet d'obtenir des informations sur les UV :
+Dieses Plugin erlaubt es, Informationen über UV Strahlung zu erhalten :
 
-- index en cours
+- aktueller Index
 
-- index max du jour
+- max Tages Index
 
-- heure du max
+- Stunde max
 
-- temps d'exposition à respecter pour différents types de peau
+- zu beachtende Bestrahlungsdauer für verschiedene Hauttypen
 
-- conseil du jour
+- Tipp des Tages
