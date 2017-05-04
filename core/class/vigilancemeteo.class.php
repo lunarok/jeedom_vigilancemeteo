@@ -99,10 +99,41 @@ class vigilancemeteo extends eqLogic {
         if (!is_array($device) || !isset($device['commands'])) {
             return true;
         }
-        if (isset($device['name']) && !$_update) {
-            $this->setName('[' . $this->getLogicalId() . ']' . $device['name']);
+        //$this->import($device);
+        foreach ($device['commands'] as $command) {
+            $cmd = null;
+            foreach ($this->getCmd() as $liste_cmd) {
+                if ((isset($command['logicalId']) && $liste_cmd->getLogicalId() == $command['logicalId'])
+                    || (isset($command['name']) && $liste_cmd->getName() == $command['name'])) {
+                    $cmd = $liste_cmd;
+                    break;
+                }
+            }
+            try {
+                if ($cmd == null || !is_object($cmd)) {
+                    $cmd = new xiaomihomeCmd();
+                    $cmd->setOrder($cmd_order);
+                    $cmd->setEqLogic_id($this->getId());
+                } else {
+                    $command['name'] = $cmd->getName();
+                    if (isset($command['display'])) {
+                        unset($command['display']);
+                    }
+                }
+                utils::a2o($cmd, $command);
+                $cmd->setConfiguration('logicalId', $cmd->getLogicalId());
+                $cmd->save();
+                if (isset($command['value'])) {
+                    $link_cmds[$cmd->getId()] = $command['value'];
+                }
+                if (isset($command['configuration']) && isset($command['configuration']['updateCmdId'])) {
+                    $link_actions[$cmd->getId()] = $command['configuration']['updateCmdId'];
+                }
+                $cmd_order++;
+            } catch (Exception $exc) {
+
+            }
         }
-        $this->import($device);
     }
 
     public function postAjax() {
