@@ -115,7 +115,6 @@ $eqLogics = eqLogic::byType('vigilancemeteo');
                                     <option value="seisme">{{Séisme}}</option>
                                     <option value="air">{{Qualité d'Air}}</option>
                                     <option value="pollen">{{Index Pollens}}</option>
-                                    <option value="uvi">{{Indice UV}}</option>
                                 </select>
                             </div>
                         </div>

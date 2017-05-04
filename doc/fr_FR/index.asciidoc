@@ -34,9 +34,5 @@ include::surf.asciidoc[]
 include::pollen.asciidoc[]
 
 '''
-== Index UV
-include::indexuv.asciidoc[]
-
-'''
 == FAQ
 include::faq.asciidoc[]
