@@ -111,7 +111,7 @@ class vigilancemeteo extends eqLogic {
             }
             try {
                 if ($cmd == null || !is_object($cmd)) {
-                    $cmd = new xiaomihomeCmd();
+                    $cmd = new vigilancemeteoCmd();
                     $cmd->setOrder($cmd_order);
                     $cmd->setEqLogic_id($this->getId());
                 } else {
