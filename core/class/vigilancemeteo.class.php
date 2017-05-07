@@ -129,7 +129,6 @@ class vigilancemeteo extends eqLogic {
                 if (isset($command['configuration']) && isset($command['configuration']['updateCmdId'])) {
                     $link_actions[$cmd->getId()] = $command['configuration']['updateCmdId'];
                 }
-                $cmd_order++;
             } catch (Exception $exc) {
 
             }
