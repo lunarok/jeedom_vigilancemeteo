@@ -631,7 +631,7 @@ class vigilancemeteo extends eqLogic {
         $this->checkAndUpdateCmd('general', $pollen);//0 green, 1 yellow, 2 orange, 3 red
 
         $i = 1;
-        $im = @imagecreatefromgif("http://internationalragweedsociety.org/d%20".$departement.".gif");
+        $im = @imagecreatefromgif("http://internationalragweedsociety.org/vigilance/d%20".$departement.".gif");
         $x = 116;$y = 45;
         while ($i != 20) {
             $rgb = @imagecolorat($im, $x, $y);
