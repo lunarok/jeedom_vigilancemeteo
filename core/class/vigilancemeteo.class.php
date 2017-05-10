@@ -946,7 +946,10 @@ class vigilancemeteo extends eqLogic {
                         case '5':
                             $color = 'red';
                             break;
-                }
+                        default:
+                            $color = 'lime';
+                            break;
+                    }
                     if ($cmd->getLogicalId() == 'general') {
                         $replace['#' . $cmd->getLogicalId() . '_color#'] = $color;
                         if ($replace['#general_color#'] == "yellow" || $replace['#general_color#'] == "lime") {
