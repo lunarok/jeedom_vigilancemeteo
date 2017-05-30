@@ -366,24 +366,10 @@ class vigilancemeteo extends eqLogic {
         log::add('vigilancemeteo', 'debug', 'Risque ' . $lrisque);
 
         foreach ($this->getCmd() as $cmd) {
-            if($cmd->getConfiguration('data')=="vigilance"){
-                $cmd->setConfiguration('value', $lvigilance);
-                $cmd->save();
-                $cmd->event($lvigilance);
-            }elseif($cmd->getConfiguration('data')=="crue") {
-                log::add('vigilancemeteo', 'debug', $cmd->getConfiguration('data') . ' ' . $lcrue . ' ' . $cmd->getConfiguration('alert'));
-                $cmd->setConfiguration('value', $lcrue);
-                $cmd->save();
-                $cmd->event($lcrue);
-            }elseif($cmd->getConfiguration('data')=="risque"){
-                $cmd->setConfiguration('value', $lrisque);
-                $cmd->save();
-                $cmd->event($lrisque);
-            }elseif($cmd->getConfiguration('data')=="mer"){
-                $cmd->setConfiguration('value', $lmer);
-                $cmd->save();
-                $cmd->event($lmer);
-            }
+            $this->checkAndUpdateCmd('vigilance', $lvigilance);
+            $this->checkAndUpdateCmd('crue', $lcrue);
+            $this->checkAndUpdateCmd('risque', $lrisque);
+            $this->checkAndUpdateCmd('mer', $lmer);
         }
         return ;
     }
@@ -790,34 +776,19 @@ class vigilancemeteo extends eqLogic {
                         $prevTexte .= substr_replace($prevTexteItem," ",2,0) . "\n";
                         //log::add('previsionpluie', 'debug', 'prevTexteItem: ' . $prevTexteItem);
                     }
-                    $prevTexteCmd = $this->getCmd(null,'prevTexte');
-                    if(is_object($prevTexteCmd)){
-                        //log::add('previsionpluie', 'debug', 'prevTexte: ' . $prevTexte);
-                        $prevTexteCmd->event($prevTexte);
-                    }
-                    $lastUpdateCmd = $this->getCmd(null,'lastUpdate');
-                    if(is_object($lastUpdateCmd)){
-                        //log::add('previsionpluie', 'debug', 'lastUpdate: ' . $prevPluieData['lastUpdate']);
-                        $lastUpdateCmd->event($prevPluieData['lastUpdate']);
-                    }
+                    $this->checkAndUpdateCmd('prevTexte', $prevTexte);
+                    $this->checkAndUpdateCmd('lastUpdate', $prevPluieData['lastUpdate']);
                     $pluieDanslHeureCount = 0;
 
                     for($i=0; $i <= 11; $i++){
                         $prevCmd = $this->getCmd(null,'prev' . $i*5);
                         if(is_object($prevCmd)){
                             //log::add('previsionpluie', 'debug', 'prev' . $i*5 . ': ' . $prevPluieData['dataCadran'][$i]['niveauPluie']);
-                            if($prevCmd->execCmd() != $prevPluieData['dataCadran'][$i]['niveauPluie']){
-                                $prevCmd->event($prevPluieData['dataCadran'][$i]['niveauPluie']);
-                            }
+                            $this->checkAndUpdateCmd('prev' . $i*5, $prevPluieData['dataCadran'][$i]['niveauPluie']);
                             $pluieDanslHeureCount = $pluieDanslHeureCount + $prevPluieData['dataCadran'][$i]['niveauPluie'];
                         }
                     }
-
-                    $pluieDanslHeure = $this->getCmd(null,'pluieDanslHeure');
-                    if(is_object($pluieDanslHeure)){
-                        //log::add('previsionpluie', 'debug', 'pluieDanslHeure: ' . $pluieDanslHeureCount);
-                        $pluieDanslHeure->event($pluieDanslHeureCount);
-                    }
+                    $this->checkAndUpdateCmd('pluieDanslHeure', $pluieDanslHeureCount);
                 }
             }
         }
