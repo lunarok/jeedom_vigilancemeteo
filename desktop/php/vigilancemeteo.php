@@ -174,15 +174,8 @@ $eqLogics = eqLogic::byType('vigilancemeteo');
                             </div>
                         </div>
 
-                        <div id="uvimateEq" class="form-group" style="display:none">
-                            <label class="col-sm-3 control-label">{{Clef UVIMate}}</label>
-                            <div class="col-sm-3">
-                                <input type="text" class="eqLogicAttr configuration form-control" data-l1key="configuration" data-l2key="uvimate" placeholder="exemple 122"/>
-                            </div>
-                        </div>
-
                         <div id="breezeEq" class="form-group" style="display:none">
-                            <label class="col-sm-3 control-label">{{Clef AQICN}}</label>
+                            <label class="col-sm-3 control-label">{{Clef}} <a href='http://aqicn.org/api/'>AQICN</a></label>
                             <div class="col-sm-3">
                                 <input type="text" class="eqLogicAttr configuration form-control" data-l1key="configuration" data-l2key="aqicn" placeholder="exemple 122"/>
                             </div>
@@ -203,7 +196,7 @@ $eqLogics = eqLogic::byType('vigilancemeteo');
                         </div>
 
                         <div id="mswEq" class="form-group" style="display:none">
-                            <label class="col-sm-3 control-label">{{Clef Magicseaweed}}</label>
+                            <label class="col-sm-3 control-label">{{Clef}} <a href='http://magicseaweed.com/developer/api'>Magicseaweed</label>
                             <div class="col-sm-3">
                                 <input type="text" class="eqLogicAttr configuration form-control" data-l1key="configuration" data-l2key="magicseaweed" placeholder="clef API"/>
                             </div>
