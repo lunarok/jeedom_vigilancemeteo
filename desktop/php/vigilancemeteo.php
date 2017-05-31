@@ -196,7 +196,7 @@ $eqLogics = eqLogic::byType('vigilancemeteo');
                         </div>
 
                         <div id="mswEq" class="form-group" style="display:none">
-                            <label class="col-sm-3 control-label">{{Clef}} <a href='http://magicseaweed.com/developer/api'>Magicseaweed</label>
+                            <label class="col-sm-3 control-label">{{Clef}} <a href='http://magicseaweed.com/developer/api'>Magicseaweed</a></label>
                             <div class="col-sm-3">
                                 <input type="text" class="eqLogicAttr configuration form-control" data-l1key="configuration" data-l2key="magicseaweed" placeholder="clef API"/>
                             </div>
