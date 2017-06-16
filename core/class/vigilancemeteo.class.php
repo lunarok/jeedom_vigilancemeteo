@@ -926,6 +926,7 @@ class vigilancemeteo extends eqLogic {
                             $replace['#general_font#'] = "white";
                         }
                         $replace['#' . $cmd->getLogicalId() . '_id#'] = $cmd->getId();
+                        $replace['#id#'] = $cmd->getId();
                         $replace['#' . $cmd->getLogicalId() . '#'] = $cmd->execCmd();
                         $replace['#' . $cmd->getLogicalId() . '_collect#'] = $cmd->getCollectDate();
                     } else {
