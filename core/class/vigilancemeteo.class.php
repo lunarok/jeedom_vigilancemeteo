@@ -931,7 +931,7 @@ class vigilancemeteo extends eqLogic {
                         $replace['#' . $cmd->getLogicalId() . '_collect#'] = $cmd->getCollectDate();
                     } else {
                         $sort[$cmd->getLogicalId()] = $cmd->execCmd();
-                        $replace['#id#'] = $this->getId();
+                        $unitreplace['#id#'] = $this->getId();
                         $unitreplace['#value#'] = $cmd->execCmd();
                         $unitreplace['#name#'] = $cmd->getName();
                         $unitreplace['#width#'] = $cmd->execCmd() * 20;
