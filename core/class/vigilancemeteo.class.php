@@ -745,52 +745,68 @@ class vigilancemeteo extends eqLogic {
             return $dep;
         }
 
+        /**
+         * Retrieve weather forecast for the next hour
+         *
+         * @return boolean True if success, false otherwise
+         */
         public function getPluie() {
             //log::add('previsionpluie', 'debug', 'getInformation: go');
+            $ville = $this->getConfiguration('ville');
+            if(empty($ville)) {
+                log::add('vigilancemeteo', 'error', __('La ville n\'est pas configurée', __FILE__));
+                return false;
+            }
 
-            if($this->getConfiguration('ville') != ''){
-
-                //log::add('previsionpluie', 'debug', 'getInformation: ' .$this->getConfiguration('ville') );
-
-                $prevPluieJson = file_get_contents('http://www.meteofrance.com/mf3-rpc-portlet/rest/pluie/' . $this->getConfiguration('ville'));
+            $url = sprintf('http://www.meteofrance.com/mf3-rpc-portlet/rest/pluie/%s', $ville);
+            //log::add('previsionpluie', 'debug', 'getInformation: ' .$this->getConfiguration('ville') );
+            $prevPluieData = null;
+            for ($attempt = 1; $attempt <= 3 && is_null($prevPluieData); $attempt++) {
+                $prevPluieJson = file_get_contents($url);
                 $prevPluieData = json_decode($prevPluieJson, true);
 
-                if(count($prevPluieData) == 0){
-                    log::add('vigilancemeteo', 'debug', 'Impossible d\'obtenir les informations Météo France... On refait une tentative...');
-
+                # If it's not the first attempt
+                if ($attempt > 1) {
+                    log::add('vigilancemeteo', 'info', 'Impossible d\'obtenir les informations Météo France... On refait une tentative...');
                     sleep(3);
-                    $prevPluieJson = file_get_contents('http://www.meteofrance.com/mf3-rpc-portlet/rest/pluie/' . $this->getConfiguration('ville'));
-                    $prevPluieData = json_decode($prevPluieJson, true);
-
-                    if(count($prevPluieData) == 0){
-                        log::add('vigilancemeteo', 'debug', 'Impossible d\'obtenir les informations Météo France... ');
-                        return false;
-                    }
-                }
-
-                //log::add('previsionpluie', 'debug', 'getInformation: length ' . count($prevPluieData));
-
-                if(count($prevPluieData) > 0){
-                    $prevTexte = "";
-                    foreach($prevPluieData['niveauPluieText'] as $prevTexteItem){
-                        $prevTexte .= substr_replace($prevTexteItem," ",2,0) . "\n";
-                        //log::add('previsionpluie', 'debug', 'prevTexteItem: ' . $prevTexteItem);
-                    }
-                    $this->checkAndUpdateCmd('prevTexte', $prevTexte);
-                    $this->checkAndUpdateCmd('lastUpdate', $prevPluieData['lastUpdate']);
-                    $pluieDanslHeureCount = 0;
-
-                    for($i=0; $i <= 11; $i++){
-                        $prevCmd = $this->getCmd(null,'prev' . $i*5);
-                        if(is_object($prevCmd)){
-                            //log::add('previsionpluie', 'debug', 'prev' . $i*5 . ': ' . $prevPluieData['dataCadran'][$i]['niveauPluie']);
-                            $this->checkAndUpdateCmd('prev' . $i*5, $prevPluieData['dataCadran'][$i]['niveauPluie']);
-                            $pluieDanslHeureCount = $pluieDanslHeureCount + $prevPluieData['dataCadran'][$i]['niveauPluie'];
-                        }
-                    }
-                    $this->checkAndUpdateCmd('pluieDanslHeure', $pluieDanslHeureCount);
                 }
             }
+
+            // unable to fetch the url more than max times
+            if(is_null($prevPluieData)){
+                log::add('vigilancemeteo', 'warning', 'Impossible d\'obtenir les informations Météo France... ');
+                return false;
+            }
+
+            //log::add('previsionpluie', 'debug', 'getInformation: length ' . count($prevPluieData));
+            $prevTexte = "";
+            # Loop over each rain level description
+            foreach($prevPluieData['niveauPluieText'] as $prevTexteItem){
+                $prevTexte .= substr_replace($prevTexteItem," ",2,0) . "\n";
+                //log::add('previsionpluie', 'debug', 'prevTexteItem: ' . $prevTexteItem);
+            }
+            $this->checkAndUpdateCmd('prevTexte', $prevTexte);
+            $this->checkAndUpdateCmd('lastUpdate', $prevPluieData['lastUpdate']);
+
+            # compute the rain summary for the next hour
+            $pluieDanslHeureCount = 0;
+            for($i=0; $i <= 11; $i++) {
+                $cmdName = sprintf('prev%d', $i * 5);
+                $prevCmd = $this->getCmd(null, $cmdName);
+                if(is_object($prevCmd)){
+                    //log::add('previsionpluie', 'debug', 'prev' . $i*5 . ': ' . $prevPluieData['dataCadran'][$i]['niveauPluie']);
+                    $this->checkAndUpdateCmd($cmdName, $prevPluieData['dataCadran'][$i]['niveauPluie']);
+                    $pluieDanslHeureCount = $pluieDanslHeureCount + $prevPluieData['dataCadran'][$i]['niveauPluie'];
+                }
+            }
+
+            $this->checkAndUpdateCmd('pluieDanslHeure', $pluieDanslHeureCount);
+            log::add('vigilancemeteo', 'info', sprintf("%s '%s' %s '%s'",
+                                                    __('VigilanceMeteo de type', __FILE__),
+                                                    $this->getConfiguration('type'),
+                                                    __('mise a jour pour la ville', __FILE__),
+                                                    $this->getConfiguration('villeNom')));
+            return true;
         }
 
         public function toHtml($_version = 'dashboard') {
