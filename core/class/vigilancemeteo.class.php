@@ -789,17 +789,22 @@ class vigilancemeteo extends eqLogic {
             $this->checkAndUpdateCmd('lastUpdate', $prevPluieData['lastUpdate']);
 
             # compute the rain summary for the next hour
+            $minutesAvantPluie = null;
             $pluieDanslHeureCount = 0;
             for($i=0; $i <= 11; $i++) {
                 $cmdName = sprintf('prev%d', $i * 5);
                 $prevCmd = $this->getCmd(null, $cmdName);
                 if(is_object($prevCmd)){
                     //log::add('previsionpluie', 'debug', 'prev' . $i*5 . ': ' . $prevPluieData['dataCadran'][$i]['niveauPluie']);
-                    $this->checkAndUpdateCmd($cmdName, $prevPluieData['dataCadran'][$i]['niveauPluie']);
-                    $pluieDanslHeureCount = $pluieDanslHeureCount + $prevPluieData['dataCadran'][$i]['niveauPluie'];
+                    $niveau = intval($prevPluieData['dataCadran'][$i]['niveauPluie']);
+                    $this->checkAndUpdateCmd($cmdName, $niveau);
+                    $pluieDanslHeureCount += $niveau;
+                    if ($niveau > 1 && is_null($minutesAvantPluie)) {
+                        $minutesAvantPluie = $i * 5;
+                    }
                 }
             }
-
+            $this->checkAndUpdateCmd('minutesAvantPluie', $minutesAvantPluie);
             $this->checkAndUpdateCmd('pluieDanslHeure', $pluieDanslHeureCount);
             log::add('vigilancemeteo', 'info', sprintf("%s '%s' %s '%s'",
                                                     __('VigilanceMeteo de type', __FILE__),

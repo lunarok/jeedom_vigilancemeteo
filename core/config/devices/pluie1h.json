@@ -22,6 +22,12 @@
             "type": "info",
             "subtype": "numeric",
             "logicalId": "pluieDanslHeure"
+        },
+        {
+            "name": "Delai avant prochaine pluie",
+            "type": "info",
+            "subtype": "numeric",
+            "logicalId": "minutesAvantPluie"
         }
     ]
 }
