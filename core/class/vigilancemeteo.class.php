@@ -76,7 +76,7 @@ class vigilancemeteo extends eqLogic {
         log::add('vigilancemeteo', 'debug', 'Hourly cron');
     }
 
-    public static function cronDaily() {
+    /*public static function cronDaily() {
         foreach (eqLogic::byType('vigilancemeteo', true) as $vigilancemeteo) {
             foreach ($vigilancemeteo->getCmd() as $cmd) {
                 $cmd->setConfiguration('alert', '0');
@@ -84,7 +84,7 @@ class vigilancemeteo extends eqLogic {
                 $cmd->save();
             }
         }
-    }
+    }*/
 
     public function loadCmdFromConf($_update = false) {
 
