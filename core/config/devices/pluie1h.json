@@ -1,9 +1,9 @@
 {
     "name": "Pluie 1h",
-	"configuration" : {
-		"model" : "pluie1h",
+    "configuration" : {
+        "model" : "pluie1h",
         "type" : "pluie1h"
-	},
+    },
     "commands": [
         {
             "name": "Previsions Textuelles",
@@ -22,6 +22,12 @@
             "type": "info",
             "subtype": "numeric",
             "logicalId": "pluieDanslHeure"
+        },
+        {
+            "name": "Delai avant prochaine pluie",
+            "type": "info",
+            "subtype": "numeric",
+            "logicalId": "minutesAvantPluie"
         }
     ]
 }
