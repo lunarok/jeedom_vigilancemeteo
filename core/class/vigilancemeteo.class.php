@@ -489,6 +489,10 @@ class vigilancemeteo extends eqLogic {
             $longitude = trim($geoloctab[1]);
             $url = 'http://api.waqi.info/feed/geo:' . $latitude . ';' . $longitude . '/?token=' . $apikey;
             $json = json_decode(file_get_contents($url), true);
+            if (!isset($json['data']['aqi'])) {
+                log::add('vigilancemeteo', 'error', 'Error in API call');
+                return;
+            }
             log::add('vigilancemeteo', 'debug', 'Air ' . $json['data']['aqi'] . ' ' . $json['data']['city']['name']);
             if ($json['data']['aqi'] <= 50) {
                 $color = 'green';
