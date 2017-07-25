@@ -385,13 +385,13 @@ class vigilancemeteo extends eqLogic {
 
         //log::add('maree', 'debug', 'Log ' . print_r($result, true));
 
-        $maree = explode('<br>', $result[14]);
+        $maree = explode('<br>', $result[15]);
         $maree = explode('"', $maree[1]);
         $maree = $maree[0];
-        $pleine = explode('PM ', $result[16] );
+        $pleine = explode('PM ', $result[17] );
         $pleine = substr($pleine[1], 0, 5);
         $pleine = str_replace('h', '', $pleine);
-        $basse = explode('BM ', $result[16]);
+        $basse = explode('BM ', $result[17]);
         $basse = substr($basse[1], 0, 5);
         $basse = str_replace('h', '', $basse);
 
