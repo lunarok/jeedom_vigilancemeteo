@@ -207,8 +207,13 @@ class vigilancemeteo extends eqLogic {
         $lrisque = "RAS";
         $lmer = "vert";
 
+        $url = 'http://vigilance.meteofrance.com/data/NXFR34_LFPW_.xml';
+        $result = file($url);
+        if ($result === false) {
+            return;
+        }
         $doc = new DOMDocument();
-        $doc->load('http://vigilance.meteofrance.com/data/NXFR34_LFPW_.xml');
+        $doc->load($url);
 
         /* exemple extrait du fichier, il y a différents niveaux possibles pour les risques
         <DV dep="33" coul="1"/>
@@ -382,6 +387,9 @@ class vigilancemeteo extends eqLogic {
         }
         $url = 'http://horloge.maree.frbateaux.net/ws' . $port . '.js?col=1&c=0';
         $result = file($url);
+        if ($result === false) {
+            return;
+        }
 
         //log::add('maree', 'debug', 'Log ' . print_r($result, true));
 
@@ -410,6 +418,10 @@ class vigilancemeteo extends eqLogic {
             return;
         }
         $url = 'http://www.vigicrues.gouv.fr/services/observations.xml/?CdStationHydro='.$station;
+        $result = file($url);
+        if ($result === false) {
+            return;
+        }
         $doc = new DOMDocument();
         $doc->load($url);
 
@@ -455,6 +467,10 @@ class vigilancemeteo extends eqLogic {
             return;
         }
         $url = 'http://api.openhazards.com/GetEarthquakeProbability?q=' . $city . '&m=5&r=100&w=3';
+        $result = file($url);
+        if ($result === false) {
+            return;
+        }
         $doc = new DOMDocument();
         $doc->load($url);
 
