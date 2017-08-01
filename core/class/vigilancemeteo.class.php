@@ -488,7 +488,11 @@ class vigilancemeteo extends eqLogic {
             $latitude = trim($geoloctab[0]);
             $longitude = trim($geoloctab[1]);
             $url = 'http://api.waqi.info/feed/geo:' . $latitude . ';' . $longitude . '/?token=' . $apikey;
-            $json = json_decode(file_get_contents($url), true);
+            $content = file_get_contents($url);
+            if ($content === false) {
+                return;
+            }
+            $json = json_decode($content, true);
             if (!isset($json['data']['aqi'])) {
                 log::add('vigilancemeteo', 'error', 'Error in API call ' . $url);
                 return;
@@ -526,7 +530,11 @@ class vigilancemeteo extends eqLogic {
         if (null !== ($this->getConfiguration('surf', ''))) {
             $surf = $this->getConfiguration('surf', '');
             $url = 'http://magicseaweed.com/api/' . $apikey . '/forecast/?spot_id=' . $surf;
-            $json = json_decode(file_get_contents($url), true);
+            $content = file_get_contents($url);
+            if ($content === false) {
+                return;
+            }
+            $json = json_decode($content, true);
 
             $this->checkAndUpdateCmd('minimum', $json[0]['swell']['minBreakingHeight']);
             $this->checkAndUpdateCmd('maximum', $json[0]['swell']['maxBreakingHeight']);
@@ -538,71 +546,6 @@ class vigilancemeteo extends eqLogic {
         return ;
     }
 
-    public function getUVI() {
-        $apikey = $this->getConfiguration('uvimate');
-        if ($apikey == '') {
-            log::add('vigilancemeteo', 'error', 'UVIMate API non saisie');
-            return;
-        }
-        if (null !== ($this->getConfiguration('geoloc', '')) && $this->getConfiguration('geoloc', '') != 'none') {
-            $geoloc = $this->getConfiguration('geoloc', '');
-            $geolocCmd = geolocCmd::byId($geoloc);
-            if ($geolocCmd->getConfiguration('mode') == 'fixe') {
-                $geolocval = $geolocCmd->getConfiguration('coordinate');
-            } else {
-                $geolocval = $geolocCmd->execCmd();
-            }
-            $geoloctab = explode(',', trim($geolocval));
-            $latitude = trim($geoloctab[0]);
-            $longitude = trim($geoloctab[1]);
-            $url = 'https://uvimate.herokuapp.com/api/getUVI/' . $latitude . '/' . $longitude;
-            $curl = curl_init();
-            curl_setopt($curl, CURLOPT_URL,$url);
-            $headers = [
-                'x-access-token: ' . $apikey
-            ];
-            curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
-            curl_setopt($curl,CURLOPT_RETURNTRANSFER , 1);
-            $json = json_decode(curl_exec($curl), true);
-            curl_close ($curl);
-            log::add('vigilancemeteo', 'debug', 'Retour : ' . print_r($json, true));
-
-            $this->checkAndUpdateCmd('uvi', round($json['result']['uviData']['uvi'],2));
-            if ($json['result']['uviData']['uvi'] >= 11) {
-                $this->checkAndUpdateCmd('uvirisk', 'Extrême');
-                $this->checkAndUpdateCmd('uvicolor', 'darkviolet');
-            } else if ($json['result']['uviData']['uvi'] >= 8) {
-                $this->checkAndUpdateCmd('uvirisk', 'Très Elevé');
-                $this->checkAndUpdateCmd('uvicolor', 'red');
-            } else if ($json['result']['uviData']['uvi'] >= 6) {
-                $this->checkAndUpdateCmd('uvirisk', 'Elevé');
-                $this->checkAndUpdateCmd('uvicolor', 'orange');
-            } else if ($json['result']['uviData']['uvi'] >= 3) {
-                $this->checkAndUpdateCmd('uvirisk', 'Modéré');
-                $this->checkAndUpdateCmd('uvicolor', 'yellow');
-            }else if ($json['result']['uviData']['uvi'] >= 1) {
-                $this->checkAndUpdateCmd('uvirisk', 'Faible');
-                $this->checkAndUpdateCmd('uvicolor', 'green');
-            } else {
-                $this->checkAndUpdateCmd('uvirisk', 'Absent');
-                $this->checkAndUpdateCmd('uvicolor', 'blue');
-            }
-            $this->checkAndUpdateCmd('uvimax', $json['result']['uviData']['uviMax']);
-            $this->checkAndUpdateCmd('uvimaxtime', $json['result']['uviData']['uviMaxTime']);
-            $this->checkAndUpdateCmd('celtic', $json['result']['burnTime']['celtic']);
-            $this->checkAndUpdateCmd('pale', $json['result']['burnTime']['pale']);
-            $this->checkAndUpdateCmd('caucasian', $json['result']['burnTime']['caucasian']);
-            $this->checkAndUpdateCmd('mediterranean', $json['result']['burnTime']['mediterranean']);
-            $this->checkAndUpdateCmd('southAfrican', $json['result']['burnTime']['southAfrican']);
-            $this->checkAndUpdateCmd('negro', $json['result']['burnTime']['negro']);
-            $this->checkAndUpdateCmd('advice', $json['result']['sunAdvice']['advice']);
-            $this->checkAndUpdateCmd('protectionFrom', $json['result']['protectionTime']['protectionFrom']);
-            $this->checkAndUpdateCmd('protectionTo', $json['result']['protectionTime']['protectionTo']);
-            $this->checkAndUpdateCmd('weather', $json['result']['weather']['icon']);
-        }
-        return ;
-    }
-
     public function getPollen() {
         $departement = $this->getConfiguration('departement');
         if ($departement == '') {
@@ -610,6 +553,9 @@ class vigilancemeteo extends eqLogic {
             return;
         }
         $im = @imagecreatefrompng("http://www.pollens.fr/docs/Departements_de_France-simple.png");
+            if ($im === false) {
+                return;
+            }
         $xy = vigilancemeteo::getDep();
         $dep0 = ltrim($departement, '0');
         $rgb = @imagecolorat($im, $xy[$dep0][0], $xy[$dep0][1]);
