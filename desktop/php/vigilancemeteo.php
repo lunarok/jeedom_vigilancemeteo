@@ -146,28 +146,19 @@ $eqLogics = eqLogic::byType('vigilancemeteo');
                             </div>
                         </div>
 
-                        <div id="departementEq" class="form-group" style="display:none">
-                            <label class="col-sm-3 control-label">{{Département}}</label>
-                            <div class="col-sm-3">
-                                <input type="text" class="eqLogicAttr configuration form-control" data-l1key="configuration" data-l2key="departement" placeholder="exemple 75"/>
-                            </div>
-                        </div>
-
                         <div id="geolocEq" class="form-group" style="display:none">
-                            <label class="col-sm-3 control-label">{{Geolocolisation à utiliser}}</label>
+                            <label class="col-sm-3 control-label">{{Localisation à utiliser}}</label>
                             <div class="col-sm-3">
                                 <select class="form-control eqLogicAttr configuration" id="geoloc" data-l1key="configuration" data-l2key="geoloc">
                                     <?php
-                                    if (class_exists('geolocCmd')) {
-                                        foreach (eqLogic::byType('geoloc') as $geoloc) {
-                                            foreach (geolocCmd::byEqLogicId($geoloc->getId()) as $geoinfo) {
-                                                if ($geoinfo->getConfiguration('mode') == 'fixe' || $geoinfo->getConfiguration('mode') == 'dynamic') {
-                                                    echo '<option value="' . $geoinfo->getId() . '">' . $geoinfo->getName() . '</option>';
-                                                }
+                                    if (class_exists('geotravCmd')) {
+                                        foreach (eqLogic::byType('geotrav') as $geoloc) {
+                                            if ($geoloc->getConfiguration('type') == 'location') {
+                                                echo '<option value="' . $geoloc->getId() . '">' . $geoloc->getName() . '</option>';
                                             }
                                         }
                                     } else {
-                                        echo '<option value="none">Geoloc absent</option>';
+                                        echo '<option value="">Pas de localisation disponible</option>';
                                     }
                                     ?>
                                 </select>
@@ -178,13 +169,6 @@ $eqLogics = eqLogic::byType('vigilancemeteo');
                             <label class="col-sm-3 control-label">{{Clef}} <a href='http://aqicn.org/api/'>AQICN</a></label>
                             <div class="col-sm-3">
                                 <input type="text" class="eqLogicAttr configuration form-control" data-l1key="configuration" data-l2key="aqicn" placeholder="exemple 122"/>
-                            </div>
-                        </div>
-
-                        <div id="seismeEq" class="form-group" style="display:none">
-                            <label class="col-sm-3 control-label">{{Ville OpenHazards}}</label>
-                            <div class="col-sm-3">
-                                <input type="text" class="eqLogicAttr configuration form-control" data-l1key="configuration" data-l2key="openhazards" placeholder="exemple Paris"/>
                             </div>
                         </div>
 

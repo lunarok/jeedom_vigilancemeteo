@@ -24,40 +24,16 @@ try {
         throw new Exception(__('401 - Accès non autorisé', __FILE__));
     }
 
-    if (init('action') == 'getZones') {
-            ajax::success(dayinfo::getZones(init('id')));
-    }
-
     if (init('action') == 'searchCity') {
     	$city = init('city');
     	log::add('vigilancemeteo', 'debug', 'Ajax: searchCity - city = ' . $city);
-
     	$res = file_get_contents("http://www.meteofrance.com/mf3-rpc-portlet/rest/lieu/facet/pluie/search/" . $city);
-
 		if($res){
 			ajax::success($res);
 		}else{
 			throw new Exception("Impossible d'obtenir le résultat de la recherche");
 		}
-
-
     }
-
-     if (init('action') == 'getdayinfo') {
-        $dayinfo = dayinfo::byId(init('id'));
-        if (!is_object($dayinfo)) {
-            throw new Exception(__('dayinfo inconnu verifié l\'id', __FILE__));
-        }
-        $return = utils::o2a($dayinfo);
-        $return['cmd'] = array();
-        foreach ($dayinfo->getCmd() as $cmd) {
-            $cmd_info = utils::o2a($cmd);
-            $cmd_info['value'] = $cmd->execCmd(null, 0);
-            $return['cmd'][] = $cmd_info;
-        }
-        ajax::success($return);
-     }
-
 
     throw new Exception(__('Aucune methode correspondante à : ', __FILE__) . init('action'));
     /*     * *********Catch exeption*************** */

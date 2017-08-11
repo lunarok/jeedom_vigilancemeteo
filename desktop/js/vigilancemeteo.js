@@ -14,11 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with Jeedom. If not, see <http://www.gnu.org/licenses/>.
  */
-$('#bt_selectMailCmd').on('click', function () {
-    jeedom.cmd.getSelectModal({cmd: {type: 'action', subType: 'message'}}, function (result) {
-        $('.eqLogicAttr[data-l2key=alert]').atCaret('insert', result.human);
-    });
-});
 
 $('#btnSearchCity').on('click', function () {
     $('#md_modal').dialog({title: "{{Trouver la ville}}"});
@@ -27,113 +22,45 @@ $('#btnSearchCity').on('click', function () {
 
 $('#typeEq').change(function(){
   var text = $("#typeEq").val();
-  if (text == 'vigilance') {
+  if ((text == 'vigilance') || (text == 'seisme') || (text == 'pollen') || (text == 'air')) {
+    $('#portEq').hide();
     $('#villeEq').hide();
-    $('#portEq').hide();
     $('#stationEq').hide();
-    $('#departementEq').show();
-    $('#geolocEq').hide();
-    $('#uvimateEq').hide();
-    $('#breezeEq').hide();
-    $('#seismeEq').hide();
-    $('#surfEq').hide();
-    $('#mswEq').hide();
-  }
-  if (text == 'pluie1h') {
-    $('#villeEq').show();
-    $('#portEq').hide();
-    $('#stationEq').hide();
-    $('#departementEq').hide();
-    $('#geolocEq').hide();
-    $('#uvimateEq').hide();
-    $('#breezeEq').hide();
-    $('#seismeEq').hide();
+    $('#geolocEq').show();
     $('#surfEq').hide();
     $('#mswEq').hide();
   }
   if (text == 'maree') {
-    $('#villeEq').hide();
     $('#portEq').show();
+    $('#villeEq').hide();
     $('#stationEq').hide();
-    $('#departementEq').hide();
     $('#geolocEq').hide();
-    $('#uvimateEq').hide();
-    $('#breezeEq').hide();
-    $('#seismeEq').hide();
     $('#surfEq').hide();
     $('#mswEq').hide();
   }
   if (text == 'surf') {
-    $('#villeEq').hide();
-    $('#portEq').hide();
-    $('#surfEq').show();
-    $('#stationEq').hide();
-    $('#departementEq').hide();
-    $('#uvimateEq').hide();
-    $('#geolocEq').hide();
-    $('#breezeEq').hide();
-    $('#seismeEq').hide();
-    $('#mswEq').show();
+      $('#portEq').hide();
+      $('#villeEq').hide();
+      $('#stationEq').hide();
+      $('#geolocEq').hide();
+      $('#surfEq').show();
+      $('#mswEq').show();
   }
   if (text == 'crue') {
-    $('#villeEq').hide();
-    $('#portEq').hide();
-    $('#stationEq').show();
-    $('#departementEq').hide();
-    $('#geolocEq').hide();
-    $('#uvimateEq').hide();
-    $('#breezeEq').hide();
-    $('#seismeEq').hide();
-    $('#surfEq').hide();
-    $('#mswEq').hide();
+      $('#portEq').hide();
+      $('#villeEq').hide();
+      $('#stationEq').show();
+      $('#geolocEq').hide();
+      $('#surfEq').hide();
+      $('#mswEq').hide();
   }
-  if (text == 'seisme') {
-    $('#villeEq').hide();
-    $('#portEq').hide();
-    $('#stationEq').hide();
-    $('#departementEq').hide();
-    $('#geolocEq').hide();
-    $('#uvimateEq').hide();
-    $('#breezeEq').hide();
-    $('#seismeEq').show();
-    $('#surfEq').hide();
-    $('#mswEq').hide();
-  }
-  if (text == 'air') {
-    $('#villeEq').hide();
-    $('#portEq').hide();
-    $('#stationEq').hide();
-    $('#departementEq').hide();
-    $('#geolocEq').show();
-    $('#uvimateEq').hide();
-    $('#breezeEq').show();
-    $('#seismeEq').hide();
-    $('#surfEq').hide();
-    $('#mswEq').hide();
-  }
-  if (text == 'pollen') {
-    $('#villeEq').hide();
-    $('#portEq').hide();
-    $('#stationEq').hide();
-    $('#departementEq').show();
-    $('#geolocEq').hide();
-    $('#uvimateEq').hide();
-    $('#breezeEq').hide();
-    $('#seismeEq').hide();
-    $('#surfEq').hide();
-    $('#mswEq').hide();
-  }
-  if (text == 'uvi') {
-    $('#villeEq').hide();
-    $('#portEq').hide();
-    $('#stationEq').hide();
-    $('#departementEq').hide();
-    $('#geolocEq').show();
-    $('#uvimateEq').show();
-    $('#breezeEq').hide();
-    $('#seismeEq').hide();
-    $('#surfEq').hide();
-    $('#mswEq').hide();
+  if (text == 'pluie1h') {
+      $('#portEq').hide();
+      $('#villeEq').show();
+      $('#stationEq').hide();
+      $('#geolocEq').hide();
+      $('#surfEq').hide();
+      $('#mswEq').hide();
   }
 });
 

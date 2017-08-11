@@ -8,9 +8,7 @@ http://www.meteofrance.com/previsions-meteo-france/previsions-pluie
 
 ==== Configuration du type
 
-Puis il faut renseigner la ville, pour cela, cliquer sur le bouton "Trouver la ville".
-
-Dans la fenêtre qui s’ouvre, rentrer le nom de la ville (ou les premiers caractères), et cliquer sur la ville qui doit apparaitre en dessous.
+Il faut renseigner l'équipement de localisation
 
 ==== Informations disponibles
 
