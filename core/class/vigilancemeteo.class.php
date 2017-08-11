@@ -201,7 +201,7 @@ public function getVigilance() {
     if ($this->getConfiguration('geoloc', 'none') == 'none') {
         return;
     }
-    $departement = geotravCmd::byEqLogicIdAndLogicalId($this->getConfiguration('geoloc'),'location:department');
+    $departement = geotravCmd::byEqLogicIdAndLogicalId($this->getConfiguration('geoloc'),'location:department')->execCmd();
     if ($departement == '92' || $departement == '93' || $departement == '94') {
         $departement = '75';
     }
@@ -467,7 +467,7 @@ public function getSeisme() {
     if ($this->getConfiguration('geoloc', 'none') == 'none') {
         return;
     }
-    $city = geotravCmd::byEqLogicIdAndLogicalId($this->getConfiguration('geoloc'),'location:city');
+    $city = geotravCmd::byEqLogicIdAndLogicalId($this->getConfiguration('geoloc'),'location:city')->execCmd();
     $url = 'http://api.openhazards.com/GetEarthquakeProbability?q=' . $city . '&m=5&r=100&w=3';
     $result = file($url);
     if ($result === false) {
@@ -497,7 +497,7 @@ public function getAir() {
     if ($this->getConfiguration('geoloc', 'none') == 'none') {
         return;
     }
-    $geolocval = geotravCmd::byEqLogicIdAndLogicalId($this->getConfiguration('geoloc'),'location:coordinate');
+    $geolocval = geotravCmd::byEqLogicIdAndLogicalId($this->getConfiguration('geoloc'),'location:coordinate')->execCmd();
     $geoloctab = explode(',', trim($geolocval));
     $latitude = trim($geoloctab[0]);
     $longitude = trim($geoloctab[1]);
@@ -563,7 +563,7 @@ public function getPollen() {
     if ($this->getConfiguration('geoloc', 'none') == 'none') {
         return;
     }
-    $departement = geotravCmd::byEqLogicIdAndLogicalId($this->getConfiguration('geoloc'),'location:department');
+    $departement = geotravCmd::byEqLogicIdAndLogicalId($this->getConfiguration('geoloc'),'location:department')->execCmd();
     $im = @imagecreatefrompng("http://www.pollens.fr/docs/Departements_de_France-simple.png");
     if ($im === false) {
         return;
