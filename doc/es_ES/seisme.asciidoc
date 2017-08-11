@@ -4,7 +4,7 @@ Ce plugin permet d'obtenir la probabilité de séisme depuis http://www.openhaza
 
 ==== Configuration du type
 
-Il faut renseigner une ville voulue dans le champ de configuration (l'information est récupérée pour un rayon de 100kms)
+Il faut renseigner un équipement de localisation (l'information est récupérée pour un rayon de 100kms)
 
 ==== Informations disponibles
 
