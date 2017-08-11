@@ -4,7 +4,7 @@ Ce type permet d'obtenir les niveaux de pollens depuis http://www.pollens.fr/doc
 
 ==== Configuration du type
 
-Il faut renseigner le département dans le champ (les DOM-TOM ne sont pas couverts)
+Il faut renseigner l'équipement de localisation (les DOM-TOM ne sont pas couverts)
 
 ==== Informations disponibles
 

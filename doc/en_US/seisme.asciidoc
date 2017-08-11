@@ -4,7 +4,7 @@ This plugin allows to get the probability of earthquake since http://www.openhaz
 
 ==== Type Configuration 
 
-Il faut renseigner une ville voulue dans le champ de configuration (l'information est récupérée pour un rayon de 100kms)
+Il faut renseigner un équipement de localisation (l'information est récupérée pour un rayon de 100kms)
 
 ==== Informations disponibles
 
