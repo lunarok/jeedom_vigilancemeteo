@@ -1,0 +1,15 @@
+{
+    "name": "Plage",
+	"configuration" : {
+		"model" : "plage",
+        "type" : "plage"
+	},
+    "commands": [
+        {
+            "name": "Température de l'eau",
+            "type": "info",
+            "subtype": "numeric",
+            "logicalId": "tempWater"
+        }
+    ]
+}

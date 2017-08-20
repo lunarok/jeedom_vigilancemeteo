@@ -112,6 +112,7 @@ $eqLogics = eqLogic::byType('vigilancemeteo');
                                     <option value="crue">{{Vigicrues}}</option>
                                     <option value="maree">{{Marées}}</option>
                                     <option value="surf">{{Surf}}</option>
+                                    <option value="plage">{{Météo des Plages}}</option>
                                     <option value="seisme">{{Séisme}}</option>
                                     <option value="air">{{Qualité d'Air}}</option>
                                     <option value="pollen">{{Index Pollens}}</option>
