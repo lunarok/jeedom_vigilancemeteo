@@ -22,7 +22,7 @@ $('#btnSearchCity').on('click', function () {
 
 $('#typeEq').change(function(){
   var text = $("#typeEq").val();
-  if ((text == 'vigilance') || (text == 'seisme') || (text == 'pollen') || (text == 'air')) {
+  if ((text == 'vigilance') || (text == 'seisme') || (text == 'pollen') || (text == 'air') || (text == 'plage')) {
     $('#portEq').hide();
     $('#villeEq').hide();
     $('#stationEq').hide();
