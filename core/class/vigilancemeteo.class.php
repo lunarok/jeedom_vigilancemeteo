@@ -421,7 +421,7 @@ public function getPlage() {
   }
   $postal = geotravCmd::byEqLogicIdAndLogicalId($this->getConfiguration('geoloc'),'location:zip')->execCmd();
   $city = geotravCmd::byEqLogicIdAndLogicalId($this->getConfiguration('geoloc'),'location:city')->execCmd();
-  $adresse = "http://www.meteofrance.com/previsions-meteo-plages/".$city."/".$postal;
+  $adresse = "http://www.meteofrance.com/previsions-meteo-plages/".strtolower($city)."/".$postal;
   $page = file_get_contents($adresse);
   //Temperature de la mer
   $findeau   = 'Eau';
