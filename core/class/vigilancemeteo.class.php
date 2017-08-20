@@ -429,6 +429,7 @@ public function getPlage() {
   $Temperatureeau = strstr($pos, "</li>", true);
   $poss =  substr($Temperatureeau, -5, 5);
   $this->checkAndUpdateCmd('tempWater', $poss);
+  log::add('vigilancemeteo', 'debug', 'Plage ' . $poss . ', URL ' . $adresse);
   return ;
 }
 
