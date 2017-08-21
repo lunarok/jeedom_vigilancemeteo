@@ -10,6 +10,36 @@
             "type": "info",
             "subtype": "numeric",
             "logicalId": "tempWater"
+        },
+        {
+            "name": "Température de l'air",
+            "type": "info",
+            "subtype": "numeric",
+            "logicalId": "tempAir"
+        },
+        {
+            "name": "Température ressentie",
+            "type": "info",
+            "subtype": "numeric",
+            "logicalId": "tempFeel"
+        },
+        {
+            "name": "IndiceUV",
+            "type": "info",
+            "subtype": "numeric",
+            "logicalId": "UVI"
+        },
+        {
+            "name": "Condition",
+            "type": "info",
+            "subtype": "string",
+            "logicalId": "condition"
+        },
+        {
+            "name": "Etat de la mer",
+            "type": "info",
+            "subtype": "string",
+            "logicalId": "seaState"
         }
     ]
 }
