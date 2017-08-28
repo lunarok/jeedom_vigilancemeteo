@@ -416,12 +416,15 @@ public function getMaree() {
 }
 
 public function getPlage() {
-  if ($this->getConfiguration('geoloc', 'none') == 'none') {
-    return;
-  }
+  $geotrav = eqLogic::byId($this->getConfiguration('geoloc'));
+       if (!(is_object($geotrav) && $geotrav->getEqType_name() == 'geotrav')) {
+           return;
+       }
   $postal = geotravCmd::byEqLogicIdAndLogicalId($this->getConfiguration('geoloc'),'location:zip')->execCmd();
   $city = geotravCmd::byEqLogicIdAndLogicalId($this->getConfiguration('geoloc'),'location:city')->execCmd();
-  $adresse = "http://www.meteofrance.com/previsions-meteo-plages/".strtolower($city)."/".$postal;
+  $city = str_replace(' ','_',strtolower($city));
+  $city = @iconv('UTF-8', 'ASCII//TRANSLIT', $city);
+  $adresse = "http://www.meteofrance.com/previsions-meteo-plages/". $city ."/".$postal;
   $page = file_get_contents($adresse);
   //Temperature de la mer
   $findeau   = 'Eau';
@@ -541,9 +544,10 @@ public function getAir() {
     log::add('vigilancemeteo', 'error', 'API non saisie');
     return;
   }
-  if ($this->getConfiguration('geoloc', 'none') == 'none') {
-    return;
-  }
+  $geotrav = eqLogic::byId($this->getConfiguration('geoloc'));
+       if (!(is_object($geotrav) && $geotrav->getEqType_name() == 'geotrav')) {
+           return;
+       }
   $geolocval = geotravCmd::byEqLogicIdAndLogicalId($this->getConfiguration('geoloc'),'location:coordinate')->execCmd();
   $geoloctab = explode(',', trim($geolocval));
   $latitude = trim($geoloctab[0]);
@@ -607,9 +611,10 @@ public function getSurf() {
 }
 
 public function getPollen() {
-  if ($this->getConfiguration('geoloc', 'none') == 'none') {
-    return;
-  }
+  $geotrav = eqLogic::byId($this->getConfiguration('geoloc'));
+       if (!(is_object($geotrav) && $geotrav->getEqType_name() == 'geotrav')) {
+           return;
+       }
   $departement = geotravCmd::byEqLogicIdAndLogicalId($this->getConfiguration('geoloc'),'location:department')->execCmd();
   $im = @imagecreatefrompng("http://www.pollens.fr/docs/Departements_de_France-simple.png");
   if ($im === false) {
