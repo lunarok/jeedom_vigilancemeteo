@@ -423,8 +423,7 @@ public function getPlage() {
   $postal = geotravCmd::byEqLogicIdAndLogicalId($this->getConfiguration('geoloc'),'location:zip')->execCmd();
   $city = geotravCmd::byEqLogicIdAndLogicalId($this->getConfiguration('geoloc'),'location:city')->execCmd();
   $city = str_replace(' ','_',strtolower($city));
-  setlocale(LC_ALL, 'en_GB');
-  $city = @iconv('UTF-8', 'ASCII//TRANSLIT', $city);
+	$city = strtr($city,'àáâãäçèéêëìíîïñòóôõöùúûüýÿÀÁÂÃÄÇÈÉÊËÌÍÎÏÑÒÓÔÕÖÙÚÛÜÝ','aaaaaceeeeiiiinooooouuuuyyAAAAACEEEEIIIINOOOOOUUUUY');
   $adresse = "http://www.meteofrance.com/previsions-meteo-plages/". $city ."/".$postal;
   $page = file_get_contents($adresse);
   //Temperature de la mer
