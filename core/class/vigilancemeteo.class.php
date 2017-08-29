@@ -423,7 +423,15 @@ public function getPlage() {
   $postal = geotravCmd::byEqLogicIdAndLogicalId($this->getConfiguration('geoloc'),'location:zip')->execCmd();
   $city = geotravCmd::byEqLogicIdAndLogicalId($this->getConfiguration('geoloc'),'location:city')->execCmd();
   $city = str_replace(' ','_',strtolower($city));
-$city = strtr($city,'@ÀÁÂÃÄÅÇÈÉÊËÌÍÎÏÒÓÔÕÖÙÚÛÜÝàáâãäåçèéêëìíîïðòóôõöùúûüýÿ','aAAAAAACEEEEIIIIOOOOOUUUUYaaaaaaceeeeiiiioooooouuuuyy');  
+  $city = preg_replace('#Ç#', 'C', $city);
+    $city = preg_replace('#ç#', 'c', $city);
+    $city = preg_replace('#è|é|ê|ë#', 'e', $city);
+    $city = preg_replace('#à|á|â|ã|ä|å#', 'a', $city);
+    $city = preg_replace('#ì|í|î|ï#', 'i', $city);
+    $city = preg_replace('#ð|ò|ó|ô|õ|ö#', 'o', $city);
+    $city = preg_replace('#ù|ú|û|ü#', 'u', $city);
+    $city = preg_replace('#ý|ÿ#', 'y', $city);
+    $city = preg_replace('#Ý#', 'Y', $city);
   $adresse = "http://www.meteofrance.com/previsions-meteo-plages/". $city ."/".$postal;
   $page = file_get_contents($adresse);
   //Temperature de la mer
