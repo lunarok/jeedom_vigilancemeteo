@@ -22,13 +22,23 @@ $('#btnSearchCity').on('click', function () {
 
 $('#typeEq').change(function(){
   var text = $("#typeEq").val();
-  if ((text == 'vigilance') || (text == 'seisme') || (text == 'pollen') || (text == 'air') || (text == 'plage')) {
+  if ((text == 'vigilance') || (text == 'seisme') || (text == 'pollen') || (text == 'plage')) {
     $('#portEq').hide();
     $('#villeEq').hide();
     $('#stationEq').hide();
     $('#geolocEq').show();
     $('#surfEq').hide();
     $('#mswEq').hide();
+    $('#breezeEq').hide(); 
+  }
+    if (text == 'air') {
+    $('#portEq').hide();
+    $('#villeEq').hide();
+    $('#stationEq').hide();
+    $('#geolocEq').show();
+    $('#surfEq').hide();
+    $('#mswEq').hide();
+    $('#breezeEq').show(); 
   }
   if (text == 'maree') {
     $('#portEq').show();
@@ -37,6 +47,7 @@ $('#typeEq').change(function(){
     $('#geolocEq').hide();
     $('#surfEq').hide();
     $('#mswEq').hide();
+      $('#breezeEq').hide();
   }
   if (text == 'surf') {
       $('#portEq').hide();
@@ -45,6 +56,7 @@ $('#typeEq').change(function(){
       $('#geolocEq').hide();
       $('#surfEq').show();
       $('#mswEq').show();
+      $('#breezeEq').hide();
   }
   if (text == 'crue') {
       $('#portEq').hide();
@@ -53,6 +65,7 @@ $('#typeEq').change(function(){
       $('#geolocEq').hide();
       $('#surfEq').hide();
       $('#mswEq').hide();
+      $('#breezeEq').hide();
   }
   if (text == 'pluie1h') {
       $('#portEq').hide();
@@ -61,6 +74,7 @@ $('#typeEq').change(function(){
       $('#geolocEq').hide();
       $('#surfEq').hide();
       $('#mswEq').hide();
+      $('#breezeEq').hide();
   }
 });
 
