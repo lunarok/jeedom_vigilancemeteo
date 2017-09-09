@@ -11,7 +11,7 @@ Il faut renseigner l'équipement de localisation (les DOM-TOM ne sont pas couver
 Ce plugin permet d'obtenir des informations sur le niveau de pollen :
 
 - un niveau général
-- un niveu pour 19 types de pollens
+- un niveau pour 19 types de pollens
 
 Les niveaux sont numériques et vont de 0 à 5 :
 
