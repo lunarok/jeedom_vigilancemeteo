@@ -561,6 +561,7 @@ public function getAir() {
   $latitude = trim($geoloctab[0]);
   $longitude = trim($geoloctab[1]);
   $url = 'http://api.waqi.info/feed/geo:' . $latitude . ';' . $longitude . '/?token=' . $apikey;
+  log::add('vigilancemeteo', 'debug', 'AQI URL ' . $url);
   $content = file_get_contents($url);
   if ($content === false) {
     return;
@@ -624,6 +625,7 @@ public function getPollen() {
            return;
        }
   $departement = geotravCmd::byEqLogicIdAndLogicalId($this->getConfiguration('geoloc'),'location:department')->execCmd();
+  log::add('vigilancemeteo', 'debug', 'Pollen dep ' . $department);
   $im = @imagecreatefrompng("http://www.pollens.fr/docs/Departements_de_France-simple.png");
   if ($im === false) {
     return;
