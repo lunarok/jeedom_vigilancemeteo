@@ -1,6 +1,6 @@
 ==== Présentation
 
-Ce plugin permet d'obtenir des informations sur la météo des plages depuis le site de météo france
+Ce plugin permet d'obtenir des informations sur la météo des plages depuis le site de Météo France
 
 ==== Configuration du type
 
