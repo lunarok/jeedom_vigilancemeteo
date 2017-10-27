@@ -35,7 +35,7 @@ try {
 		}
     }
 
-    if (init('action') == 'getVigilanceMeteo') {
+    if (init('action') == 'getVigilancemeteo') {
         $return['vigilance'] = array();
 		$return['pluie1h'] = array();
 		$return['pollen'] = array();
@@ -45,7 +45,7 @@ try {
 		$return['plage'] = array();
         $return['seisme'] = array();
         $return['surf'] = array();
-		foreach (eqLogic::byType('geotrav') as $eqLogic) {
+		foreach (eqLogic::byType('vigilancemeteo') as $eqLogic) {
 			if ($eqLogic->getIsEnable() == 0 || $eqLogic->getIsVisible() == 0) {
 				continue;
 			}
