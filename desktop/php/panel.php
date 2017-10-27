@@ -11,7 +11,7 @@ $maree = array();
 $plage = array();
 $seisme = array();
 $surf = array();
-foreach (eqLogic::byType('geotrav') as $eqLogic) {
+foreach (eqLogic::byType('vigilancemeteo') as $eqLogic) {
     if ($eqLogic->getIsEnable() == 0 || $eqLogic->getIsVisible() == 0) {
         continue;
     }
