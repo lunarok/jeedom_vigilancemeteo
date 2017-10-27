@@ -26,9 +26,9 @@ function displayVigilancemeteo() {
     $.showLoading();
     $.ajax({
         type: 'POST',
-        url: 'plugins/Vigilancemeteo/core/ajax/vigilancemeteo.ajax.php',
+        url: 'plugins/vigilancemeteo/core/ajax/vigilancemeteo.ajax.php',
         data: {
-            action: 'getVigilancemeteo',
+            action: 'getVigilanceMeteo',
             version: 'mview'
         },
         dataType: 'json',
