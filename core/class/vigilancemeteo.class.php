@@ -433,7 +433,9 @@ public function getPlage() {
     $city = preg_replace('#ý|ÿ#', 'y', $city);
     $city = preg_replace('#Ý#', 'Y', $city);
   $adresse = "http://www.meteofrance.com/previsions-meteo-plages/". $city ."/".$postal;
-  $page = file_get_contents($adresse);
+  $request_http = new com_http($adresse);
+  $page = $request_http->exec(30);
+  //$page = file_get_contents($adresse);
   //Temperature de la mer
   $findeau   = 'Eau';
   $pos = strstr($page, $findeau);
@@ -562,7 +564,9 @@ public function getAir() {
   $longitude = trim($geoloctab[1]);
   $url = 'http://api.waqi.info/feed/geo:' . $latitude . ';' . $longitude . '/?token=' . $apikey;
   log::add('vigilancemeteo', 'debug', 'AQI URL ' . $url);
-  $content = file_get_contents($url);
+  $request_http = new com_http($url);
+  $content = $request_http->exec(30);
+  //$content = file_get_contents($url);
   if ($content === false) {
     return;
   }
@@ -603,7 +607,9 @@ public function getSurf() {
   if (null !== ($this->getConfiguration('surf', ''))) {
     $surf = $this->getConfiguration('surf', '');
     $url = 'http://magicseaweed.com/api/' . $apikey . '/forecast/?spot_id=' . $surf;
-    $content = file_get_contents($url);
+    $request_http = new com_http($url);
+    $content = $request_http->exec(30);
+    //$content = file_get_contents($url);
     if ($content === false) {
       return;
     }
@@ -786,7 +792,9 @@ public function getPollen() {
     //log::add('previsionpluie', 'debug', 'getInformation: ' .$this->getConfiguration('ville') );
     $prevPluieData = null;
     for ($attempt = 1; $attempt <= 3 && is_null($prevPluieData); $attempt++) {
-      $prevPluieJson = file_get_contents($url);
+      //$prevPluieJson = file_get_contents($url);
+      $request_http = new com_http($url);
+      $prevPluieJson = $request_http->exec(30);
       $prevPluieData = json_decode($prevPluieJson, true);
 
       # If it's not the first attempt
