@@ -589,8 +589,12 @@ public function getAir() {
   $this->checkAndUpdateCmd('aqi', $json['data']['aqi']);
   $this->checkAndUpdateCmd('dominentpol', $json['data']['dominentpol']);
   $this->checkAndUpdateCmd('no2', $json['data']['iaqi']['no2']['v']);
-  $this->checkAndUpdateCmd('o3', $json['data']['iaqi']['o3']['v']);
-  $this->checkAndUpdateCmd('pm10', $json['data']['iaqi']['pm10']['v']);
+  if (isset($json['data']['iaqi']['o3']['v'])) {
+    $this->checkAndUpdateCmd('o3', $json['data']['iaqi']['o3']['v']);
+  }
+  if (isset($json['data']['iaqi']['pm10']['v'])) {
+    $this->checkAndUpdateCmd('pm10', $json['data']['iaqi']['pm10']['v']);
+  }
   $this->checkAndUpdateCmd('pm25', $json['data']['iaqi']['pm25']['v']);
   $this->checkAndUpdateCmd('t', $json['data']['iaqi']['t']['v']);
   $this->checkAndUpdateCmd('h', $json['data']['iaqi']['h']['v']);
