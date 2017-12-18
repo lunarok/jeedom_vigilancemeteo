@@ -42,5 +42,5 @@ include::plage.asciidoc[]
 include::faq.asciidoc[]
 
 '''
-== Changelog
+== Änderungsprotokoll
 include::changelog.asciidoc[]
