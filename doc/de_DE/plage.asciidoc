@@ -1,4 +1,4 @@
-==== Présentation
+==== Präsentation
 
 Ce plugin permet d'obtenir des informations sur la météo des plages depuis le site de météo france
 
