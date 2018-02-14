@@ -208,7 +208,7 @@ public function getVigilance() {
   }
   $lvigilance = "vert";
   $lcrue = "vert";
-  $lrisque = "RAS";
+  $lrisque = array();
   $lmer = "vert";
 
   $url = 'http://vigilance.meteofrance.com/data/NXFR34_LFPW_.xml';
@@ -251,25 +251,25 @@ public function getVigilance() {
       foreach($data->getElementsByTagName('risque') as $risque) {
         switch ($risque->getAttribute('valeur')) {
           case 1:
-          $lrisque = "vent";
+          $lrisque[] = "vent";
           break;
           case 2:
-          $lrisque = "pluie-inondation";
+          $lrisque[] = "pluie-inondation";
           break;
           case 3:
-          $lrisque = "orages";
+          $lrisque[] = "orages";
           break;
           case 4:
-          $lrisque = "inondations";
+          $lrisque[] = "inondations";
           break;
           case 5:
-          $lrisque = "neige-verglas";
+          $lrisque[] = "neige-verglas";
           break;
           case 6:
-          $lrisque = "canicule";
+          $lrisque[] = "canicule";
           break;
           case 7:
-          $lrisque = "grand-froid";
+          $lrisque[] = "grand-froid";
           break;
         }
       }
@@ -296,7 +296,13 @@ public function getVigilance() {
 
     }
   }
-
+  
+  if (array_key_exists(0, $lrisque)) {
+    $lrisque = implode(", ", $lrisque);
+  } else {
+    $lrisque = 'RAS';
+  }
+    
   foreach($doc2->getElementsByTagName('DV') as $data) {
     if ($data->getAttribute('dep') == $departement) {
       $couleur = self::LEVEL[$data->getAttribute('coul')];
