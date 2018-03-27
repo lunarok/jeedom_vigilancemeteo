@@ -5,7 +5,8 @@
 	"author" : "lunarok",
 	"require" : "2.4.6",
 	"category" : "weather",
-	"issue" : "https://github.com/lunarok/jeedom_vigilancemeteo/issues",
 	"display" : "panel",
-	"mobile" : "panel"
+	"mobile" : "panel",
+    "changelog" : "https://lunarok.github.io/jeedom_docs/plugins/vigilancemeteo/changelog.html",
+    "documentation" : "https://lunarok.github.io/jeedom_docs/plugins/vigilancemeteo/"
 }
