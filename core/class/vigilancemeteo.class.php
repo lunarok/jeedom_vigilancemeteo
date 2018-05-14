@@ -26,65 +26,77 @@ class vigilancemeteo extends eqLogic {
     foreach (eqLogic::byType('vigilancemeteo', true) as $vigilancemeteo) {
       if ($vigilancemeteo->getConfiguration('type') == 'vigilance') {
         $vigilancemeteo->getVigilance();
-        $vigilancemeteo->refreshWidget();
       }
       if ($vigilancemeteo->getConfiguration('type') == 'crue') {
         $vigilancemeteo->getCrue();
-        $vigilancemeteo->refreshWidget();
       }
+      $vigilancemeteo->refreshWidget();
     }
-    log::add('vigilancemeteo', 'debug', '15mn cron');
   }
 
   public static function cron5() {
     foreach (eqLogic::byType('vigilancemeteo', true) as $vigilancemeteo) {
       if ($vigilancemeteo->getConfiguration('type') == 'pluie1h') {
         $vigilancemeteo->getPluie();
-        $vigilancemeteo->refreshWidget();
       }
+      $vigilancemeteo->refreshWidget();
     }
-    log::add('vigilancemeteo', 'debug', '5mn cron');
   }
 
   public static function cronHourly() {
     foreach (eqLogic::byType('vigilancemeteo', true) as $vigilancemeteo) {
       if ($vigilancemeteo->getConfiguration('type') == 'maree') {
         $vigilancemeteo->getMaree();
-        $vigilancemeteo->refreshWidget();
       }
       if ($vigilancemeteo->getConfiguration('type') == 'air') {
         $vigilancemeteo->getAir();
-        $vigilancemeteo->refreshWidget();
       }
       if ($vigilancemeteo->getConfiguration('type') == 'seisme') {
         $vigilancemeteo->getSeisme();
-        $vigilancemeteo->refreshWidget();
       }
       if ($vigilancemeteo->getConfiguration('type') == 'surf') {
         $vigilancemeteo->getSurf();
-        $vigilancemeteo->refreshWidget();
       }
       if ($vigilancemeteo->getConfiguration('type') == 'pollen') {
         $vigilancemeteo->getPollen();
-        $vigilancemeteo->refreshWidget();
       }
       if ($vigilancemeteo->getConfiguration('type') == 'plage') {
         $vigilancemeteo->getPlage();
-        $vigilancemeteo->refreshWidget();
       }
+      $vigilancemeteo->refreshWidget();
     }
-    log::add('vigilancemeteo', 'debug', 'Hourly cron');
   }
 
-  /*public static function cronDaily() {
-  foreach (eqLogic::byType('vigilancemeteo', true) as $vigilancemeteo) {
-  foreach ($vigilancemeteo->getCmd() as $cmd) {
-  $cmd->setConfiguration('alert', '0');
-  $cmd->setConfiguration('repeatEventManagement','always');
-  $cmd->save();
-}
-}
-}*/
+  public static function getInformations() {
+      if ($this->getConfiguration('type') == 'maree') {
+        $this->getMaree();
+      }
+      if ($this->getConfiguration('type') == 'air') {
+        $this->getAir();
+      }
+      if ($this->getConfiguration('type') == 'seisme') {
+        $this->getSeisme();
+      }
+      if ($this->getConfiguration('type') == 'surf') {
+        $this->getSurf();
+      }
+      if ($this->getConfiguration('type') == 'pollen') {
+        $this->getPollen();
+      }
+      if ($this->getConfiguration('type') == 'plage') {
+        $this->getPlage();
+      }
+      if ($this->getConfiguration('type') == 'pluie1h') {
+        $this->getPluie();
+      }
+      if ($this->getConfiguration('type') == 'vigilance') {
+        $this->getVigilance();
+      }
+      if ($this->getConfiguration('type') == 'crue') {
+        $this->getCrue();
+      }
+      $this->refreshWidget();
+  }
 
 public function loadCmdFromConf($_update = false) {
 
@@ -296,13 +308,13 @@ public function getVigilance() {
 
     }
   }
-  
+
   if (array_key_exists(0, $lrisque)) {
     $lrisque = implode(", ", $lrisque);
   } else {
     $lrisque = 'RAS';
   }
-    
+
   foreach($doc2->getElementsByTagName('DV') as $data) {
     if ($data->getAttribute('dep') == $departement) {
       $couleur = self::LEVEL[$data->getAttribute('coul')];
@@ -1149,7 +1161,9 @@ public function getPollen() {
 
 class vigilancemeteoCmd extends cmd {
   public function execute($_options = null) {
-    return $this->getConfiguration('value');
+    if ($this->getLogicalId() == 'refresh') {
+      $this->getEqLogic()->getInformations();
+    }
   }
 }
 

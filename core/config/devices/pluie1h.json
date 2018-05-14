@@ -28,6 +28,19 @@
             "type": "info",
             "subtype": "numeric",
             "logicalId": "minutesAvantPluie"
+        },
+        {
+            "name": "Rafraichir",
+            "type": "action",
+            "subtype": "other",
+            "display": {
+      "icon": "<i class=\"fa fa-refresh\"><\/i>"
+            },
+            "configuration" : {
+          "request" : "refresh"
+        },
+            "isVisible": 1,
+            "logicalId": "refresh"
         }
     ]
 }
