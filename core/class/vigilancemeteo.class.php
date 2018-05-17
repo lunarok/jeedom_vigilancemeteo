@@ -67,7 +67,7 @@ class vigilancemeteo extends eqLogic {
     }
   }
 
-  public static function getInformations() {
+  public function getInformations() {
       if ($this->getConfiguration('type') == 'maree') {
         $this->getMaree();
       }
