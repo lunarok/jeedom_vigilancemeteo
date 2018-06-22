@@ -1,12 +1,15 @@
 {
 	"id" : "vigilancemeteo",
 	"name" : "Vigilance Météo",
+	"description" : "Ce plugin permet de récupérer différents types d'informations/alertes météo : vigilance, pluie, qualité d'air, pollen, surf, marée, crue ...",
 	"licence" : "AGPL",
 	"author" : "lunarok",
 	"require" : "2.4.6",
 	"category" : "weather",
 	"display" : "panel",
 	"mobile" : "panel",
+	"language" : ["fr_FR","en_US"],
+	"compatibility" : ["miniplus","smart","rpi","docker","diy","mobile"],
     "changelog" : "https://lunarok.github.io/jeedom_docs/plugins/vigilancemeteo/changelog.html",
     "documentation" : "https://lunarok.github.io/jeedom_docs/plugins/vigilancemeteo/"
 }
