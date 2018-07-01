@@ -52,7 +52,7 @@ try {
             if ($eqLogic->getConfiguration('type') == 'vigilance') {
                 $return['vigilance'][] = $eqLogic->toHtml(init('version'));
             }
-            if ($eqLogic->getConfiguration('type') == 'pluie1') {
+            if ($eqLogic->getConfiguration('type') == 'pluie1h') {
                 $return['pluie1h'][] = $eqLogic->toHtml(init('version'));
             }
             if ($eqLogic->getConfiguration('type') == 'pollen') {
