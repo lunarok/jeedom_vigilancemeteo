@@ -451,7 +451,7 @@ public function getPlage() {
     $city = preg_replace('#ý|ÿ#', 'y', $city);
     $city = preg_replace('#Ý#', 'Y', $city);
   $city = preg_replace('_', '-', $city);
-  $city = preg_replace('/'/', '', $city);
+  $city = preg_replace('\', '', $city);
   $adresse = "http://www.meteofrance.com/previsions-meteo-plages/". $city ."/".$postal;
   $request_http = new com_http($adresse);
   $page = $request_http->exec(30);
