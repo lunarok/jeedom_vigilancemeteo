@@ -683,17 +683,17 @@ public function getPollen() {
   }
 
   public function getPollenLevel($red,$green,$blue) {
-    //0 absence, 1 vert clair, 2 vert foncé, 3 jaune, 4 orange, 5 rouge
+    //0 absence, 1 vert clair, 2 vert foncÃ©, 3 jaune, 4 orange, 5 rouge
     $level = 0;
-    if ($red == 0 && $green == 255 && $blue == 0) {
+    if ($red == 116 && $green == 228 && $blue == 108) { // vert clair
       $level = 1;
-    } elseif (($red == 0 && $green == 176 && $blue == 80) || ($red == 0 && $green == 128 && $blue == 0)) {
+    } elseif ($red == 4 && $green == 128 && $blue == 0) { // vert fonce
       $level = 2;
-    } elseif ($red == 255 && $green == 255 && $blue == 0) {
+    } elseif ($red == 242 && $green == 234 && $blue == 26) { // jaune
       $level = 3;
-    } elseif (($red == 247 && $green == 150 && $blue == 70) || ($red == 255 && $green == 127 && $blue == 42)) {
+    } elseif ($red == 255 && $green == 127 && $blue == 41) { // orange
       $level = 4;
-    } elseif ($red == 255 && $green == 0 && $blue == 0) {
+    } elseif ($red == 255 && $green == 2 && $blue == 0) { // rouge
       $level = 5;
     }
     log::add('vigilancemeteo', 'debug', 'Couleur ' . $red . ' ' . $green . ' ' . $blue . ' : ' . $level);
@@ -701,101 +701,102 @@ public function getPollen() {
   }
 
   function getDep() {
-    $dep[1] = array(439,316);
-    $dep[2] = array(360,91);
-    $dep[3] = array(333,305);
-    $dep[4] = array(483,447);
-    $dep[5] = array(496,411);
-    $dep[6] = array(532,454);
-    $dep[7] = array(398,419);
-    $dep[8] = array(403,93);
-    $dep[9] = array(266,531);
-    $dep[10] = array(375,180);
-    $dep[11] = array(305,520);
-    $dep[12] = array(320,439);
-    $dep[13] = array(435,490);
-    $dep[14] = array(182,124);
-    $dep[15] = array(321,389);
-    $dep[16] = array(206,346);
-    $dep[17] = array(167,341);
-    $dep[18] = array(312,275);
-    $dep[19] = array(282,372);
-    $dep[20] = array(530,557);
-    $dep[21] = array(411,229);
-    $dep[22] = array(83,167);
-    $dep[23] = array(292,396);
-    $dep[24] = array(228,389);
-    $dep[25] = array(483,251);
-    $dep[26] = array(437,411);
-    $dep[27] = array(243,124);
-    $dep[28] = array(262,175);
-    $dep[29] = array(33,177);
-    $dep[30] = array(396,456);
-    $dep[31] = array(262,495);
-    $dep[32] = array(223,480);
-    $dep[33] = array(169,402);
-    $dep[34] = array(340,490);
-    $dep[35] = array(135,177);
-    $dep[36] = array(269,275);
-    $dep[37] = array(232,244);
-    $dep[38] = array(455,370);
-    $dep[39] = array(461,281);
-    $dep[40] = array(160,462);
-    $dep[41] = array(262,221);
-    $dep[42] = array(390,354);
-    $dep[43] = array(359,383);
-    $dep[44] = array(119,240);
-    $dep[45] = array(314,206);
-    $dep[46] = array(267,419);
-    $dep[47] = array(210,438);
-    $dep[48] = array(364,434);
-    $dep[49] = array(178,236);
-    $dep[50] = array(150,130);
-    $dep[51] = array(385,136);
-    $dep[52] = array(431,184);
-    $dep[53] = array(163,192);
-    $dep[54] = array(470,156);
-    $dep[55] = array(439,149);
-    $dep[56] = array(76,203);
-    $dep[57] = array(485,126);
-    $dep[58] = array(359,259);
-    $dep[59] = array(355,54);
-    $dep[60] = array(303,115);
-    $dep[61] = array(215,160);
-    $dep[62] = array(293,39);
-    $dep[63] = array(340,341);
-    $dep[64] = array(148,505);
-    $dep[65] = array(206,521);
-    $dep[66] = array(318,549);
-    $dep[67] = array(532,143);
-    $dep[68] = array(520,197);
-    $dep[69] = array(409,339);
-    $dep[70] = array(476,221);
-    $dep[71] = array(396,288);
-    $dep[72] = array(215,197);
-    $dep[73] = array(494,367);
-    $dep[74] = array(496,322);
-    $dep[75] = array(308,147);
-    $dep[76] = array(292,65);
-    $dep[77] = array(331,158);
-    $dep[78] = array(288,149);
-    $dep[79] = array(187,287);
-    $dep[80] = array(295,74);
-    $dep[81] = array(293,469);
-    $dep[82] = array(253,452);
-    $dep[83] = array(494,497);
-    $dep[84] = array(442,460);
-    $dep[85] = array(146,285);
-    $dep[86] = array(225,290);
-    $dep[87] = array(258,341);
-    $dep[88] = array(485,186);
-    $dep[89] = array(360,208);
-    $dep[90] = array(507,219);
-    $dep[91] = array(305,164);
-    $dep[92] = array(303,149);
-    $dep[93] = array(314,143);
-    $dep[94] = array(314,152);
-    $dep[95] = array(301,132);
+    $dep[1] = array(1100,840);
+    $dep[2] = array(940,360);
+    $dep[3] = array(900,800);
+    $dep[4] = array(1200,1100);
+    $dep[5] = array(1200,1020);
+    $dep[6] = array(1270,1120);
+    $dep[7] = array(1010,1010);
+    $dep[8] = array(1030,360);
+    $dep[9] = array(760,1240);
+    $dep[10] = array(1000,540);
+    $dep[11] = array(850,1220);
+    $dep[12] = array(870,1070);
+    $dep[13] = array(1100,1160);
+    $dep[14] = array(600,430);
+    $dep[15] = array(860,970);
+    $dep[16] = array(640,880);
+    $dep[17] = array(550,870);
+    $dep[18] = array(840,700);
+    $dep[19] = array(780,930);
+    $dep[20] = array(1450,1310);
+    $dep[21] = array(1040,660);
+    $dep[22] = array(350,530);
+    $dep[23] = array(800,840);
+    $dep[24] = array(680,960);
+    $dep[25] = array(1190,700);
+    $dep[26] = array(1080,1020);
+    $dep[27] = array(700,440);
+    $dep[28] = array(740,530);
+    $dep[29] = array(260,540);
+    $dep[30] = array(1000,1110);
+    $dep[31] = array(740,1170);
+    $dep[32] = array(660,1150);
+    $dep[33] = array(560,1000);
+    $dep[34] = array(920,1160);
+    $dep[35] = array(470,560);
+    $dep[36] = array(750,750);
+    $dep[37] = array(680,680);
+    $dep[38] = array(1120,940);
+    $dep[39] = array(1140,750);
+    $dep[40] = array(540,1110);
+    $dep[41] = array(740,630);
+    $dep[42] = array(990,890);
+    $dep[43] = array(960,960);
+    $dep[44] = array(460,660);
+    $dep[45] = array(830,600);
+    $dep[46] = array(760,1030);
+    $dep[47] = array(660,1060);
+    $dep[48] = array(930,1050);
+    $dep[49] = array(560,670);
+    $dep[50] = array(500,440);
+    $dep[51] = array(1000,450);
+    $dep[52] = array(1090,570);
+    $dep[53] = array(560,560);
+    $dep[54] = array(1170,490);
+    $dep[55] = array(1100,450);
+    $dep[56] = array(350,600);
+    $dep[57] = array(1210,440);
+    $dep[58] = array(930,700);
+    $dep[59] = array(930,270);
+    $dep[60] = array(840,390);
+    $dep[61] = array(620,490);
+    $dep[62] = array(820,240);
+    $dep[63] = array(900,880);
+    $dep[64] = array(550,1200);
+    $dep[65] = array(630,1230);
+    $dep[66] = array(860,1280);
+    $dep[67] = array(1300,500);
+    $dep[68] = array(1270,600);
+    $dep[69] = array(1030,870);
+    $dep[70] = array(1170,630);
+    $dep[71] = array(1020,770);
+    $dep[72] = array(630,580);
+    $dep[73] = array(1210,920);
+    $dep[74] = array(1200,840);
+    $dep[75] = array(1220,120);
+    $dep[76] = array(710,350);
+    $dep[77] = array(880,500);
+    $dep[78] = array(780,470);
+    $dep[79] = array(580,780);
+    $dep[80] = array(820,310);
+    $dep[81] = array(810,1130);
+    $dep[82] = array(720,1100);
+    $dep[83] = array(1180,1180);
+    $dep[84] = array(1080,1100);
+    $dep[85] = array(500,760);
+    $dep[86] = array(650,780);
+    $dep[87] = array(720,870);
+    $dep[88] = array(1200,560);
+    $dep[89] = array(940,600);
+    $dep[90] = array(1240,630);
+    $dep[91] = array(820,510);
+    $dep[92] = array(1160,140);
+    $dep[93] = array(1290,80);
+    $dep[94] = array(1280,180);
+    $dep[95] = array(820,440);
+    $dep[99] = array(755,1290);
     return $dep;
   }
 
