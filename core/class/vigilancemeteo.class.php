@@ -656,7 +656,7 @@ public function getPollen() {
        }
   $departement = geotravCmd::byEqLogicIdAndLogicalId($this->getConfiguration('geoloc'),'location:department')->execCmd();
   log::add('vigilancemeteo', 'debug', 'Pollen dep ' . $departement);
-  $im = @imagecreatefrompng("http://www.pollens.fr/docs/Departements_de_France-simple.png");
+  $im = @imagecreatefrompng("https://www.pollens.fr/generated/vigilance_map.png");
   if ($im === false) {
     return;
   }
