@@ -651,36 +651,91 @@ public function getSurf() {
 
 public function getPollen() {
   $geotrav = eqLogic::byId($this->getConfiguration('geoloc'));
-       if (!(is_object($geotrav) && $geotrav->getEqType_name() == 'geotrav')) {
-           return;
-       }
-  $departement = geotravCmd::byEqLogicIdAndLogicalId($this->getConfiguration('geoloc'),'location:department')->execCmd();
-  log::add('vigilancemeteo', 'debug', 'Pollen dep ' . $departement);
-  $im = @imagecreatefrompng("https://www.pollens.fr/generated/vigilance_map.png");
-  if ($im === false) {
+  if (!(is_object($geotrav) && $geotrav->getEqType_name() == 'geotrav')) {
     return;
   }
-  $xy = vigilancemeteo::getDep();
-  $dep0 = ltrim($departement, '0');
-  $rgb = @imagecolorat($im, $xy[$dep0][0], $xy[$dep0][1]);
-  $colors = @imagecolorsforindex($im, $rgb);
-  $pollen = vigilancemeteo::getPollenLevel($colors['red'],$colors['green'],$colors['blue']);
-  //log::add('vigilancemeteo', 'debug', 'Coordonnées ' . $xy[$departement][0] . ' ' . $xy[$departement][1] . ' level : ' . $pollen);
-  $this->checkAndUpdateCmd('general', $pollen);//0 green, 1 yellow, 2 orange, 3 red
-
-  $i = 1;
-  $im = @imagecreatefromgif("http://internationalragweedsociety.org/vigilance/d%20".$departement.".gif");
-    $x = 116;$y = 45;
-    while ($i != 20) {
-      $rgb = @imagecolorat($im, $x, $y);
-      $colors = @imagecolorsforindex($im, $rgb);
-      $pollen = vigilancemeteo::getPollenLevel($colors['red'],$colors['green'],$colors['blue']);
-      $this->checkAndUpdateCmd('pollen' . $i, $pollen);
-      $y = $y + 20;
-      $i++;
-    }
-    return ;
+  $departement = geotravCmd::byEqLogicIdAndLogicalId($this->getConfiguration('geoloc'),'location:department')->execCmd();
+  log::add('vigilancemeteo', 'debug', 'Pollen departement : ' . $departement);
+  $im = @imagecreatefrompng("http://www.pollens.fr/generated/vigilance_map.png");
+  if ($im === false) {
+    log::add('vigilancemeteo', 'debug', 'Pollens.fr Image not found ');
+    $pollen = -1;
+  } else {
+    $xy = vigilancemeteo::getDep();
+    $dep0 = ltrim($departement, '0');
+    $rgb = @imagecolorat($im, $xy[$dep0][0], $xy[$dep0][1]);
+    $colors = @imagecolorsforindex($im, $rgb);
+    $pollen = vigilancemeteo::getPollenLevel($colors['red'],$colors['green'],$colors['blue']);
+    //log::add('vigilancemeteo', 'debug', 'Coordonnées ' . $xy[$departement][0] . ' ' . $xy[$departement][1] . ' level : ' . $pollen);
   }
+  $this->checkAndUpdateCmd('general', $pollen);
+
+  if ( strlen ($departement) == 1) $departement = "0".$departement;
+    // Use internal libxml errors -- turn on in production, off for debugging
+  libxml_use_internal_errors(true);
+  $dom = new DomDocument;
+    // Load the HTML
+  $ret = $dom->loadHTMLFile("https://www.pollens.fr/risks/thea/counties/$departement");
+  if ( $ret === false ) {
+    log::add('vigilancemeteo', 'debug', __FUNCTION__ .' Unable to load data for county : '.$departement);
+    for ( $i=1; $i<20; $i++) {
+      $this->checkAndUpdateCmd('pollen' . $i, -1);
+    }
+    return;
+  }
+  $xpath = new DomXPath($dom);
+    // Query all nodes containing specified class name
+  $texts = $xpath->query("/html/body/div/svg/g[3]//text");
+  $rects = $xpath->query("/html/body/div/svg/g[1]//rect");
+    // idxPollen parce que la liste des pollens n'arrive plus dans le même ordre qu'avant
+    // et qu'il faut avoir le meme index
+  foreach ($texts as $i => $text) {
+    $nomPollen = trim($text->nodeValue);
+    $nomPollen = preg_replace('#'.chr(131).chr(194).'#', '', $nomPollen);
+    switch ( $nomPollen ) {
+      case "Cyprès" : $nomPollen="Cupressacées"; $idxPollen = 1; break;
+      case "Noisetier" : $idxPollen = 2; break;
+      case "Aulne" : $idxPollen = 3; break;
+      case "Peuplier" : $idxPollen = 4; break;
+      case "Saule" : $idxPollen = 5; break;
+      case "Frêne" : $idxPollen = 6; break;
+      case "Charme" : $idxPollen = 7; break;
+      case "Bouleau" : $idxPollen = 8; break;
+      case "Platane" : $idxPollen = 9; break;
+      case "Chêne" : $idxPollen = 10; break;
+      case "Olivier" : $idxPollen = 11; break;
+      case "Tilleul" : $idxPollen = 12; break;
+      case "Châtaignier" : $idxPollen = 13; break;
+      case "Oseille" : $nomPollen = "Rumex"; $idxPollen = 14; break;
+      case "Graminées" : $idxPollen = 15; break;
+      case "Plantain" : $idxPollen = 16; break;
+      case "Urticacées" : $idxPollen = 17; break;
+      case "Armoise" : $idxPollen = 18; break;
+      case "Ambroisies" : $idxPollen = 19; break;
+      default : $idxPollen = 0;
+        log::add('vigilancemeteo', 'debug', "Pollen: [$nomPollen] not processed in pollens.fr data.");
+    }
+    foreach ($rects as $j => $rect) {
+      if( $i == $j) {
+        $attr = trim($rect->getAttribute("style"));
+        if ( ( $pos = strpos($attr,"fill: #")) === false) {
+          $pollenLevel = -1;
+          log::add('vigilancemeteo', 'debug', "Fill color not found in rect for: $nomPollen");
+        } else {
+          $color = substr($attr,$pos+7,6);
+          $red = hexdec(substr($color,0,2));
+          $green = hexdec(substr($color,2,2));
+          $blue = hexdec(substr($color,4,2));
+          $pollenLevel = self::getPollenLevel($red,$green,$blue);
+        }
+          // Envoi résultat à Jeedom
+        $this->checkAndUpdateCmd('pollen'.$idxPollen, $pollenLevel);
+        break;
+      }
+    }
+  }
+  return ;
+}
 
   public function getPollenLevel($red,$green,$blue) {
     //0 absence, 1 vert clair, 2 vert foncÃ©, 3 jaune, 4 orange, 5 rouge
