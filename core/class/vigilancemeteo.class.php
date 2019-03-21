@@ -753,20 +753,18 @@ public function getPollen() {
 }
 
   public function getPollenLevel($red,$green,$blue,$colorsPollen,$imgPollen) {
-       if ( $imgPollen ) {
-      $col = imagecolorclosest ( $this->imgPollen , $red , $green , $blue );
-      $col = imagecolorsforindex($this->imgPollen, $col);
-      $red = $col['red']; $green = $col['green']; $blue = $col['blue'];
-    }
-    foreach ( $colorsPollen as $color ) {
-      if($red == $color[0] && $green == $color[1] && $blue == $color[2] ) {
-        log::add('vigilancemeteo', 'debug', 'Couleur ' . $red . ' ' . $green . ' ' . $blue . ' : ' . $level);
-        return( $color[3] );
+    if ( $imgPollen ) {
+      $col = imagecolorclosest ( $imgPollen , $red , $green , $blue );
+      $col = imagecolorsforindex($imgPollen, $col);
+      $nred = $col['red']; $ngreen = $col['green']; $nblue = $col['blue'];
+      foreach ( $colorsPollen as $color ) {
+        if($nred == $color[0] && $ngreen == $color[1] && $nblue == $color[2] ) {
+          log::add('vigilancemeteo', 'debug', 'Img Couleur ' . $nred . ' ' . $ngreen . ' ' . $nblue . ' : ' . $color[3]);
+          return( $color[3] );
+        }
       }
     }
-    return 0;
-    /*
-      //0 absence, 1 vert clair, 2 vert foncÃ©, 3 jaune, 4 orange, 5 rouge
+      //0 absence, 1 vert clair, 2 vert foncÃƒÂ©, 3 jaune, 4 orange, 5 rouge
     $level = 0;
     if ($red == 116 && $green == 228 && $blue == 108) { // vert clair
       $level = 1;
@@ -776,12 +774,11 @@ public function getPollen() {
       $level = 3;
     } elseif ($red == 255 && $green == 127 && $blue == 41) { // orange
       $level = 4;
-    } elseif ($red == 255 && $green == 2 && $blue == 0) { // rouge
+    } elseif ($red == 255 && ( $green == 1 || $green == 2 ) && $blue == 0) { // rouge
       $level = 5;
     }
     log::add('vigilancemeteo', 'debug', 'Couleur ' . $red . ' ' . $green . ' ' . $blue . ' : ' . $level);
     return $level;
-    */
   }
 
   function getDep() {
