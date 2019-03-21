@@ -654,6 +654,21 @@ public function getPollen() {
   if (!(is_object($geotrav) && $geotrav->getEqType_name() == 'geotrav')) {
     return;
   }
+  $colorsPollen = array();
+  $colorsPollen[] = array( 116, 228, 108, 1); // VertClair
+  $colorsPollen[] = array(   4, 128,   0, 2); // VertFonce
+  $colorsPollen[] = array( 242, 234,  26, 3); // Jaune
+  $colorsPollen[] = array( 255, 127,  41, 4); // Orange
+  $colorsPollen[] = array( 255,   1,   0, 5); // Rouge
+  $imgPollen = @imagecreate(10, 10);
+  if ( $imgPollen !== false ) {
+    foreach ( $colorsPollen as $color )
+      $col = imagecolorallocate($imgPollen, $color[0], $color[1], $color[2]);
+  }
+  else {
+    log::add('vigilancemeteo' ,'debug' ,__FUNCTION__ .'Cannot Initialize new GD imgPollen stream');
+  }
+  
   $departement = geotravCmd::byEqLogicIdAndLogicalId($this->getConfiguration('geoloc'),'location:department')->execCmd();
   log::add('vigilancemeteo', 'debug', 'Pollen departement : ' . $departement);
   $im = @imagecreatefrompng("http://www.pollens.fr/generated/vigilance_map.png");
@@ -665,7 +680,7 @@ public function getPollen() {
     $dep0 = ltrim($departement, '0');
     $rgb = @imagecolorat($im, $xy[$dep0][0], $xy[$dep0][1]);
     $colors = @imagecolorsforindex($im, $rgb);
-    $pollen = vigilancemeteo::getPollenLevel($colors['red'],$colors['green'],$colors['blue']);
+    $pollen = vigilancemeteo::getPollenLevel($colors['red'],$colors['green'],$colors['blue'],$colorsPollen,$imgPollen);
     //log::add('vigilancemeteo', 'debug', 'Coordonnées ' . $xy[$departement][0] . ' ' . $xy[$departement][1] . ' level : ' . $pollen);
   }
   $this->checkAndUpdateCmd('general', $pollen);
@@ -726,7 +741,7 @@ public function getPollen() {
           $red = hexdec(substr($color,0,2));
           $green = hexdec(substr($color,2,2));
           $blue = hexdec(substr($color,4,2));
-          $pollenLevel = self::getPollenLevel($red,$green,$blue);
+          $pollenLevel = self::getPollenLevel($red,$green,$blue,$colorsPollen,$imgPollen);
         }
           // Envoi résultat à Jeedom
         $this->checkAndUpdateCmd('pollen'.$idxPollen, $pollenLevel);
@@ -737,8 +752,21 @@ public function getPollen() {
   return ;
 }
 
-  public function getPollenLevel($red,$green,$blue) {
-    //0 absence, 1 vert clair, 2 vert foncÃ©, 3 jaune, 4 orange, 5 rouge
+  public function getPollenLevel($red,$green,$blue,$colorsPollen,$imgPollen) {
+       if ( $imgPollen ) {
+      $col = imagecolorclosest ( $this->imgPollen , $red , $green , $blue );
+      $col = imagecolorsforindex($this->imgPollen, $col);
+      $red = $col['red']; $green = $col['green']; $blue = $col['blue'];
+    }
+    foreach ( $colorsPollen as $color ) {
+      if($red == $color[0] && $green == $color[1] && $blue == $color[2] ) {
+        log::add('vigilancemeteo', 'debug', 'Couleur ' . $red . ' ' . $green . ' ' . $blue . ' : ' . $level);
+        return( $color[3] );
+      }
+    }
+    return 0;
+    /*
+      //0 absence, 1 vert clair, 2 vert foncÃ©, 3 jaune, 4 orange, 5 rouge
     $level = 0;
     if ($red == 116 && $green == 228 && $blue == 108) { // vert clair
       $level = 1;
@@ -753,6 +781,7 @@ public function getPollen() {
     }
     log::add('vigilancemeteo', 'debug', 'Couleur ' . $red . ' ' . $green . ' ' . $blue . ' : ' . $level);
     return $level;
+    */
   }
 
   function getDep() {
