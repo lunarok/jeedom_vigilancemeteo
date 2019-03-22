@@ -655,6 +655,7 @@ public function getPollen() {
     return;
   }
   $colorsPollen = array();
+  $colorsPollen[] = array( 255, 255, 255, 0); // Blanc
   $colorsPollen[] = array( 116, 228, 108, 1); // VertClair
   $colorsPollen[] = array(   4, 128,   0, 2); // VertFonce
   $colorsPollen[] = array( 242, 234,  26, 3); // Jaune
@@ -764,7 +765,7 @@ public function getPollen() {
         }
       }
     }
-      //0 absence, 1 vert clair, 2 vert foncÃƒÂ©, 3 jaune, 4 orange, 5 rouge
+      //0 absence, 1 vert clair, 2 vert foncé, 3 jaune, 4 orange, 5 rouge
     $level = 0;
     if ($red == 116 && $green == 228 && $blue == 108) { // vert clair
       $level = 1;
