@@ -648,8 +648,81 @@ public function getSurf() {
   }
   return ;
 }
-
 public function getPollen() {
+  $geotrav = eqLogic::byId($this->getConfiguration('geoloc'));
+  if (!(is_object($geotrav) && $geotrav->getEqType_name() == 'geotrav')) {
+    log::add('vigilancemeteo', 'debug', __FUNCTION__ .' No geotrav object found.');
+    return;
+  }
+  $departement = geotravCmd::byEqLogicIdAndLogicalId($this->getConfiguration('geoloc'),'location:department')->execCmd();
+  log::add('vigilancemeteo', 'debug', 'Pollen departement : ' . $departement);
+  $url = 'https://www.pollens.fr/risks/thea/counties/' .$departement;
+  $pollenData = null;
+  for ($attempt = 0; $attempt < 3 && is_null($pollenData); $attempt++) {
+    $request_http = new com_http($url);
+    $pollenJson = $request_http->exec(30);
+    $pollenData = json_decode($pollenJson, true);
+    if ($attempt > 0) {
+      log::add('vigilancemeteo', 'info', 'Impossible d\'obtenir les informations pollens.fr... On refait une tentative...'.($attempt+1).'/3');
+      sleep(3);
+    }
+  }
+  if ( is_null($pollenData) ) { // Pas de reponse pollens.fr tous les levels a -1
+    $this->checkAndUpdateCmd('general', -1);
+    for ( $i=1; $i<20; $i++)
+      $this->checkAndUpdateCmd('pollen' . $i, -1);
+    return;
+  }
+  else {
+    $this->checkAndUpdateCmd('general', $pollenData['riskLevel']);
+    foreach ( $pollenData['risks'] as $pollen ) {
+      $nomPollen = $pollen['pollenName']; $level = $pollen['level'];
+      switch ( $nomPollen ) {
+        case "Cyprès" :
+          $this->checkAndUpdateCmd('pollen1', $level); break;
+        case "Noisetier" :
+          $this->checkAndUpdateCmd('pollen2', $level); break;
+        case "Aulne" :
+          $this->checkAndUpdateCmd('pollen3', $level); break;
+        case "Peuplier" :
+          $this->checkAndUpdateCmd('pollen4', $level); break;
+        case "Saule" :
+          $this->checkAndUpdateCmd('pollen5', $level); break;
+        case "Frêne" :
+          $this->checkAndUpdateCmd('pollen6', $level); break;
+        case "Charme" :
+          $this->checkAndUpdateCmd('pollen7', $level); break;
+        case "Bouleau" :
+          $this->checkAndUpdateCmd('pollen8', $level); break;
+        case "Platane" :
+          $this->checkAndUpdateCmd('pollen9', $level); break;
+        case "Chêne" :
+          $this->checkAndUpdateCmd('pollen10', $level); break;
+        case "Olivier" :
+          $this->checkAndUpdateCmd('pollen11', $level); break;
+        case "Tilleul" :
+          $this->checkAndUpdateCmd('pollen12', $level); break;
+        case "Châtaignier" :
+          $this->checkAndUpdateCmd('pollen13', $level); break;
+        case "Oseille" :
+          $this->checkAndUpdateCmd('pollen14', $level); break;
+        case "Graminées" :
+          $this->checkAndUpdateCmd('pollen15', $level); break;
+        case "Plantain" :
+          $this->checkAndUpdateCmd('pollen16', $level); break;
+        case "Urticacées" :
+          $this->checkAndUpdateCmd('pollen17', $level); break;
+        case "Armoise" :
+          $this->checkAndUpdateCmd('pollen18', $level); break;
+        case "Ambroisies" :
+          $this->checkAndUpdateCmd('pollen19', $level); break;
+      }
+    }
+  }
+  return;
+}
+
+public function getPollenOld() {
   $geotrav = eqLogic::byId($this->getConfiguration('geoloc'));
   if (!(is_object($geotrav) && $geotrav->getEqType_name() == 'geotrav')) {
     return;
@@ -1073,24 +1146,13 @@ public function getPollen() {
       $onetemplate = getTemplate('core', $version, '1pollen', 'vigilancemeteo');
       foreach ($this->getCmd('info') as $cmd) {
         switch ($cmd->execCmd()) {
-          case '0':
-          $color = 'black';
-          break;
-          case '1':
-          $color = 'lime';
-          break;
-          case '2':
-          $color = 'green';
-          break;
-          case '3':
-          $color = 'yellow';
-          break;
-          case '4':
-          $color = 'orange';
-          break;
-          case '5':
-          $color = 'red';
-          break;
+          case '-1': $color = 'black'; break;
+          case '0':  $color = 'black'; break;
+          case '1':  $color = 'lime';  break;
+          case '2':  $color = 'green'; break;
+          case '3':  $color = 'yellow'; break;
+          case '4':  $color = 'orange'; break;
+          case '5':  $color = 'red';    break;
         }
         if ($cmd->getLogicalId() == 'general') {
           $replace['#' . $cmd->getLogicalId() . '_color#'] = $color;
