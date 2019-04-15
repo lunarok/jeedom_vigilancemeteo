@@ -4,7 +4,7 @@ if (!isConnect()) {
 }
 ?>
 
-<i class="fa fa-pencil pull-right cursor reportModeHidden" id="bt_editDashboardWidgetOrder" data-mode="0" style="margin-right : 10px;"></i>
+<i class="fas fa-pencil pull-right cursor reportModeHidden" id="bt_editDashboardWidgetOrder" data-mode="0" style="margin-right : 10px;"></i>
 <legend><i class="icon nature-planet5"></i> {{Vigilances Météo}}</legend>
     <div class="div_displayEquipement">
         <?php

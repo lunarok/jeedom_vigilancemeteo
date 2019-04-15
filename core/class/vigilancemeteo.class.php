@@ -1071,9 +1071,9 @@ public function getPollenOld() {
       }
       if (strpos(network::getNetworkAccess('external'),'https') !== false) {
         $department = geotravCmd::byEqLogicIdAndLogicalId($this->getConfiguration('geoloc'),'location:department')->execCmd();
-        $replace['#icone#'] = '<a target="_blank" href="http://vigilance.meteofrance.com/Bulletin_sans.html?a=dept' . $department . '&b=2&c="><i class="fa fa-info-circle cursor"></i></a>';      
+        $replace['#icone#'] = '<a target="_blank" href="http://vigilance.meteofrance.com/Bulletin_sans.html?a=dept' . $department . '&b=2&c="><i class="fas fa-info-circle cursor"></i></a>';      
       } else {
-        $replace['#icone#'] = '<i id="yourvigilance' . $this->getId() . ' class="fa fa-info-circle cursor"></i>';
+        $replace['#icone#'] = '<i id="yourvigilance' . $this->getId() . ' class="fas fa-info-circle cursor"></i>';
       }
 
       $templatename = 'vigilancemeteo';
@@ -1097,9 +1097,9 @@ public function getPollenOld() {
       }
 
       if (strpos(network::getNetworkAccess('external'),'https') !== false) {
-        $replace['#icone#'] = '<a target="_blank" href="http://maree.info/' . $this->getConfiguration('port') . '"><i class="fa fa-info-circle cursor"></i></a>';
+        $replace['#icone#'] = '<a target="_blank" href="http://maree.info/' . $this->getConfiguration('port') . '"><i class="fas fa-info-circle cursor"></i></a>';
       } else {
-        $replace['#icone#'] = '<i id="maree' . $this->getId() . '" class="fa fa-info-circle cursor"></i>';
+        $replace['#icone#'] = '<i id="maree' . $this->getId() . '" class="fas fa-info-circle cursor"></i>';
       }
 
       $templatename = 'maree';

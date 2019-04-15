@@ -40,7 +40,7 @@
             "type": "action",
             "subtype": "other",
             "display": {
-      "icon": "<i class=\"fa fa-refresh\"><\/i>"
+      "icon": "<i class=\"fas fa-refresh\"><\/i>"
             },
             "configuration" : {
           "request" : "refresh"
