@@ -655,6 +655,7 @@ public function getPollen() {
     return;
   }
   $departement = geotravCmd::byEqLogicIdAndLogicalId($this->getConfiguration('geoloc'),'location:department')->execCmd();
+  if ($departement == "2A" or $departement == "2B") {$departement = "20";}
   log::add('vigilancemeteo', 'debug', 'Pollen departement : ' . $departement);
   $url = 'https://www.pollens.fr/risks/thea/counties/' .$departement;
   $pollenData = null;
