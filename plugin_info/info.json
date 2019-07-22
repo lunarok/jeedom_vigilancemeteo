@@ -4,7 +4,7 @@
 	"description" : "Ce plugin permet de récupérer différents types d'informations/alertes météo : vigilance, pluie, qualité d'air, pollen, surf, marée, crue ...",
 	"licence" : "AGPL",
 	"author" : "lunarok",
-	"require" : "2.4.6",
+	"require" : "3.3.24",
 	"category" : "weather",
 	"display" : "panel",
 	"mobile" : "panel",
