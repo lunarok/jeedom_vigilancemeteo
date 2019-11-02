@@ -143,7 +143,7 @@ if (init('id') == '') {
 $id = init('id');
 $eqLogic = vigilancemeteo::byId($id);
 $onetemplate = getTemplate('core', $version, '1pollen', 'vigilancemeteo');
-$replace = $eqLogic->preToHtml($_version);
+$replace = $eqLogic->preToHtml('dashboard');
 
 foreach ($eqLogic->getCmd('info') as $cmd) {
   switch ($cmd->execCmd()) {
