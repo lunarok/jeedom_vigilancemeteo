@@ -186,6 +186,7 @@
 
 <script>
 jQuery(document).ready(function ($) {
+
 	var slideCount = $('#slider#id# ul li').length;
 	var slideWidth = $('#slider#id# ul li').width();
 	var slideHeight = $('#slider#id# ul li').height();
@@ -214,5 +215,14 @@ jQuery(document).ready(function ($) {
             $('#slider#id# ul').css('left', '');
         });
     };
+
+    $('a.pollen_prev#id#').click(function () {
+        moveLeft();
+    });
+
+    $('a.pollen_next#id#').click(function () {
+        moveRight();
+    });
+
 });
 </script>
