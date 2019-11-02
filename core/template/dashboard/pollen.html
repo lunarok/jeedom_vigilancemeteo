@@ -1,130 +1,43 @@
-<style>
-	#slider#id# {
-	  position: relative;
-	  overflow: hidden;
-	}
-
-	#slider#id# ul {
-	  position: relative;
-	  list-style: none;
-	}
-
-	#slider#id# ul li {
-	  position: relative;
-	  display: block;
-	  float: left;
-	}
-
-	a.control_prev#id#, a.control_next#id# {
-	  position: absolute;
-	  display: block;
-	  cursor: pointer;
-	}
-
-	.pollen_general#id# {
-	display: table-cell;
-	vertical-align: middle;
-	align: center;
-	cursor:default;
-	font-size: 1.5em;
-	font-weight: bold;
-	border-style: solid;
-	border-width: 1px;
-	border-color: #ffffff;
-	border-radius:19px;
-	width:38px;
-	height:38px;
-}
-</style>
+<link rel="stylesheet" type="text/css" href="plugins/vigilancemeteo/core/template/dashboard/slick/slick-theme.css"/>
 
 <div class="eqLogic-widget eqLogic allowResize" style="height: #height#;width: #width#;border:#border#;border-radius:#border-radius#;background-color: #background-color#;color: #color#;#style#" data-eqLogic_id="#id#" data-eqLogic_uid="#uid#" data-version="#version#" >
 	<center class="widget-name"><a href="#eqLink#" style="font-size : 1.5em;#hideEqLogicName#">#name_display#</a></center><br />
 
-		<center>
-			<div style="display: table; overflow: hidden; position: relative; top: -19px;">
-				<div data-cmd_id="#general_id#" title="Indice général (collecté le #general_collect#)" class="pollen_general#id#" style="background-color:#general_color#;color:#general_font#;"><center>#general#</center></div>
+	<center>
+		<div style="display: table; overflow: hidden; position: relative; top: -19px;">
+			<div data-cmd_id="#general_id#" title="Indice général (collecté le #general_collect#)" class="pollen_general#id#" style="background-color:#general_color#;color:#general_font#;"><center>#general#</center></div>
+		</div>
+
+
+		<div class="slider#id#">
+			<div>
+				#slide1#
+			</div>
+			<div>
+				#slide2#
+			</div>
+			<div>
+				#slide3#
+			</div>
+			<div>
+				#slide4#
+			</div>
+			<div>
+				#slide5#
 			</div>
 
+		</div>
 
-			<div id="slider#id#" style="width:100%;height:100%;">
-				<a href="#" class="control_next#id#">></a>
-	  		<a href="#" class="control_prev#id#"><</a>
-
-				<ul>
-				  <li>
-						<div class="pollen_quote-phrase#id#">
-						  #slide1#
-						</div>
-				  </li>
-				  <li>
-						<div class="pollen_quote-phrase#id#">
-						  #slide2#
-						</div>
-				  </li>
-				  <li>
-						<div class="pollen_quote-phrase#id#">
-                          #slide3#
-                         </div>
-				  </li>
-				  <li>
-						<div class="pollen_quote-phrase#id#">
-                          #slide4#
-                        </div>
-				  </li>
-				  <li>
-						<div class="pollen_quote-phrase#id#">
-                          #slide5#
-                        </div>
-				  </li>
-				</ul>
-
-			</div>
-
-		</center>
+	</center>
 
 </div>
 
 
+<script src="plugins/vigilancemeteo/core/template/dashboard/slick/slick.min.js"></script>
 
 <script>
-jQuery(document).ready(function ($) {
-
-	var slideCount = $('#slider#id# ul li').length;
-	var slideWidth = $('#slider#id# ul li').width();
-	var slideHeight = $('#slider#id# ul li').height();
-	var sliderUlWidth = slideCount * slideWidth;
-
-	$('#slider#id#').css({ width: slideWidth, height: slideHeight });
-
-	$('#slider#id# ul').css({ width: sliderUlWidth, marginLeft: - slideWidth });
-
-    $('#slider#id# ul li:last-child').prependTo('#slider#id# ul');
-
-    function moveLeft() {
-        $('#slider#id# ul').animate({
-            left: + slideWidth
-        }, 200, function () {
-            $('#slider#id# ul li:last-child').prependTo('#slider#id# ul');
-            $('#slider#id# ul').css('left', '');
-        });
-    };
-
-    function moveRight() {
-        $('#slider#id# ul').animate({
-            left: - slideWidth
-        }, 200, function () {
-            $('#slider#id# ul li:first-child').appendTo('#slider#id# ul');
-            $('#slider#id# ul').css('left', '');
-        });
-    };
-
-    $('a.control_prev#id#').click(function () {
-        moveLeft();
-    });
-
-    $('a.control_next#id#').click(function () {
-        moveRight();
-    });
-
-});
+	$(document).ready(function(){
+		$('.slider#id#').slick({
+		});
+	});
 </script>
