@@ -454,7 +454,7 @@ public function getPlage() {
   $city = str_replace('\'', '', $city);
   $adresse = "http://www.meteofrance.com/previsions-meteo-plages/". $city ."/".$postal;
   $request_http = new com_http($adresse);
-  $page = $request_http->exec(30);
+  $page = $request_http->exec(8);
   //$page = file_get_contents($adresse);
   //Temperature de la mer
   $findeau   = 'Eau';
@@ -585,7 +585,7 @@ public function getAir() {
   $url = 'http://api.waqi.info/feed/geo:' . $latitude . ';' . $longitude . '/?token=' . $apikey;
   log::add('vigilancemeteo', 'debug', 'AQI URL ' . $url);
   $request_http = new com_http($url);
-  $content = $request_http->exec(30);
+  $content = $request_http->exec(8);
   //$content = file_get_contents($url);
   if ($content === false) {
     return;
@@ -632,7 +632,7 @@ public function getSurf() {
     $surf = $this->getConfiguration('surf', '');
     $url = 'http://magicseaweed.com/api/' . $apikey . '/forecast/?spot_id=' . $surf;
     $request_http = new com_http($url);
-    $content = $request_http->exec(30);
+    $content = $request_http->exec(8);
     //$content = file_get_contents($url);
     if ($content === false) {
       return;
@@ -660,11 +660,18 @@ public function getPollen() {
   $url = 'https://www.pollens.fr/risks/thea/counties/' .$departement;
   $pollenData = null;
   for ($attempt = 0; $attempt < 3 && is_null($pollenData); $attempt++) {
-    $request_http = new com_http($url);
-    $pollenJson = $request_http->exec(30);
-    $pollenData = json_decode($pollenJson, true);
-    if ($attempt > 0) {
-      log::add('vigilancemeteo', 'info', 'Impossible d\'obtenir les informations pollens.fr... On refait une tentative...'.($attempt+1).'/3');
+    try {
+      $request_http = new com_http($url);
+      $pollenJson = $request_http->exec(8);
+      $pollenData = json_decode($pollenJson, true);
+      log::add('vigilancemeteo', 'info', 'Informations recus de pollens.fr. Tout est OK');
+    } catch (Exception $e) {
+      $pollenData = null;
+      log::add('vigilancemeteo', 'info', 'Impossible d\'obtenir les informations pollens.fr. (X) Nouvelle tentative dans 3s... '.($attempt+1).'/3');
+      sleep(3);
+    } catch (Error $e) {
+      $pollenData = null;
+      log::add('vigilancemeteo', 'info', 'Impossible d\'obtenir les informations pollens.fr. (R) Nouvelle tentative dans 3s... '.($attempt+1).'/3');
       sleep(3);
     }
   }
@@ -672,6 +679,7 @@ public function getPollen() {
     $this->checkAndUpdateCmd('general', -1);
     for ( $i=1; $i<20; $i++)
       $this->checkAndUpdateCmd('pollen' . $i, -1);
+    log::add('vigilancemeteo', 'info', 'Impossible d\'obtenir les informations pollens.fr.');
     return;
   }
   else {
@@ -975,7 +983,7 @@ public function getPollenOld() {
     for ($attempt = 1; $attempt <= 3 && is_null($prevPluieData); $attempt++) {
       //$prevPluieJson = file_get_contents($url);
       $request_http = new com_http($url);
-      $prevPluieJson = $request_http->exec(30);
+      $prevPluieJson = $request_http->exec(8);
       $prevPluieData = json_decode($prevPluieJson, true);
 
       # If it's not the first attempt
