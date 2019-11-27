@@ -454,7 +454,11 @@ public function getPlage() {
   $city = str_replace('\'', '', $city);
   $adresse = "http://www.meteofrance.com/previsions-meteo-plages/". $city ."/".$postal;
   $request_http = new com_http($adresse);
-  $page = $request_http->exec(30);
+  $request_http->setNoReportError(true);
+  $page = $request_http->exec(8);
+  if ($page == '') {
+    return;
+  }
   //$page = file_get_contents($adresse);
   //Temperature de la mer
   $findeau   = 'Eau';
@@ -632,9 +636,9 @@ public function getSurf() {
     $surf = $this->getConfiguration('surf', '');
     $url = 'http://magicseaweed.com/api/' . $apikey . '/forecast/?spot_id=' . $surf;
     $request_http = new com_http($url);
-    $content = $request_http->exec(30);
-    //$content = file_get_contents($url);
-    if ($content === false) {
+    $request_http->setNoReportError(true);
+    $content = $request_http->exec(8);
+    if ($content == '') {
       return;
     }
     $json = json_decode($content, true);
@@ -661,7 +665,11 @@ public function getPollen() {
   $pollenData = null;
   for ($attempt = 0; $attempt < 3 && is_null($pollenData); $attempt++) {
     $request_http = new com_http($url);
-    $pollenJson = $request_http->exec(30);
+    $request_http->setNoReportError(true);
+    $pollenJson = $request_http->exec(8);
+    if ($pollenJson == '') {
+      return;
+    }
     $pollenData = json_decode($pollenJson, true);
     if ($attempt > 0) {
       log::add('vigilancemeteo', 'info', 'Impossible d\'obtenir les informations pollens.fr... On refait une tentative...'.($attempt+1).'/3');
@@ -975,7 +983,11 @@ public function getPollenOld() {
     for ($attempt = 1; $attempt <= 3 && is_null($prevPluieData); $attempt++) {
       //$prevPluieJson = file_get_contents($url);
       $request_http = new com_http($url);
-      $prevPluieJson = $request_http->exec(30);
+      $request_http->setNoReportError(true);
+      $prevPluieData = $request_http->exec(8);
+      if ($prevPluieData == '') {
+        return;
+      }
       $prevPluieData = json_decode($prevPluieJson, true);
 
       # If it's not the first attempt
