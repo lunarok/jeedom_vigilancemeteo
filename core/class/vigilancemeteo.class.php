@@ -970,7 +970,6 @@ public function getPollenOld() {
   * @return boolean True if success, false otherwise
   */
   public function getPluie() {
-    //log::add('previsionpluie', 'debug', 'getInformation: go');
     $ville = $this->getConfiguration('ville');
     if(empty($ville)) {
       log::add('vigilancemeteo', 'error', __('La ville n\'est pas configurée', __FILE__));
@@ -979,29 +978,13 @@ public function getPollenOld() {
 
     $url = sprintf('http://www.meteofrance.com/mf3-rpc-portlet/rest/pluie/%s', $ville);
     //log::add('previsionpluie', 'debug', 'getInformation: ' .$this->getConfiguration('ville') );
-    $prevPluieData = null;
-    for ($attempt = 1; $attempt <= 3 && is_null($prevPluieData); $attempt++) {
-      //$prevPluieJson = file_get_contents($url);
-      $request_http = new com_http($url);
-      $request_http->setNoReportError(true);
-      $prevPluieData = $request_http->exec(8);
-      if ($prevPluieData == '') {
-        return;
-      }
-      $prevPluieData = json_decode($prevPluieJson, true);
-
-      # If it's not the first attempt
-      if ($attempt > 1) {
-        log::add('vigilancemeteo', 'info', 'Impossible d\'obtenir les informations Météo France... On refait une tentative...');
-        sleep(3);
-      }
+    $request_http = new com_http($url);
+    $request_http->setNoReportError(true);
+    $prevPluieJson = $request_http->exec(8);
+    if ($prevPluieJson == '') {
+      return;
     }
-
-    // unable to fetch the url more than max times
-    if(is_null($prevPluieData)){
-      log::add('vigilancemeteo', 'warning', 'Impossible d\'obtenir les informations Météo France... ');
-      return false;
-    }
+    $prevPluieData = json_decode($prevPluieJson, true);
 
     //log::add('previsionpluie', 'debug', 'getInformation: length ' . count($prevPluieData));
     $prevTexte = "";
