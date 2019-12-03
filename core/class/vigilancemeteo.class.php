@@ -981,7 +981,7 @@ public function getPollenOld() {
     //log::add('previsionpluie', 'debug', 'getInformation: ' .$this->getConfiguration('ville') );
     $prevPluieData = null;
     for ($attempt = 1; $attempt <= 3 && is_null($prevPluieData); $attempt++) {
-      //$prevPluieJson = file_get_contents($url);
+      $prevPluieJson = file_get_contents($url);
       $request_http = new com_http($url);
       $request_http->setNoReportError(true);
       $prevPluieData = $request_http->exec(8);
