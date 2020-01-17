@@ -1,9 +1,0 @@
-==== Änderungsprotokoll
-
-Si une mise à jour est proposée sans note dans cette section, il s'agit de documentation, traduction ou correction mineure
-
-===== Oktober 2017
-
-Ajout des panels dashboard et mobile
-
-Passage sur la fonction com_http du core pour les pull url
