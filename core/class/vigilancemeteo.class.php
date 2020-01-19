@@ -156,7 +156,12 @@ public function postUpdate() {
     if ($this->getConfiguration('geoloc', 'none') == 'none') {
       return;
     }
+    if ($this->getConfiguration('geoloc') == "jeedom") {
+    $postal = config::byKey('info::postalCode');
+    $departement = $postal[0] . $postal[1];
+  } else {
     $departement = geotravCmd::byEqLogicIdAndLogicalId($this->getConfiguration('geoloc'),'location:department')->execCmd();
+  }
     if (in_array($departement, $depmer)) {
       $cmdlogic = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'mer');
       if (!is_object($cmdlogic)) {
