@@ -170,7 +170,7 @@ $eqLogics = eqLogic::byType('vigilancemeteo');
                                             }
                                         }
                                     } 
-                                    if ((config::byKey('info::latitude','core','91') != '91') && (config::byKey('info::longitude','core','361') != '361')) {
+                                    if ((config::byKey('info::latitude') != '') && (config::byKey('info::longitude') != '') && (config::byKey('info::postalCode') != '') && (config::byKey('info::stateCode') != '')) {
                                         echo '<option value="jeedom">Configuration Jeedom</option>';
                                         $none = 1;
                                     }
