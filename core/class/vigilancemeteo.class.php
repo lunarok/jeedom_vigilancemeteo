@@ -1097,7 +1097,12 @@ public function getPollenOld() {
         }
       }
       if (strpos(network::getNetworkAccess('external'),'https') !== false) {
-        $department = geotravCmd::byEqLogicIdAndLogicalId($this->getConfiguration('geoloc'),'location:department')->execCmd();
+        if ($this->getConfiguration('geoloc') == "jeedom") {
+            $postal = config::byKey('info::postalCode');
+            $department = $postal[0] . $postal[1];
+          } else {
+            $department = geotravCmd::byEqLogicIdAndLogicalId($this->getConfiguration('geoloc'),'location:department')->execCmd();
+          }
         $replace['#icone#'] = '<a target="_blank" href="http://vigilance.meteofrance.com/Bulletin_sans.html?a=dept' . $department . '&b=2&c="><i class="fas fa-info-circle cursor"></i></a>';      
       } else {
         $replace['#icone#'] = '<i id="yourvigilance' . $this->getId() . ' class="fas fa-info-circle cursor"></i>';
