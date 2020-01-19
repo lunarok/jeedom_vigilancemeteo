@@ -214,7 +214,12 @@ public function getVigilance() {
   if ($this->getConfiguration('geoloc', 'none') == 'none') {
     return;
   }
-  $departement = geotravCmd::byEqLogicIdAndLogicalId($this->getConfiguration('geoloc'),'location:department')->execCmd();
+  if ($this->getConfiguration('geoloc') == "jeedom") {
+    $postal = config::byKey('info::postalCode');
+    $departement = $postal[0] . $postal[1];
+  } else {
+    $departement = geotravCmd::byEqLogicIdAndLogicalId($this->getConfiguration('geoloc'),'location:department')->execCmd();
+  }
   if ($departement == '92' || $departement == '93' || $departement == '94') {
     $departement = '75';
   }
@@ -548,9 +553,20 @@ public function getCrue() {
 }
 
 public function getSeisme() {
+  log::add('vigilancemeteo', 'debug', 'API Seisme removed, no result anymore');
+  return;
   if ($this->getConfiguration('geoloc', 'none') == 'none') {
     return;
   }
+  if ($this->getConfiguration('geoloc') == 'jeedom') {
+            $city = config::byKey('info::city');
+        } else {
+            $geotrav = eqLogic::byId($this->getConfiguration('geoloc'));
+            if (!(is_object($geotrav) && $geotrav->getEqType_name() == 'geotrav')) {
+                return;
+            }
+            $city = geotravCmd::byEqLogicIdAndLogicalId($this->getConfiguration('geoloc'),'location:city')->execCmd();
+        }
   $city = geotravCmd::byEqLogicIdAndLogicalId($this->getConfiguration('geoloc'),'location:city')->execCmd();
   $url = 'http://api.openhazards.com/GetEarthquakeProbability?q=' . $city . '&m=5&r=100&w=3';
   $result = file($url);
@@ -578,14 +594,19 @@ public function getAir() {
     log::add('vigilancemeteo', 'error', 'API non saisie');
     return;
   }
-  $geotrav = eqLogic::byId($this->getConfiguration('geoloc'));
-       if (!(is_object($geotrav) && $geotrav->getEqType_name() == 'geotrav')) {
-           return;
-       }
-  $geolocval = geotravCmd::byEqLogicIdAndLogicalId($this->getConfiguration('geoloc'),'location:coordinate')->execCmd();
-  $geoloctab = explode(',', trim($geolocval));
-  $latitude = trim($geoloctab[0]);
-  $longitude = trim($geoloctab[1]);
+  if ($this->getConfiguration('geoloc') == 'jeedom') {
+            $latitude = config::byKey('info::latitude');
+            $longitude = config::byKey('info::longitude');
+        } else {
+            $geotrav = eqLogic::byId($this->getConfiguration('geoloc'));
+            if (!(is_object($geotrav) && $geotrav->getEqType_name() == 'geotrav')) {
+                return;
+            }
+            $geolocval = geotravCmd::byEqLogicIdAndLogicalId($this->getConfiguration('geoloc'),'location:coordinate')->execCmd();
+            $geoloctab = explode(',', trim($geolocval));
+            $latitude = trim($geoloctab[0]);
+            $longitude = trim($geoloctab[1]);
+        }
   $url = 'http://api.waqi.info/feed/geo:' . $latitude . ';' . $longitude . '/?token=' . $apikey;
   log::add('vigilancemeteo', 'debug', 'AQI URL ' . $url);
   $request_http = new com_http($url);
@@ -658,7 +679,12 @@ public function getPollen() {
     log::add('vigilancemeteo', 'debug', __FUNCTION__ .' No geotrav object found.');
     return;
   }
-  $departement = geotravCmd::byEqLogicIdAndLogicalId($this->getConfiguration('geoloc'),'location:department')->execCmd();
+  if ($this->getConfiguration('geoloc') == "jeedom") {
+    $postal = config::byKey('info::postalCode');
+    $departement = $postal[0] . $postal[1];
+  } else {
+    $departement = geotravCmd::byEqLogicIdAndLogicalId($this->getConfiguration('geoloc'),'location:department')->execCmd();
+  }
   if ($departement == "2A" or $departement == "2B") {$departement = "20";}
   log::add('vigilancemeteo', 'debug', 'Pollen departement : ' . $departement);
   $url = 'https://www.pollens.fr/risks/thea/counties/' .$departement;
