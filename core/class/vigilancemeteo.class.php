@@ -679,16 +679,28 @@ public function getSurf() {
   return ;
 }
 public function getPollen() {
-  $geotrav = eqLogic::byId($this->getConfiguration('geoloc'));
-  if (!(is_object($geotrav) && $geotrav->getEqType_name() == 'geotrav')) {
-    log::add('vigilancemeteo', 'debug', __FUNCTION__ .' No geotrav object found.');
+    $geoloc = $this->getConfiguration('geoloc', 'none');
+  if ($geoloc == 'none') {
+    log::add('vigilancemeteo', 'error', 'Pollen geoloc non configuré.');
     return;
   }
-  if ($this->getConfiguration('geoloc') == "jeedom") {
-    $postal = config::byKey('info::postalCode');
-    $departement = $postal[0] . $postal[1];
+  if ($geoloc == "jeedom") {
+    $departement = substr(config::byKey('info::postalCode'),0,2); 
   } else {
-    $departement = geotravCmd::byEqLogicIdAndLogicalId($this->getConfiguration('geoloc'),'location:department')->execCmd();
+    $geotrav = eqLogic::byId($geoloc);
+    if (is_object($geotrav) && $geotrav->getEqType_name() == 'geotrav') {
+      $geotravCmd = geotravCmd::byEqLogicIdAndLogicalId($geoloc,'location:department');
+      if(is_object($geotravCmd))
+        $departement = $geotravCmd->execCmd();
+      else {
+        log::add('vigilancemeteo', 'error', 'Pollen geotravCmd object not found');
+        return;
+      }
+    }
+    else {
+      log::add('vigilancemeteo', 'error', 'Pollen geotrav object not found');
+      return;
+    }
   }
   if ($departement == "2A" or $departement == "2B") {$departement = "20";}
   log::add('vigilancemeteo', 'debug', 'Pollen departement : ' . $departement);
