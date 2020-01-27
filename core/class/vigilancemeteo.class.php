@@ -1117,7 +1117,7 @@ public function getPollenOld() {
           }
         $replace['#icone#'] = '<a target="_blank" href="http://vigilance.meteofrance.com/Bulletin_sans.html?a=dept' . $department . '&b=2&c="><i class="fas fa-info-circle cursor"></i></a>';      
       } else {
-        $replace['#icone#'] = '<i id="yourvigilance' . $this->getId() . ' class="fas fa-info-circle cursor"></i>';
+        $replace['#icone#'] = '<i id="yourvigilance' . $this->getId() . '" class="fas fa-info-circle cursor"></i>';
       }
 
       $templatename = 'vigilancemeteo';
