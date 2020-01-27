@@ -26,7 +26,12 @@ $vigilancemeteo = vigilancemeteo::byId($id);
 
 	 throw new Exception(__('Aucun equipement ne  correspond : Il faut (re)-enregistrer l\'équipement ', __FILE__) . init('action'));
 	 }
-$departement = $vigilancemeteo->getConfiguration('departement');
+if ($this->getConfiguration('geoloc') == "jeedom") {
+    $postal = config::byKey('info::postalCode');
+    $departement = $postal[0] . $postal[1];
+  } else {
+    $departement = geotravCmd::byEqLogicIdAndLogicalId($this->getConfiguration('geoloc'),'location:department')->execCmd();
+  }
 $link='http://vigilance.meteofrance.com/Bulletin_sans.html?a=dept'.$departement.'&b=2&c=';
 ?>
 
