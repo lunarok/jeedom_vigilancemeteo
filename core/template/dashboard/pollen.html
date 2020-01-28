@@ -1,4 +1,26 @@
 <style>
+	.pollen_pollen#id# {
+	  padding: 1px 0 1px;
+	}
+
+	.pollen_label#id# {
+	  display: table-cell;
+	  font-size: 11px;
+	  width: 74px;
+	  height: 16px;
+	}
+
+	.pollen_value#id# {
+	  display: table-cell;
+	  width: 15px;
+	  text-align: center;
+	  font-style: normal;
+	}
+
+	.pollen_graph#id# {
+	  display: table-cell;
+	  height: 16px;
+	}
 
 	.pollen_general#id# {
 	  display: table-cell;
@@ -14,24 +36,39 @@
 	  width:38px;
 	  height:38px;
 	}
-
 </style>
 
 <div class="eqLogic-widget eqLogic allowResize" style="height: #height#;width: #width#;border:#border#;border-radius:#border-radius#;background-color: #background-color#;color: #color#;#style#" data-eqLogic_id="#id#" data-eqLogic_uid="#uid#" data-version="#version#" >
-	<center class="widget-name"><a href="#eqLink#" style="font-size : 1.5em;#hideEqLogicName#">#name_display#</a></center><br />
-<br><br>
+	<center class="widget-name">
+    <a href="#eqLink#" style="font-size : 1.2em;#hideEqLogicName#">#name_display#</a>
+    <a href="https://www.pollens.fr" target="_blank" title="Plus d'infos sur www.pollens.fr">
+      <i class="fa fa-info-circle pull-right" style="text-decoration: none; cursor:default; font-size: 0.8em; margin-top: 3px; margin-right: 3px;"></i>
+    </a>
+  </center>
+  <br/><br/>
 	<center>
 		<div style="display: table; overflow: hidden; position: relative; top: -19px;">
-			<div id="pollen#id#" data-cmd_id="#general_id#" title="Indice général (collecté le #general_collect#)" class="pollen_general#id#" style="background-color:#general_color#;color:#general_font#;"><center>#general#</center></div>
+      <div data-cmd_id="#general_id#" title="Indice général (collecté le #general_collect#)" class="pollen_general#id#" style="background-color:#general_color#;color:#general_font#;">
+        <center>
+          #general#
+        </center>
+      </div>
 		</div>
 
+    <div id="pollenCarousel#uid#" class="carousel slide" data-ride="carousel" style="display: table; overflow: hidden; position: relative; top: 0px;width: 98%; background: linear-gradient(to right, #background-color#, #color#);">
+      <!-- Wrapper for slides -->
+      <div class="carousel-inner">
+          #slide#
+      </div>
+      <!-- Left and right controls -->
+      <a class="left carousel-control" href="#pollenCarousel#uid#" data-slide="prev">
+        <span class="glyphicon glyphicon-chevron-left">&lt;</span>
+        <span class="sr-only">Previous</span>
+      </a>
+      <a class="right carousel-control" href="#pollenCarousel#uid#" data-slide="next">
+        <span class="glyphicon glyphicon-chevron-right">&gt;</span>
+        <span class="sr-only">Next</span>
+      </a>
+    </div>
 	</center>
-	<script>
-$('#pollen#id#').on('click', function() {
-		$('#md_modal2').dialog({
-			title: "Pollens"
-		});
-		$('#md_modal2').load('index.php?v=d&plugin=vigilancemeteo&modal=pollen&id='+ #id#).dialog('open');
-	});
-</script>
 </div>
