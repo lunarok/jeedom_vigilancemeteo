@@ -91,13 +91,24 @@ $('#btnSearchCity').on('click', function () {
 
 $('#typeEq').change(function(){
   var text = $("#typeEq").val();
-  if ((text == 'vigilance') || (text == 'seisme') || (text == 'pollen') || (text == 'plage')) {
+  if ((text == 'vigilance') || (text == 'seisme') || (text == 'plage')) {
     $('#portEq').hide();
     $('#villeEq').hide();
     $('#stationEq').hide();
     $('#geolocEq').show();
     $('#surfEq').hide();
     $('#mswEq').hide();
+    $('#pollenEq').hide();
+    $('#breezeEq').hide(); 
+  }
+  if (text == 'pollen') {
+    $('#portEq').hide();
+    $('#villeEq').hide();
+    $('#stationEq').hide();
+    $('#geolocEq').show();
+    $('#surfEq').hide();
+    $('#mswEq').hide();
+    $('#pollenEq').show();
     $('#breezeEq').hide();
   }
     if (text == 'air') {
@@ -107,6 +118,7 @@ $('#typeEq').change(function(){
     $('#geolocEq').show();
     $('#surfEq').hide();
     $('#mswEq').hide();
+    $('#pollenEq').hide();
     $('#breezeEq').show();
   }
   if (text == 'maree') {
@@ -116,6 +128,7 @@ $('#typeEq').change(function(){
     $('#geolocEq').hide();
     $('#surfEq').hide();
     $('#mswEq').hide();
+    $('#pollenEq').hide();
       $('#breezeEq').hide();
   }
   if (text == 'surf') {
@@ -125,6 +138,7 @@ $('#typeEq').change(function(){
       $('#geolocEq').hide();
       $('#surfEq').show();
       $('#mswEq').show();
+    $('#pollenEq').hide();
       $('#breezeEq').hide();
   }
   if (text == 'crue') {
@@ -134,6 +148,7 @@ $('#typeEq').change(function(){
       $('#geolocEq').hide();
       $('#surfEq').hide();
       $('#mswEq').hide();
+    $('#pollenEq').hide();
       $('#breezeEq').hide();
   }
   if (text == 'pluie1h') {
@@ -143,6 +158,7 @@ $('#typeEq').change(function(){
       $('#geolocEq').hide();
       $('#surfEq').hide();
       $('#mswEq').hide();
+    $('#pollenEq').hide();
       $('#breezeEq').hide();
   }
 });
@@ -162,6 +178,9 @@ function addCmdToTable(_cmd) {
       tr += '</td><td>';
       if (_cmd.subType == 'numeric' || _cmd.subType == 'binary') {
         tr += '<span><label class="checkbox-inline"><input type="checkbox" class="cmdAttr checkbox-inline" data-l1key="isHistorized" checked/>{{Historiser}}</label></span>';
+        if ( _cmd.configuration['logicalId'].substr(0,6) == 'pollen' ) {
+          tr += '<br/><span><label class="checkbox-inline"><input type="checkbox" class="cmdAttr checkbox-inline" data-l1key="isVisible" checked/>{{Afficher}}</label></span>';
+        }
       }
       tr += '</td><td>';
       if (is_numeric(_cmd.id)) {
