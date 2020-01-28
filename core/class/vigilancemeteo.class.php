@@ -23,7 +23,7 @@ class vigilancemeteo extends eqLogic {
   public static $_widgetPossibility = array('custom' => true);
 
   public static function cron15() {
-    foreach (eqLogic::byType('vigilancemeteo', true) as $vigilancemeteo) {
+    foreach (eqLogic::byType(__CLASS__, true) as $vigilancemeteo) {
       if ($vigilancemeteo->getConfiguration('type') == 'vigilance') {
         $vigilancemeteo->getVigilance();
       }
@@ -35,7 +35,7 @@ class vigilancemeteo extends eqLogic {
   }
 
   public static function cron5() {
-    foreach (eqLogic::byType('vigilancemeteo', true) as $vigilancemeteo) {
+    foreach (eqLogic::byType(__CLASS__, true) as $vigilancemeteo) {
       if ($vigilancemeteo->getConfiguration('type') == 'pluie1h') {
         $vigilancemeteo->getPluie();
       }
@@ -44,7 +44,7 @@ class vigilancemeteo extends eqLogic {
   }
 
   public static function cronHourly() {
-    foreach (eqLogic::byType('vigilancemeteo', true) as $vigilancemeteo) {
+    foreach (eqLogic::byType(__CLASS__, true) as $vigilancemeteo) {
       if ($vigilancemeteo->getConfiguration('type') == 'maree') {
         $vigilancemeteo->getMaree();
       }
@@ -100,10 +100,10 @@ class vigilancemeteo extends eqLogic {
 
 public function loadCmdFromConf($_update = false) {
 
-  if (!is_file(dirname(__FILE__) . '/../config/devices/' . $this->getConfiguration('type') . '.json')) {
+  if (!is_file(__DIR__ . '/../config/devices/' . $this->getConfiguration('type') . '.json')) {
     return;
   }
-  $content = file_get_contents(dirname(__FILE__) . '/../config/devices/' . $this->getConfiguration('type') . '.json');
+  $content = file_get_contents(__DIR__ . '/../config/devices/' . $this->getConfiguration('type') . '.json');
   if (!is_json($content)) {
     return;
   }
@@ -236,6 +236,7 @@ public function getVigilance() {
   $url = 'http://vigilance.meteofrance.com/data/NXFR34_LFPW_.xml';
   $result = file($url);
   if ($result === false) {
+    log::add(__CLASS__, 'error', 'Unable to fetch ' . $url);
     return;
   }
   $doc = new DOMDocument();
@@ -398,9 +399,9 @@ public function getVigilance() {
     }
   }
 
-  log::add('vigilancemeteo', 'debug', 'Vigilance ' . $lvigilance);
-  log::add('vigilancemeteo', 'debug', 'Crue ' . $lcrue);
-  log::add('vigilancemeteo', 'debug', 'Risque ' . $lrisque);
+  log::add(__CLASS__, 'debug', 'Vigilance ' . $lvigilance);
+  log::add(__CLASS__, 'debug', 'Crue ' . $lcrue);
+  log::add(__CLASS__, 'debug', 'Risque ' . $lrisque);
 
   foreach ($this->getCmd() as $cmd) {
     $this->checkAndUpdateCmd('vigilance', $lvigilance);
@@ -414,7 +415,7 @@ public function getVigilance() {
 public function getMaree() {
   $port = $this->getConfiguration('port');
   if ($port == '') {
-    log::add('crues', 'error', 'Port non saisi');
+    log::add(__CLASS__, 'error', 'Marée : Port non saisi');
     return;
   }
   $url = 'http://horloge.maree.frbateaux.net/ws' . $port . '.js?col=1&c=0';
@@ -423,7 +424,7 @@ public function getMaree() {
     return;
   }
 
-  //log::add('maree', 'debug', 'Log ' . print_r($result, true));
+  //log::add(__CLASS__, 'debug', 'Log ' . print_r($result, true));
 
   $maree = explode('<br>', $result[15]);
   $maree = explode('"', $maree[1]);
@@ -435,7 +436,7 @@ public function getMaree() {
   $basse = substr($basse[1], 0, 5);
   $basse = str_replace('h', '', $basse);
 
-  log::add('vigilancemeteo', 'debug', 'Marée ' . $maree . ', Pleine ' . $pleine . ', Basse ' . $basse);
+  log::add(__CLASS__, 'debug', 'Marée ' . $maree . ', Pleine ' . $pleine . ', Basse ' . $basse);
   $this->checkAndUpdateCmd('maree', $maree);
   $this->checkAndUpdateCmd('pleine', $pleine);
   $this->checkAndUpdateCmd('basse', $basse);
@@ -504,14 +505,14 @@ public function getPlage() {
   $Texterior = strstr($positionTescterior, "</li>", true);
   $possTexterior =  substr($Texterior, -5, 5);
   $this->checkAndUpdateCmd('tempAir', $possTexterior);
-  log::add('vigilancemeteo', 'debug', 'Plage ' . $poss . ', URL ' . $adresse);
+  log::add(__CLASS__, 'debug', 'Plage ' . $poss . ', URL ' . $adresse);
   return ;
 }
 
 public function getCrue() {
   $station = $this->getConfiguration('station');
   if ($station == '') {
-    log::add('vigilancemeteo', 'error', 'Station non saisie');
+    log::add(__CLASS__, 'error', 'Station non saisie');
     return;
   }
   $url = 'http://www.vigicrues.gouv.fr/services/observations.xml/?CdStationHydro='.$station;
@@ -532,7 +533,7 @@ public function getCrue() {
     $date = $data->nodeValue;
   }
 
-  log::add('vigilancemeteo', 'debug', 'Valeur ' . $result);
+  log::add(__CLASS__, 'debug', 'Valeur niveau: ' . $result);
   $this->checkAndUpdateCmd('niveau', $result);
   $this->checkAndUpdateCmd('dateniveau', $date);
 
@@ -550,7 +551,7 @@ public function getCrue() {
     $date = $data->nodeValue;
   }
 
-  log::add('vigilancemeteo', 'debug', 'Valeur ' . $result);
+  log::add(__CLASS__, 'debug', 'Valeur débit: ' . $result);
   $this->checkAndUpdateCmd('debit', $result);
   $this->checkAndUpdateCmd('datedebit', $date);
 
@@ -558,7 +559,7 @@ public function getCrue() {
 }
 
 public function getSeisme() {
-  log::add('vigilancemeteo', 'debug', 'API Seisme removed, no result anymore');
+  log::add(__CLASS__, 'debug', 'API Seisme removed, no result anymore');
   return;
   if ($this->getConfiguration('geoloc', 'none') == 'none') {
     return;
@@ -588,7 +589,7 @@ public function getSeisme() {
 
   $this->checkAndUpdateCmd('risk', $result);
 
-  log::add('vigilancemeteo', 'debug', 'Seisme ' . $result);
+  log::add(__CLASS__, 'debug', 'Seisme ' . $result);
 
   return ;
 }
@@ -596,7 +597,7 @@ public function getSeisme() {
 public function getAir() {
   $apikey = $this->getConfiguration('aqicn');
   if ($apikey == '') {
-    log::add('vigilancemeteo', 'error', 'API non saisie');
+    log::add(__CLASS__, 'error', 'API non saisie');
     return;
   }
   if ($this->getConfiguration('geoloc') == 'jeedom') {
@@ -613,7 +614,7 @@ public function getAir() {
             $longitude = trim($geoloctab[1]);
         }
   $url = 'http://api.waqi.info/feed/geo:' . $latitude . ';' . $longitude . '/?token=' . $apikey;
-  log::add('vigilancemeteo', 'debug', 'AQI URL ' . $url);
+  log::add(__CLASS__, 'debug', 'AQI URL ' . $url);
   $request_http = new com_http($url);
   $content = $request_http->exec(30);
   //$content = file_get_contents($url);
@@ -622,18 +623,22 @@ public function getAir() {
   }
   $json = json_decode($content, true);
   if (!isset($json['data']['aqi'])) {
-    log::add('vigilancemeteo', 'error', 'Error in API call ' . $url);
+    log::add(__CLASS__, 'error', 'Error in API call ' . $url);
     return;
   }
-  log::add('vigilancemeteo', 'debug', 'Air ' . $json['data']['aqi'] . ' ' . $json['data']['city']['name']);
+  log::add(__CLASS__, 'debug', 'Air ' . $json['data']['aqi'] . ' ' . $json['data']['city']['name']);
   if ($json['data']['aqi'] <= 50) {
     $color = 'green';
   } else if ($json['data']['aqi'] <= 100) {
     $color = 'yellow';
   } else if ($json['data']['aqi'] <= 150) {
     $color = 'orange';
+  } else if ($json['data']['aqi'] <= 200) {
+    $color = 'red';     // 204 0 51
+  } else if ($json['data']['aqi'] <= 300) {
+    $color = 'magenta'; // 102 0 53
   } else {
-    $color = 'red';
+    $color = 'brown';
   }
   $this->checkAndUpdateCmd('color', $color);
   $this->checkAndUpdateCmd('aqi', $json['data']['aqi']);
@@ -655,7 +660,7 @@ public function getAir() {
 public function getSurf() {
   $apikey = $this->getConfiguration('magicseaweed');
   if ($apikey == '') {
-    log::add('vigilancemeteo', 'error', 'API non saisie');
+    log::add(__CLASS__, 'error', 'API non saisie');
     return;
   }
   if (null !== ($this->getConfiguration('surf', ''))) {
@@ -681,7 +686,7 @@ public function getSurf() {
 public function getPollen() {
     $geoloc = $this->getConfiguration('geoloc', 'none');
   if ($geoloc == 'none') {
-    log::add('vigilancemeteo', 'error', 'Pollen geoloc non configuré.');
+    log::add(__CLASS__, 'error', 'Pollen geoloc non configuré.');
     return;
   }
   if ($geoloc == "jeedom") {
@@ -693,32 +698,27 @@ public function getPollen() {
       if(is_object($geotravCmd))
         $departement = $geotravCmd->execCmd();
       else {
-        log::add('vigilancemeteo', 'error', 'Pollen geotravCmd object not found');
+        log::add(__CLASS__, 'error', 'Pollen geotravCmd object not found');
         return;
       }
     }
     else {
-      log::add('vigilancemeteo', 'error', 'Pollen geotrav object not found');
+      log::add(__CLASS__, 'error', 'Pollen geotrav object not found');
       return;
     }
   }
   if ($departement == "2A" or $departement == "2B") {$departement = "20";}
-  log::add('vigilancemeteo', 'debug', 'Pollen departement : ' . $departement);
+  log::add(__CLASS__, 'debug', 'Pollen departement : ' . $departement);
   $url = 'https://www.pollens.fr/risks/thea/counties/' .$departement;
   $pollenData = null;
-  for ($attempt = 0; $attempt < 3 && is_null($pollenData); $attempt++) {
     $request_http = new com_http($url);
     $request_http->setNoReportError(true);
     $pollenJson = $request_http->exec(8);
     if ($pollenJson == '') {
+      log::add(__CLASS__, 'error', 'Impossible d\'obtenir les informations pollens.fr');
       return;
     }
     $pollenData = json_decode($pollenJson, true);
-    if ($attempt > 0) {
-      log::add('vigilancemeteo', 'info', 'Impossible d\'obtenir les informations pollens.fr... On refait une tentative...'.($attempt+1).'/3');
-      sleep(3);
-    }
-  }
   if ( is_null($pollenData) ) { // Pas de reponse pollens.fr tous les levels a -1
     $this->checkAndUpdateCmd('general', -1);
     for ( $i=1; $i<20; $i++)
@@ -774,239 +774,6 @@ public function getPollen() {
   return;
 }
 
-public function getPollenOld() {
-  $geotrav = eqLogic::byId($this->getConfiguration('geoloc'));
-  if (!(is_object($geotrav) && $geotrav->getEqType_name() == 'geotrav')) {
-    return;
-  }
-  $colorsPollen = array();
-  $colorsPollen[] = array( 255, 255, 255, 0); // Blanc
-  $colorsPollen[] = array( 116, 228, 108, 1); // VertClair
-  $colorsPollen[] = array(   4, 128,   0, 2); // VertFonce
-  $colorsPollen[] = array( 242, 234,  26, 3); // Jaune
-  $colorsPollen[] = array( 255, 127,  41, 4); // Orange
-  $colorsPollen[] = array( 255,   1,   0, 5); // Rouge
-  $imgPollen = @imagecreate(10, 10);
-  if ( $imgPollen !== false ) {
-    foreach ( $colorsPollen as $color )
-      $col = imagecolorallocate($imgPollen, $color[0], $color[1], $color[2]);
-  }
-  else {
-    log::add('vigilancemeteo' ,'debug' ,__FUNCTION__ .'Cannot Initialize new GD imgPollen stream');
-  }
-  
-  $departement = geotravCmd::byEqLogicIdAndLogicalId($this->getConfiguration('geoloc'),'location:department')->execCmd();
-  log::add('vigilancemeteo', 'debug', 'Pollen departement : ' . $departement);
-  $im = @imagecreatefrompng("http://www.pollens.fr/generated/vigilance_map.png");
-  if ($im === false) {
-    log::add('vigilancemeteo', 'debug', 'Pollens.fr Image not found ');
-    $pollen = -1;
-  } else {
-    $xy = vigilancemeteo::getDep();
-    $dep0 = ltrim($departement, '0');
-    $rgb = @imagecolorat($im, $xy[$dep0][0], $xy[$dep0][1]);
-    $colors = @imagecolorsforindex($im, $rgb);
-    $pollen = vigilancemeteo::getPollenLevel($colors['red'],$colors['green'],$colors['blue'],$colorsPollen,$imgPollen);
-    //log::add('vigilancemeteo', 'debug', 'Coordonnées ' . $xy[$departement][0] . ' ' . $xy[$departement][1] . ' level : ' . $pollen);
-  }
-  $this->checkAndUpdateCmd('general', $pollen);
-
-  if ( strlen ($departement) == 1) $departement = "0".$departement;
-    // Use internal libxml errors -- turn on in production, off for debugging
-  libxml_use_internal_errors(true);
-  $dom = new DomDocument;
-    // Load the HTML
-  $ret = $dom->loadHTMLFile("https://www.pollens.fr/risks/thea/counties/$departement");
-  if ( $ret === false ) {
-    log::add('vigilancemeteo', 'debug', __FUNCTION__ .' Unable to load data for county : '.$departement);
-    for ( $i=1; $i<20; $i++) {
-      $this->checkAndUpdateCmd('pollen' . $i, -1);
-    }
-    return;
-  }
-  $xpath = new DomXPath($dom);
-    // Query all nodes containing specified class name
-  $texts = $xpath->query("/html/body/div/svg/g[3]//text");
-  $rects = $xpath->query("/html/body/div/svg/g[1]//rect");
-    // idxPollen parce que la liste des pollens n'arrive plus dans le même ordre qu'avant
-    // et qu'il faut avoir le meme index
-  foreach ($texts as $i => $text) {
-    $nomPollen = trim($text->nodeValue);
-    $nomPollen = preg_replace('#'.chr(131).chr(194).'#', '', $nomPollen);
-    switch ( $nomPollen ) {
-      case "Cyprès" : $nomPollen="Cupressacées"; $idxPollen = 1; break;
-      case "Noisetier" : $idxPollen = 2; break;
-      case "Aulne" : $idxPollen = 3; break;
-      case "Peuplier" : $idxPollen = 4; break;
-      case "Saule" : $idxPollen = 5; break;
-      case "Frêne" : $idxPollen = 6; break;
-      case "Charme" : $idxPollen = 7; break;
-      case "Bouleau" : $idxPollen = 8; break;
-      case "Platane" : $idxPollen = 9; break;
-      case "Chêne" : $idxPollen = 10; break;
-      case "Olivier" : $idxPollen = 11; break;
-      case "Tilleul" : $idxPollen = 12; break;
-      case "Châtaignier" : $idxPollen = 13; break;
-      case "Oseille" : $nomPollen = "Rumex"; $idxPollen = 14; break;
-      case "Graminées" : $idxPollen = 15; break;
-      case "Plantain" : $idxPollen = 16; break;
-      case "Urticacées" : $idxPollen = 17; break;
-      case "Armoise" : $idxPollen = 18; break;
-      case "Ambroisies" : $idxPollen = 19; break;
-      default : $idxPollen = 0;
-        log::add('vigilancemeteo', 'debug', "Pollen: [$nomPollen] not processed in pollens.fr data.");
-    }
-    foreach ($rects as $j => $rect) {
-      if( $i == $j) {
-        $attr = trim($rect->getAttribute("style"));
-        if ( ( $pos = strpos($attr,"fill: #")) === false) {
-          $pollenLevel = -1;
-          log::add('vigilancemeteo', 'debug', "Fill color not found in rect for: $nomPollen");
-        } else {
-          $color = substr($attr,$pos+7,6);
-          $red = hexdec(substr($color,0,2));
-          $green = hexdec(substr($color,2,2));
-          $blue = hexdec(substr($color,4,2));
-          $pollenLevel = self::getPollenLevel($red,$green,$blue,$colorsPollen,$imgPollen);
-        }
-          // Envoi résultat à Jeedom
-        $this->checkAndUpdateCmd('pollen'.$idxPollen, $pollenLevel);
-        break;
-      }
-    }
-  }
-  return ;
-}
-
-  public function getPollenLevel($red,$green,$blue,$colorsPollen,$imgPollen) {
-    if ( $imgPollen ) {
-      $col = imagecolorclosest ( $imgPollen , $red , $green , $blue );
-      $col = imagecolorsforindex($imgPollen, $col);
-      $nred = $col['red']; $ngreen = $col['green']; $nblue = $col['blue'];
-      foreach ( $colorsPollen as $color ) {
-        if($nred == $color[0] && $ngreen == $color[1] && $nblue == $color[2] ) {
-          log::add('vigilancemeteo', 'debug', 'Img Couleur ' . $nred . ' ' . $ngreen . ' ' . $nblue . ' : ' . $color[3]);
-          return( $color[3] );
-        }
-      }
-    }
-      //0 absence, 1 vert clair, 2 vert foncé, 3 jaune, 4 orange, 5 rouge
-    $level = 0;
-    if ($red == 116 && $green == 228 && $blue == 108) { // vert clair
-      $level = 1;
-    } elseif ($red == 4 && $green == 128 && $blue == 0) { // vert fonce
-      $level = 2;
-    } elseif ($red == 242 && $green == 234 && $blue == 26) { // jaune
-      $level = 3;
-    } elseif ($red == 255 && $green == 127 && $blue == 41) { // orange
-      $level = 4;
-    } elseif ($red == 255 && ( $green == 1 || $green == 2 ) && $blue == 0) { // rouge
-      $level = 5;
-    }
-    log::add('vigilancemeteo', 'debug', 'Couleur ' . $red . ' ' . $green . ' ' . $blue . ' : ' . $level);
-    return $level;
-  }
-
-  function getDep() {
-    $dep[1] = array(1100,840);
-    $dep[2] = array(940,360);
-    $dep[3] = array(900,800);
-    $dep[4] = array(1200,1100);
-    $dep[5] = array(1200,1020);
-    $dep[6] = array(1270,1120);
-    $dep[7] = array(1010,1010);
-    $dep[8] = array(1030,360);
-    $dep[9] = array(760,1240);
-    $dep[10] = array(1000,540);
-    $dep[11] = array(850,1220);
-    $dep[12] = array(870,1070);
-    $dep[13] = array(1100,1160);
-    $dep[14] = array(600,430);
-    $dep[15] = array(860,970);
-    $dep[16] = array(640,880);
-    $dep[17] = array(550,870);
-    $dep[18] = array(840,700);
-    $dep[19] = array(780,930);
-    $dep[20] = array(1450,1310);
-    $dep[21] = array(1040,660);
-    $dep[22] = array(350,530);
-    $dep[23] = array(800,840);
-    $dep[24] = array(680,960);
-    $dep[25] = array(1190,700);
-    $dep[26] = array(1080,1020);
-    $dep[27] = array(700,440);
-    $dep[28] = array(740,530);
-    $dep[29] = array(260,540);
-    $dep[30] = array(1000,1110);
-    $dep[31] = array(740,1170);
-    $dep[32] = array(660,1150);
-    $dep[33] = array(560,1000);
-    $dep[34] = array(920,1160);
-    $dep[35] = array(470,560);
-    $dep[36] = array(750,750);
-    $dep[37] = array(680,680);
-    $dep[38] = array(1120,940);
-    $dep[39] = array(1140,750);
-    $dep[40] = array(540,1110);
-    $dep[41] = array(740,630);
-    $dep[42] = array(990,890);
-    $dep[43] = array(960,960);
-    $dep[44] = array(460,660);
-    $dep[45] = array(830,600);
-    $dep[46] = array(760,1030);
-    $dep[47] = array(660,1060);
-    $dep[48] = array(930,1050);
-    $dep[49] = array(560,670);
-    $dep[50] = array(500,440);
-    $dep[51] = array(1000,450);
-    $dep[52] = array(1090,570);
-    $dep[53] = array(560,560);
-    $dep[54] = array(1170,490);
-    $dep[55] = array(1100,450);
-    $dep[56] = array(350,600);
-    $dep[57] = array(1210,440);
-    $dep[58] = array(930,700);
-    $dep[59] = array(930,270);
-    $dep[60] = array(840,390);
-    $dep[61] = array(620,490);
-    $dep[62] = array(820,240);
-    $dep[63] = array(900,880);
-    $dep[64] = array(550,1200);
-    $dep[65] = array(630,1230);
-    $dep[66] = array(860,1280);
-    $dep[67] = array(1300,500);
-    $dep[68] = array(1270,600);
-    $dep[69] = array(1030,870);
-    $dep[70] = array(1170,630);
-    $dep[71] = array(1020,770);
-    $dep[72] = array(630,580);
-    $dep[73] = array(1210,920);
-    $dep[74] = array(1200,840);
-    $dep[75] = array(1220,120);
-    $dep[76] = array(710,350);
-    $dep[77] = array(880,500);
-    $dep[78] = array(780,470);
-    $dep[79] = array(580,780);
-    $dep[80] = array(820,310);
-    $dep[81] = array(810,1130);
-    $dep[82] = array(720,1100);
-    $dep[83] = array(1180,1180);
-    $dep[84] = array(1080,1100);
-    $dep[85] = array(500,760);
-    $dep[86] = array(650,780);
-    $dep[87] = array(720,870);
-    $dep[88] = array(1200,560);
-    $dep[89] = array(940,600);
-    $dep[90] = array(1240,630);
-    $dep[91] = array(820,510);
-    $dep[92] = array(1160,140);
-    $dep[93] = array(1290,80);
-    $dep[94] = array(1280,180);
-    $dep[95] = array(820,440);
-    $dep[99] = array(755,1290);
-    return $dep;
-  }
-
   /**
   * Retrieve weather forecast for the next hour
   *
@@ -1015,16 +782,17 @@ public function getPollenOld() {
   public function getPluie() {
     $ville = $this->getConfiguration('ville');
     if(empty($ville)) {
-      log::add('vigilancemeteo', 'error', __('La ville n\'est pas configurée', __FILE__));
+      log::add(__CLASS__, 'error', __('La ville n\'est pas configurée', __FILE__));
       return false;
     }
 
     $url = sprintf('http://www.meteofrance.com/mf3-rpc-portlet/rest/pluie/%s', $ville);
-    //log::add('previsionpluie', 'debug', 'getInformation: ' .$this->getConfiguration('ville') );
+    //log::add(__CLASS__, 'debug', __FUNCTION__ .' Ville: ' .$ville);
     $request_http = new com_http($url);
     $request_http->setNoReportError(true);
     $prevPluieJson = $request_http->exec(8);
     if ($prevPluieJson == '') {
+      log::add(__CLASS__, 'warning', 'Impossible d\'obtenir les informations Météo France... ');
       return;
     }
     $prevPluieData = json_decode($prevPluieJson, true);
@@ -1057,7 +825,7 @@ public function getPollenOld() {
     }
     $this->checkAndUpdateCmd('minutesAvantPluie', $minutesAvantPluie);
     $this->checkAndUpdateCmd('pluieDanslHeure', $pluieDanslHeureCount);
-    log::add('vigilancemeteo', 'info', sprintf("%s '%s' %s '%s'",
+    log::add(__CLASS__, 'info', sprintf("%s '%s' %s '%s'",
     __('VigilanceMeteo de type', __FILE__),
     $this->getConfiguration('type'),
     __('mise a jour pour la ville', __FILE__),
@@ -1081,18 +849,10 @@ public function getPollenOld() {
         $replace['#' . $cmd->getLogicalId() . '_id#'] = $cmd->getId();
         $valeur=ucfirst($cmd->execCmd());
         switch ($valeur) {
-          case 'Vert':
-          $valeur = "#00ff1e";
-          break;
-          case 'Jaune':
-          $valeur = "#FFFF00";
-          break;
-          case 'Orange':
-          $valeur = "#FFA500";
-          break;
-          case 'Rouge':
-          $valeur = "#E50000";
-          break;
+          case 'Vert': $valeur = "#00ff1e"; break;
+          case 'Jaune': $valeur = "#FFFF00"; break;
+          case 'Orange': $valeur = "#FFA500"; break;
+          case 'Rouge': $valeur = "#E50000"; break;
         }
 
         $replace['#' . $cmd->getLogicalId() . '#'] = $valeur;
@@ -1117,7 +877,7 @@ public function getPollenOld() {
           }
         $replace['#icone#'] = '<a target="_blank" href="http://vigilance.meteofrance.com/Bulletin_sans.html?a=dept' . $department . '&b=2&c="><i class="fas fa-info-circle cursor"></i></a>';      
       } else {
-        $replace['#icone#'] = '<i id="yourvigilance' . $this->getId() . '" class="fas fa-info-circle cursor"></i>';
+        $replace['#icone#'] = '<i id="yourvigilance' . $this->getId() . ' class="fas fa-info-circle cursor"></i>';
       }
 
       $templatename = 'vigilancemeteo';
@@ -1125,19 +885,19 @@ public function getPollenOld() {
       $replace['#portid#'] = $this->getConfiguration('port');
 
       foreach ($this->getCmd('info') as $cmd) {
-        $replace['#' . $cmd->getLogicalId() . '_history#'] = '';
-        $replace['#' . $cmd->getLogicalId() . '_id#'] = $cmd->getId();
+        $logicalId = $cmd->getLogicalId();
+        $replace['#' . $logicalId . '_history#'] = '';
+        $replace['#' . $logicalId . '_id#'] = $cmd->getId();
 
-        if ($cmd->getLogicalId() == 'maree') {
-          $replace['#' . $cmd->getLogicalId() . '#'] = $cmd->execCmd();
+        if ($logicalId == 'maree') {
+          $replace['#' . $logicalId . '#'] = $cmd->execCmd();
         } else {
-          $replace['#' . $cmd->getLogicalId() . '#'] = substr_replace(str_pad($cmd->execCmd(), 4, '0', STR_PAD_LEFT),':',-2,0);
+          $replace['#' . $logicalId . '#'] = substr_replace(str_pad($cmd->execCmd(), 4, '0', STR_PAD_LEFT),':',-2,0);
         }
-        $replace['#' . $cmd->getLogicalId() . '_collect#'] = $cmd->getCollectDate();
+        $replace['#' . $logicalId . '_collect#'] = $cmd->getCollectDate();
         if ($cmd->getIsHistorized() == 1) {
-          $replace['#' . $cmd->getLogicalId() . '_history#'] = 'history cursor';
+          $replace['#' . $logicalId . '_history#'] = 'history cursor';
         }
-
       }
 
       if (strpos(network::getNetworkAccess('external'),'https') !== false) {
@@ -1188,6 +948,8 @@ public function getPollenOld() {
       $templatename = 'uvi';
     } else if ($this->getConfiguration('type') == 'pollen') {
       $onetemplate = getTemplate('core', $version, '1pollen', 'vigilancemeteo');
+      $replace['#background-color#'] = '#262626';
+      $chkDisplay0 = $this->getConfiguration('displayNullPollen');
       foreach ($this->getCmd('info') as $cmd) {
         switch ($cmd->execCmd()) {
           case '-1': $color = 'black'; break;
@@ -1207,46 +969,83 @@ public function getPollenOld() {
           }
           $replace['#' . $cmd->getLogicalId() . '_id#'] = $cmd->getId();
           $replace['#id#'] = $this->getId();
-          $replace['#' . $cmd->getLogicalId() . '#'] = $cmd->execCmd();
+          $general = $cmd->execCmd();
+          $replace['#' . $cmd->getLogicalId() . '#'] = (($general==-1)?"?":$general);
           $replace['#' . $cmd->getLogicalId() . '_collect#'] = $cmd->getCollectDate();
         } else {
-          $sort[$cmd->getLogicalId()] = $cmd->execCmd();
-          $unitreplace['#id#'] = $this->getId();
-          $unitreplace['#value#'] = $cmd->execCmd();
-          $unitreplace['#name#'] = $cmd->getName();
-          $unitreplace['#width#'] = $cmd->execCmd() * 20;
-          $unitreplace['#color#'] = $color;
-          $unitreplace['#background-color#'] = $replace['#background-color#'];
-          $slide[$cmd->getLogicalId()] = template_replace($unitreplace, $onetemplate);
+          $value =  $cmd->execCmd();
+          if($cmd->getIsVisible() && ($value >0 || $value == 0 && $chkDisplay0 == 1)) {
+            $sort[$cmd->getLogicalId()] = $cmd->execCmd();
+            $unitreplace['#id#'] = $this->getId();
+            $unitreplace['#value#'] = $value;
+            $unitreplace['#name#'] = $cmd->getName();
+            $unitreplace['#width#'] = $cmd->execCmd() * 20;
+            $unitreplace['#color#'] = $color;
+            $unitreplace['#background-color#'] = $replace['#background-color#'];
+            $slide[$cmd->getLogicalId()] = template_replace($unitreplace, $onetemplate);
+          }
         }
       }
       arsort($sort);
       $i=0;
-      $replace['#slide1#'] = $replace['#slide2#'] = $replace['#slide3#'] = $replace['#slide4#'] =$replace['#slide5#'] = '';
+      $repl[0] = $repl[1] = $repl[2] = $repl[3] =$repl[4] = '';
+      if ($version == 'dashboard' ) $lim = array(5,10,15,20);
+      else $lim = array(4,8,12,16);
       foreach ($sort as $key => $value) {
-        if ($i<4) {
-          $replace['#slide1#'] .= $slide[$key];
-        } else if ($i<8) {
-          $replace['#slide2#'] .= $slide[$key];
-        } else if ($i<12) {
-          $replace['#slide3#'] .= $slide[$key];
-        } else if ($i<16) {
-          $replace['#slide4#'] .= $slide[$key];
-        } else {
-          $replace['#slide5#'] .= $slide[$key];
-        }
+        if ($i < $lim[0]) $repl[0] .= $slide[$key];
+        else if ($i < $lim[1]) $repl[1] .= $slide[$key];
+        else if ($i < $lim[2]) $repl[2] .= $slide[$key];
+        else if ($i < $lim[3]) $repl[3] .= $slide[$key];
+        else $repl[4] .= $slide[$key];
         $i++;
       }
+      $replace['#slide#'] = '<div class="item active"> ' .$repl[0] .'</div>';
+      for($i=1;$i<5;$i++) if($repl[$i] != '')
+        $replace['#slide#'] .= '<div class="item"> ' .$repl[$i] .'</div>';
       $templatename = 'pollen';
     } else if ($this->getConfiguration('type') == 'crue') {
-      $cmd = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'niveau');
       $replace['#crue_history#'] = '';
-      $replace['#crue#'] = $cmd->execCmd();
-      $replace['#crue_id#'] = $cmd->getId();
+      $station = $this->getConfiguration('station');
+      $replace['#station#'] = $station;
+      $cmd = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'niveau');
+      if(is_object($cmd)) {
+        $replace['#crue#'] = $cmd->execCmd();
+        $replace['#crue_id#'] = $cmd->getId();
+        $replace['#crue_collect#'] = $cmd->getCollectDate();
+        if ($cmd->getIsHistorized() == 1) {
+          $replace['#crue_history#'] = 'history cursor';
+        }
+      }
+      $cmd = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'dateniveau');
+      $replace['#dateniveau#'] = '';
+      if(is_object($cmd)) {
+        $date = $cmd->execCmd();
+        $date = date_create_from_format("Y-m-d\TH:i:sP", $date);
+        if ( $date != false ) {
+          $date = strftime("%A %e %b %H:%M", $date->getTimestamp());
+          $replace['#dateniveau#'] = $date;
+        }
+      }
+      $cmd = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'debit');
+      if(is_object($cmd)) {
+        $replace['#debit#'] = $cmd->execCmd();
+        $replace['#debit_id#'] = $cmd->getId();
+        $replace['#debit_collect#'] = $cmd->getCollectDate();
 
-      $replace['#crue_collect#'] = $cmd->getCollectDate();
-      if ($cmd->getIsHistorized() == 1) {
-        $replace['#crue_history#'] = 'history cursor';
+        $replace['#debit_history#'] = '';
+        if ($cmd->getIsHistorized() == 1) {
+          $replace['#debit_history#'] = 'history cursor';
+        }
+      }
+      $cmd = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'datedebit');
+      $replace['#datedebit#'] = '';
+      if(is_object($cmd)) {
+        $date = $cmd->execCmd();
+        $date = date_create_from_format("Y-m-d\TH:i:sP", $date);
+        if ( $date != false ) {
+          $date = strftime("%A %e %b %H:%M", $date->getTimestamp());
+          $replace['#datedebit#'] = $date;
+        }
       }
 
       $templatename = 'crue';
@@ -1257,21 +1056,29 @@ public function getPollenOld() {
       switch ($cmdcolor->execCmd()) {
         case 'green':
         $replace['#aqicolor#'] = "#00ff1e";
-        $replace['#aqilevel#'] = "Good";
+        $replace['#aqilevel#'] = "Bon";
         $replace['#aqifont#'] = "black";
         break;
         case 'yellow':
-        $replace['#aqicolor#'] = "#FFFF00";
-        $replace['#aqilevel#'] = "Moderate";
+        $replace['#aqicolor#'] = "#FFde33";
+        $replace['#aqilevel#'] = "Modéré";
         $replace['#aqifont#'] = "black";
         break;
         case 'orange':
-        $replace['#aqicolor#'] = "#FFA500";
-        $replace['#aqilevel#'] = "Unhealthy Sensitive";
+        $replace['#aqicolor#'] = "#FF9933";
+        $replace['#aqilevel#'] = "Mauvais pour les groupes sensibles";
         break;
         case 'red':
-        $replace['#aqicolor#'] = "#E50000";
-        $replace['#aqilevel#'] = "Unhealthy";
+        $replace['#aqicolor#'] = "#CC0033";
+        $replace['#aqilevel#'] = "Mauvais";
+        break;
+        case 'magenta':
+        $replace['#aqicolor#'] = "#660035";
+        $replace['#aqilevel#'] = "Trés mauvais";
+        break;
+        case 'brown':
+        $replace['#aqicolor#'] = "#7E0023";
+        $replace['#aqilevel#'] = "Dangereux";
         break;
       }
 
@@ -1285,22 +1092,23 @@ public function getPollenOld() {
       }
 
       $cmd = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'pm25');
-      $replace['#pm25#'] = $cmd->execCmd();
+      if(is_object($cmd)) $replace['#pm25#'] = $cmd->execCmd();
       $cmd = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'pm10');
-      $replace['#pm10#'] = $cmd->execCmd();
+      if(is_object($cmd)) $replace['#pm10#'] = $cmd->execCmd();
       $cmd = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'no2');
-      $replace['#no2#'] = $cmd->execCmd();
+      if(is_object($cmd)) $replace['#no2#'] = $cmd->execCmd();
       $cmd = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'o3');
-      $replace['#o3#'] = $cmd->execCmd();
+      if(is_object($cmd)) $replace['#o3#'] = $cmd->execCmd();
 
       $templatename = 'air';
     } else if ($this->getConfiguration('type') == 'seisme') {
       $cmd = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'risk');
       $replace['#seisme_history#'] = '';
-      $replace['#seisme#'] = $cmd->getConfiguration('value');
-      $replace['#seisme_id#'] = $cmd->getId();
-
-      $replace['#seisme_collect#'] = $cmd->getCollectDate();
+      if(is_object($cmd)) {
+        $replace['#seisme#'] = $cmd->getConfiguration('value');
+        $replace['#seisme_id#'] = $cmd->getId();
+        $replace['#seisme_collect#'] = $cmd->getCollectDate();
+      }
       if ($cmd->getIsHistorized() == 1) {
         $replace['#seisme_history#'] = 'history cursor';
       }
@@ -1346,7 +1154,12 @@ public function getPollenOld() {
       }
       $templatename = 'previsionpluie';
     }
-    return $this->postToHtml($_version, template_replace($replace, getTemplate('core', $version, $templatename, 'vigilancemeteo')));
+    if (file_exists( __DIR__ ."/../template/$_version/".$templatename."_user.html")) {
+      return $this->postToHtml($_version, template_replace($replace, getTemplate('core', $version, $templatename."_user", __CLASS__)));
+    }
+    else {
+      return $this->postToHtml($_version, template_replace($replace, getTemplate('core', $version, $templatename, __CLASS__)));
+    }
   }
 
 }
