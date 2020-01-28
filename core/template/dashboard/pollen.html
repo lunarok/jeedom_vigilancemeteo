@@ -6,8 +6,10 @@
 	.pollen_label#id# {
 	  display: table-cell;
 	  font-size: 11px;
-	  width: 74px;
+	  width: 118px;
 	  height: 16px;
+    padding-left: 44px;
+	  text-align: left;
 	}
 
 	.pollen_value#id# {
@@ -42,33 +44,33 @@
 	<center class="widget-name">
     <a href="#eqLink#" style="font-size : 1.2em;#hideEqLogicName#">#name_display#</a>
     <a href="https://www.pollens.fr" target="_blank" title="Plus d'infos sur www.pollens.fr">
-      <i class="fa fa-info-circle pull-right" style="text-decoration: none; cursor:default; font-size: 0.8em; margin-top: 3px; margin-right: 3px;"></i>
+      <i class="fas fa-info-circle pull-right" style="text-decoration: none; cursor:default; font-size: 0.8em; margin-top: 3px; margin-right: 3px;"></i>
     </a>
   </center>
   <br/><br/>
-	<center>
-		<div style="display: table; overflow: hidden; position: relative; top: -19px;">
+  <center>
+    <div style="display: table; overflow: hidden; position: relative; top: -19px;">
       <div data-cmd_id="#general_id#" title="Indice général (collecté le #general_collect#)" class="pollen_general#id#" style="background-color:#general_color#;color:#general_font#;">
         <center>
           #general#
         </center>
       </div>
-		</div>
-
-    <div id="pollenCarousel#uid#" class="carousel slide" data-ride="carousel" style="display: table; overflow: hidden; position: relative; top: 0px;width: 98%; background: linear-gradient(to right, #background-color#, #color#);">
-      <!-- Wrapper for slides -->
-      <div class="carousel-inner">
-          #slide#
-      </div>
-      <!-- Left and right controls -->
-      <a class="left carousel-control" href="#pollenCarousel#uid#" data-slide="prev">
-        <span class="glyphicon glyphicon-chevron-left">&lt;</span>
-        <span class="sr-only">Previous</span>
-      </a>
-      <a class="right carousel-control" href="#pollenCarousel#uid#" data-slide="next">
-        <span class="glyphicon glyphicon-chevron-right">&gt;</span>
-        <span class="sr-only">Next</span>
-      </a>
     </div>
-	</center>
+  </center>
+
+  <div id="pollenCarousel#uid#" class="carousel slide" data-ride="carousel" style="display: table; overflow: hidden; position: relative; top: 0px;width: 98%; margin-left: 5px; background: linear-gradient(to right, #background-color#, #color#);">
+    <!-- Wrapper for slides -->
+    <div class="carousel-inner">
+        #slide#
+    </div>
+    <!-- Left and right controls -->
+    <a class="left carousel-control" href="#pollenCarousel#uid#" data-slide="prev">
+      <span class="glyphicon glyphicon-chevron-left">&lt;</span>
+      <span class="sr-only">Previous</span>
+    </a>
+    <a class="right carousel-control" href="#pollenCarousel#uid#" data-slide="next">
+      <span class="glyphicon glyphicon-chevron-right">&gt;</span>
+      <span class="sr-only">Next</span>
+    </a>
+  </div>
 </div>
