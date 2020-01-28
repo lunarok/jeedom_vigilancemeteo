@@ -102,7 +102,6 @@ $eqLogics = eqLogic::byType('vigilancemeteo');
                                     echo '</label>';
                                 }
                                 ?>
-
                             </div>
                         </div>
                         <div class="form-group">
@@ -182,6 +181,13 @@ $eqLogics = eqLogic::byType('vigilancemeteo');
                             </div>
                         </div>
 
+                        <div id="pollenEq" class="form-group" style="display:none">
+                          <label class="col-sm-3 control-label"></label>
+                          <div class="col-sm-8">
+                            <label class="checkbox-inline"><input type="checkbox" class="eqLogicAttr" data-l1key="configuration" data-l2key="displayNullPollen" checked/>{{Afficher les pollens niveau 0}}</label>
+                          </div>
+                        </div>
+
                         <div id="breezeEq" class="form-group" style="display:none">
                             <label class="col-sm-3 control-label">{{Clef}} <a href='http://aqicn.org/api/'>AQICN</a></label>
                             <div class="col-sm-3">
@@ -202,7 +208,6 @@ $eqLogics = eqLogic::byType('vigilancemeteo');
                                 <input type="text" class="eqLogicAttr configuration form-control" data-l1key="configuration" data-l2key="magicseaweed" placeholder="clef API"/>
                             </div>
                         </div>
-
                     </fieldset>
                 </form>
             </div>
