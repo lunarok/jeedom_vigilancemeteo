@@ -1003,7 +1003,9 @@ public function getPollen() {
       for($i=1;$i<5;$i++) if($repl[$i] != '')
         $replace['#slide#'] .= '<div class="item"> ' .$repl[$i] .'</div>';
       if (count($sort) <= 5) {
-        $replace['#hiding#'] = 'style="display: none;';
+        $replace['#hiding#'] = 'style="display: none;"';
+      } else {
+        $replace['#hiding#'] = '';
       }
       $templatename = 'pollen';
     } else if ($this->getConfiguration('type') == 'crue') {
