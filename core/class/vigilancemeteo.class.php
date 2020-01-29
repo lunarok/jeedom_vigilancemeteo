@@ -1028,25 +1028,27 @@ public function getPollen() {
       }
       $cmd = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'debit');
       if(is_object($cmd)) {
-        $replace['#debit#'] = $cmd->execCmd();
-        $replace['#debit_id#'] = $cmd->getId();
-        $replace['#debit_collect#'] = $cmd->getCollectDate();
-
-        $replace['#debit_history#'] = '';
-        if ($cmd->getIsHistorized() == 1) {
-          $replace['#debit_history#'] = 'history cursor';
+        if ($cmd->execCmd() == 0) {
+          $replace['#debit#'] = '';
+        } else {
+          $cmd = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'datedebit');
+          $datedebit = '';
+          if(is_object($cmd)) {
+            $date = $cmd->execCmd();
+            $date = date_create_from_format("Y-m-d\TH:i:sP", $date);
+            if ( $date != false ) {
+              $date = strftime("%A %e %b %H:%M", $date->getTimestamp());
+              $datedebit = $date;
+            }
+          }
+          $hitsory = '';
+          if ($cmd->getIsHistorized() == 1) {
+            $hitsory = 'history cursor';
+          }
+          $replace['#debit#'] = '<span style="margin-left: 30px;" class="debit ' . $hitsory . ' data-cmd_id="' . $cmd->getId() . '" title="Débit mesuré le ' . $datedebit . ' (' . $cmd->getCollectDate() . ')">D=' . $cmd->execCmd() . 'm3/s</span>';
         }
       }
-      $cmd = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'datedebit');
-      $replace['#datedebit#'] = '';
-      if(is_object($cmd)) {
-        $date = $cmd->execCmd();
-        $date = date_create_from_format("Y-m-d\TH:i:sP", $date);
-        if ( $date != false ) {
-          $date = strftime("%A %e %b %H:%M", $date->getTimestamp());
-          $replace['#datedebit#'] = $date;
-        }
-      }
+      
 
       $templatename = 'crue';
     } else if ($this->getConfiguration('type') == 'air') {
