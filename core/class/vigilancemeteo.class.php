@@ -445,12 +445,17 @@ public function getMaree() {
 }
 
 public function getPlage() {
-  $geotrav = eqLogic::byId($this->getConfiguration('geoloc'));
-       if (!(is_object($geotrav) && $geotrav->getEqType_name() == 'geotrav')) {
-           return;
-       }
-  $postal = geotravCmd::byEqLogicIdAndLogicalId($this->getConfiguration('geoloc'),'location:zip')->execCmd();
-  $city = geotravCmd::byEqLogicIdAndLogicalId($this->getConfiguration('geoloc'),'location:city')->execCmd();
+  if ($this->getConfiguration('geoloc') == 'jeedom') {
+        $city = config::byKey('info::city');
+        $postal = config::byKey('info::postalCode'); 
+    } else {
+        $geotrav = eqLogic::byId($this->getConfiguration('geoloc'));
+        if (!(is_object($geotrav) && $geotrav->getEqType_name() == 'geotrav')) {
+            return;
+        }
+        $postal = geotravCmd::byEqLogicIdAndLogicalId($this->getConfiguration('geoloc'),'location:zip')->execCmd();
+        $city = geotravCmd::byEqLogicIdAndLogicalId($this->getConfiguration('geoloc'),'location:city')->execCmd();
+    }
   $city = str_replace(' ','_',strtolower($city));
   $city = preg_replace('#Ç#', 'C', $city);
     $city = preg_replace('#ç#', 'c', $city);
@@ -690,7 +695,7 @@ public function getPollen() {
     return;
   }
   if ($geoloc == "jeedom") {
-    $departement = substr(config::byKey('info::postalCode'),0,2); 
+    $departement = substr(config::byKey('info::postalCode'),0,2);
   } else {
     $geotrav = eqLogic::byId($geoloc);
     if (is_object($geotrav) && $geotrav->getEqType_name() == 'geotrav') {
@@ -877,7 +882,7 @@ public function getPollen() {
           } else {
             $department = geotravCmd::byEqLogicIdAndLogicalId($this->getConfiguration('geoloc'),'location:department')->execCmd();
           }
-        $replace['#icone#'] = '<a target="_blank" href="http://vigilance.meteofrance.com/Bulletin_sans.html?a=dept' . $department . '&b=2&c="><i class="fas fa-info-circle pull-right" style="text-decoration: none; cursor:default; font-size: 0.8em; margin-top: 3px; margin-right: 3px;"></i></a>';      
+        $replace['#icone#'] = '<a target="_blank" href="http://vigilance.meteofrance.com/Bulletin_sans.html?a=dept' . $department . '&b=2&c="><i class="fas fa-info-circle pull-right" style="text-decoration: none; cursor:default; font-size: 0.8em; margin-top: 3px; margin-right: 3px;"></i></a>';
       } else {
         $replace['#icone#'] = '<i id="yourvigilance' . $this->getId() . '" class="fas fa-info-circle pull-right" style="text-decoration: none; cursor:default; font-size: 0.8em; margin-top: 3px; margin-right: 3px;"></i>';
       }
@@ -1055,7 +1060,7 @@ public function getPollen() {
           $replace['#debit#'] = '<span style="margin-left: 30px;" class="debit ' . $hitsory . ' data-cmd_id="' . $cmd->getId() . '" title="Débit mesuré le ' . $datedebit . ' (' . $cmd->getCollectDate() . ')">D=' . $cmd->execCmd() . 'm3/s</span>';
         }
       }
-      
+
 
       $templatename = 'crue';
     } else if ($this->getConfiguration('type') == 'air') {
