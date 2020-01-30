@@ -28,12 +28,12 @@ if (!is_object($vigilancemeteo)) {
 }
 
 if (strpos(network::getNetworkAccess('external'),'https') !== false) {
-  $link='https:/';
+  $protocole='https:/';
 } else {
-  $link='http://';
+  $protocole='http://';
 }
 if ($vigilancemeteo->getConfiguration('type') == 'maree') {
-  $link .= 'maree.info/' . $vigilancemeteo->getConfiguration('port');
+  $link = $protocole . 'maree.info/' . $vigilancemeteo->getConfiguration('port');
 }
 if ($vigilancemeteo->getConfiguration('type') == 'air') {
   if ($vigilancemeteo->getConfiguration('geoloc') == 'jeedom') {
@@ -49,13 +49,13 @@ if ($vigilancemeteo->getConfiguration('type') == 'air') {
             $latitude = trim($geoloctab[0]);
             $longitude = trim($geoloctab[1]);
         }
-  $link .= 'waqi.info/#/c/' . $latitude . '/' . $longitude . '/9.2z';
+  $link = $protocole . 'waqi.info/#/c/' . $latitude . '/' . $longitude . '/9.2z';
 }
 if ($vigilancemeteo->getConfiguration('type') == 'surf') {
-  $link .= 'magicseaweed.com/';
+  $link = $protocole . 'magicseaweed.com/';
 }
 if ($vigilancemeteo->getConfiguration('type') == 'pollen') {
-  $link .= 'pollens.fr';
+  $link = $protocole . 'pollens.fr';
 }
 if ($vigilancemeteo->getConfiguration('type') == 'plage') {
   if ($vigilancemeteo->getConfiguration('geoloc') == 'jeedom') {
@@ -81,7 +81,7 @@ if ($vigilancemeteo->getConfiguration('type') == 'plage') {
   $city = preg_replace('#Ý#', 'Y', $city);
   $city = str_replace('_', '-', $city);
   $city = str_replace('\'', '', $city);
-  $link .= "www.meteofrance.com/previsions-meteo-plages/". $city ."/".$postal;
+  $link = $protocole . "www.meteofrance.com/previsions-meteo-plages/". $city ."/".$postal;
 }
 if ($vigilancemeteo->getConfiguration('type') == 'vigilance') {
   if ($vigilancemeteo->getConfiguration('geoloc') == "jeedom") {
@@ -90,10 +90,10 @@ if ($vigilancemeteo->getConfiguration('type') == 'vigilance') {
   } else {
     $departement = geotravCmd::byEqLogicIdAndLogicalId($vigilancemeteo->getConfiguration('geoloc'),'location:department')->execCmd();
   }
-  $link .= 'vigilance.meteofrance.com/Bulletin_sans.html?a=dept'.$departement.'&b=2&c=';
+  $link = $protocole . 'vigilance.meteofrance.com/Bulletin_sans.html?a=dept'.$departement.'&b=2&c=';
 }
 if ($vigilancemeteo->getConfiguration('type') == 'crue') {
-  $link .= 'www.vigicrues.gouv.fr/niv3-station.php?CdStationHydro=' . $vigilancemeteo->getConfiguration('station') . '&CdEntVigiCru=9&GrdSerie=H&ZoomInitial=3&CdStationsSecondaires=';
+  $link = $protocole . 'www.vigicrues.gouv.fr/niv3-station.php?CdStationHydro=' . $vigilancemeteo->getConfiguration('station') . '&CdEntVigiCru=9&GrdSerie=H&ZoomInitial=3&CdStationsSecondaires=';
 }
 if ($vigilancemeteo->getConfiguration('type') == 'pluie1h') {
   if ($vigilancemeteo->getConfiguration('geoloc') == 'jeedom') {
@@ -119,7 +119,7 @@ if ($vigilancemeteo->getConfiguration('type') == 'pluie1h') {
   $city = preg_replace('#Ý#', 'Y', $city);
   $city = str_replace('_', '-', $city);
   $city = str_replace('\'', '', $city);
-  $link .= "www.meteofrance.com/previsions-meteo-france/previsions-pluie/". $city ."/".$postal;
+  $link = $protocole . "www.meteofrance.com/previsions-meteo-france/previsions-pluie/". $city ."/".$postal;
 }
 
 
