@@ -825,6 +825,8 @@ public function getPollen() {
     }
     $this->checkAndUpdateCmd('minutesAvantPluie', $minutesAvantPluie);
     $this->checkAndUpdateCmd('pluieDanslHeure', $pluieDanslHeureCount);
+    $echeance = substr($prevPluieData['echeance'],-4);
+    $this->checkAndUpdateCmd('echeance', $echeance);
     log::add(__CLASS__, 'info', sprintf("%s '%s' %s '%s'",
     __('VigilanceMeteo de type', __FILE__),
     $this->getConfiguration('type'),
@@ -1127,12 +1129,12 @@ public function getPollen() {
       $replace['#prevTexte#'] = (is_object($prevTexte)) ? nl2br($prevTexte->execCmd()) : '';
       $replace['#prevTexte_display#'] = (is_object($prevTexte) && $prevTexte->getIsVisible()) ? "#prevTexte_display#" : "none";
 
-      $lastUpdate = $this->getCmd(null,'lastUpdate');
-      $replace['#lastUpdate#'] = (is_object($lastUpdate)) ? $lastUpdate->execCmd() : '';
+      $echeance = $this->getCmd(null,'echeance');
+      $replace['#lastUpdate#'] = (is_object($echeance)) ? substr_replace($echeance->execCmd(),':',-2,0) : '';
 
       $colors = Array();
       $color[0] = '#D6D7D7';
-      $color[1] = '#FFFFFF';
+      $color[1] = '#EDEEEE';
       $color[2] = '#AAE8FF';
       $color[3] = '#48BFEA';
       $color[4] = '#0094CE';
