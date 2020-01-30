@@ -935,6 +935,7 @@ public function getPollen() {
       $city = str_replace('\'', '', $city);
       $link = $protocole . "www.meteofrance.com/previsions-meteo-france/previsions-pluie/". $city ."/".$postal;
     }
+    log::add(__CLASS__, 'deug', 'Link value : ' . $link);
     return $link;
   }
 
@@ -1224,8 +1225,8 @@ public function getPollen() {
       if (is_object($echeance)) {
         $heure = substr_replace($echeance->execCmd(),':',-2,0);
         $replace['#heure#'] = $heure;
-        $replace['#h30#'] = date('H:i',strtotime('+ 30mn', mktime($heure)));
-        $replace['#h1h#'] = date('H:i',strtotime('+ 1h', mktime($heure)));
+        $replace['#h30#'] = date('H:i',strtotime('+ 30mn', mktime($heure[0] . $heure[1], $heure[3] . $heure[4])));
+        $replace['#h1h#'] = date('H:i',strtotime('+ 1h', mktime($heure[0] . $heure[1], $heure[3] . $heure[4])));
       }
 
       $colors = Array();
