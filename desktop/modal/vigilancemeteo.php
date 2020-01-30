@@ -26,12 +26,7 @@ if (!is_object($vigilancemeteo)) {
 
   throw new Exception(__('Aucun equipement ne  correspond : Il faut (re)-enregistrer l\'équipement ', __FILE__) . init('action'));
 }
-if ($vigilancemeteo->getConfiguration('geoloc') == "jeedom") {
-  $postal = config::byKey('info::postalCode');
-  $departement = $postal[0] . $postal[1];
-} else {
-  $departement = geotravCmd::byEqLogicIdAndLogicalId($vigilancemeteo->getConfiguration('geoloc'),'location:department')->execCmd();
-}
+
 if (strpos(network::getNetworkAccess('external'),'https') !== false) {
   $link='https:/';
 } else {
@@ -89,6 +84,12 @@ if ($vigilancemeteo->getConfiguration('type') == 'plage') {
   $link .= "www.meteofrance.com/previsions-meteo-plages/". $city ."/".$postal;
 }
 if ($vigilancemeteo->getConfiguration('type') == 'vigilance') {
+  if ($vigilancemeteo->getConfiguration('geoloc') == "jeedom") {
+    $postal = config::byKey('info::postalCode');
+    $departement = $postal[0] . $postal[1];
+  } else {
+    $departement = geotravCmd::byEqLogicIdAndLogicalId($vigilancemeteo->getConfiguration('geoloc'),'location:department')->execCmd();
+  }
   $link .= 'vigilance.meteofrance.com/Bulletin_sans.html?a=dept'.$departement.'&b=2&c=';
 }
 if ($vigilancemeteo->getConfiguration('type') == 'crue') {
