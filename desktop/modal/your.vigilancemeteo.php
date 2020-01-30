@@ -32,7 +32,11 @@ if ($vigilancemeteo->getConfiguration('geoloc') == "jeedom") {
   } else {
     $departement = geotravCmd::byEqLogicIdAndLogicalId($vigilancemeteo->getConfiguration('geoloc'),'location:department')->execCmd();
   }
-$link='http://vigilance.meteofrance.com/Bulletin_sans.html?a=dept'.$departement.'&b=2&c=';
+if (strpos(network::getNetworkAccess('external'),'https') !== false) {
+	$link='https://vigilance.meteofrance.com/Bulletin_sans.html?a=dept'.$departement.'&b=2&c=';
+} else {
+	$link='http://vigilance.meteofrance.com/Bulletin_sans.html?a=dept'.$departement.'&b=2&c=';
+}
 ?>
 
 <iframe src="<?php echo $link; ?>" height="100%" width="100%">You need a Frames Capable browser to view this content.</iframe>
