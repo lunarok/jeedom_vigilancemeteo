@@ -447,7 +447,7 @@ public function getMaree() {
 public function getPlage() {
   if ($this->getConfiguration('geoloc') == 'jeedom') {
         $city = config::byKey('info::city');
-        $postal = config::byKey('info::postalCode'); 
+        $postal = config::byKey('info::postalCode');
     } else {
         $geotrav = eqLogic::byId($this->getConfiguration('geoloc'));
         if (!(is_object($geotrav) && $geotrav->getEqType_name() == 'geotrav')) {
@@ -875,18 +875,6 @@ public function getPollen() {
           $replace['#' . $key . '#'] = $value;
         }
       }
-      if (strpos(network::getNetworkAccess('external'),'https') !== false) {
-        if ($this->getConfiguration('geoloc') == "jeedom") {
-            $postal = config::byKey('info::postalCode');
-            $department = $postal[0] . $postal[1];
-          } else {
-            $department = geotravCmd::byEqLogicIdAndLogicalId($this->getConfiguration('geoloc'),'location:department')->execCmd();
-          }
-        $replace['#icone#'] = '<a target="_blank" href="http://vigilance.meteofrance.com/Bulletin_sans.html?a=dept' . $department . '&b=2&c="><i class="fas fa-info-circle pull-right" style="text-decoration: none; cursor:default; font-size: 0.8em; margin-top: 3px; margin-right: 3px;"></i></a>';
-      } else {
-        $replace['#icone#'] = '<i id="yourvigilance' . $this->getId() . '" class="fas fa-info-circle pull-right" style="text-decoration: none; cursor:default; font-size: 0.8em; margin-top: 3px; margin-right: 3px;"></i>';
-      }
-        $replace['#icone#'] = '<i id="yourvigilance' . $this->getId() . '" class="fas fa-info-circle pull-right" style="text-decoration: none; cursor:default; font-size: 0.8em; margin-top: 3px; margin-right: 3px;"></i>';
       $templatename = 'vigilancemeteo';
     } else if ($this->getConfiguration('type') == 'maree') {
       $replace['#portid#'] = $this->getConfiguration('port');
@@ -1135,7 +1123,12 @@ public function getPollen() {
       $replace['#prevTexte_display#'] = (is_object($prevTexte) && $prevTexte->getIsVisible()) ? "#prevTexte_display#" : "none";
 
       $echeance = $this->getCmd(null,'echeance');
-      $replace['#lastUpdate#'] = (is_object($echeance)) ? substr_replace($echeance->execCmd(),':',-2,0) : '';
+      if (is_object($echeance)) {
+        $heure = substr_replace($echeance->execCmd(),':',-2,0);
+        $replace['#heure#'] = $heure;
+        $replace['#h30#'] = date('H:i',strtotime($heure . ' + 30mn'));
+        $replace['#h1h#'] = date('H:i',strtotime($heure . ' + 1h'));
+      }
 
       $colors = Array();
       $color[0] = '#D6D7D7';
