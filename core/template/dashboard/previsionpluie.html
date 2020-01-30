@@ -1,5 +1,7 @@
 <div class="eqLogic-widget eqLogic allowResize" style="height: #height#;width: #width#;border:#border#;border-radius:#border-radius#;background-color: #background-color#;color: #color#;#style#" data-eqLogic_id="#id#" data-eqLogic_uid="#uid#" data-version="#version#" >
-	<center class="widget-name"><a href="#eqLink#" style="font-size : 1.5em;#hideEqLogicName#">#name_display#</a></strong></center><br />
+	<center class="widget-name"><a href="#eqLink#" style="font-size : 1.5em;#hideEqLogicName#">#name_display#</a></strong>
+		<i id="yourvigilancee#id#" class="fas fa-info-circle pull-right" style="text-decoration: none; cursor:default; font-size: 0.8em; margin-top: 3px; margin-right: 3px;"></i>
+ </center><br />
 
 	<div class="tooltips" style="width: 100%;font-size:12px;position:relative;margin-left:5px;margin-right:5px;margin-bottom:7px;">
 		<div style="width: 100%;text-align:center;position:relative;margin-left:5px;margin-right:5px;margin-bottom:5px;">
@@ -30,3 +32,12 @@
 		<div style="text-align:left; font-size:12px;">#prevTexte#</div>
 	</div>
 </div>
+<script>
+$('#yourvigilance#id#').on('click', function() {
+			$('#md_modal2').dialog({
+				title: "Pluie 1H"
+			});
+
+			$('#md_modal2').load('index.php?v=d&plugin=vigilancemeteo&modal=vigilancemeteo&id='+ #id#).dialog('open');
+		});
+</script>

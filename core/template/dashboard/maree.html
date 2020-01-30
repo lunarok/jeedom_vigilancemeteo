@@ -17,14 +17,6 @@
 	<center>
        <span class="risque #risque_history#" data-cmd_id="#maree_id#" title="Indice de Marée" style="font-size : 1.3em;">#maree#</span>
     </center>
-    <script>
-$('#maree#id#').on('click', function() {
-			$('#md_modal2').dialog({
-				title: "Votre Port"
-			});
-			$('#md_modal2').load('index.php?v=d&plugin=vigilancemeteo&modal=maree&id='+ #portid#).dialog('open');
-		});
-</script>
 </div>
 <script>
 $('#yourvigilance#id#').on('click', function() {
@@ -35,4 +27,3 @@ $('#yourvigilance#id#').on('click', function() {
 			$('#md_modal2').load('index.php?v=d&plugin=vigilancemeteo&modal=vigilancemeteo&id='+ #id#).dialog('open');
 		});
 </script>
-</div>

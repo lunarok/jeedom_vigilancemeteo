@@ -43,9 +43,7 @@
 <div class="eqLogic-widget eqLogic allowResize" style="height: #height#;width: #width#;border:#border#;border-radius:#border-radius#;background-color: #background-color#;color: #color#;#style#" data-eqLogic_id="#id#" data-eqLogic_uid="#uid#" data-version="#version#" >
 	<center class="widget-name">
     <a href="#eqLink#" style="font-size : 1.2em;#hideEqLogicName#">#name_display#</a>
-    <a href="https://www.pollens.fr" target="_blank" title="Plus d'infos sur www.pollens.fr">
-      <i class="fas fa-info-circle pull-right" style="text-decoration: none; cursor:default; font-size: 0.8em; margin-top: 3px; margin-right: 3px;"></i>
-    </a>
+			<i id="yourvigilancee#id#" class="fas fa-info-circle pull-right" style="text-decoration: none; cursor:default; font-size: 0.8em; margin-top: 3px; margin-right: 3px;"></i>
   </center>
   <br/><br/>
   <center>
@@ -74,3 +72,12 @@
     </a>
   </div>
 </div>
+<script>
+$('#yourvigilance#id#').on('click', function() {
+			$('#md_modal2').dialog({
+				title: "Vos Marées"
+			});
+
+			$('#md_modal2').load('index.php?v=d&plugin=vigilancemeteo&modal=vigilancemeteo&id='+ #id#).dialog('open');
+		});
+</script>

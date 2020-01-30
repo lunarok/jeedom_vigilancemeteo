@@ -1,7 +1,9 @@
 <link rel="stylesheet" href="plugins/vigilancemeteo/desktop/weather-icons/css/weather-icons.css">
 
 <div class="eqLogic-widget eqLogic allowResize" style="height: #height#;width: #width#;border:#border#;border-radius:#border-radius#;background-color: #background-color#;color: #color#;#style#" data-eqLogic_id="#id#" data-eqLogic_uid="#uid#" data-version="#version#" >
-	<center class="widget-name"><a href="#eqLink#" style="font-size : 1.5em;#hideEqLogicName#">#name_display#</a></strong></center><br />
+	<center class="widget-name"><a href="#eqLink#" style="font-size : 1.5em;#hideEqLogicName#">#name_display#</a></strong>
+		<i id="yourvigilancee#id#" class="fas fa-info-circle pull-right" style="text-decoration: none; cursor:default; font-size: 0.8em; margin-top: 3px; margin-right: 3px;"></i>
+</center><br />
 
     <div class="row">
 	<div class="col-sm-12">
@@ -12,3 +14,12 @@
 	</div>
 	</div>
 </div>
+<script>
+$('#yourvigilance#id#').on('click', function() {
+			$('#md_modal2').dialog({
+				title: "Vigicrue"
+			});
+
+			$('#md_modal2').load('index.php?v=d&plugin=vigilancemeteo&modal=vigilancemeteo&id='+ #id#).dialog('open');
+		});
+</script>
