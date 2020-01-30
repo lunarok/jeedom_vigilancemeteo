@@ -877,9 +877,9 @@ public function getPollen() {
           } else {
             $department = geotravCmd::byEqLogicIdAndLogicalId($this->getConfiguration('geoloc'),'location:department')->execCmd();
           }
-        $replace['#icone#'] = '<a target="_blank" href="http://vigilance.meteofrance.com/Bulletin_sans.html?a=dept' . $department . '&b=2&c="><i class="fas fa-info-circle cursor"></i></a>';      
+        $replace['#icone#'] = '<a target="_blank" href="http://vigilance.meteofrance.com/Bulletin_sans.html?a=dept' . $department . '&b=2&c="><i class="fas fa-info-circle pull-right" style="text-decoration: none; cursor:default; font-size: 0.8em; margin-top: 3px; margin-right: 3px;"></i></a>';      
       } else {
-        $replace['#icone#'] = '<i id="yourvigilance' . $this->getId() . '" class="fas fa-info-circle cursor"></i>';
+        $replace['#icone#'] = '<i id="yourvigilance' . $this->getId() . '" class="fas fa-info-circle pull-right" style="text-decoration: none; cursor:default; font-size: 0.8em; margin-top: 3px; margin-right: 3px;"></i>';
       }
 
       $templatename = 'vigilancemeteo';
