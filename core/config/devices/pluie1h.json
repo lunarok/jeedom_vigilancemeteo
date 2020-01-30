@@ -18,6 +18,12 @@
             "logicalId": "lastUpdate"
         },
         {
+            "name": "Heure Echéance",
+            "type": "info",
+            "subtype": "string",
+            "logicalId": "echeance"
+        },
+        {
             "name": "Pluie prévue dans l heure",
             "type": "info",
             "subtype": "numeric",
