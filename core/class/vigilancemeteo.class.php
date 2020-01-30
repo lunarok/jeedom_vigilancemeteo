@@ -1126,8 +1126,8 @@ public function getPollen() {
       if (is_object($echeance)) {
         $heure = substr_replace($echeance->execCmd(),':',-2,0);
         $replace['#heure#'] = $heure;
-        $replace['#h30#'] = date('H:i',strtotime($heure . ' + 30mn'));
-        $replace['#h1h#'] = date('H:i',strtotime($heure . ' + 1h'));
+        $replace['#h30#'] = date('H:i',strtotime('+ 30mn', mktime($heure)));
+        $replace['#h1h#'] = date('H:i',strtotime('+ 1h', mktime($heure)));
       }
 
       $colors = Array();
