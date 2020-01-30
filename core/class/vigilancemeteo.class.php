@@ -842,7 +842,7 @@ public function getPollen() {
 
   public function getLink() {
     if (strpos(network::getNetworkAccess('external'),'https') !== false) {
-      $protocole='https:/';
+      $protocole='https://';
     } else {
       $protocole='http://';
     }
