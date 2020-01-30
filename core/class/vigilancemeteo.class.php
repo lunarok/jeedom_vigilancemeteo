@@ -881,7 +881,7 @@ public function getPollen() {
       } else {
         $replace['#icone#'] = '<i id="yourvigilance' . $this->getId() . '" class="fas fa-info-circle pull-right" style="text-decoration: none; cursor:default; font-size: 0.8em; margin-top: 3px; margin-right: 3px;"></i>';
       }
-
+        $replace['#icone#'] = '<i id="yourvigilance' . $this->getId() . '" class="fas fa-info-circle pull-right" style="text-decoration: none; cursor:default; font-size: 0.8em; margin-top: 3px; margin-right: 3px;"></i>';
       $templatename = 'vigilancemeteo';
     } else if ($this->getConfiguration('type') == 'maree') {
       $replace['#portid#'] = $this->getConfiguration('port');
