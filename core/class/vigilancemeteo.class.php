@@ -846,42 +846,42 @@ public function getPollen() {
     } else {
       $protocole='http://';
     }
-    if ($vigilancemeteo->getConfiguration('type') == 'maree') {
-      $link = $protocole . 'maree.info/' . $vigilancemeteo->getConfiguration('port');
+    if ($this->getConfiguration('type') == 'maree') {
+      $link = $protocole . 'maree.info/' . $this->getConfiguration('port');
     }
-    if ($vigilancemeteo->getConfiguration('type') == 'air') {
-      if ($vigilancemeteo->getConfiguration('geoloc') == 'jeedom') {
+    if ($this->getConfiguration('type') == 'air') {
+      if ($this->getConfiguration('geoloc') == 'jeedom') {
                 $latitude = config::byKey('info::latitude');
                 $longitude = config::byKey('info::longitude');
             } else {
-                $geotrav = eqLogic::byId($vigilancemeteo->getConfiguration('geoloc'));
+                $geotrav = eqLogic::byId($this->getConfiguration('geoloc'));
                 if (!(is_object($geotrav) && $geotrav->getEqType_name() == 'geotrav')) {
                     return;
                 }
-                $geolocval = geotravCmd::byEqLogicIdAndLogicalId($vigilancemeteo->getConfiguration('geoloc'),'location:coordinate')->execCmd();
+                $geolocval = geotravCmd::byEqLogicIdAndLogicalId($this->getConfiguration('geoloc'),'location:coordinate')->execCmd();
                 $geoloctab = explode(',', trim($geolocval));
                 $latitude = trim($geoloctab[0]);
                 $longitude = trim($geoloctab[1]);
             }
       $link = $protocole . 'waqi.info/#/c/' . $latitude . '/' . $longitude . '/9.2z';
     }
-    if ($vigilancemeteo->getConfiguration('type') == 'surf') {
+    if ($this->getConfiguration('type') == 'surf') {
       $link = $protocole . 'magicseaweed.com/';
     }
-    if ($vigilancemeteo->getConfiguration('type') == 'pollen') {
+    if ($this->getConfiguration('type') == 'pollen') {
       $link = $protocole . 'pollens.fr';
     }
-    if ($vigilancemeteo->getConfiguration('type') == 'plage') {
-      if ($vigilancemeteo->getConfiguration('geoloc') == 'jeedom') {
+    if ($this->getConfiguration('type') == 'plage') {
+      if ($this->getConfiguration('geoloc') == 'jeedom') {
         $city = config::byKey('info::city');
         $postal = config::byKey('info::postalCode');
       } else {
-        $geotrav = eqLogic::byId($vigilancemeteo->getConfiguration('geoloc'));
+        $geotrav = eqLogic::byId($this->getConfiguration('geoloc'));
         if (!(is_object($geotrav) && $geotrav->getEqType_name() == 'geotrav')) {
           return;
         }
-        $postal = geotravCmd::byEqLogicIdAndLogicalId($vigilancemeteo->getConfiguration('geoloc'),'location:zip')->execCmd();
-        $city = geotravCmd::byEqLogicIdAndLogicalId($vigilancemeteo->getConfiguration('geoloc'),'location:city')->execCmd();
+        $postal = geotravCmd::byEqLogicIdAndLogicalId($this->getConfiguration('geoloc'),'location:zip')->execCmd();
+        $city = geotravCmd::byEqLogicIdAndLogicalId($this->getConfiguration('geoloc'),'location:city')->execCmd();
       }
       $city = str_replace(' ','_',strtolower($city));
       $city = preg_replace('#Ç#', 'C', $city);
@@ -897,29 +897,29 @@ public function getPollen() {
       $city = str_replace('\'', '', $city);
       $link = $protocole . "www.meteofrance.com/previsions-meteo-plages/". $city ."/".$postal;
     }
-    if ($vigilancemeteo->getConfiguration('type') == 'vigilance') {
-      if ($vigilancemeteo->getConfiguration('geoloc') == "jeedom") {
+    if ($this->getConfiguration('type') == 'vigilance') {
+      if ($this->getConfiguration('geoloc') == "jeedom") {
         $postal = config::byKey('info::postalCode');
         $departement = $postal[0] . $postal[1];
       } else {
-        $departement = geotravCmd::byEqLogicIdAndLogicalId($vigilancemeteo->getConfiguration('geoloc'),'location:department')->execCmd();
+        $departement = geotravCmd::byEqLogicIdAndLogicalId($this->getConfiguration('geoloc'),'location:department')->execCmd();
       }
       $link = $protocole . 'vigilance.meteofrance.com/Bulletin_sans.html?a=dept'.$departement.'&b=2&c=';
     }
-    if ($vigilancemeteo->getConfiguration('type') == 'crue') {
-      $link = $protocole . 'www.vigicrues.gouv.fr/niv3-station.php?CdStationHydro=' . $vigilancemeteo->getConfiguration('station') . '&CdEntVigiCru=9&GrdSerie=H&ZoomInitial=3&CdStationsSecondaires=';
+    if ($this->getConfiguration('type') == 'crue') {
+      $link = $protocole . 'www.vigicrues.gouv.fr/niv3-station.php?CdStationHydro=' . $this->getConfiguration('station') . '&CdEntVigiCru=9&GrdSerie=H&ZoomInitial=3&CdStationsSecondaires=';
     }
-    if ($vigilancemeteo->getConfiguration('type') == 'pluie1h') {
-      if ($vigilancemeteo->getConfiguration('geoloc') == 'jeedom') {
+    if ($this->getConfiguration('type') == 'pluie1h') {
+      if ($this->getConfiguration('geoloc') == 'jeedom') {
         $city = config::byKey('info::city');
         $postal = config::byKey('info::postalCode');
       } else {
-        $geotrav = eqLogic::byId($vigilancemeteo->getConfiguration('geoloc'));
+        $geotrav = eqLogic::byId($this->getConfiguration('geoloc'));
         if (!(is_object($geotrav) && $geotrav->getEqType_name() == 'geotrav')) {
           return;
         }
-        $postal = geotravCmd::byEqLogicIdAndLogicalId($vigilancemeteo->getConfiguration('geoloc'),'location:zip')->execCmd();
-        $city = geotravCmd::byEqLogicIdAndLogicalId($vigilancemeteo->getConfiguration('geoloc'),'location:city')->execCmd();
+        $postal = geotravCmd::byEqLogicIdAndLogicalId($this->getConfiguration('geoloc'),'location:zip')->execCmd();
+        $city = geotravCmd::byEqLogicIdAndLogicalId($this->getConfiguration('geoloc'),'location:city')->execCmd();
       }
       $city = str_replace(' ','_',strtolower($city));
       $city = preg_replace('#Ç#', 'C', $city);
