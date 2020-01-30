@@ -910,17 +910,11 @@ public function getPollen() {
       $link = $protocole . 'www.vigicrues.gouv.fr/niv3-station.php?CdStationHydro=' . $this->getConfiguration('station') . '&CdEntVigiCru=9&GrdSerie=H&ZoomInitial=3&CdStationsSecondaires=';
     }
     if ($this->getConfiguration('type') == 'pluie1h') {
-      if ($this->getConfiguration('geoloc') == 'jeedom') {
-        $city = config::byKey('info::city');
-        $postal = config::byKey('info::postalCode');
-      } else {
-        $geotrav = eqLogic::byId($this->getConfiguration('geoloc'));
-        if (!(is_object($geotrav) && $geotrav->getEqType_name() == 'geotrav')) {
-          return;
-        }
-        $postal = geotravCmd::byEqLogicIdAndLogicalId($this->getConfiguration('geoloc'),'location:zip')->execCmd();
-        $city = geotravCmd::byEqLogicIdAndLogicalId($this->getConfiguration('geoloc'),'location:city')->execCmd();
-      }
+      $city = $this->getConfiguration('villeNom');
+      $explode = explode(' ',$city);
+      $city = $explode[0];
+      $postal = str_replace('(','',$explode[1]);
+      $postal = str_replace(')','',$postal);
       $city = str_replace(' ','_',strtolower($city));
       $city = preg_replace('#Ç#', 'C', $city);
       $city = preg_replace('#ç#', 'c', $city);
@@ -933,9 +927,9 @@ public function getPollen() {
       $city = preg_replace('#Ý#', 'Y', $city);
       $city = str_replace('_', '-', $city);
       $city = str_replace('\'', '', $city);
-      $link = $protocole . "www.meteofrance.com/previsions-meteo-france/previsions-pluie/". $city ."/".$postal;
+      $link = $protocole . 'www.meteofrance.com/previsions-meteo-france/previsions-pluie/'. $city . '/' . $postal;
     }
-    log::add(__CLASS__, 'deug', 'Link value : ' . $link);
+    log::add(__CLASS__, 'debug', 'Link value : ' . $link);
     return $link;
   }
 
@@ -1225,8 +1219,8 @@ public function getPollen() {
       if (is_object($echeance)) {
         $heure = substr_replace($echeance->execCmd(),':',-2,0);
         $replace['#heure#'] = $heure;
-        $replace['#h30#'] = date('H:i',strtotime('+ 30mn', mktime($heure[0] . $heure[1], $heure[3] . $heure[4])));
-        $replace['#h1h#'] = date('H:i',strtotime('+ 1h', mktime($heure[0] . $heure[1], $heure[3] . $heure[4])));
+        $replace['#h30#'] = date('H:i',strtotime('+ 30 minutes', mktime($heure[0] . $heure[1], $heure[3] . $heure[4])));
+        $replace['#h1h#'] = date('H:i',strtotime('+ 1 hour', mktime($heure[0] . $heure[1], $heure[3] . $heure[4])));
       }
 
       $colors = Array();
