@@ -943,7 +943,7 @@ public function getPollen() {
       return '';
     }
     $cmd = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'refresh');
-    if(is_object($cmd)) { $replace['#refresh'] = $cmd->getId();}
+    if(is_object($cmd)) { $replace['#refresh#'] = $cmd->getId();}
     if ($this->getConfiguration('type') == 'vigilance') {
       foreach ($this->getCmd('info') as $cmd) {
         $replace['#' . $cmd->getLogicalId() . '_history#'] = '';
