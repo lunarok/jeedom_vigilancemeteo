@@ -178,7 +178,7 @@ function addCmdToTable(_cmd) {
       tr += '</td><td>';
       if (_cmd.subType == 'numeric' || _cmd.subType == 'binary') {
         tr += '<span><label class="checkbox-inline"><input type="checkbox" class="cmdAttr checkbox-inline" data-l1key="isHistorized" checked/>{{Historiser}}</label></span>';
-        if ( _cmd.configuration['logicalId'].substr(0,6) == 'pollen' ) {
+        if ( typeof _cmd.configuration['logicalId'] != "undefined" && _cmd.configuration['logicalId'].substr(0,6) == 'pollen' ) {
           tr += '<br/><span><label class="checkbox-inline"><input type="checkbox" class="cmdAttr checkbox-inline" data-l1key="isVisible" checked/>{{Afficher}}</label></span>';
         }
       }
