@@ -1,259 +1,46 @@
 <style>
-	#pollen_carousel#id# {
-	  position: relative;
-	  width: 110px;
-	  margin: 0 auto;
-	  display: table-cell;
-	}
+  .pollen_pollen#id# {
+    padding: 1px 0 1px;
+  }
 
-	#pollen_slides#id# {
-	  overflow: hidden;
-	  position: relative;
-	  width: 110px;
-	  height: 76px;
-	}
+  .pollen_label#id# {
+    display: table-cell;
+    font-size: 11px;
+    width: 90px;
+    height: 16px;
+  }
 
-	#pollen_slides#id# ul {
-	  list-style: none;
-	  width: 110px;
-	  height: 76px;
-	  margin: 0;
-	  padding: 0;
-	  position: relative;
-	}
+  .pollen_value#id# {
+    display: table-cell;
+    width: 15px;
+    text-align: center;
+    font-style: normal;
+  }
 
-	#pollen_slides#id# li {
-	  width: 110px;
-	  height: 76px;
-	  float: left;
-	  text-align: center;
-	  position: relative;
-	}
-
-	.pollen_btn-bar#id# {
-	  position: relative;
-	  position: relative;
-	  display: table-cell;
-	  height: 76px;
-	}
-
-	.pollen_button_L#id# {
-	  padding: 0 20px 0 6px;
-	  display: table-cell;
-	}
-
-	.pollen_button_R#id# {
-	  padding: 0 6px 0 15px;
-	  display: table-cell;
-	}
-
-	#pollen_buttons#id# a {
-	  vertical-align: middle;
-	  float: left;
-	  outline: 0;
-	  text-decoration: none;
-	  width: 15px;
-	  height: 76px;
-	  opacity: 0.8;
-	  color: white;
-	}
-
-	.pollen_quote-phrase#id# {
-	  text-align: left;
-	  display: table-cell;
-	  height: 76px;
-	  font-size: 12px;
-	  color: #FFF;
-	  text-shadow: .5px 0px #b14943;
-	}
-
-	.pollen_quoteContainer#id# {
-	  display: table;
-	  width: 100%;
-	}
-
-	.pollen_pollen#id# {
-	  padding: 1px 0 1px;
-	}
-
-	.pollen_label#id# {
-	  display: table-cell;
-	  font-size: 11px;
-	  width: 90px;
-	  height: 16px;
-	}
-
-	.pollen_value#id# {
-	  display: table-cell;
-	  width: 15px;
-	  text-align: center;
-	  font-style: normal;
-	}
-
-	.pollen_graph#id# {
-	  display: table-cell;
-	  height: 16px;
-	}
-
-	.pollen_general#id# {
-	  display: table-cell;
-	  vertical-align: middle;
-	  align: center;
-	  cursor:default;
-	  font-size: 1.5em;
-	  font-weight: bold;
-	  border-style: solid;
-	  border-width: 1px;
-	  border-color: #ffffff;
-	  border-radius:19px;
-	  width:38px;
-	  height:38px;
-	}
+  .pollen_general#id# {
+    display: table-cell;
+    vertical-align: middle;
+    align: center;
+    cursor:default;
+    font-size: 1.5em;
+    font-weight: bold;
+    border-style: solid;
+    border-width: 1px;
+    border-color: #ffffff;
+    border-radius:19px;
+    width:38px;
+    height:38px;
+  }
 </style>
 
-<div class="eqLogic-widget eqLogic" style="height: 160px;width: 240px;border:#border#;border-radius:#border-radius#;background-color: #background-color#;color: #color#;#style#" data-eqLogic_id="#id#" data-eqLogic_uid="#uid#" data-version="#version#" >
-	<center class="widget-name">#name_display#</center><br />
-
-		<center>
-			<div style="display: table; overflow: hidden; position: relative; top: -19px;">
-				<div data-cmd_id="#general_id#" title="Indice général (collecté le #general_collect#)" class="pollen_general#id#" style="background-color:#general_color#;color:#general_font#;"><center>#general#</center></div>
-			</div>
-
-			<div id="jquery-script-menu">
-				<div class="jquery-script-center">
-					<div class="jquery-script-clear"></div>
-				</div>
-			</div>
-
-			<div class="pollen_btn-bar#id#">
-				<div id="pollen_buttons#id#" class="pollen_button_L#id#"><a id="pollen_prev" href="#"><br><</a> </div>
-			</div>
-
-			<div id="pollen_carousel#id#">
-
-			  <div id="pollen_slides#id#">
-				<ul>
-				  <li class="pollen_slide">
-					<div class="pollen_quoteContainer#id#">
-						<div class="pollen_quote-phrase#id#">
-						  #slide1#
-						</div>
-					</div>
-				  </li>
-				  <li class="pollen_slide">
-					<div class="pollen_quoteContainer#id#">
-						<div class="pollen_quote-phrase#id#">
-						  #slide2#
-						</div>
-					</div>
-				  </li>
-				  <li class="pollen_slide">
-					<div class="pollen_quoteContainer#id#">
-						<div class="pollen_quote-phrase#id#">
-                          #slide3#
-                         </div>
-					</div>
-				  </li>
-				  <li class="pollen_slide">
-					<div class="pollen_quoteContainer#id#">
-						<div class="pollen_quote-phrase#id#">
-                          #slide4#
-                        </div>
-					</div>
-				  </li>
-				  <li class="pollen_slide">
-					<div class="pollen_quoteContainer#id#">
-						<div class="pollen_quote-phrase#id#">
-                          #slide5#
-                        </div>
-					</div>
-				  </li>
-				</ul>
-			  </div>
-
-			</div>
-
-			<div class="pollen_btn-bar#id#">
-				<div id="pollen_buttons#id#" class="pollen_button_R#id#"><a id="pollen_next" href="#"><br>></a> </div>
-			</div>
-
-		</center>
-
+<div class="eqLogic-widget eqLogic" style="height: #height#;width: #width#;border:#border#;border-radius:#border-radius#;background-color: #background-color#;color: #color#;#style#" data-eqLogic_id="#id#" data-eqLogic_uid="#uid#" data-version="#version#" >
+   <center class="widget-name">#name_display#</center>
+   <center>
+     <div style="display: table; overflow: hidden; position: relative; top: 8px;">
+       <div data-cmd_id="#general_id#" title="Indice général (collecté le #general_collect#)" class="pollen_general#id#" style="background-color:#general_color#;color:#general_font#;"><center>#general#</center></div>
+     </div>
+   </center>
+      <div id="pollen#uid#" style="position: relative; top: 16px;width: 98%; margin-left: 5px;">
+      #slide#
+      </div>
 </div>
-
-
-
-<script>
-$(document).ready(function () {
-    //rotation speed and timer
-    var speed = 4000;
-
-    var run = setInterval(rotate, speed);
-    var slides = $('.pollen_slide');
-    var container = $('#pollen_slides#id# ul');
-    var elm = container.find(':first-child').prop("tagName");
-    var item_width = container.width();
-    var previous = 'pollen_prev'; //id of previous button
-    var next = 'pollen_next'; //id of next button
-    slides.width(item_width); //set the slides to the correct pixel width
-    container.parent().width(item_width);
-    container.width(slides.length * item_width); //set the slides container to the correct total width
-    container.find(elm + ':first').before(container.find(elm + ':last'));
-    resetSlides();
-    clearInterval(run);
-
-
-    //if user clicked on prev button
-
-    $('#pollen_buttons#id# a').click(function (e) {
-        //slide the item
-
-        if (container.is(':animated')) {
-            return false;
-        }
-        if (e.target.id == previous) {
-            container.stop().animate({
-                'left': 0
-            }, 1500, function () {
-                container.find(elm + ':first').before(container.find(elm + ':last'));
-                resetSlides();
-            });
-        }
-
-        if (e.target.id == next) {
-            container.stop().animate({
-                'left': item_width * -2
-            }, 1500, function () {
-                container.find(elm + ':last').after(container.find(elm + ':first'));
-                resetSlides();
-            });
-        }
-
-        //cancel the link behavior
-        return false;
-
-    });
-
-    //if mouse hover, pause the auto rotation, otherwise rotate it
-    //container.parent().mouseenter(function () {
-    //    clearInterval(run);
-    //}).mouseleave(function () {
-    //    run = setInterval(rotate, speed);
-    //});
-
-
-    function resetSlides() {
-        //and adjust the container so current is in the frame
-        container.css({
-            'left': -1 * item_width
-        });
-    }
-
-});
-//a simple function to click next link
-//a timer will call this function, and the rotation will begin
-
-function rotate() {
-    $('#pollen_next').click();
-}
-</script>

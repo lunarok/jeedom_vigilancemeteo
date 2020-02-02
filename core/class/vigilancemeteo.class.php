@@ -1063,7 +1063,9 @@ public function getPollen() {
           $replace['#' . $cmd->getLogicalId() . '_collect#'] = $cmd->getCollectDate();
         } else {
           $value =  $cmd->execCmd();
-          if($cmd->getIsVisible() && ($value >0 || $value == 0 && $chkDisplay0 == 1)) {
+          if($cmd->getIsVisible() &&
+            (($version == 'dashboard' && ($value >0 || ($value == 0 && $chkDisplay0 == 1))) ||
+            ($version == 'mobile' && $value >0))) {
             $sort[$cmd->getLogicalId()] = $cmd->execCmd();
             $unitreplace['#id#'] = $this->getId();
             $unitreplace['#value#'] = $value;
@@ -1078,23 +1080,28 @@ public function getPollen() {
       arsort($sort);
       $i=0;
       $repl[0] = $repl[1] = $repl[2] = $repl[3] =$repl[4] = '';
-      if ($version == 'dashboard' ) $lim = array(5,10,15,20);
-      else $lim = array(4,8,12,16);
       foreach ($sort as $key => $value) {
-        if ($i < $lim[0]) $repl[0] .= $slide[$key];
-        else if ($i < $lim[1]) $repl[1] .= $slide[$key];
-        else if ($i < $lim[2]) $repl[2] .= $slide[$key];
-        else if ($i < $lim[3]) $repl[3] .= $slide[$key];
+        if ($i < 5) $repl[0] .= $slide[$key];
+        else if ($i < 10) $repl[1] .= $slide[$key];
+        else if ($i < 15) $repl[2] .= $slide[$key];
+        else if ($i < 20) $repl[3] .= $slide[$key];
         else $repl[4] .= $slide[$key];
         $i++;
       }
-      $replace['#slide#'] = '<div class="item active"> ' .$repl[0] .'</div>';
-      for($i=1;$i<5;$i++) if($repl[$i] != '')
-        $replace['#slide#'] .= '<div class="item"> ' .$repl[$i] .'</div>';
-      if (count($sort) <= 5) {
-        $replace['#hiding#'] = 'style="display: none;"';
-      } else {
-        $replace['#hiding#'] = '';
+      if ($version == 'dashboard' ) {
+        $replace['#slide#'] = '<div class="item active"> ' .$repl[0] .'</div>';
+        for($i=1;$i<5;$i++) if($repl[$i] != '')
+          $replace['#slide#'] .= '<div class="item"> ' .$repl[$i] .'</div>';
+        if (count($sort) <= 5) {
+          $replace['#hiding#'] = 'style="display: none;"';
+        } else {
+          $replace['#hiding#'] = '';
+        }
+      }
+      else {
+        $replace['#slide#'] = '';
+        for($i=0;$i<5;$i++) if($repl[$i] != '')
+          $replace['#slide#'] .= $repl[$i];
       }
       $templatename = 'pollen';
     } else if ($this->getConfiguration('type') == 'crue') {
@@ -1142,8 +1149,6 @@ public function getPollen() {
           $replace['#debit#'] = '<span style="margin-left: 30px;" class="debit ' . $hitsory . ' data-cmd_id="' . $cmd->getId() . '" title="Débit mesuré le ' . $datedebit . ' (' . $cmd->getCollectDate() . ')">D=' . $cmd->execCmd() . 'm3/s</span>';
         }
       }
-
-
       $templatename = 'crue';
     } else if ($this->getConfiguration('type') == 'air') {
       $cmd = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'aqi');
@@ -1224,7 +1229,7 @@ public function getPollen() {
         $replace['#h1h#'] = date('H:i',strtotime('+ 1 hour', mktime($heure[0] . $heure[1], $heure[3] . $heure[4])));
       }
 
-      $colors = Array();
+      $color = Array();
       $color[0] = '#D6D7D7';
       $color[1] = '#EDEEEE';
       $color[2] = '#AAE8FF';
