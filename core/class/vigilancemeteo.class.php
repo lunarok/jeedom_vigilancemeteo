@@ -1230,11 +1230,11 @@ public function getPollen() {
       }
 
       $color = Array();
-      $color[0] = '#D6D7D7';
-      $color[1] = '#EDEEEE';
-      $color[2] = '#AAE8FF';
-      $color[3] = '#48BFEA';
-      $color[4] = '#0094CE';
+      $color[0] = '';
+      $color[1] = ' background: #EDEEEE';
+      $color[2] = ' background: #AAE8FF';
+      $color[3] = ' background: #48BFEA';
+      $color[4] = ' background: #0094CE';
 
       $text = Array();
       $text[0] = 'Données indisponibles';
