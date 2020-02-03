@@ -798,6 +798,12 @@ public function getPollen() {
     $prevPluieJson = $request_http->exec(8);
     if ($prevPluieJson == '') {
       log::add(__CLASS__, 'warning', 'Impossible d\'obtenir les informations Météo France... ');
+      for($i=0; $i <= 11; $i++) {
+        $cmdName = sprintf('prev%d', $i * 5);
+        $this->checkAndUpdateCmd($cmdName, 0);
+      }
+      $this->checkAndUpdateCmd('prevTexte', 'Données indisponibles. Problème liaison Météo France');
+      $this->checkAndUpdateCmd('echeance', date('Hi'));
       return;
     }
     $prevPluieData = json_decode($prevPluieJson, true);
@@ -1231,7 +1237,7 @@ public function getPollen() {
 
       $color = Array();
       $color[0] = '';
-      $color[1] = ' background: #EDEEEE';
+      $color[1] = '';
       $color[2] = ' background: #AAE8FF';
       $color[3] = ' background: #48BFEA';
       $color[4] = ' background: #0094CE';
