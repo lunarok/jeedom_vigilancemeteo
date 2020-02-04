@@ -1,4 +1,33 @@
-<style>
+<div class="eqLogic-widget eqLogic allowResize" style="height: #height#;width: #width#;border:#border#;border-radius:#border-radius#;background-color: #background-color#;color: #color#;#style#" data-eqLogic_id="#id#" data-eqLogic_uid="#uid#" data-version="#version#" >
+	<center class="widget-name"><a href="#eqLink#" style="font-size : 1.5em;#hideEqLogicName#">#name_display#</a>
+<span class="pull-right cursor"><i id="yourvigilance#id#" class="fas fa-info-circle" style="color: var(--eqTitle-color) !important;"></i></span> &nbsp; <span class="cmd refresh pull-right cursor" data-cmd_id="#refresh#"><i class="fas fa-sync"></i></span>
+	</center><br />
+	<center>
+    <div style="display: table; overflow: hidden; position: relative; top: -19px;">
+      <div data-cmd_id="#general_id#" title="Indice général (collecté le #general_collect#)" class="pollen_general#id#" style="background-color:#general_color#;color:#general_font#;">
+        <center>
+          #general#
+        </center>
+      </div>
+    </div>
+  </center>
+
+  <div id="pollenCarousel#uid#" class="carousel slide" data-ride="carousel" style="display: table; overflow: hidden; position: relative; top: 0px;width: 98%; margin-left: 5px; background: linear-gradient(to right, #background-color#, #color#);">
+    <!-- Wrapper for slides -->
+    <div class="carousel-inner">
+        #slide#
+    </div>
+    <!-- Left and right controls -->
+    <a class="left carousel-control" href="#pollenCarousel#uid#" data-slide="prev" #hiding#>
+      <span class="glyphicon glyphicon-chevron-left">&lt;</span>
+      <span class="sr-only">Previous</span>
+    </a>
+    <a class="right carousel-control" href="#pollenCarousel#uid#" data-slide="next" #hiding#>
+      <span class="glyphicon glyphicon-chevron-right">&gt;</span>
+      <span class="sr-only">Next</span>
+    </a>
+  </div>
+	<style>
 	.pollen_pollen#id# {
 	  padding: 1px 0 1px;
 	}
@@ -39,36 +68,7 @@
 	  height:38px;
 	}
 </style>
-
-<div class="eqLogic-widget eqLogic allowResize" style="height: #height#;width: #width#;border:#border#;border-radius:#border-radius#;background-color: #background-color#;color: #color#;#style#" data-eqLogic_id="#id#" data-eqLogic_uid="#uid#" data-version="#version#" >
-	<center class="widget-name"><a href="#eqLink#" style="font-size : 1.5em;#hideEqLogicName#">#name_display#</a>
-<span class="pull-right cursor"><i id="yourvigilance#id#" class="fas fa-info-circle" style="color: var(--eqTitle-color) !important;"></i></span> &nbsp; <span class="cmd refresh pull-right cursor" data-cmd_id="#refresh#"><i class="fas fa-sync"></i></span>
-	</center><br />
-	<center>
-    <div style="display: table; overflow: hidden; position: relative; top: -19px;">
-      <div data-cmd_id="#general_id#" title="Indice général (collecté le #general_collect#)" class="pollen_general#id#" style="background-color:#general_color#;color:#general_font#;">
-        <center>
-          #general#
-        </center>
-      </div>
-    </div>
-  </center>
-
-  <div id="pollenCarousel#uid#" class="carousel slide" data-ride="carousel" style="display: table; overflow: hidden; position: relative; top: 0px;width: 98%; margin-left: 5px; background: linear-gradient(to right, #background-color#, #color#);">
-    <!-- Wrapper for slides -->
-    <div class="carousel-inner">
-        #slide#
-    </div>
-    <!-- Left and right controls -->
-    <a class="left carousel-control" href="#pollenCarousel#uid#" data-slide="prev" #hiding#>
-      <span class="glyphicon glyphicon-chevron-left">&lt;</span>
-      <span class="sr-only">Previous</span>
-    </a>
-    <a class="right carousel-control" href="#pollenCarousel#uid#" data-slide="next" #hiding#>
-      <span class="glyphicon glyphicon-chevron-right">&gt;</span>
-      <span class="sr-only">Next</span>
-    </a>
-  </div>
+	
 <script>
 $('#yourvigilance#id#').on('click', function() {
 			$('#md_modal2').dialog({
