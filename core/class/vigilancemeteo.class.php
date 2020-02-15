@@ -403,12 +403,10 @@ public function getVigilance() {
   log::add(__CLASS__, 'debug', 'Crue ' . $lcrue);
   log::add(__CLASS__, 'debug', 'Risque ' . $lrisque);
 
-  foreach ($this->getCmd() as $cmd) {
-    $this->checkAndUpdateCmd('vigilance', $lvigilance);
-    $this->checkAndUpdateCmd('crue', $lcrue);
-    $this->checkAndUpdateCmd('risque', $lrisque);
-    $this->checkAndUpdateCmd('mer', $lmer);
-  }
+  $this->checkAndUpdateCmd('vigilance', $lvigilance);
+  $this->checkAndUpdateCmd('crue', $lcrue);
+  $this->checkAndUpdateCmd('risque', $lrisque);
+  $this->checkAndUpdateCmd('mer', $lmer);
   return ;
 }
 
