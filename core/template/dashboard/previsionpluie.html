@@ -1,51 +1,48 @@
 <div class="eqLogic-widget eqLogic allowResize" style="height: #height#;width: #width#;border:#border#;border-radius:#border-radius#;background-color: #background-color#;color: #color#;#style#" data-eqLogic_id="#id#" data-eqLogic_uid="#uid#" data-version="#version#" >
 	<center class="widget-name"><a href="#eqLink#" style="font-size : 1.5em;#hideEqLogicName#">#name_display#</a>
-		<span class="pull-right cursor"><i id="yourvigilance#id#" class="fas fa-info-circle" style="color: var(--eqTitle-color) !important;"></i></span> &nbsp; <span class="cmd refresh pull-right cursor" data-cmd_id="#refresh#"><i class="fas fa-sync"></i></span>
-	</center><br />
-
-	<div class="tooltips" style="width: 100%;font-size:12px;position:relative;margin-left:5px;margin-right:5px;margin-bottom:7px;">
-		<div style="width: 100%;text-align:center;position:relative;margin-left:5px;margin-right:5px;margin-bottom:5px;">
-				<table style="border-collapse: collapse;border: 0px; width: 90%;">
-					<tr>
-						<td style="height:20px;border: 0px;  text-align: left" colspan="4">#heure#</td>
-						<td style="height:20px;border: 0px;  text-align: center" colspan="4">#h30#</td>
-						<td style="height:20px;border: 0px;  text-align: right" colspan="4">#h1h#</td>
-					</tr>
-					<tr>
-						<td style="width: 7%;border: 0px; border-collapse: collapse; height:20px;#prev0Color#" title="#prev0Text#" class="tooltips"></td>
-						<td style="width: 7%;border: 0px; border-collapse: collapse; height:20px;#prev5Color#" title="#prev5Text#" class="tooltips"></td>
-						<td style="width: 7%;border: 0px; border-collapse: collapse; height:20px;#prev10Color#" title="#prev10Text#" class="tooltips"></td>
-						<td style="width: 7%;border: 0px; border-collapse: collapse; height:20px;#prev15Color#" title="#prev15Text#" class="tooltips"></td>
-						<td style="width: 7%;border: 0px; border-collapse: collapse; height:20px;#prev20Color#" title="#prev20Text#" class="tooltips"></td>
-						<td style="width: 7%;border: 0px; border-collapse: collapse; height:20px;#prev25Color#" title="#prev25Text#" class="tooltips"></td>
-						<td style="width: 7%;border: 0px; border-collapse: collapse; height:20px;#prev30Color#" title="#prev30Text#" class="tooltips"></td>
-						<td style="width: 7%;border: 0px; border-collapse: collapse; height:20px;#prev35Color#" title="#prev35Text#" class="tooltips"></td>
-						<td style="width: 7%;border: 0px; border-collapse: collapse; height:20px;#prev40Color#" title="#prev40Text#" class="tooltips"></td>
-						<td style="width: 7%;border: 0px; border-collapse: collapse; height:20px;#prev45Color#" title="#prev45Text#" class="tooltips"></td>
-						<td style="width: 7%;border: 0px; border-collapse: collapse; height:20px;#prev50Color#" title="#prev50Text#" class="tooltips"></td>
-						<td style="width: 7%;border: 0px; border-collapse: collapse; height:20px;#prev55Color#" title="#prev55Text#" class="tooltips"></td>
-					</tr>
-				</table>
+		<span class="pull-right cursor"><i id="yourvigilance#id#" class="fas fa-info-circle" style="color: var(--eqTitle-color) !important;"></i></span> &nbsp; <span class="cmd refresh pull-right cursor" data-cmd_id="#refresh#">
+			<i class="fas fa-sync"></i>
+		</span>
+	</center>
+	<div class="tooltips" style="padding:0px 5px 5px 5px;">
+		<table style="border-collapse: collapse;border: 0px; width: 100%;">
+			<tr>
+				<td class="tableCmdcss" style="height:20px;border: 0px; text-align: left" colspan="4">#heure#</td>
+				<td class="tableCmdcss" style="height:20px;border: 0px; text-align: center" colspan="4">#h30#</td>
+				<td class="tableCmdcss" style="height:20px;border: 0px; text-align: right" colspan="4">#h1h#</td>
+			</tr>
+			<tr>
+				<td style="width: 7%;border: 0px; border-collapse: collapse; height:20px;#prev0Color#" title="#prev0Text#" class="tooltips"></td>
+				<td style="width: 7%;border: 0px; border-collapse: collapse; height:20px;#prev5Color#" title="#prev5Text#" class="tooltips"></td>
+				<td style="width: 7%;border: 0px; border-collapse: collapse; height:20px;#prev10Color#" title="#prev10Text#" class="tooltips"></td>
+				<td style="width: 7%;border: 0px; border-collapse: collapse; height:20px;#prev15Color#" title="#prev15Text#" class="tooltips"></td>
+				<td style="width: 7%;border: 0px; border-collapse: collapse; height:20px;#prev20Color#" title="#prev20Text#" class="tooltips"></td>
+				<td style="width: 7%;border: 0px; border-collapse: collapse; height:20px;#prev25Color#" title="#prev25Text#" class="tooltips"></td>
+				<td style="width: 7%;border: 0px; border-collapse: collapse; height:20px;#prev30Color#" title="#prev30Text#" class="tooltips"></td>
+				<td style="width: 7%;border: 0px; border-collapse: collapse; height:20px;#prev35Color#" title="#prev35Text#" class="tooltips"></td>
+				<td style="width: 7%;border: 0px; border-collapse: collapse; height:20px;#prev40Color#" title="#prev40Text#" class="tooltips"></td>
+				<td style="width: 7%;border: 0px; border-collapse: collapse; height:20px;#prev45Color#" title="#prev45Text#" class="tooltips"></td>
+				<td style="width: 7%;border: 0px; border-collapse: collapse; height:20px;#prev50Color#" title="#prev50Text#" class="tooltips"></td>
+				<td style="width: 7%;border: 0px; border-collapse: collapse; height:20px;#prev55Color#" title="#prev55Text#" class="tooltips"></td>
+			</tr>
+		</table>
+		<div title="Prévisions textuelles" class="tooltips" style="position:relative;display: #prevTexte_display#;">
+			<div style="text-align:left;">#prevTexte#</div>
 		</div>
 	</div>
-	<div title="Prévisions textuelles" class="tooltips" style="font-size:12px;position:relative;margin-left:5px;margin-right:5px;margin-bottom:7px;display: #prevTexte_display#;">
-		<div style="text-align:left; font-size:12px;">#prevTexte#</div>
-	</div>
-<script>
-$('#yourvigilance#id#').on('click', function() {
-			$('#md_modal2').dialog({
-				title: "Pluie 1H"
-			});
-
-			$('#md_modal2').load('index.php?v=d&plugin=vigilancemeteo&modal=vigilancemeteo&id=#id#').dialog('open');
+	<script>
+	$('#yourvigilance#id#').on('click', function() {
+		$('#md_modal2').dialog({
+			title: "Pluie 1H"
 		});
-	
-			if ('#refresh#' != ''){
-			$('.eqLogic[data-eqLogic_uid=#uid#] .refresh').on('click', function () {
-				jeedom.cmd.execute({id: '#refresh#'});
-			});
-		}else{
-			$('.eqLogic[data-eqLogic_uid=#uid#] .refresh').remove();
-		}
-</script>
+		$('#md_modal2').load('index.php?v=d&plugin=vigilancemeteo&modal=vigilancemeteo&id=#id#').dialog('open');
+	});
+	if ('#refresh#' != ''){
+		$('.eqLogic[data-eqLogic_uid=#uid#] .refresh').on('click', function () {
+			jeedom.cmd.execute({id: '#refresh#'});
+		});
+	} else {
+		$('.eqLogic[data-eqLogic_uid=#uid#] .refresh').remove();
+	}
+	</script>
 </div>
