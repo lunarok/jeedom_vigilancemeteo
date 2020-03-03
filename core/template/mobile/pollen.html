@@ -1,12 +1,16 @@
 <div class="eqLogic-widget eqLogic allowResize" style="height: #height#;width: #width#;border:#border#;border-radius:#border-radius#;background-color: #background-color#;color: #color#;#style#" data-eqLogic_id="#id#" data-eqLogic_uid="#uid#" data-version="#version#" >
-		<center class="widget-name"><a href="#eqLink#" style="font-size : 1.5em;#hideEqLogicName#">#name_display#</a>
-<span class="cmd refresh pull-right cursor" data-cmd_id="#refresh#"><i class="fas fa-sync"></i></span>
-	</center><br />
-   <center>
-     <div style="display: table; overflow: hidden; position: relative; top: 8px;">
-       <div data-cmd_id="#general_id#" title="Indice général (collecté le #general_collect#)" class="pollen_general#id#" style="background-color:#general_color#;color:#general_font#;"><center>#general#</center></div>
-     </div>
-   </center>
+	<center class="widget-name"><a href="#eqLink#" style="font-size : 1.5em;#hideEqLogicName#">#name_display#</a>
+<span class="pull-right cursor"><i id="yourvigilance#id#" class="fas fa-info-circle" style="color: var(--eqTitle-color) !important;"></i></span> &nbsp; <span class="cmd refresh pull-right cursor" data-cmd_id="#refresh#"><i class="fas fa-sync"></i></span>
+	</center>
+	<center>
+    <div style="display: table; overflow: hidden; position: relative; top: -19px;">
+      <div data-cmd_id="#general_id#" title="Indice général (collecté le #general_collect#)" class="pollen_general#id#" style="background-color:#general_color#;color:#general_font#;">
+        <center>
+          #general#
+        </center>
+      </div>
+    </div>
+  </center>
       <div id="pollen#uid#" style="position: relative; top: 16px;width: 98%; margin-left: 5px;">
       #slide#
       </div>
