@@ -1,8 +1,19 @@
-<div class="eqLogic-widget eqLogic" style="width: 240px;border:#border#;border-radius:#border-radius#;background-color: #background-color#;color: #color#;#style#; padding : 0px;" data-eqLogic_id="#id#" data-eqLogic_uid="#uid#" data-version="mobile" >
-  <center> #name_display# </center>
+<div class="eqLogic-widget eqLogic allowResize" style="height: #height#;width: #width#;border:#border#;border-radius:#border-radius#;background-color: #background-color#;color: #color#;#style#" data-eqLogic_id="#id#" data-eqLogic_uid="#uid#" data-version="#version#" >
+		<center class="widget-name"><a href="#eqLink#" style="font-size : 1.5em;#hideEqLogicName#">#name_display#</a>
+<span class="cmd refresh pull-right cursor" data-cmd_id="#refresh#"><i class="fas fa-sync"></i></span>
+	</center><br />
   <div class="col-sm-12">
 	<center>
 	 <span class="crue #crue_history#" data-cmd_id="#crue_id#" title="crue Mer (#cruee_collect#)"><i class="wi wi-flood"></i>  #crue#</span>
    </center>
 	</div>
+	<script>
+	if ('#refresh#' != ''){
+			$('.eqLogic[data-eqLogic_uid=#uid#] .refresh').on('click', function () {
+				jeedom.cmd.execute({id: '#refresh#'});
+			});
+		}else{
+			$('.eqLogic[data-eqLogic_uid=#uid#] .refresh').remove();
+		}
+	</script>
 </div>
