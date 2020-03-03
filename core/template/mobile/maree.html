@@ -6,13 +6,14 @@
 
   <div class="col-sm-12">
 	<center>
-	 <span class="basse #basse_history#" data-cmd_id="#basse_id#" title="Basse Mer (#bassee_collect#)"><i id="#bassee_id#" class="fas fas-angle-down"></i>  #basse#</span>
-	<span style="margin-left: 30px;" class="pleine #pleine_history#" data-cmd_id="#pleine_id#"><span title="Pleine Mer (#pleine_collect#)"><i id="#pleine_id#" class="fas fas-angle-up"></i>  #pleine#</span>
+	 <span class="basse #basse_history#" data-cmd_id="#basse_id#" title="Basse Mer (#basse_collect#)"><i class="wi wi-direction-down" style="font-size : 1.3em;"></i>  #basse#</span>
+	<span style="margin-left: 30px;" class="pleine #pleine_history#" data-cmd_id="#pleine_id#" title="Pleine Mer (#pleine_collect#)"><i class="wi wi-direction-up" style="font-size : 1.3em;"></i>  #pleine#</span>
    </center>
 	</div>
 	<center>
-       <span class="risque #risque_history#" data-cmd_id="#maree_id#" title="Indice de Marée" style="text-decoration: none; cursor:default;font-size : 1.3em;"><i id="#maree_id#" class="fas fas-info-circle cursor"></i>  #maree#</span>
-    </center>
+<span class="risque #risque_history#" data-cmd_id="#maree_id#" title="Indice de Marée" style="font-size : 1.3em;">#maree#</span>
+	</center>
+	<link rel="stylesheet" href="plugins/vigilancemeteo/desktop/weather-icons/css/weather-icons.css">
 	  <script>
 	if ('#refresh#' != ''){
 			$('.eqLogic[data-eqLogic_uid=#uid#] .refresh').on('click', function () {
