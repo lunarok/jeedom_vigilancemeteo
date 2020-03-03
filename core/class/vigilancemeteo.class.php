@@ -1105,7 +1105,7 @@ public function getPollen() {
       else {
         $replace['#slide#'] = '';
         for($i=0;$i<5;$i++) if($repl[$i] != '')
-          $replace['#slide#'] .= $repl[$i];
+          $replace['#slide#'] .= $repl[$i] . "<br>";
       }
       $templatename = 'pollen';
     } else if ($this->getConfiguration('type') == 'crue') {
