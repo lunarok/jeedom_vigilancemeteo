@@ -1,6 +1,6 @@
 <div class="eqLogic-widget eqLogic allowResize" style="height: #height#;width: #width#;border:#border#;border-radius:#border-radius#;background-color: #background-color#;color: #color#;#style#" data-eqLogic_id="#id#" data-eqLogic_uid="#uid#" data-version="#version#" >
 		<center class="widget-name"><a href="#eqLink#" style="font-size : 1.5em;#hideEqLogicName#">#name_display#</a>
-<span class="pull-right cursor"><i id="yourvigilance#id#" class="fas fa-info-circle" style="color: var(--eqTitle-color) !important;"></i></span> &nbsp; <span class="cmd refresh pull-right cursor" data-cmd_id="#refresh#"><i class="fas fa-sync"></i></span>
+<span class="cmd refresh pull-right cursor" data-cmd_id="#refresh#"><i class="fas fa-sync"></i></span>
 	</center><br />
 
 
@@ -10,4 +10,14 @@
 	<span style="margin-left: 30px;" class="maximum #maximum_history#" data-cmd_id="#maximum_id#"><span title="Hauteur Maximum (#maximum_collect#)"><i id="#maximum_id#" class="fas fa-angle-up"></i>  #maximum#</span>
    </center>
 	</div>
+	  <script>
+	
+		if ('#refresh#' != ''){
+			$('.eqLogic[data-eqLogic_uid=#uid#] .refresh').on('click', function () {
+				jeedom.cmd.execute({id: '#refresh#'});
+			});
+		}else{
+			$('.eqLogic[data-eqLogic_uid=#uid#] .refresh').remove();
+		}
+</script>
 </div>
