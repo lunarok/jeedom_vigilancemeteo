@@ -33,8 +33,10 @@
   }
 </style>
 
-<div class="eqLogic-widget eqLogic" style="height: #height#;width: #width#;border:#border#;border-radius:#border-radius#;background-color: #background-color#;color: #color#;#style#" data-eqLogic_id="#id#" data-eqLogic_uid="#uid#" data-version="#version#" >
-   <center class="widget-name">#name_display#</center>
+<div class="eqLogic-widget eqLogic allowResize" style="height: #height#;width: #width#;border:#border#;border-radius:#border-radius#;background-color: #background-color#;color: #color#;#style#" data-eqLogic_id="#id#" data-eqLogic_uid="#uid#" data-version="#version#" >
+		<center class="widget-name"><a href="#eqLink#" style="font-size : 1.5em;#hideEqLogicName#">#name_display#</a>
+<span class="cmd refresh pull-right cursor" data-cmd_id="#refresh#"><i class="fas fa-sync"></i></span>
+	</center><br />
    <center>
      <div style="display: table; overflow: hidden; position: relative; top: 8px;">
        <div data-cmd_id="#general_id#" title="Indice général (collecté le #general_collect#)" class="pollen_general#id#" style="background-color:#general_color#;color:#general_font#;"><center>#general#</center></div>
@@ -43,4 +45,13 @@
       <div id="pollen#uid#" style="position: relative; top: 16px;width: 98%; margin-left: 5px;">
       #slide#
       </div>
+  <script>
+	if ('#refresh#' != ''){
+			$('.eqLogic[data-eqLogic_uid=#uid#] .refresh').on('click', function () {
+				jeedom.cmd.execute({id: '#refresh#'});
+			});
+		}else{
+			$('.eqLogic[data-eqLogic_uid=#uid#] .refresh').remove();
+		}
+	</script>
 </div>
