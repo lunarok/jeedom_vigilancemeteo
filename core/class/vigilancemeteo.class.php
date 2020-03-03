@@ -1054,7 +1054,7 @@ public function getPollen() {
           case '5':  $color = 'red';    break;
         }
         if ($cmd->getLogicalId() == 'general') {
-          $replace['#' . $cmd->getLogicalId() . '_color#'] = $color;
+          $replace['#general_color#'] = $color;
           if ($replace['#general_color#'] == "yellow" || $replace['#general_color#'] == "lime") {
             $replace['#general_font#'] = "black";
           } else {
