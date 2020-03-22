@@ -427,7 +427,7 @@ $array = json_decode($json,TRUE);
     log::add(__CLASS__, 'debug', 'Alertes : ' . print_r($array,true));
     $doc = new DOMDocument();
     $doc->load('https://www.gdacs.org/xml/rss.xml');
-  foreach ($doc->getElementsByTagName('channel')->item(0)->getElementsByTagName('item') as key => $item) {
+  foreach ($doc->getElementsByTagName('channel')->item(0)->getElementsByTagName('item') as $item) {
     if (isset($title[$item->getElementsByTagName('gdacs:eventtype')->item(0)->firstChild->nodeValue])) {
       continue;
     }
