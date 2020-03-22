@@ -422,14 +422,14 @@ public function getVigilance() {
   public function getGDACS() {
     $doc = new DOMDocument();
     $doc->load('https://www.gdacs.org/xml/rss.xml');
-  foreach ($doc->getElementsByTagName('item') as $item) {
-    if (isset($title[$item->getElementsByTagName('gdacs:eventtype')->nodeValue])) {
+  foreach ($doc->getElementsByTagName('channel')->item(0)->getElementsByTagName('item') as $item) {
+    if (isset($title[$item->getElementsByTagName('gdacs:eventtype')->firstChild->nodeValue])) {
       continue;
     }
-    $title[$item->getElementsByTagName('gdacs:eventtype')->nodeValue] = $item->getElementsByTagName('gdacs:title')->nodeValue;
-    $link[$item->getElementsByTagName('gdacs:eventtype')->nodeValue] = $item->getElementsByTagName('gdacs:link')->nodeValue;
-    $level[$item->getElementsByTagName('gdacs:eventtype')->nodeValue] = $item->getElementsByTagName('gdacs:alertlevel')->nodeValue;
-    $date[$item->getElementsByTagName('gdacs:eventtype')->nodeValue] = $item->getElementsByTagName('pubDate')->nodeValue;
+    $title[$item->getElementsByTagName('gdacs:eventtype')->firstChild->nodeValue] = $item->getElementsByTagName('gdacs:title')->firstChild->nodeValue;
+    $link[$item->getElementsByTagName('gdacs:eventtype')->firstChild->nodeValue] = $item->getElementsByTagName('gdacs:link')->firstChild->nodeValue;
+    $level[$item->getElementsByTagName('gdacs:eventtype')->firstChild->nodeValue] = $item->getElementsByTagName('gdacs:alertlevel')->firstChild->nodeValue;
+    $date[$item->getElementsByTagName('gdacs:eventtype')->firstChild->nodeValue] = $item->getElementsByTagName('pubDate')->firstChild->nodeValue;
   }
   if (isset($title['EQ'])) {
     $this->checkAndUpdateCmd('EQ::title', $title['EQ']);
