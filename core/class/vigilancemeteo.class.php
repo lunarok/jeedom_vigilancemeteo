@@ -63,6 +63,9 @@ class vigilancemeteo extends eqLogic {
       if ($vigilancemeteo->getConfiguration('type') == 'plage') {
         $vigilancemeteo->getPlage();
       }
+      if ($this->getConfiguration('type') == 'gdacs') {
+        $this->getGDACS();
+      }
       $vigilancemeteo->refreshWidget();
     }
   }
@@ -94,6 +97,9 @@ class vigilancemeteo extends eqLogic {
       }
       if ($this->getConfiguration('type') == 'crue') {
         $this->getCrue();
+      }
+      if ($this->getConfiguration('type') == 'gdacs') {
+        $this->getGDACS();
       }
       $this->refreshWidget();
   }
@@ -198,6 +204,9 @@ public function postUpdate() {
   if ($this->getConfiguration('type') == 'plage') {
     $this->getPlage();
   }
+  if ($this->getConfiguration('type') == 'gdacs') {
+        $this->getGDACS();
+      }
   if ($this->getConfiguration('type') == 'pluie1h') {
     for($i=0; $i <= 11; $i++){
       $vigilancemeteoCmd = $this->getCmd(null, 'prev' . $i*5);
@@ -407,6 +416,40 @@ public function getVigilance() {
   $this->checkAndUpdateCmd('crue', $lcrue);
   $this->checkAndUpdateCmd('risque', $lrisque);
   $this->checkAndUpdateCmd('mer', $lmer);
+  return ;
+}
+  
+  public function getGDACS() {
+  $feeds = simplexml_load_file('https://www.gdacs.org/xml/rss.xml');
+  foreach ($feeds->channel->item as $item) {
+    if (isset($title[$item->gdacs:eventtype])) {
+      continue;
+    }
+    $title[$item->gdacs:eventtype] = $item->title;
+    $link[$item->gdacs:eventtype] = $item->link;
+    $level[$item->gdacs:eventtype] = $item->gdacs:alertlevel;
+    $date[$item->gdacs:eventtype] = $item->pubDate;
+  }
+  $this->checkAndUpdateCmd('EQ::title', $title['EQ']);
+  $this->checkAndUpdateCmd('EQ::link', $link['EQ']);
+  $this->checkAndUpdateCmd('EQ::level', $level['EQ']);
+  $this->checkAndUpdateCmd('EQ::date', $date['EQ']);
+  $this->checkAndUpdateCmd('TC::title', $title['TC']);
+  $this->checkAndUpdateCmd('TC::link', $link['TC']);
+  $this->checkAndUpdateCmd('TC::level', $level['TC']);
+  $this->checkAndUpdateCmd('TC::date', $date['TC']);
+  $this->checkAndUpdateCmd('FL::title', $title['FL']);
+  $this->checkAndUpdateCmd('FL::link', $link['FL']);
+  $this->checkAndUpdateCmd('FL::level', $level['FL']);
+  $this->checkAndUpdateCmd('FL::date', $date['FL']);
+  $this->checkAndUpdateCmd('VO::title', $title['VO']);
+  $this->checkAndUpdateCmd('VO::link', $link['VO']);
+  $this->checkAndUpdateCmd('VO::level', $level['VO']);
+  $this->checkAndUpdateCmd('VO::date', $date['VO']);
+  $this->checkAndUpdateCmd('DR::title', $title['DR']);
+  $this->checkAndUpdateCmd('DR::link', $link['DR']);
+  $this->checkAndUpdateCmd('DR::level', $level['DR']);
+  $this->checkAndUpdateCmd('DR::date', $date['DR']);
   return ;
 }
 
