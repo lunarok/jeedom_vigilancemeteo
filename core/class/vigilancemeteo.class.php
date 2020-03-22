@@ -430,26 +430,36 @@ public function getVigilance() {
     $level[$item->gdacs:eventtype] = $item->gdacs:alertlevel;
     $date[$item->gdacs:eventtype] = $item->pubDate;
   }
-  $this->checkAndUpdateCmd('EQ::title', $title['EQ']);
-  $this->checkAndUpdateCmd('EQ::link', $link['EQ']);
-  $this->checkAndUpdateCmd('EQ::level', $level['EQ']);
-  $this->checkAndUpdateCmd('EQ::date', $date['EQ']);
-  $this->checkAndUpdateCmd('TC::title', $title['TC']);
-  $this->checkAndUpdateCmd('TC::link', $link['TC']);
-  $this->checkAndUpdateCmd('TC::level', $level['TC']);
-  $this->checkAndUpdateCmd('TC::date', $date['TC']);
-  $this->checkAndUpdateCmd('FL::title', $title['FL']);
-  $this->checkAndUpdateCmd('FL::link', $link['FL']);
-  $this->checkAndUpdateCmd('FL::level', $level['FL']);
-  $this->checkAndUpdateCmd('FL::date', $date['FL']);
-  $this->checkAndUpdateCmd('VO::title', $title['VO']);
-  $this->checkAndUpdateCmd('VO::link', $link['VO']);
-  $this->checkAndUpdateCmd('VO::level', $level['VO']);
-  $this->checkAndUpdateCmd('VO::date', $date['VO']);
-  $this->checkAndUpdateCmd('DR::title', $title['DR']);
-  $this->checkAndUpdateCmd('DR::link', $link['DR']);
-  $this->checkAndUpdateCmd('DR::level', $level['DR']);
-  $this->checkAndUpdateCmd('DR::date', $date['DR']);
+  if (isset($title['EQ'])) {
+    $this->checkAndUpdateCmd('EQ::title', $title['EQ']);
+    $this->checkAndUpdateCmd('EQ::link', $link['EQ']);
+    $this->checkAndUpdateCmd('EQ::level', $level['EQ']);
+    $this->checkAndUpdateCmd('EQ::date', $date['EQ']);
+  }
+  if (isset($title['TC'])) {
+    $this->checkAndUpdateCmd('TC::title', $title['TC']);
+    $this->checkAndUpdateCmd('TC::link', $link['TC']);
+    $this->checkAndUpdateCmd('TC::level', $level['TC']);
+    $this->checkAndUpdateCmd('TC::date', $date['TC']);
+  }
+  if (isset($title['FL'])) {
+    $this->checkAndUpdateCmd('FL::title', $title['FL']);
+    $this->checkAndUpdateCmd('FL::link', $link['FL']);
+    $this->checkAndUpdateCmd('FL::level', $level['FL']);
+    $this->checkAndUpdateCmd('FL::date', $date['FL']);
+  }
+  if (isset($title['VO'])) {
+    $this->checkAndUpdateCmd('VO::title', $title['VO']);
+    $this->checkAndUpdateCmd('VO::link', $link['VO']);
+    $this->checkAndUpdateCmd('VO::level', $level['VO']);
+    $this->checkAndUpdateCmd('VO::date', $date['VO']);
+  }
+  if (isset($title['DR'])) {
+    $this->checkAndUpdateCmd('DR::title', $title['DR']);
+    $this->checkAndUpdateCmd('DR::link', $link['DR']);
+    $this->checkAndUpdateCmd('DR::level', $level['DR']);
+    $this->checkAndUpdateCmd('DR::date', $date['DR']);
+  }
   return ;
 }
 
