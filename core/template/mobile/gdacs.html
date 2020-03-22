@@ -1,0 +1,38 @@
+<div class="eqLogic-widget eqLogic allowResize" style="height: #height#;width: #width#;border:#border#;border-radius:#border-radius#;background-color: #background-color#;color: #color#;#style#" data-eqLogic_id="#id#" data-eqLogic_uid="#uid#" data-version="#version#" >
+	<center class="widget-name"><a href="#eqLink#" style="font-size : 1.5em;#hideEqLogicName#">#name_display#</a>
+<span class="pull-right cursor"><i id="yourvigilance#id#" class="fas fa-info-circle" style="color: var(--eqTitle-color) !important;"></i></span> &nbsp; <span class="cmd refresh pull-right cursor" data-cmd_id="#refresh#"><i class="fas fa-sync"></i></span>
+	</center><br />
+
+    <div class="row">
+
+	<div class="col-sm-12">
+	<center>
+		<span class="cmd" data-cmd_id="#EQ::title_id#" title="#EQ::title#"><i class="wi wi-earthquake" style="font-size : 1.3em;#EQ_color#"></i></span>
+		<span class="cmd" data-cmd_id="#TC::title_id#" title="#TC::title#"><i class="wi wi-hurricane-warning" style="font-size : 1.3em;#TC_color#"></i></span>
+    <span class="cmd" data-cmd_id="#FL::title_id#" title="#FL::title#"><i class="wi wi-flood" style="font-size : 1.3em;#FL_color#"></i></span>
+    <span class="cmd" data-cmd_id="#VO::title_id#" title="#VO::title#"><i class="wi wi-volcano" style="font-size : 1.3em;#VO_color#"></i></span>
+    <span class="cmd" data-cmd_id="#DR::title_id#" title="#DR::title#"><i class="wi wi-dust" style="font-size : 1.3em;#DR_color#"></i></span>
+    
+    
+    </center>
+	</div>
+	</div>
+	<link rel="stylesheet" href="plugins/vigilancemeteo/desktop/weather-icons/css/weather-icons.css">
+<script>
+$('#yourvigilance#id#').on('click', function() {
+			$('#md_modal2').dialog({
+				title: "Alertes"
+			});
+
+			$('#md_modal2').load('index.php?v=d&plugin=vigilancemeteo&modal=vigilancemeteo&id=#id#').dialog('open');
+		});
+	
+		if ('#refresh#' != ''){
+			$('.eqLogic[data-eqLogic_uid=#uid#] .refresh').on('click', function () {
+				jeedom.cmd.execute({id: '#refresh#'});
+			});
+		}else{
+			$('.eqLogic[data-eqLogic_uid=#uid#] .refresh').remove();
+		}
+</script>
+</div>
