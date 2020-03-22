@@ -1101,6 +1101,35 @@ public function getPollen() {
       }
 
       $templatename = 'uvi';
+    } else if ($this->getConfiguration('type') == 'gdacs') {
+      foreach ($this->getCmd('info') as $cmd) {
+        $replace['#' . $cmd->getLogicalId() . '_id#'] = $cmd->getId();
+        $replace['#' . $cmd->getLogicalId() . '#'] = $cmd->execCmd();
+      }
+      
+      $yesterday = new DateTime("yesterday");
+      $EQ = new DateTime(vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'EQ::date')->execCmd());
+      $TC = new DateTime(vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'TC::date')->execCmd());
+      $FL = new DateTime(vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'FL::date')->execCmd());
+      $VO = new DateTime(vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'VO::date')->execCmd());
+      $DR = new DateTime(vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'DR::date')->execCmd());
+      if ($EQ > $yesterday) {
+        $replace['#EQ_color#'] = "color:" . vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'DR::level')->execCmd();
+      }
+      if ($TC > $yesterday) {
+        $replace['#TC_color#'] = "color:" . vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'TC::level')->execCmd();
+      }
+      if ($FL > $yesterday) {
+        $replace['#FL_color#'] = "color:" . vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'FL::level')->execCmd();
+      }
+      if ($VO > $yesterday) {
+        $replace['#VO_color#'] = "color:" . vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'VO::level')->execCmd();
+      }
+      if ($DR > $yesterday) {
+        $replace['#DR_color#'] = "color:" . vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'DR::level')->execCmd();
+      }
+
+      $templatename = 'gdacs';
     } else if ($this->getConfiguration('type') == 'pollen') {
       $onetemplate = getTemplate('core', $version, '1pollen', 'vigilancemeteo');
       $replace['#background-color#'] = '#262626';
