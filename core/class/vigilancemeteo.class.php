@@ -937,6 +937,9 @@ public function getPollen() {
     if ($this->getConfiguration('type') == 'pollen') {
       $link = $protocole . 'pollens.fr';
     }
+    if ($this->getConfiguration('type') == 'gdacs') {
+      $link = $protocole . 'gdacs.org';
+    }
     if ($this->getConfiguration('type') == 'plage') {
       if ($this->getConfiguration('geoloc') == 'jeedom') {
         $city = config::byKey('info::city');
