@@ -1,0 +1,142 @@
+{
+    "name": "Alertes Globales",
+	"configuration" : {
+		"model" : "gdacs",
+        "type" : "gdacs"
+	},
+    "commands": [
+        {
+            "name": "Earthquake : Titre",
+            "type": "info",
+            "subtype": "string",
+            "logicalId": "EQ::title"
+        },
+        {
+            "name": "Earthquake : Lien",
+            "type": "info",
+            "subtype": "string",
+            "logicalId": "EQ::link"
+        },
+        {
+            "name": "Earthquake : Niveau",
+            "type": "info",
+            "subtype": "string",
+            "logicalId": "EQ::level"
+        },
+        {
+            "name": "Earthquake : Date",
+            "type": "info",
+            "subtype": "string",
+            "logicalId": "EQ::date"
+        },
+        {
+            "name": "Cyclone : Titre",
+            "type": "info",
+            "subtype": "string",
+            "logicalId": "TC::title"
+        },
+        {
+            "name": "Cyclone : Lien",
+            "type": "info",
+            "subtype": "string",
+            "logicalId": "TC::link"
+        },
+        {
+            "name": "Cyclone : Niveau",
+            "type": "info",
+            "subtype": "string",
+            "logicalId": "TC::level"
+        },
+        {
+            "name": "Cyclone : Date",
+            "type": "info",
+            "subtype": "string",
+            "logicalId": "TC::date"
+        },
+        {
+            "name": "Inondation : Titre",
+            "type": "info",
+            "subtype": "string",
+            "logicalId": "FL::title"
+        },
+        {
+            "name": "Inondation : Lien",
+            "type": "info",
+            "subtype": "string",
+            "logicalId": "FL::link"
+        },
+        {
+            "name": "Inondation : Niveau",
+            "type": "info",
+            "subtype": "string",
+            "logicalId": "FL::level"
+        },
+        {
+            "name": "Inondation : Date",
+            "type": "info",
+            "subtype": "string",
+            "logicalId": "FL::date"
+        },
+        {
+            "name": "Volcan : Titre",
+            "type": "info",
+            "subtype": "string",
+            "logicalId": "VO::title"
+        },
+        {
+            "name": "Volcan : Lien",
+            "type": "info",
+            "subtype": "string",
+            "logicalId": "VO::link"
+        },
+        {
+            "name": "Volcan : Niveau",
+            "type": "info",
+            "subtype": "string",
+            "logicalId": "VO::level"
+        },
+        {
+            "name": "Volcan : Date",
+            "type": "info",
+            "subtype": "string",
+            "logicalId": "VO::date"
+        },
+        {
+            "name": "Sécheresse : Titre",
+            "type": "info",
+            "subtype": "string",
+            "logicalId": "DR::title"
+        },
+        {
+            "name": "Sécheresse : Lien",
+            "type": "info",
+            "subtype": "string",
+            "logicalId": "DR::link"
+        },
+        {
+            "name": "Sécheresse : Niveau",
+            "type": "info",
+            "subtype": "string",
+            "logicalId": "DR::level"
+        },
+        {
+            "name": "Sécheresse : Date",
+            "type": "info",
+            "subtype": "string",
+            "logicalId": "DR::date"
+        },
+        {
+            "name": "Rafraichir",
+            "type": "action",
+            "subtype": "other",
+            "display": {
+      "icon": "<i class=\"fas fa-refresh\"><\/i>"
+            },
+            "configuration" : {
+          "request" : "refresh"
+        },
+            "isVisible": 1,
+            "logicalId": "refresh"
+        }
+    ]
+}
