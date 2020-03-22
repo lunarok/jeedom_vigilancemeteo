@@ -420,6 +420,11 @@ public function getVigilance() {
 }
   
   public function getGDACS() {
+    $feed = implode(file('http://yourdomains.com/feed.rss'));
+$xml = simplexml_load_string($feed);
+$json = json_encode($xml);
+$array = json_decode($json,TRUE);
+    log::add(__CLASS__, 'debug', 'Alertes : ' . print_r($array,true));
     $doc = new DOMDocument();
     $doc->load('https://www.gdacs.org/xml/rss.xml');
   foreach ($doc->getElementsByTagName('channel')->item(0)->getElementsByTagName('item') as key => $item) {
