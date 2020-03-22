@@ -63,8 +63,8 @@ class vigilancemeteo extends eqLogic {
       if ($vigilancemeteo->getConfiguration('type') == 'plage') {
         $vigilancemeteo->getPlage();
       }
-      if ($this->getConfiguration('type') == 'gdacs') {
-        $this->getGDACS();
+      if ($vigilancemeteo->getConfiguration('type') == 'gdacs') {
+        $vigilancemeteo->getGDACS();
       }
       $vigilancemeteo->refreshWidget();
     }
@@ -420,7 +420,7 @@ public function getVigilance() {
 }
   
   public function getGDACS() {
-    $feed = implode(file('http://yourdomains.com/feed.rss'));
+    $feed = implode(file('https://www.gdacs.org/xml/rss.xml'));
 $xml = simplexml_load_string($feed);
 $json = json_encode($xml);
 $array = json_decode($json,TRUE);
