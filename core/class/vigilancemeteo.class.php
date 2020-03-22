@@ -420,15 +420,16 @@ public function getVigilance() {
 }
   
   public function getGDACS() {
-  $feeds = simplexml_load_file('https://www.gdacs.org/xml/rss.xml');
-  foreach ($feeds->channel->item as $item) {
-    if (isset($title[$item->gdacs:eventtype])) {
+    $doc = new DOMDocument();
+    $doc->load('https://www.gdacs.org/xml/rss.xml');
+  foreach ($doc->getElementsByTagName('item') as $item) {
+    if (isset($title[$item->getAttribute('gdacs:eventtype')])) {
       continue;
     }
-    $title[$item->gdacs:eventtype] = $item->title;
-    $link[$item->gdacs:eventtype] = $item->link;
-    $level[$item->gdacs:eventtype] = $item->gdacs:alertlevel;
-    $date[$item->gdacs:eventtype] = $item->pubDate;
+    $title[$item->getAttribute('gdacs:eventtype')] = $item->getAttribute('gdacs:title');
+    $link[$item->getAttribute('gdacs:eventtype')] = $item->getAttribute('gdacs:link');
+    $level[$item->getAttribute('gdacs:eventtype')] = $item->getAttribute('gdacs:alertlevel');
+    $date[$item->getAttribute('gdacs:eventtype')] = $item->getAttribute('pubDate');
   }
   if (isset($title['EQ'])) {
     $this->checkAndUpdateCmd('EQ::title', $title['EQ']);
