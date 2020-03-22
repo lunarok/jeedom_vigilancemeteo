@@ -7,11 +7,11 @@
 
 	<div class="col-sm-12">
 	<center>
-		<span class="cmd" data-cmd_id="#EQ_id#" title="#EQ_title"><i class="wi wi-earthquake" style="font-size : 1.3em;#EQ_color#"></i></span>
-		<span class="cmd" data-cmd_id="#TC_id#" title="#TC_title"><i class="wi wi-hurricane-warning" style="font-size : 1.3em;#TC_color#"></i></span>
-    <span class="cmd" data-cmd_id="#FL_id#" title="#FL_title"><i class="wi wi-flood" style="font-size : 1.3em;#FL_color#"></i></span>
-    <span class="cmd" data-cmd_id="#VO_id#" title="#VO_title"><i class="wi wi-volcano" style="font-size : 1.3em;#VO_color#"></i></span>
-    <span class="cmd" data-cmd_id="#DR_id#" title="#DR_title"><i class="wi wi-dust" style="font-size : 1.3em;#DR_color#"></i></span>
+		<span class="cmd" data-cmd_id="#EQ::title_id#" title="#EQ::title"><i class="wi wi-earthquake" style="font-size : 1.3em;#EQ_color#"></i></span>
+		<span class="cmd" data-cmd_id="#TC::title_id#" title="#TC::title"><i class="wi wi-hurricane-warning" style="font-size : 1.3em;#TC_color#"></i></span>
+    <span class="cmd" data-cmd_id="#FL::title_id#" title="#FL::title"><i class="wi wi-flood" style="font-size : 1.3em;#FL_color#"></i></span>
+    <span class="cmd" data-cmd_id="#VO::title_id#" title="#VO::title"><i class="wi wi-volcano" style="font-size : 1.3em;#VO_color#"></i></span>
+    <span class="cmd" data-cmd_id="#DR::title_id#" title="#DR::title"><i class="wi wi-dust" style="font-size : 1.3em;#DR_color#"></i></span>
     
     
     </center>
@@ -21,7 +21,7 @@
 <script>
 $('#yourvigilance#id#').on('click', function() {
 			$('#md_modal2').dialog({
-				title: "Votre Point Surf"
+				title: "Alertes"
 			});
 
 			$('#md_modal2').load('index.php?v=d&plugin=vigilancemeteo&modal=vigilancemeteo&id=#id#').dialog('open');
