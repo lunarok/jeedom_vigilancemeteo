@@ -165,6 +165,13 @@ public function postUpdate() {
     if ($this->getConfiguration('geoloc') == "jeedom") {
     $postal = config::byKey('info::postalCode');
     $departement = $postal[0] . $postal[1];
+    if ($departement == '20') {
+			if ($postal[2] <= '1') {
+				$departement = '2A';
+			} else {
+				$departement = '2B'; 
+			}
+		}
   } else {
     $departement = geotravCmd::byEqLogicIdAndLogicalId($this->getConfiguration('geoloc'),'location:department')->execCmd();
   }
@@ -756,6 +763,13 @@ public function getPollen() {
   }
   if ($geoloc == "jeedom") {
     $departement = substr(config::byKey('info::postalCode'),0,2);
+    if ($departement == '20') {
+			if ($postal[2] <= '1') {
+				$departement = '2A';
+			} else {
+				$departement = '2B'; 
+			}
+		}
   } else {
     $geotrav = eqLogic::byId($geoloc);
     if (is_object($geotrav) && $geotrav->getEqType_name() == 'geotrav') {
@@ -970,6 +984,13 @@ public function getPollen() {
       if ($this->getConfiguration('geoloc') == "jeedom") {
         $postal = config::byKey('info::postalCode');
         $departement = $postal[0] . $postal[1];
+        if ($departement == '20') {
+			if ($postal[2] <= '1') {
+				$departement = '2A';
+			} else {
+				$departement = '2B'; 
+			}
+		}
       } else {
         $departement = geotravCmd::byEqLogicIdAndLogicalId($this->getConfiguration('geoloc'),'location:department')->execCmd();
       }
