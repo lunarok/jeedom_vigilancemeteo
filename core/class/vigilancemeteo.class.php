@@ -1380,7 +1380,7 @@ public function getPollen() {
       $templatename = 'previsionpluie';
     }
     if (file_exists( __DIR__ .'/../template/'.$_version.'/custom.'.$templatename.'.html')) {
-      return $this->postToHtml($_version, template_replace($replace, getTemplate('core', $version, 'current.'.$templatename, __CLASS__)));
+      return $this->postToHtml($_version, template_replace($replace, getTemplate('core', $version, 'custom.'.$templatename, __CLASS__)));
     }
     else {
       return $this->postToHtml($_version, template_replace($replace, getTemplate('core', $version, $templatename, __CLASS__)));
