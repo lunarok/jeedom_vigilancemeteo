@@ -794,7 +794,7 @@ public function getPollen() {
     $request_http->setNoReportError(true);
     $pollenJson = $request_http->exec(8);
     if ($pollenJson == '') {
-      log::add(__CLASS__, 'error', 'Impossible d\'obtenir les informations pollens.fr');
+      log::add(__CLASS__, 'debug', 'Impossible d\'obtenir les informations pollens.fr');
       return;
     }
     $pollenData = json_decode($pollenJson, true);
@@ -871,7 +871,7 @@ public function getPollen() {
     $request_http->setNoReportError(true);
     $prevPluieJson = $request_http->exec(8);
     if ($prevPluieJson == '') {
-      log::add(__CLASS__, 'warning', 'Impossible d\'obtenir les informations Météo France... ');
+      log::add(__CLASS__, 'debug', 'Impossible d\'obtenir les informations Météo France... ');
       for($i=0; $i <= 11; $i++) {
         $cmdName = sprintf('prev%d', $i * 5);
         $this->checkAndUpdateCmd($cmdName, 0);
