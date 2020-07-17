@@ -252,7 +252,7 @@ public function getVigilance() {
   $url = 'http://vigilance.meteofrance.com/data/NXFR34_LFPW_.xml';
   $result = file($url);
   if ($result === false) {
-    log::add(__CLASS__, 'error', 'Unable to fetch ' . $url);
+    log::add(__CLASS__, 'debug', 'Unable to fetch ' . $url);
     return;
   }
   $doc = new DOMDocument();
