@@ -1,7 +1,7 @@
 {
 	"id" : "vigilancemeteo",
 	"name" : "Vigilance Météo",
-	"description" : "Ce plugin permet de récupérer différents types d'informations/alertes météo : vigilance, pluie, qualité d'air, pollen, surf, marée, crue ...",
+	"description" : "Ce plugin permet de récupérer différents types d'informations/alertes météo : vigilance, pluie, qualité d'air, pollen, surf, marée, crue ...<br> Suite à un changement majeur dans le site de Météo France, les informations de pluie 1h et météo des plages ne fonctionnent plus. Une correction est en cours.",
 	"licence" : "AGPL",
 	"author" : "lunarok",
 	"require" : "3.3.24",
