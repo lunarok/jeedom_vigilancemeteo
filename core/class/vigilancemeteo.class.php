@@ -1261,11 +1261,11 @@ public function getPollen() {
               $datedebit = $date;
             }
           }
-          $hitsory = '';
+          $history = '';
           if ($cmddeb->getIsHistorized() == 1) {
-            $hitsory = 'history cursor';
+            $history = 'history cursor';
           }
-          $replace['#debit#'] = '<span style="margin-left: 30px;" class="debit ' . $hitsory . ' data-cmd_id="' . $cmd->getId() . '" title="Débit mesuré le ' . $datedebit . ' (' . $cmd->getCollectDate() . ')">D=' . $cmd->execCmd() . 'm3/s</span>';
+          $replace['#debit#'] = '<span style="margin-left: 30px;" class="debit ' . $history . '" data-cmd_id="' . $cmd->getId() . '" title="Débit mesuré le ' . $datedebit . ' (' . $cmd->getCollectDate() . ')">D=' . $cmd->execCmd() / 1000 . ' m3/s</span>';
         }
       }
       $templatename = 'crue';
