@@ -169,7 +169,7 @@ public function postUpdate() {
 			if ($postal[2] <= '1') {
 				$departement = '2A';
 			} else {
-				$departement = '2B'; 
+				$departement = '2B';
 			}
 		}
   } else {
@@ -425,7 +425,7 @@ public function getVigilance() {
   $this->checkAndUpdateCmd('mer', $lmer);
   return ;
 }
-  
+
   public function getGDACS() {
     $feed = implode(file('https://www.gdacs.org/xml/rss.xml'));
 $xml = simplexml_load_string($feed);
@@ -581,53 +581,48 @@ public function getPlage() {
   return ;
 }
 
-public function getCrue() {
+public function getCrue()
+{
   $station = $this->getConfiguration('station');
   if ($station == '') {
     log::add(__CLASS__, 'error', 'Station non saisie');
     return;
   }
-  $url = 'http://www.vigicrues.gouv.fr/services/observations.xml/?CdStationHydro='.$station;
-  $result = file($url);
-  if ($result === false) {
+
+  // Niveau
+  $niveauData = file_get_contents('https://www.vigicrues.gouv.fr/services/observations.json/?CdStationHydro=' . $station . '&FormatDate=iso');
+  if ($niveauData === false) {
     return;
   }
-  $doc = new DOMDocument();
-  $doc->load($url);
+  $niveauData = json_decode($niveauData, true);
 
-  $result = 0;
-  foreach($doc->getElementsByTagName('ResObsHydro') as $data) {
-    $result = $data->nodeValue;
+  $niveauLastValue = end($niveauData["Serie"]["ObssHydro"])['ResObsHydro'];
+  $niveauLastDate = end($niveauData["Serie"]["ObssHydro"])['DtObsHydro'];
+  $niveauCollectDate = date('Y-m-d H:i:s', strtotime($niveauLastDate));
+
+  log::add(__CLASS__, 'debug', 'Valeur Niveau JSON (value): ' . $niveauLastValue);
+  log::add(__CLASS__, 'debug', 'Valeur Niveau JSON (date): ' . $niveauCollectDate);
+
+  $this->checkAndUpdateCmd('niveau', $niveauLastValue, $niveauCollectDate);
+  $this->checkAndUpdateCmd('dateniveau', $niveauCollectDate, $niveauCollectDate);
+
+  // Débit
+  $debitData = file_get_contents('https://www.vigicrues.gouv.fr/services/observations.json/?CdStationHydro=' . $station . '&GrdSerie=Q&FormatDate=iso');
+  if ($debitData === false) {
+    return;
   }
+  $debitData = json_decode($debitData, true);
 
-  $date = 0;
-  foreach($doc->getElementsByTagName('DtObsHydro') as $data) {
-    $date = $data->nodeValue;
-  }
+  $debitLastValue = end($debitData["Serie"]["ObssHydro"])['ResObsHydro'];
+  $debitLastDate = end($debitData["Serie"]["ObssHydro"])['DtObsHydro'];
+  $debitCollectDate = date('Y-m-d H:i:s', strtotime($debitLastDate));
+  log::add(__CLASS__, 'debug', 'Valeur Débit JSON (value): ' . $debitLastValue);
+  log::add(__CLASS__, 'debug', 'Valeur Débit JSON (date): ' . $debitCollectDate);
 
-  log::add(__CLASS__, 'debug', 'Valeur niveau: ' . $result);
-  $this->checkAndUpdateCmd('niveau', $result);
-  $this->checkAndUpdateCmd('dateniveau', $date);
+  $this->checkAndUpdateCmd('debit', $debitLastValue, $debitCollectDate);
+  $this->checkAndUpdateCmd('datedebit', $debitCollectDate, $debitCollectDate);
 
-  $url = 'http://www.vigicrues.gouv.fr/services/observations.xml/?CdStationHydro='.$station.'&GrdSerie=Q';
-  $doc = new DOMDocument();
-  $doc->load($url);
-
-  $result = 0;
-  foreach($doc->getElementsByTagName('ResObsHydro') as $data) {
-    $result = $data->nodeValue;
-  }
-
-  $date = 0;
-  foreach($doc->getElementsByTagName('DtObsHydro') as $data) {
-    $date = $data->nodeValue;
-  }
-
-  log::add(__CLASS__, 'debug', 'Valeur débit: ' . $result);
-  $this->checkAndUpdateCmd('debit', $result);
-  $this->checkAndUpdateCmd('datedebit', $date);
-
-  return ;
+  return;
 }
 
 public function getSeisme() {
@@ -767,7 +762,7 @@ public function getPollen() {
 			if ($postal[2] <= '1') {
 				$departement = '2A';
 			} else {
-				$departement = '2B'; 
+				$departement = '2B';
 			}
 		}
   } else {
@@ -988,7 +983,7 @@ public function getPollen() {
 			if ($postal[2] <= '1') {
 				$departement = '2A';
 			} else {
-				$departement = '2B'; 
+				$departement = '2B';
 			}
 		}
       } else {
@@ -1130,7 +1125,7 @@ public function getPollen() {
         $replace['#' . $cmd->getLogicalId() . '_id#'] = $cmd->getId();
         $replace['#' . $cmd->getLogicalId() . '#'] = $cmd->execCmd();
       }
-      
+
       $yesterday = new DateTime("yesterday");
       $EQ = new DateTime(vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'EQ::date')->execCmd());
       $TC = new DateTime(vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'TC::date')->execCmd());
@@ -1261,11 +1256,11 @@ public function getPollen() {
               $datedebit = $date;
             }
           }
-          $hitsory = '';
+          $history = '';
           if ($cmddeb->getIsHistorized() == 1) {
-            $hitsory = 'history cursor';
+            $history = 'history cursor';
           }
-          $replace['#debit#'] = '<span style="margin-left: 30px;" class="debit ' . $hitsory . ' data-cmd_id="' . $cmd->getId() . '" title="Débit mesuré le ' . $datedebit . ' (' . $cmd->getCollectDate() . ')">D=' . $cmd->execCmd() . 'm3/s</span>';
+          $replace['#debit#'] = '<span style="margin-left: 30px;" class="debit ' . $history . '" data-cmd_id="' . $cmd->getId() . '" title="Débit mesuré le ' . $datedebit . ' (' . $cmd->getCollectDate() . ')">D=' . $cmd->execCmd() . ' m3/s</span>';
         }
       }
       $templatename = 'crue';
