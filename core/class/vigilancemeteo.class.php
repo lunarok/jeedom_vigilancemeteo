@@ -805,6 +805,7 @@ public function getPollen() {
       $nomPollen = $pollen['pollenName']; $level = $pollen['level'];
       switch ( $nomPollen ) {
         case "Cyprès" :
+	case "Cupressacées" :
           $this->checkAndUpdateCmd('pollen1', $level); break;
         case "Noisetier" :
           $this->checkAndUpdateCmd('pollen2', $level); break;
@@ -842,6 +843,8 @@ public function getPollen() {
           $this->checkAndUpdateCmd('pollen18', $level); break;
         case "Ambroisies" :
           $this->checkAndUpdateCmd('pollen19', $level); break;
+	default:
+          message::add(__CLASS__ .'-' .__FUNCTION__, "Pollen non traité: $nomPollen");
       }
     }
   }
