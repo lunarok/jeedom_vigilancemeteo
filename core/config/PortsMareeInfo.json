@@ -1,0 +1,284 @@
+[
+    { "id":70, "name":"Primel-Tregastel", "latitude":48.7133, "longitude":-3.825, "pays": "France", "CP": "29630"
+    },
+    { "id":136, "name":"Arcachon", "latitude":44.6633, "longitude":-1.15167, "pays": "France", "CP": "33120"
+    },
+    { "id":27, "name":"Arromanches", "latitude":49.3344, "longitude":-0.664167, "pays": "France", "CP": "14117"
+    },
+    { "id":71, "name":"Morlaix", "latitude":48.5883, "longitude":-3.83833, "pays": "France", "CP": "29600"
+    },
+    { "id":150, "name":"Baie de Somme (Le Crotoy)", "latitude":50.215, "longitude":1.63, "pays": "France", "CP": "80550"
+    },
+    { "id":137, "name":"Biscarrosse-Plage", "latitude":44.3594, "longitude":-1.27028, "pays": "France", "CP": "40600"
+    },
+    { "id":161, "name":"Bordeaux", "latitude":44.8617, "longitude":-0.55, "pays": "France", "CP": "33000"
+    },
+    { "id":140, "name":"Biarritz", "latitude":43.4408, "longitude":-1.59667, "pays": "France", "CP": "64200"
+    },
+    { "id":7, "name":"Boulogne-sur-Mer", "latitude":50.7317, "longitude":1.58667, "pays": "France", "CP": "62200"
+    },
+    { "id":5, "name":"Calais", "latitude":50.9717, "longitude":1.84, "pays": "France", "CP": "62100"
+    },
+    { "id":11, "name":"Cayeux-sur-Mer", "latitude":50.1667, "longitude":1.5, "pays": "France", "CP": "80410"
+    },
+    { "id":26, "name":"Courseulles", "latitude":49.3367, "longitude":-0.456667, "pays": "France", "CP": "14470"
+    },
+    { "id":14, "name":"Dieppe", "latitude":49.9367, "longitude":1.08167, "pays": "France", "CP": "76200"
+    },
+    { "id":24, "name":"Dives-sur-Mer", "latitude":49.2983, "longitude":-0.0883333, "pays": "France", "CP": "14160"
+    },
+    { "id":3, "name":"Dunkerque", "latitude":51.06, "longitude":2.35167, "pays": "France", "CP": "59140"
+    },
+    { "id":17, "name":"Etretat", "latitude":49.6972, "longitude":0.213889, "pays": "France", "CP": "76790"
+    },
+    { "id":16, "name":"Fecamp", "latitude":49.765, "longitude":0.363333, "pays": "France", "CP": "76400"
+    },
+    { "id":4, "name":"Gravelines", "latitude":51.0167, "longitude":2.09167, "pays": "France", "CP": "59820"
+    },
+    { "id":22, "name":"Honfleur", "latitude":49.4283, "longitude":0.231667, "pays": "France", "CP": "14600"
+    },
+    { "id":19, "name":"Le-Havre", "latitude":49.4867, "longitude":0.0916667, "pays": "France", "CP": "76600"
+    },
+    { "id":8, "name":"Le-Touquet", "latitude":50.5167, "longitude":1.56667, "pays": "France", "CP": "62520"
+    },
+    { "id":12, "name":"Le-Tréport", "latitude":50.065, "longitude":1.37, "pays": "France", "CP": "76470"
+    },
+    { "id":25, "name":"Ouistreham", "latitude":49.2888, "longitude":-0.24339, "pays": "France", "CP": "14121"
+    },
+    { "id":23, "name":"Deauville", "latitude":49.3717, "longitude":0.07, "pays": "France", "CP": "14800"
+    },
+    { "id":28, "name":"Port-en-Bessin", "latitude":49.3517, "longitude":-0.756667, "pays": "France", "CP": "14520"
+    },
+    { "id":29, "name":"Grandcamp-Maisy", "latitude":49.3917, "longitude":-1.04833, "pays": "France", "CP": "14450"
+    },
+    { "id":32, "name":"Barfleur", "latitude":49.67, "longitude":-1.26, "pays": "France", "CP": "50760"
+    },
+    { "id":33, "name":"Cherbourg", "latitude":49.6483, "longitude":-1.61833, "pays": "France", "CP": "50100"
+    },
+    { "id":35, "name":"Goury", "latitude":49.7154, "longitude":-1.94584, "pays": "France", "CP": "50440"
+    },
+    { "id":37, "name":"Diélette", "latitude":49.5533, "longitude":-1.86333, "pays": "France", "CP": "50340"
+    },
+    { "id":38, "name":"Barneville-Carteret", "latitude":49.3683, "longitude":-1.78833, "pays": "France", "CP": "50270"
+    },
+    { "id":39, "name":"Portbail", "latitude":49.3233, "longitude":-1.71667, "pays": "France", "CP": "50580"
+    },
+    { "id":45, "name":"Granville", "latitude":48.83, "longitude":-1.6, "pays": "France", "CP": "50400"
+    },
+    { "id":48, "name":"Cancale", "latitude":48.6667, "longitude":-1.98333, "pays": "France", "CP": "35260"
+    },
+    { "id":52, "name":"Saint-Malo", "latitude":48.64, "longitude":-2.02833, "pays": "France", "CP": "35400"
+    },
+    { "id":"55", "name":"Erquy", "latitude":48.6333, "longitude":-2.47667, "pays": "France", "CP": "22430"
+    },
+    { "id":"56", "name":"Pleneuf-Val-Andre-Dahouet", "latitude":48.58, "longitude":-2.57167, "pays": "France", "CP": "22370"
+    },
+    { "id":"57", "name":"Saint-Brieuc - Le Legué", "latitude":48.5367, "longitude":-2.715, "pays": "France", "CP": "22000"
+    },
+    { "id":"58", "name":"Binic", "latitude":48.6, "longitude":-2.81667, "pays": "France", "CP": "22520"
+    },
+    { "id":"60", "name":"Bréhat", "latitude":48.8342, "longitude":-2.9975, "pays": "France", "CP": "22870"
+    },
+    { "id":"62", "name":"Paimpol", "latitude":48.785, "longitude":-3.04167, "pays": "France", "CP": "22500"
+    },
+    { "id":"63", "name":"Lézardrieux", "latitude":48.7883, "longitude":-3.09833, "pays": "France", "CP": "22740"
+    },
+    { "id":"65", "name":"Tréguier", "latitude":48.7883, "longitude":-3.22167, "pays": "France", "CP": "22220"
+    },
+    { "id":"66", "name":"Perros-Guirec", "latitude":48.8033, "longitude":-3.43833, "pays": "France", "CP": "22700"
+    },
+    { "id":"67", "name":"Ploumanac'H", "latitude":48.835, "longitude":-3.48833, "pays": "France", "CP": "22700"
+    },
+    { "id":"68", "name":"Trébeurden", "latitude":48.7717, "longitude":-3.58333, "pays": "France", "CP": "22560"
+    },
+    { "id":"69", "name":"Locquirec", "latitude":48.69, "longitude":-3.64833, "pays": "France", "CP": "29241"
+    },
+    { "id":"72", "name":"Roscoff", "latitude":48.7133, "longitude":-3.965, "pays": "France", "CP": "29680"
+    },
+    { "id":"73", "name":"Brignogan-Plage", "latitude":48.6667, "longitude":-4.33333, "pays": "France", "CP": "29890"
+    },
+    { "id":"74", "name":"L'Aber-Wrac'h", "latitude":48.6, "longitude":-4.56167, "pays": "France", "CP": "29870"
+    },
+    { "id":"76", "name":"Portsall", "latitude":48.5633, "longitude":-4.715, "pays": "France", "CP": "29830"
+    },
+    { "id":"77", "name":"L'Aber-Ildut", "latitude":48.47, "longitude":-4.76167, "pays": "France", "CP": "29840"
+    },
+    { "id":"78", "name":"Ouessant", "latitude":48.455, "longitude":-5.09667, "pays": "France", "CP": "29242"
+    },
+    { "id":"80", "name":"Le-Conquet", "latitude":48.36, "longitude":-4.78333, "pays": "France", "CP": "29217"
+    },
+    { "id":"82", "name":"Brest", "latitude":48.3917, "longitude":-4.43, "pays": "France", "CP": "29200"
+    },
+    { "id":"83", "name":"Camaret-sur-Mer", "latitude":48.2783, "longitude":-4.58833, "pays": "France", "CP": "29570"
+    },
+    { "id":"84", "name":"Morgat", "latitude":48.2167, "longitude":-4.5, "pays": "France", "CP": "29160"
+    },
+    { "id":"85", "name":"Douarnenez", "latitude":48.1017, "longitude":-4.34, "pays": "France", "CP": "29100"
+    },
+    { "id":"86", "name":"Sein", "latitude":48.0372, "longitude":-4.8575, "pays": "France", "CP": "29990"
+    },
+    { "id":"87", "name":"Audierne", "latitude":48.0083, "longitude":-4.54, "pays": "France", "CP": "29770"
+    },
+    { "id":"88", "name":"Penmarc'H", "latitude":47.8014, "longitude":-4.33778, "pays": "France", "CP": "29760"
+    },
+    { "id":"288", "name":"Saint-Guenole", "latitude":47.7975, "longitude":-4.35861, "pays": "France", "CP": "29760"
+    },
+    { "id":"89", "name":"Guilvinec", "latitude":47.7914, "longitude":-4.28111, "pays": "France", "CP": "29730"
+    },
+    { "id":"90", "name":"Lesconil", "latitude":47.795, "longitude":-4.21, "pays": "France", "CP": "29740"
+    },
+    { "id":"91", "name":"Loctudy", "latitude":47.8367, "longitude":-4.17167, "pays": "France", "CP": "29750"
+    },
+    { "id":"92", "name":"Benodet", "latitude":47.8633, "longitude":-4.10833, "pays": "France", "CP": "29950"
+    },
+    { "id":"93", "name":"Concarneau", "latitude":47.8683, "longitude":-3.91333, "pays": "France", "CP": "29900"
+    },
+    { "id":"155", "name":"Port-Manech", "latitude":47.8017, "longitude":-3.73833, "pays": "France", "CP": "29920"
+    },
+    { "id":"151", "name":"Guidel-Plage-Le-Pouldu", "latitude":47.7717, "longitude":-3.52667, "pays": "France", "CP": "56520"
+    },
+    { "id":"95", "name":"Lorient", "latitude":47.7433, "longitude":-3.35, "pays": "France", "CP": "56100"
+    },
+    { "id":"97", "name":"Port-Louis", "latitude":47.7117, "longitude":-3.355, "pays": "France", "CP": "56290"
+    },
+    { "id":"98", "name":"Ile-de-Groix - Port-Tudy", "latitude":47.645, "longitude":-3.44667, "pays": "France", "CP": "56590"
+    },
+    { "id":"99", "name":"Etel", "latitude":47.66, "longitude":-3.20833, "pays": "France", "CP": "56410"
+    },
+    { "id":"100", "name":"Quiberon-Port-Maria", "latitude":47.4767, "longitude":-3.12333, "pays": "France", "CP": "56170"
+    },
+    { "id":"101", "name":"Belle-Ile-Le-Palais", "latitude":47.3467, "longitude":-3.15, "pays": "France", "CP": "56360"
+    },
+    { "id":"102", "name":"Quiberon-Port-Haliguen", "latitude":47.49, "longitude":-3.1, "pays": "France", "CP": "56170"
+    },
+    { "id":"105", "name":"Auray-Port de Saint-Goustan", "latitude":47.6633, "longitude":-2.97833, "pays": "France", "CP": "56400"
+    },
+    { "id":"154", "name":"Locmariaquer", "latitude":47.5333, "longitude":-2.87972, "pays": "France", "CP": "56740"
+    },
+    { "id":"106", "name":"Arradon", "latitude":47.615, "longitude":-2.82833, "pays": "France", "CP": "56610"
+    },
+    { "id":"107", "name":"Vannes", "latitude":47.6283, "longitude":-2.76167, "pays": "France", "CP": "56000"
+    },
+    { "id":"104", "name":"Port-Navalo", "latitude":47.55, "longitude":-2.91667, "pays": "France", "CP": "56640"
+    },
+    { "id":"156", "name":"Le Crouesty", "latitude":47.5417, "longitude":-2.90167, "pays": "France", "CP": "56640"
+    },
+    { "id":"112", "name":"Hoëdic", "latitude":47.3433, "longitude":-2.87333, "pays": "France", "CP": "56170"
+    },
+    { "id":"116", "name":"Pornichet", "latitude":47.2583, "longitude":-2.35167, "pays": "France", "CP": "44380"
+    },
+    { "id":"117", "name":"Saint-Nazaire-Saint-Brévin", "latitude":47.2733, "longitude":-1.885, "pays": "France", "CP": "44600"
+    },
+    { "id":"119", "name":"Pornic", "latitude":47.11, "longitude":-2.115, "pays": "France", "CP": "44210"
+    },
+    { "id":"120", "name":"L'Herbaudière", "latitude":47.0267, "longitude":-2.29667, "pays": "France", "CP": "85330"
+    },
+    { "id":"121", "name":"Fromentine", "latitude":46.8167, "longitude":-2.13333, "pays": "France", "CP": "85550"
+    },
+    { "id":"123", "name":"Ile-d'Yeu-Port Joinville", "latitude":46.7283, "longitude":-2.345, "pays": "France", "CP": "85350"
+    },
+    { "id":"126", "name":"Saint-Martin-en-Ré", "latitude":46.2083, "longitude":-1.365, "pays": "France", "CP": "17410"
+    },
+    { "id":"153", "name":"La Cotinière", "latitude":45.91, "longitude":-1.32833, "pays": "France", "CP": "17310"
+    },
+    { "id":"130", "name":"Cordouan", "latitude":45.5892, "longitude":-1.17369, "pays": "France", "CP": "17420"
+    },
+    { "id":"127", "name":"La-Rochelle", "latitude":46.155, "longitude":-1.15333, "pays": "France", "CP": "17000"
+    },
+    { "id":"103", "name":"La-Trinité-sur-Mer", "latitude":47.585, "longitude":-3.02333, "pays": "France", "CP": "56470"
+    },
+    { "id":"134", "name":"Lacanau", "latitude":44.9289, "longitude":-1.21444, "pays": "France", "CP": "33680"
+    },
+    { "id":"114", "name":"Le-Croisic", "latitude":47.3067, "longitude":-2.52333, "pays": "France", "CP": "44490"
+    },
+    { "id":"115", "name":"La-Baule-Le-Pouliguen", "latitude":47.2733, "longitude":-2.42333, "pays": "France", "CP": "44510"
+    },
+    { "id":"125", "name":"Les-Sables-d'Olonne", "latitude":46.4967, "longitude":-1.79667, "pays": "France", "CP": "85100"
+    },
+    { "id":"138", "name":"Mimizan-les-Bains", "latitude":44.2431, "longitude":-1.28694, "pays": "France", "CP": "40200"
+    },
+    { "id":"160", "name":"Pauillac", "latitude":45.1983, "longitude":-0.743333, "pays": "France", "CP": "33250"
+    },
+    { "id":"131", "name":"Royan", "latitude":45.62, "longitude":-1.025, "pays": "France", "CP": "17200"
+    },
+    { "id":"31", "name":"Saint-Vaast-la-Hougue", "latitude":49.5867, "longitude":-1.25833, "pays": "France", "CP": "50550"
+    },
+    { "id":"124", "name":"St-Gilles-Croix-de-Vie Port-la-Vie", "latitude":46.6917, "longitude":-1.95333, "pays": "France", "CP": "85800"
+    },
+    { "id":"54", "name":"Saint-Cast", "latitude":48.64, "longitude":-2.24333, "pays": "France", "CP": "22380"
+    },
+    { "id":"59", "name":"Saint-Quay-Portrieux", "latitude":48.6467, "longitude":-2.81667, "pays": "France", "CP": "22410"
+    },
+    { "id":"15", "name":"Saint-Valery-en-Caux", "latitude":49.8659, "longitude":0.710828, "pays": "France", "CP": "76460"
+    },
+    { "id":"159", "name":"Saint-Denis-d'Oléron", "latitude":46.035, "longitude":-1.36833, "pays": "France", "CP": "17650"
+    },
+    { "id":"141", "name":"Saint-Jean-de-Luz", "latitude":43.3967, "longitude":-1.67667, "pays": "France", "CP": "64500"
+    },
+    { "id":"139", "name":"Vieux Boucau - Port d'Albret Plage", "latitude":43.7558, "longitude":-1.41694, "pays": "France", "CP": "40480"
+    },
+    { "id":43, "name":"Coutainville", "latitudeHS":49.0017, "longitude":-1.58583, "pays": "France", "CP": "50230"
+    },
+    { "id":"133", "name":"Richards"
+    },
+    { "id":30, "name":"Iles Saint-Marcouf"
+    },
+    { "id":34, "name":"Omonville-la-Rogue"
+    },
+    { "id":40, "name":"Les Écréhou - L'Écrevière"
+    },
+    { "id":"6", "name":"Wissant"
+    },
+    { "id":42, "name":"Le Sénéquet"
+    },
+    { "id":47, "name":"Iles Chausey (Grande-Ile)"
+    },
+    { "id":"53", "name":"Ile des Hébihens"
+    },
+    { "id":"61", "name":"Les Héaux-de-Bréhat"
+    },
+    { "id":"64", "name":"Port-Béni"
+    },
+    { "id":"157", "name":"Locquemeau"
+    },
+    { "id":"75", "name":"L'Aber Benoît"
+    },
+    { "id":"79", "name":"Ile Molène"
+    },
+    { "id":"81", "name":"Trez-Hir"
+    },
+    { "id":"94", "name":"Penfret (Iles de Glénan)"
+    },
+    { "id":"96", "name":"Hennebont"
+    },
+    { "id":"110", "name":"Penerf"
+    },
+    { "id":"111", "name":"Tréhiguier"
+    },
+    { "id":"113", "name":"Houat"
+    },
+    { "id":"118", "name":"Pointe de Saint-Gildas"
+    },
+    { "id":"122", "name":"Fromentine Port"
+    },
+    { "id":"128", "name":"Ile d'Aix"
+    },
+    { "id":"135", "name":"Cap Ferret"
+    },
+    { "id":"162", "name":"Lamena", "latitudeHS": 45.33, "longitudeHS":-0.8
+    },
+    { "id":"109", "name":"Le Logeo"
+    },
+    { "id":"129", "name":"Pointe de Gatseau"
+    },
+    { "id":"132", "name":"Pointe de Grave (Port-Bloc)"
+    },
+    { "id":18, "name":"Le Havre-Antifer"
+    },
+    { "id":"108", "name":"Saint-Armel (Le Passage)"
+    },
+    { "id":"41", "name":"Saint-Germain-sur-Ay"
+    },
+    { "id":9, "name":"Berck Plage - Fort Mahon"
+    }
+]
