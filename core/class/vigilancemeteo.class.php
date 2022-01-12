@@ -52,6 +52,7 @@ class vigilancemeteo extends eqLogic {
   }
 
   public static function cronHourly() {
+      $dat = date('G');
     foreach (eqLogic::byType(__CLASS__, true) as $vigilancemeteo) {
       if ($vigilancemeteo->getConfiguration('type') == 'air') {
         $vigilancemeteo->getAir();
@@ -62,7 +63,7 @@ class vigilancemeteo extends eqLogic {
       else if ($vigilancemeteo->getConfiguration('type') == 'surf') {
         $vigilancemeteo->getSurf();
       }
-      else if ($vigilancemeteo->getConfiguration('type') == 'pollen') {
+        else if ($vigilancemeteo->getConfiguration('type') == 'pollen'&& $dat > 7 && $dat < 20) {
         $vigilancemeteo->getPollen();
       }
       else if ($vigilancemeteo->getConfiguration('type') == 'plage') {
@@ -294,48 +295,24 @@ public function getVigilance() {
       }
       foreach($data->getElementsByTagName('risque') as $risque) {
         switch ($risque->getAttribute('valeur')) {
-          case 1:
-          $lrisque[] = "vent";
-          break;
-          case 2:
-          $lrisque[] = "pluie-inondation";
-          break;
-          case 3:
-          $lrisque[] = "orages";
-          break;
-          case 4:
-          $lrisque[] = "inondations";
-          break;
-          case 5:
-          $lrisque[] = "neige-verglas";
-          break;
-          case 6:
-          $lrisque[] = "canicule";
-          break;
-          case 7:
-          $lrisque[] = "grand-froid";
-          break;
+          case 1: $lrisque[] = "vent"; break;
+          case 2: $lrisque[] = "pluie-inondation"; break;
+          case 3: $lrisque[] = "orages"; break;
+          case 4: $lrisque[] = "inondations"; break;
+          case 5: $lrisque[] = "neige-verglas"; break;
+          case 6: $lrisque[] = "canicule"; break;
+          case 7: $lrisque[] = "grand-froid"; break;
         }
       }
     }
     if ($data->getAttribute('dep') == $departement.'10') {
       //alerte mer
       switch ($data->getAttribute('couleur')) {
-        case 0:
-        $lmer = "vert";
-        break;
-        case 1:
-        $lmer = "vert";
-        break;
-        case 2:
-        $lmer = "jaune";
-        break;
-        case 3:
-        $lmer = "orange";
-        break;
-        case 4:
-        $lmer = "rouge";
-        break;
+        case 0: $lmer = "vert"; break;
+        case 1: $lmer = "vert"; break;
+        case 2: $lmer = "jaune"; break;
+        case 3: $lmer = "orange"; break;
+        case 4: $lmer = "rouge"; break;
       }
 
     }
@@ -353,68 +330,41 @@ public function getVigilance() {
       foreach($data->getElementsByTagName('risque') as $risque) {
         switch ($risque->getAttribute('val')) {
           case 1:
-          if ($lrisque == "RAS") {
-            $lrisque = "vent ".$couleur;
-          } else {
-            $lrisque = $lrisque . ", vent ".$couleur;
-          }
-          break;
+            if ($lrisque == "RAS") $lrisque = "vent ".$couleur;
+            else $lrisque = $lrisque . ", vent ".$couleur;
+            break;
           case 2:
-          if ($lrisque == "RAS") {
-            $lrisque = "pluie-inondation ".$couleur;
-          } else {
-            $lrisque = $lrisque . ", pluie-inondation ".$couleur;
-          }
-          break;
+            if ($lrisque == "RAS") $lrisque = "pluie-inondation ".$couleur;
+            else $lrisque = $lrisque . ", pluie-inondation ".$couleur;
+            break;
           case 3:
-          if ($lrisque == "RAS") {
-            $lrisque = "orages ".$couleur;
-          } else {
-            $lrisque = $lrisque . ", orages ".$couleur;
-          }
-          break;
+            if ($lrisque == "RAS") $lrisque = "orages ".$couleur;
+            else $lrisque = $lrisque . ", orages ".$couleur;
+            break;
           case 4:
-          if ($lrisque == "RAS") {
-            $lrisque = "inondations ".$couleur;
-          } else {
-            $lrisque = $lrisque . ", inondations ".$couleur;
-          }
-          break;
+            if ($lrisque == "RAS") $lrisque = "inondations ".$couleur;
+            else $lrisque = $lrisque . ", inondations ".$couleur;
+            break;
           case 5:
-          if ($lrisque == "RAS") {
-            $lrisque = "neige-verglas ".$couleur;
-          } else {
-            $lrisque = $lrisque . ", neige-verglas ".$couleur;
-          }
-          break;
+            if ($lrisque == "RAS") $lrisque = "neige-verglas ".$couleur;
+            else $lrisque = $lrisque . ", neige-verglas ".$couleur;
+            break;
           case 6:
-          if ($lrisque == "RAS") {
-            $lrisque = "canicule ".$couleur;
-          } else {
-            $lrisque = $lrisque . ", canicule ".$couleur;
-          }
-          break;
+            if ($lrisque == "RAS") $lrisque = "canicule ".$couleur;
+            else $lrisque = $lrisque . ", canicule ".$couleur;
+            break;
           case 7:
-          if ($lrisque == "RAS") {
-            $lrisque = "grand-froid ".$couleur;
-          } else {
-            $lrisque = $lrisque . ", grand-froid ".$couleur;
-          }
-          break;
+            if ($lrisque == "RAS") $lrisque = "grand-froid ".$couleur;
+            else $lrisque = $lrisque . ", grand-froid ".$couleur;
+            break;
           case 8:
-          if ($lrisque == "RAS") {
-            $lrisque = "avalanches ".$couleur;
-          } else {
-            $lrisque = $lrisque . ", avalanches ".$couleur;
-          }
-          break;
+            if ($lrisque == "RAS") $lrisque = "avalanches ".$couleur;
+            else $lrisque = $lrisque . ", avalanches ".$couleur;
+            break;
           case 9:
-          if ($lrisque == "RAS") {
-            $lrisque = "vagues-submersion ".$couleur;
-          } else {
-            $lrisque = $lrisque . ", vagues-submersion ".$couleur;
-          }
-          break;
+            if ($lrisque == "RAS") $lrisque = "vagues-submersion ".$couleur;
+            else $lrisque = $lrisque . ", vagues-submersion ".$couleur;
+            break;
         }
       }
     }
@@ -428,7 +378,6 @@ public function getVigilance() {
   $this->checkAndUpdateCmd('crue', $lcrue);
   $this->checkAndUpdateCmd('risque', $lrisque);
   $this->checkAndUpdateCmd('mer', $lmer);
-  return ;
 }
 
   public function getGDACS() {
@@ -560,7 +509,8 @@ public function getMaree($_clean=0) {
   }
   log::add(__CLASS__, 'debug', "Port: $port Name $harborName");
 
-  $JsonFile = jeedom::getTmpFolder(__CLASS__) ."/" .__CLASS__."-" .str_replace(' ','_',$harborName) .".json"; // fichier cache retour de MeteoConsult
+  // fichier cache retour de MeteoConsult
+  $JsonFile = jeedom::getTmpFolder(__CLASS__) ."/" .__CLASS__."-" .$this->getId() .".json";
   if(!file_exists($JsonFile)) {
     $url = "http://webservices.meteoconsult.fr/meteoconsultmarine/androidtab/115/fr/v20/previsionsSpot.php?lat=$lat&lon=$lon";
     log::add(__CLASS__, 'error', "Retreiving data from: $url");
@@ -922,6 +872,7 @@ public function getSurf() {
   }
   return ;
 }
+
 public function getPollen() {
     $geoloc = $this->getConfiguration('geoloc', 'none');
   if ($geoloc == 'none') {
@@ -1300,6 +1251,7 @@ public function getPollen() {
       $replace['#url_src#'] = "https://marine.meteoconsult.fr";
       $templatename = 'maree';
     }
+
     else if ($this->getConfiguration('type') == 'surf') {
       foreach ($this->getCmd('info') as $cmd) {
         $replace['#' . $cmd->getLogicalId() . '_history#'] = '';
@@ -1594,7 +1546,7 @@ public function getPollen() {
       $templatename = 'previsionpluie';
     }
     if (file_exists( __DIR__ ."/../template/$_version/custom.${templatename}.html")) {
-      return $this->postToHtml($_version, template_replace($replace, getTemplate('core', $version, "custom.".$templatename, __CLASS__)));
+      return $this->postToHtml($_version, template_replace($replace, getTemplate('core', $version, "custom." .$templatename, __CLASS__)));
     }
     else {
       return $this->postToHtml($_version, template_replace($replace, getTemplate('core', $version, $templatename, __CLASS__)));
