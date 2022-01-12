@@ -143,18 +143,50 @@ $eqLogics = eqLogic::byType('vigilancemeteo');
                         </div>
 
                         <div id="portEq" class="form-group" style="display:none">
+              <div class="form-group">
                             <label class="col-sm-3 control-label">{{Port}}</label>
                             <div class="col-sm-3">
-                                <input type="text" class="eqLogicAttr configuration form-control" data-l1key="configuration" data-l2key="port" placeholder="Ex 122"/>
+<?php
+                    $harbors = vigilancemeteo::mareeListHarbors();
+                    if($harbors !== null) {
+                      echo "<select type=\"text\" class=\"eqLogicAttr configuration form-control\" data-l1key=\"configuration\" data-l2key=\"port\">";
+                      foreach($harbors as $harbor) {
+                        echo "<option value=" . $harbor['id'];
+                        if(!isset($harbor['latitude']) || !isset($harbor['longitude'])) {
+                          echo " disabled";
+                        }
+                        echo ">" .$harbor['name'] ." " .(isset($harbor['CP'])?$harbor['CP']:'---') ."</option>\n";
+                      }
+                      echo "</select>";
+                    }
+                    else {
+                      echo "<input type=\"text\" class=\"eqLogicAttr configuration form-control\" data-l1key=\"configuration\" data-l2key=\"port\" placeholder=\"52 pour Saint-Malo voir le site maree.info\"/>";
+                    }
+?>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-3 control-label" ></label>
+                <div class="col-sm-3">
+                  <label class="checkbox-inline"><input type="checkbox" class="eqLogicAttr" data-l1key="configuration" data-l2key="useTideTemplate" checked/>{{Utiliser la template du plugin}}</label>
+                </div>
                             </div>
                         </div>
 
                         <div id="stationEq" class="form-group" style="display:none">
+              <div class="form-group">
                             <label class="col-sm-3 control-label">{{Station}}</label>
                             <div class="col-sm-3">
                                 <input type="text" class="eqLogicAttr configuration form-control" data-l1key="configuration" data-l2key="station" placeholder="Ex F700000103 pour Paris Austerlitz"/>
                             </div>
                         </div>
+              <div class="form-group">
+                <label class="col-sm-3 control-label" ></label>
+                <div class="col-sm-3">
+                  <label class="checkbox-inline"><input type="checkbox" class="eqLogicAttr" data-l1key="configuration" data-l2key="useFloodTemplate" checked/>{{Utiliser la template du plugin}}</label>
+                </div>
+              </div>
+            </div>
 
                         <div id="geolocEq" class="form-group" style="display:none">
                             <label class="col-sm-3 control-label">{{Localisation à utiliser}}</label>
@@ -224,18 +256,8 @@ $eqLogics = eqLogic::byType('vigilancemeteo');
                         </tr>
                     </thead>
                     <tbody>
-
                     </tbody>
                 </table>
-
-                <form class="form-horizontal">
-                    <fieldset>
-                        <div class="form-actions">
-                            <a class="btn btn-danger eqLogicAction" data-action="remove"><i class="fas fa-minus-circle"></i> {{Supprimer}}</a>
-                            <a class="btn btn-success eqLogicAction" data-action="save"><i class="fas fa-check-circle"></i> {{Sauvegarder}}</a>
-                        </div>
-                    </fieldset>
-                </form>
             </div>
         </div>
     </div>
