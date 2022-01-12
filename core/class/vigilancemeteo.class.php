@@ -22,11 +22,10 @@ class vigilancemeteo extends eqLogic {
 
   public static $_widgetPossibility = array('custom' => true);
 
-  public static function cron5() {
+  public static function cron() {
     foreach (eqLogic::byType(__CLASS__, true) as $vigilancemeteo) {
-      if ($vigilancemeteo->getConfiguration('type') == 'pluie1h') {
-        $vigilancemeteo->getPluie();
-        $vigilancemeteo->refreshWidget();
+      if ($vigilancemeteo->getConfiguration('type') == 'maree') {
+        if($vigilancemeteo->getMaree() != 0) $vigilancemeteo->refreshWidget();
       }
     }
   }
