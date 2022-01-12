@@ -179,7 +179,7 @@ function addCmdToTable(_cmd) {
       tr += '</td><td>';
       if (_cmd.subType == 'numeric' || _cmd.subType == 'binary' || _cmd.subType == 'string') {
         tr += '<span><label class="checkbox-inline"><input type="checkbox" class="cmdAttr checkbox-inline" data-l1key="isHistorized" checked/>{{Historiser}}</label></span> ';
-        if ( text == 'maree' || text == 'pollen'  || text == 'air') {
+        if ( text == 'maree' || text == 'pollen'  || text == 'air' || text == 'crue') {
           tr += '<span><label class="checkbox-inline"><input type="checkbox" class="cmdAttr checkbox-inline" data-l1key="isVisible" checked/>{{Afficher}}</label></span> ';
         }
       }
