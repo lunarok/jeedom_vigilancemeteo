@@ -15,7 +15,7 @@
 * You should have received a copy of the GNU General Public License
 * along with Jeedom. If not, see <http://www.gnu.org/licenses/>.
 */
-require_once dirname(__FILE__) . '/../../../../core/php/core.inc.php';
+require_once __DIR__ . '/../../../../core/php/core.inc.php';
 
 class vigilancemeteo extends eqLogic {
   const LEVEL = array('vert', 'vert', 'jaune', 'orange', 'rouge');
@@ -1191,7 +1191,29 @@ public function getPollen() {
     return $link;
   }
 
+  public function tideColor($maree,&$bgcolor,&$txtcolor) {
+      if($maree < 41) {
+        $bgcolor='#E9F2F8'; $txtcolor='black';
+      }
+      else if($maree < 61) {
+        $bgcolor='#8DC1E4'; $txtcolor='black';
+      }
+      else if($maree < 81) {
+        $bgcolor='#2E87C8'; $txtcolor='black';
+      }
+      else if($maree < 101) {
+        $bgcolor='#0664AC'; $txtcolor='white';
+      }
+      else {
+        $bgcolor='#024376'; $txtcolor='white';
+      }
+  }
+
   public function toHtml($_version = 'dashboard') {
+    $type = $this->getConfiguration('type');
+    if (($type == 'maree' && $this->getConfiguration('useTideTemplate','1') == '0') ||
+        ($type == 'crue') && $this->getConfiguration('useFloodTemplate','1') == '0')
+      return parent::toHtml($_version);
     $replace = $this->preToHtml($_version);
     if (!is_array($replace)) {
       return $replace;
@@ -1200,6 +1222,7 @@ public function getPollen() {
     if ($this->getDisplay('hideOn' . $version) == 1) {
       return '';
     }
+    setlocale(LC_TIME, config::byKey('language','core','fr_FR') .'.utf8');
     $cmd = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'refresh');
     if(is_object($cmd)) { $replace['#refresh#'] = $cmd->getId();}
     if ($this->getConfiguration('type') == 'vigilance') {
@@ -1228,7 +1251,9 @@ public function getPollen() {
         }
       }
       $templatename = 'vigilancemeteo';
-    } else if ($this->getConfiguration('type') == 'maree') {
+    }
+    
+    else if ($this->getConfiguration('type') == 'maree') {
       $replace['#portid#'] = $this->getConfiguration('port');
 
       foreach ($this->getCmd('info') as $cmd) {
@@ -1282,11 +1307,10 @@ public function getPollen() {
         if ($cmd->getIsHistorized() == 1) {
           $replace['#' . $cmd->getLogicalId() . '_history#'] = 'history cursor';
         }
-
       }
-
       $templatename = 'surf';
-    } else if ($this->getConfiguration('type') == 'plage') {
+    }
+    else if ($this->getConfiguration('type') == 'plage') {
       foreach ($this->getCmd('info') as $cmd) {
         $replace['#' . $cmd->getLogicalId() . '_history#'] = '';
         $replace['#' . $cmd->getLogicalId() . '_id#'] = $cmd->getId();
@@ -1410,7 +1434,8 @@ public function getPollen() {
           $replace['#slide#'] .= $repl[$i];
       }
       $templatename = 'pollen';
-    } else if ($this->getConfiguration('type') == 'crue') {
+    }
+    else if ($this->getConfiguration('type') == 'crue') {
       $replace['#crue_history#'] = '';
       $station = $this->getConfiguration('station');
       $replace['#station#'] = $station;
@@ -1566,8 +1591,8 @@ public function getPollen() {
       }
       $templatename = 'previsionpluie';
     }
-    if (file_exists( __DIR__ .'/../template/'.$_version.'/custom.'.$templatename.'.html')) {
-      return $this->postToHtml($_version, template_replace($replace, getTemplate('core', $version, 'custom.'.$templatename, __CLASS__)));
+    if (file_exists( __DIR__ ."/../template/$_version/custom.${templatename}.html")) {
+      return $this->postToHtml($_version, template_replace($replace, getTemplate('core', $version, "custom.".$templatename, __CLASS__)));
     }
     else {
       return $this->postToHtml($_version, template_replace($replace, getTemplate('core', $version, $templatename, __CLASS__)));
@@ -1583,5 +1608,3 @@ class vigilancemeteoCmd extends cmd {
     }
   }
 }
-
-?>
