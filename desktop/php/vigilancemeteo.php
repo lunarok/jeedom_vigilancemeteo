@@ -94,10 +94,11 @@ $eqLogics = eqLogic::byType($plugin->getId());
                       <select id="sel_object" class="eqLogicAttr form-control" data-l1key="object_id">
                           <option value="">{{Aucun}}</option>
                           <?php
-										$options = '';
-										foreach ((jeeObject::buildTree(null, false)) as $object) {
-											$options .= '<option value="' . $object->getId() . '">' . str_repeat('&nbsp;&nbsp;', $object->getConfiguration('parentNumber')) . $object->getName() . '</option>';
+										      $options = '';
+										      foreach ((jeeObject::buildTree(null, false)) as $object) {
+											      $options .= '<option value="' . $object->getId() . '">' . str_repeat('&nbsp;&nbsp;', $object->getConfiguration('parentNumber')) . $object->getName() . '</option>';
                           }
+			                    echo $options;
                           ?>
                       </select>
                   </div>
