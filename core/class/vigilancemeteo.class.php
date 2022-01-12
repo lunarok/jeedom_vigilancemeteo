@@ -25,7 +25,7 @@ class vigilancemeteo extends eqLogic {
   public static function cron() {
     foreach (eqLogic::byType(__CLASS__, true) as $vigilancemeteo) {
       if ($vigilancemeteo->getConfiguration('type') == 'maree') {
-        if($vigilancemeteo->getMaree() != 0) $vigilancemeteo->refreshWidget();
+        if($vigilancemeteo->getMaree(0) != 0) $vigilancemeteo->refreshWidget();
       }
     }
   }
@@ -35,7 +35,7 @@ class vigilancemeteo extends eqLogic {
       if ($vigilancemeteo->getConfiguration('type') == 'vigilance') {
         $vigilancemeteo->getVigilance();
       }
-      if ($vigilancemeteo->getConfiguration('type') == 'crue') {
+      else if ($vigilancemeteo->getConfiguration('type') == 'crue') {
         $vigilancemeteo->getCrue();
       }
       $vigilancemeteo->refreshWidget();
@@ -56,19 +56,19 @@ class vigilancemeteo extends eqLogic {
       if ($vigilancemeteo->getConfiguration('type') == 'air') {
         $vigilancemeteo->getAir();
       }
-      if ($vigilancemeteo->getConfiguration('type') == 'seisme') {
+      else if ($vigilancemeteo->getConfiguration('type') == 'seisme') {
         $vigilancemeteo->getSeisme();
       }
-      if ($vigilancemeteo->getConfiguration('type') == 'surf') {
+      else if ($vigilancemeteo->getConfiguration('type') == 'surf') {
         $vigilancemeteo->getSurf();
       }
-      if ($vigilancemeteo->getConfiguration('type') == 'pollen') {
+      else if ($vigilancemeteo->getConfiguration('type') == 'pollen') {
         $vigilancemeteo->getPollen();
       }
-      if ($vigilancemeteo->getConfiguration('type') == 'plage') {
+      else if ($vigilancemeteo->getConfiguration('type') == 'plage') {
         $vigilancemeteo->getPlage();
       }
-      if ($vigilancemeteo->getConfiguration('type') == 'gdacs') {
+      else if ($vigilancemeteo->getConfiguration('type') == 'gdacs') {
         $vigilancemeteo->getGDACS();
       }
       $vigilancemeteo->refreshWidget();
@@ -77,33 +77,33 @@ class vigilancemeteo extends eqLogic {
 
   public function getInformations() {
       if ($this->getConfiguration('type') == 'maree') {
-        $this->getMaree();
+        $this->getMaree(0);
       }
-      if ($this->getConfiguration('type') == 'air') {
+      else if ($this->getConfiguration('type') == 'air') {
         $this->getAir();
       }
-      if ($this->getConfiguration('type') == 'seisme') {
+      else if ($this->getConfiguration('type') == 'seisme') {
         $this->getSeisme();
       }
-      if ($this->getConfiguration('type') == 'surf') {
+      else if ($this->getConfiguration('type') == 'surf') {
         $this->getSurf();
       }
-      if ($this->getConfiguration('type') == 'pollen') {
+      else if ($this->getConfiguration('type') == 'pollen') {
         $this->getPollen();
       }
-      if ($this->getConfiguration('type') == 'plage') {
+      else if ($this->getConfiguration('type') == 'plage') {
         $this->getPlage();
       }
-      if ($this->getConfiguration('type') == 'pluie1h') {
+      else if ($this->getConfiguration('type') == 'pluie1h') {
         $this->getPluie();
       }
-      if ($this->getConfiguration('type') == 'vigilance') {
+      else if ($this->getConfiguration('type') == 'vigilance') {
         $this->getVigilance();
       }
-      if ($this->getConfiguration('type') == 'crue') {
+      else if ($this->getConfiguration('type') == 'crue') {
         $this->getCrue();
       }
-      if ($this->getConfiguration('type') == 'gdacs') {
+      else if ($this->getConfiguration('type') == 'gdacs') {
         $this->getGDACS();
       }
       $this->refreshWidget();
@@ -196,7 +196,7 @@ public function postUpdate() {
     $this->getVigilance();
   }
   if ($this->getConfiguration('type') == 'maree') {
-    $this->getMaree();
+    $this->getMaree(1);
   }
   if ($this->getConfiguration('type') == 'crue') {
     $this->getCrue();
@@ -525,6 +525,7 @@ public function emptyMaree($harborName,$_error='') {
 public function getMaree($_clean=0) {
   $t0 = microtime(true);
   $port = $this->getConfiguration('port');
+  log::add(__CLASS__, 'debug', "Port: $port Clean = $_clean");
   if ($port == '') {
     $this->emptyMaree('', "Marée : Port non saisi; Equipement: " .$this->getName());
     return(-1);
@@ -557,6 +558,7 @@ public function getMaree($_clean=0) {
     $this->emptyMaree('', "Harbor coordinate not found Port: $port");
     return(-1);
   }
+  log::add(__CLASS__, 'debug', "Port: $port Name $harborName");
 
   $JsonFile = jeedom::getTmpFolder(__CLASS__) ."/" .__CLASS__."-" .str_replace(' ','_',$harborName) .".json"; // fichier cache retour de MeteoConsult
   if(!file_exists($JsonFile)) {
