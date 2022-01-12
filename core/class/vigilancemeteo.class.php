@@ -511,6 +511,7 @@ public function getMaree($_clean=0) {
 
   // fichier cache retour de MeteoConsult
   $JsonFile = jeedom::getTmpFolder(__CLASS__) ."/" .__CLASS__."-" .$this->getId() .".json";
+  if($_clean == 1) @unlink($JsonFile); // Avec nettoyage ancien fichier ex: Chgt de port
   if(!file_exists($JsonFile)) {
     $url = "http://webservices.meteoconsult.fr/meteoconsultmarine/androidtab/115/fr/v20/previsionsSpot.php?lat=$lat&lon=$lon";
     log::add(__CLASS__, 'error', "Retreiving data from: $url");
@@ -546,6 +547,12 @@ public function getMaree($_clean=0) {
       }
       if($datetimeTSnext == 0 && $datetimeTS > $now) {
         $datetimeTSnext = $datetimeTS;
+        if(isset($dec['contenu']['marees'][$i]['lieu'])) {
+          $harbor = $dec['contenu']['marees'][$i]['lieu'];
+          $pos = strpos($harbor,'© SHOM'); // suppression de: Heures locales
+          if($pos !== false) $harborName = trim(substr($harbor,0,$pos+7));
+          else $harborName = trim($harbor);
+        }
         break;
       }
     }
