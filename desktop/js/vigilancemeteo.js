@@ -164,6 +164,7 @@ $('#typeEq').change(function(){
 });
 
 function addCmdToTable(_cmd) {
+    var text = $("#typeEq").val();
     if (!isset(_cmd)) {
         var _cmd = {configuration: {}};
     }
@@ -176,10 +177,10 @@ function addCmdToTable(_cmd) {
       tr += '</td><td>';
       tr += '<input class="cmdAttr form-control input-sm" data-l1key="name" style="width : 140px;" placeholder="{{Nom de la commande}}"></td>';
       tr += '</td><td>';
-      if (_cmd.subType == 'numeric' || _cmd.subType == 'binary') {
-        tr += '<span><label class="checkbox-inline"><input type="checkbox" class="cmdAttr checkbox-inline" data-l1key="isHistorized" checked/>{{Historiser}}</label></span>';
-        if ( typeof _cmd.configuration['logicalId'] != "undefined" && _cmd.configuration['logicalId'].substr(0,6) == 'pollen' ) {
-          tr += '<br/><span><label class="checkbox-inline"><input type="checkbox" class="cmdAttr checkbox-inline" data-l1key="isVisible" checked/>{{Afficher}}</label></span>';
+      if (_cmd.subType == 'numeric' || _cmd.subType == 'binary' || _cmd.subType == 'string') {
+        tr += '<span><label class="checkbox-inline"><input type="checkbox" class="cmdAttr checkbox-inline" data-l1key="isHistorized" checked/>{{Historiser}}</label></span> ';
+        if ( text == 'maree' || text == 'pollen'  || text == 'air') {
+          tr += '<span><label class="checkbox-inline"><input type="checkbox" class="cmdAttr checkbox-inline" data-l1key="isVisible" checked/>{{Afficher}}</label></span> ';
         }
       }
       tr += '</td><td>';
