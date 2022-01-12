@@ -1273,26 +1273,26 @@ public function getPollen() {
         }
       }
       $replace['#harborName#'] = '';
-      $cmd = jptyVigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'harborName');
+      $cmd = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'harborName');
       if(is_object($cmd)) $harborName = $cmd->execCmd();
       $replace['#harborName#'] = $harborName;
-      $cmd = jptyVigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'basse');
+      $cmd = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'basse');
       $txt = trim($cmd->execCmd());
       if(strlen($txt) == 3) $txt = '0'.$txt;
       $replace['#basse#'] = substr($txt,0,2) .':' .substr($txt,-2);
-      $cmd = jptyVigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'pleine');
+      $cmd = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'pleine');
       $txt = trim($cmd->execCmd());
       if(strlen($txt) == 3) $txt = '0'.$txt;
       $replace['#pleine#'] = substr($txt,0,2) .':' .substr($txt,-2);
-      $cmd = jptyVigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'maree');
+      $cmd = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'maree');
       $maree = $cmd->execCmd();
       self::tideColor($maree,$bgcolor,$txtcolor);
       $replace['#maree#'] = "<div class=\"tideGeneral\" style=\"background-color:$bgcolor; color:$txtcolor\"><center>$maree</center></div>";;
-      $cmd = jptyVigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'prevTide');
+      $cmd = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'prevTide');
       if(is_object($cmd)) $replace['#prevTide#'] = $cmd->execCmd();
-      $cmd = jptyVigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'nextTide');
+      $cmd = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'nextTide');
       if(is_object($cmd)) $replace['#nextTide#'] = $cmd->execCmd();
-      $cmd = jptyVigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'tidesTable');
+      $cmd = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'tidesTable');
       if(is_object($cmd)) $replace['#tidesTable#'] = $cmd->execCmd();
       else $replace['#tidesTable#'] = 'Missing cmd tidesTable. Equipment should be resaved';
       $replace['#url_src#'] = "https://marine.meteoconsult.fr";
