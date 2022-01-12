@@ -145,14 +145,14 @@ $eqLogics = eqLogic::byType('vigilancemeteo');
                         <div id="portEq" class="form-group" style="display:none">
                             <label class="col-sm-3 control-label">{{Port}}</label>
                             <div class="col-sm-3">
-                                <input type="text" class="eqLogicAttr configuration form-control" data-l1key="configuration" data-l2key="port" placeholder="exemple 122"/>
+                                <input type="text" class="eqLogicAttr configuration form-control" data-l1key="configuration" data-l2key="port" placeholder="Ex 122"/>
                             </div>
                         </div>
 
                         <div id="stationEq" class="form-group" style="display:none">
                             <label class="col-sm-3 control-label">{{Station}}</label>
                             <div class="col-sm-3">
-                                <input type="text" class="eqLogicAttr configuration form-control" data-l1key="configuration" data-l2key="station" placeholder="exemple 122"/>
+                                <input type="text" class="eqLogicAttr configuration form-control" data-l1key="configuration" data-l2key="station" placeholder="Ex F700000103 pour Paris Austerlitz"/>
                             </div>
                         </div>
 
