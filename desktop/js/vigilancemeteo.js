@@ -101,6 +101,16 @@ $('#typeEq').change(function(){
     $('#pollenEq').hide();
     $('#breezeEq').hide(); 
   }
+  if ((text == 'gdacs')) {
+    $('#portEq').hide();
+    $('#villeEq').hide();
+    $('#stationEq').hide();
+    $('#geolocEq').hide();
+    $('#surfEq').hide();
+    $('#mswEq').hide();
+    $('#pollenEq').hide();
+    $('#breezeEq').hide(); 
+  }
   if (text == 'pollen') {
     $('#portEq').hide();
     $('#villeEq').hide();
