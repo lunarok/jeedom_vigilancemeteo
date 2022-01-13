@@ -479,6 +479,7 @@ public function getMaree($_clean=0) {
     $this->emptyMaree('', "Marée : Port non saisi; Equipement: " .$this->getName());
     return(-1);
   }
+  $JsonFile = __DIR__ ."/../../data/" .__FUNCTION__."-" .$this->getId() .".json";
   if($_clean == 0) { // Sans nettoyage
     $nextTideCmd = $this->getCmd(null, 'TSnextTide'); 
     if(is_object($nextTideCmd)) {
@@ -487,6 +488,9 @@ public function getMaree($_clean=0) {
       if($TS > $now) return(0); // Pas de MAJ avant prochain chgt maree
     }
     else log::add(__CLASS__, 'warning', 'Missing cmd TSnextTide. Equipment [' .$this->getName() .'] should be resaved');
+  }
+  else {
+    @unlink($JsonFile); // Avec nettoyage ancien fichier ex: Chgt de port
   }
 
   $harbors = self::mareeListHarbors();
@@ -510,13 +514,13 @@ public function getMaree($_clean=0) {
   log::add(__CLASS__, 'debug', "Port: $port Name $harborName");
 
   // fichier cache retour de MeteoConsult
-  $JsonFile = jeedom::getTmpFolder(__CLASS__) ."/" .__CLASS__."-" .$this->getId() .".json";
-  if($_clean == 1) @unlink($JsonFile); // Avec nettoyage ancien fichier ex: Chgt de port
+  if(!is_dir(__DIR__ ."/../../data"))
+    @mkdir(__DIR__ ."/../../data",0777,true);
   if(!file_exists($JsonFile)) {
     $url = "http://webservices.meteoconsult.fr/meteoconsultmarine/androidtab/115/fr/v20/previsionsSpot.php?lat=$lat&lon=$lon";
-    log::add(__CLASS__, 'error', "Retreiving data from: $url");
+    log::add(__CLASS__, 'debug', "Retreiving data for harbor $port from: $url");
     $content = file_get_contents($url);
-    log::add(__CLASS__, 'error', "Creating new cache file $JsonFile");
+    log::add(__CLASS__, 'debug', "Creating new cache file $JsonFile");
     $hdle = fopen($JsonFile, "wb");
     if($hdle !== FALSE) {
       fwrite($hdle, $content);
