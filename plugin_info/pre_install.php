@@ -18,6 +18,7 @@
 
 require_once __DIR__ . '/../../../core/php/core.inc.php';
 
+/*
 function vigilancemeteo_pre_update() {
   $srcDir	 = __DIR__ . '/../core/template/dashboard/';
   $files = array('air','crue','gdacs','maree','plage','pollen','previsionpluie','surf','uvi','vigilancemeteo');
@@ -27,4 +28,5 @@ function vigilancemeteo_pre_update() {
     }
   }
 }
+*/
 ?>

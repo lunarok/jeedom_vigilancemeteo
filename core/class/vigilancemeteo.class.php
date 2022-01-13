@@ -15,19 +15,27 @@
 * You should have received a copy of the GNU General Public License
 * along with Jeedom. If not, see <http://www.gnu.org/licenses/>.
 */
-require_once dirname(__FILE__) . '/../../../../core/php/core.inc.php';
+require_once __DIR__ . '/../../../../core/php/core.inc.php';
 
 class vigilancemeteo extends eqLogic {
   const LEVEL = array('vert', 'vert', 'jaune', 'orange', 'rouge');
 
   public static $_widgetPossibility = array('custom' => true);
 
+  public static function cron() {
+    foreach (eqLogic::byType(__CLASS__, true) as $vigilancemeteo) {
+      if ($vigilancemeteo->getConfiguration('type') == 'maree') {
+        if($vigilancemeteo->getMaree(0) != 0) $vigilancemeteo->refreshWidget();
+      }
+    }
+  }
+	
   public static function cron15() {
     foreach (eqLogic::byType(__CLASS__, true) as $vigilancemeteo) {
       if ($vigilancemeteo->getConfiguration('type') == 'vigilance') {
         $vigilancemeteo->getVigilance();
       }
-      if ($vigilancemeteo->getConfiguration('type') == 'crue') {
+      else if ($vigilancemeteo->getConfiguration('type') == 'crue') {
         $vigilancemeteo->getCrue();
       }
       $vigilancemeteo->refreshWidget();
@@ -44,26 +52,24 @@ class vigilancemeteo extends eqLogic {
   }
 
   public static function cronHourly() {
+      $dat = date('G');
     foreach (eqLogic::byType(__CLASS__, true) as $vigilancemeteo) {
-      if ($vigilancemeteo->getConfiguration('type') == 'maree') {
-        $vigilancemeteo->getMaree();
-      }
       if ($vigilancemeteo->getConfiguration('type') == 'air') {
         $vigilancemeteo->getAir();
       }
-      if ($vigilancemeteo->getConfiguration('type') == 'seisme') {
+      else if ($vigilancemeteo->getConfiguration('type') == 'seisme') {
         $vigilancemeteo->getSeisme();
       }
-      if ($vigilancemeteo->getConfiguration('type') == 'surf') {
+      else if ($vigilancemeteo->getConfiguration('type') == 'surf') {
         $vigilancemeteo->getSurf();
       }
-      if ($vigilancemeteo->getConfiguration('type') == 'pollen') {
+        else if ($vigilancemeteo->getConfiguration('type') == 'pollen'&& $dat > 7 && $dat < 20) {
         $vigilancemeteo->getPollen();
       }
-      if ($vigilancemeteo->getConfiguration('type') == 'plage') {
+      else if ($vigilancemeteo->getConfiguration('type') == 'plage') {
         $vigilancemeteo->getPlage();
       }
-      if ($vigilancemeteo->getConfiguration('type') == 'gdacs') {
+      else if ($vigilancemeteo->getConfiguration('type') == 'gdacs') {
         $vigilancemeteo->getGDACS();
       }
       $vigilancemeteo->refreshWidget();
@@ -72,33 +78,33 @@ class vigilancemeteo extends eqLogic {
 
   public function getInformations() {
       if ($this->getConfiguration('type') == 'maree') {
-        $this->getMaree();
+        $this->getMaree(0);
       }
-      if ($this->getConfiguration('type') == 'air') {
+      else if ($this->getConfiguration('type') == 'air') {
         $this->getAir();
       }
-      if ($this->getConfiguration('type') == 'seisme') {
+      else if ($this->getConfiguration('type') == 'seisme') {
         $this->getSeisme();
       }
-      if ($this->getConfiguration('type') == 'surf') {
+      else if ($this->getConfiguration('type') == 'surf') {
         $this->getSurf();
       }
-      if ($this->getConfiguration('type') == 'pollen') {
+      else if ($this->getConfiguration('type') == 'pollen') {
         $this->getPollen();
       }
-      if ($this->getConfiguration('type') == 'plage') {
+      else if ($this->getConfiguration('type') == 'plage') {
         $this->getPlage();
       }
-      if ($this->getConfiguration('type') == 'pluie1h') {
+      else if ($this->getConfiguration('type') == 'pluie1h') {
         $this->getPluie();
       }
-      if ($this->getConfiguration('type') == 'vigilance') {
+      else if ($this->getConfiguration('type') == 'vigilance') {
         $this->getVigilance();
       }
-      if ($this->getConfiguration('type') == 'crue') {
+      else if ($this->getConfiguration('type') == 'crue') {
         $this->getCrue();
       }
-      if ($this->getConfiguration('type') == 'gdacs') {
+      else if ($this->getConfiguration('type') == 'gdacs') {
         $this->getGDACS();
       }
       $this->refreshWidget();
@@ -191,7 +197,7 @@ public function postUpdate() {
     $this->getVigilance();
   }
   if ($this->getConfiguration('type') == 'maree') {
-    $this->getMaree();
+    $this->getMaree(1);
   }
   if ($this->getConfiguration('type') == 'crue') {
     $this->getCrue();
@@ -289,48 +295,24 @@ public function getVigilance() {
       }
       foreach($data->getElementsByTagName('risque') as $risque) {
         switch ($risque->getAttribute('valeur')) {
-          case 1:
-          $lrisque[] = "vent";
-          break;
-          case 2:
-          $lrisque[] = "pluie-inondation";
-          break;
-          case 3:
-          $lrisque[] = "orages";
-          break;
-          case 4:
-          $lrisque[] = "inondations";
-          break;
-          case 5:
-          $lrisque[] = "neige-verglas";
-          break;
-          case 6:
-          $lrisque[] = "canicule";
-          break;
-          case 7:
-          $lrisque[] = "grand-froid";
-          break;
+          case 1: $lrisque[] = "vent"; break;
+          case 2: $lrisque[] = "pluie-inondation"; break;
+          case 3: $lrisque[] = "orages"; break;
+          case 4: $lrisque[] = "inondations"; break;
+          case 5: $lrisque[] = "neige-verglas"; break;
+          case 6: $lrisque[] = "canicule"; break;
+          case 7: $lrisque[] = "grand-froid"; break;
         }
       }
     }
     if ($data->getAttribute('dep') == $departement.'10') {
       //alerte mer
       switch ($data->getAttribute('couleur')) {
-        case 0:
-        $lmer = "vert";
-        break;
-        case 1:
-        $lmer = "vert";
-        break;
-        case 2:
-        $lmer = "jaune";
-        break;
-        case 3:
-        $lmer = "orange";
-        break;
-        case 4:
-        $lmer = "rouge";
-        break;
+        case 0: $lmer = "vert"; break;
+        case 1: $lmer = "vert"; break;
+        case 2: $lmer = "jaune"; break;
+        case 3: $lmer = "orange"; break;
+        case 4: $lmer = "rouge"; break;
       }
 
     }
@@ -348,68 +330,41 @@ public function getVigilance() {
       foreach($data->getElementsByTagName('risque') as $risque) {
         switch ($risque->getAttribute('val')) {
           case 1:
-          if ($lrisque == "RAS") {
-            $lrisque = "vent ".$couleur;
-          } else {
-            $lrisque = $lrisque . ", vent ".$couleur;
-          }
-          break;
+            if ($lrisque == "RAS") $lrisque = "vent ".$couleur;
+            else $lrisque = $lrisque . ", vent ".$couleur;
+            break;
           case 2:
-          if ($lrisque == "RAS") {
-            $lrisque = "pluie-inondation ".$couleur;
-          } else {
-            $lrisque = $lrisque . ", pluie-inondation ".$couleur;
-          }
-          break;
+            if ($lrisque == "RAS") $lrisque = "pluie-inondation ".$couleur;
+            else $lrisque = $lrisque . ", pluie-inondation ".$couleur;
+            break;
           case 3:
-          if ($lrisque == "RAS") {
-            $lrisque = "orages ".$couleur;
-          } else {
-            $lrisque = $lrisque . ", orages ".$couleur;
-          }
-          break;
+            if ($lrisque == "RAS") $lrisque = "orages ".$couleur;
+            else $lrisque = $lrisque . ", orages ".$couleur;
+            break;
           case 4:
-          if ($lrisque == "RAS") {
-            $lrisque = "inondations ".$couleur;
-          } else {
-            $lrisque = $lrisque . ", inondations ".$couleur;
-          }
-          break;
+            if ($lrisque == "RAS") $lrisque = "inondations ".$couleur;
+            else $lrisque = $lrisque . ", inondations ".$couleur;
+            break;
           case 5:
-          if ($lrisque == "RAS") {
-            $lrisque = "neige-verglas ".$couleur;
-          } else {
-            $lrisque = $lrisque . ", neige-verglas ".$couleur;
-          }
-          break;
+            if ($lrisque == "RAS") $lrisque = "neige-verglas ".$couleur;
+            else $lrisque = $lrisque . ", neige-verglas ".$couleur;
+            break;
           case 6:
-          if ($lrisque == "RAS") {
-            $lrisque = "canicule ".$couleur;
-          } else {
-            $lrisque = $lrisque . ", canicule ".$couleur;
-          }
-          break;
+            if ($lrisque == "RAS") $lrisque = "canicule ".$couleur;
+            else $lrisque = $lrisque . ", canicule ".$couleur;
+            break;
           case 7:
-          if ($lrisque == "RAS") {
-            $lrisque = "grand-froid ".$couleur;
-          } else {
-            $lrisque = $lrisque . ", grand-froid ".$couleur;
-          }
-          break;
+            if ($lrisque == "RAS") $lrisque = "grand-froid ".$couleur;
+            else $lrisque = $lrisque . ", grand-froid ".$couleur;
+            break;
           case 8:
-          if ($lrisque == "RAS") {
-            $lrisque = "avalanches ".$couleur;
-          } else {
-            $lrisque = $lrisque . ", avalanches ".$couleur;
-          }
-          break;
+            if ($lrisque == "RAS") $lrisque = "avalanches ".$couleur;
+            else $lrisque = $lrisque . ", avalanches ".$couleur;
+            break;
           case 9:
-          if ($lrisque == "RAS") {
-            $lrisque = "vagues-submersion ".$couleur;
-          } else {
-            $lrisque = $lrisque . ", vagues-submersion ".$couleur;
-          }
-          break;
+            if ($lrisque == "RAS") $lrisque = "vagues-submersion ".$couleur;
+            else $lrisque = $lrisque . ", vagues-submersion ".$couleur;
+            break;
         }
       }
     }
@@ -423,7 +378,6 @@ public function getVigilance() {
   $this->checkAndUpdateCmd('crue', $lcrue);
   $this->checkAndUpdateCmd('risque', $lrisque);
   $this->checkAndUpdateCmd('mer', $lmer);
-  return ;
 }
 
   public function getGDACS() {
@@ -479,36 +433,211 @@ $array = json_decode($json,TRUE);
   return ;
 }
 
-public function getMaree() {
+  /* apiMaree idem HA
+   * info maree:
+   * http://webservices.meteoconsult.fr/meteoconsultmarine/androidtab/115/fr/v20/previsionsSpot.php?lat=48.64&lon=-2.02833
+   * */
+
+public static function cmpHarbor($a, $b) {
+  return(strcmp($a['name'], $b['name']));
+}
+public static function mareeListHarbors() {
+  $file = __DIR__ ."/../config/PortsMareeInfo.json";
+  $json = file_get_contents($file);
+  if($json === false) {
+    log::add(__CLASS__, 'warning', "Unable to get content of file: $file");
+    return(null);
+  }
+  else {
+    $harbors = json_decode($json,true);
+    if($harbors === false) {
+      log::add(__CLASS__, 'warning', "Unable to decode Json file: $file");
+      return(null);
+    }
+    else {
+      uasort($harbors,array('self','cmpHarbor'));
+      return($harbors);
+    }
+  }
+}
+
+public function emptyMaree($harborName,$_error='') {
+    $this->checkAndUpdateCmd('maree', 0);
+    $this->checkAndUpdateCmd('pleine', 0);
+    $this->checkAndUpdateCmd('basse', 0);
+    $this->checkAndUpdateCmd('harborName', $harborName);
+    $this->checkAndUpdateCmd('prevTide', 'NA');
+    $this->checkAndUpdateCmd('nextTide', 'NA');
+    $this->checkAndUpdateCmd('tidesTable', $_error);
+}
+
+public function getMaree($_clean=0) {
+  $t0 = microtime(true);
   $port = $this->getConfiguration('port');
+  log::add(__CLASS__, 'debug', "Port: $port Clean = $_clean");
   if ($port == '') {
-    log::add(__CLASS__, 'error', 'Marée : Port non saisi');
-    return;
+    $this->emptyMaree('', "Marée : Port non saisi; Equipement: " .$this->getName());
+    return(-1);
   }
-  $url = 'http://horloge.maree.frbateaux.net/ws' . $port . '.js?col=1&c=0';
-  $result = file($url);
-  if ($result === false) {
-    return;
+  if($_clean == 0) { // Sans nettoyage
+    $nextTideCmd = $this->getCmd(null, 'TSnextTide'); 
+    if(is_object($nextTideCmd)) {
+      $TS = $nextTideCmd->execCmd();
+      $now = time();
+      if($TS > $now) return(0); // Pas de MAJ avant prochain chgt maree
+    }
+    else log::add(__CLASS__, 'warning', 'Missing cmd TSnextTide. Equipment [' .$this->getName() .'] should be resaved');
   }
 
-  //log::add(__CLASS__, 'debug', 'Log ' . print_r($result, true));
+  $harbors = self::mareeListHarbors();
+  $lat = 200;
+  if($harbors !== null) {
+    foreach($harbors as $harbor) {
+      if($harbor['id'] == $port && isset($harbor['latitude'])) {
+        $harborName = $harbor['name'];
+        $lat = $harbor['latitude'];
+        $lon = $harbor['longitude'];
+        break;
+      }
+    }
+    unset($harbors);
+  }
+  if ($lat == 200) {
+    log::add(__CLASS__, 'warning', "Coordonnées du port non trouvées. Port: $port Equipement: " .$this->getName());
+    $this->emptyMaree('', "Harbor coordinate not found Port: $port");
+    return(-1);
+  }
+  log::add(__CLASS__, 'debug', "Port: $port Name $harborName");
 
-  $maree = explode('<br>', $result[15]);
-  $maree = explode('"', $maree[1]);
-  $maree = $maree[0];
-  $pleine = explode('PM ', $result[17] );
-  $pleine = substr($pleine[1], 0, 5);
-  $pleine = str_replace('h', '', $pleine);
-  $basse = explode('BM ', $result[17]);
-  $basse = substr($basse[1], 0, 5);
-  $basse = str_replace('h', '', $basse);
+  // fichier cache retour de MeteoConsult
+  $JsonFile = jeedom::getTmpFolder(__CLASS__) ."/" .__CLASS__."-" .$this->getId() .".json";
+  if($_clean == 1) @unlink($JsonFile); // Avec nettoyage ancien fichier ex: Chgt de port
+  if(!file_exists($JsonFile)) {
+    $url = "http://webservices.meteoconsult.fr/meteoconsultmarine/androidtab/115/fr/v20/previsionsSpot.php?lat=$lat&lon=$lon";
+    log::add(__CLASS__, 'error', "Retreiving data from: $url");
+    $content = file_get_contents($url);
+    log::add(__CLASS__, 'error', "Creating new cache file $JsonFile");
+    $hdle = fopen($JsonFile, "wb");
+    if($hdle !== FALSE) {
+      fwrite($hdle, $content);
+      fclose($hdle);
+    }
+  }
+  else {
+    log::add(__CLASS__, 'debug', "File: $JsonFile exists");
+    $content = file_get_contents($JsonFile);
+  }
+  $dec = json_decode($content,true);
+  if($dec === null) {
+    log::add(__CLASS__, 'warning', "Unable to decode json file: $JsonFile");
+    unlink($JsonFile); // Suppression fichier non décodable
+    $this->emptyMaree($harborName, "Unable to decode json file: $JsonFile");
+    return(-1);
+  }
 
-  log::add(__CLASS__, 'debug', 'Marée ' . $maree . ', Pleine ' . $pleine . ', Basse ' . $basse);
-  $this->checkAndUpdateCmd('maree', $maree);
-  $this->checkAndUpdateCmd('pleine', $pleine);
-  $this->checkAndUpdateCmd('basse', $basse);
+  $nbdays = count($dec['contenu']['marees']);
+  $now = time();
+  $datetimeTSprev = $datetimeTSnext = 0;
+  for($i=0;$i<$nbdays;$i++) {
+    $nbEtales = count($dec['contenu']['marees'][$i]['etales']);
+    for($j=0;$j<$nbEtales;$j++) {
+      $datetimeTS = strtotime($dec['contenu']['marees'][$i]['etales'][$j]['datetime']);
+      if($datetimeTS < $now) {
+        $datetimeTSprev = $datetimeTS;
+      }
+      if($datetimeTSnext == 0 && $datetimeTS > $now) {
+        $datetimeTSnext = $datetimeTS;
+        if(isset($dec['contenu']['marees'][$i]['lieu'])) {
+          $harbor = $dec['contenu']['marees'][$i]['lieu'];
+          $pos = strpos($harbor,'© SHOM'); // suppression de: Heures locales
+          if($pos !== false) $harborName = trim(substr($harbor,0,$pos+7));
+          else $harborName = trim($harbor);
+        }
+        break;
+      }
+    }
+    if($datetimeTSnext != 0) break;
+  }
+  $tidesTable = '<table border=0 width=100%><tr><th></th><th>Hauteur</th><th>Heure</th><th>Coefficient</th></tr>';
+  $jour = 0; $maree = -99;
+  $nbmaree = 0;
+  $prev = $next = '';
+  setlocale(LC_TIME, config::byKey('language','core','fr_FR') .'.utf8');
+  for($i=0;$i<$nbdays;$i++) {
+    $nbEtales = count($dec['contenu']['marees'][$i]['etales']);
+    for($j=0;$j<$nbEtales;$j++) {
+      $datetimeTS = strtotime($dec['contenu']['marees'][$i]['etales'][$j]['datetime']);
+      if($datetimeTS < $datetimeTSprev) continue;
+      $nbmaree++;
+      $hauteur = $dec['contenu']['marees'][$i]['etales'][$j]['hauteur'];
+      $type = $dec['contenu']['marees'][$i]['etales'][$j]['type_etale'];
+      if($type == 'PM') $coef = $dec['contenu']['marees'][$i]['etales'][$j]['coef'];
+      if($datetimeTSprev == $datetimeTS) {
+        $prev = (($type=='PM')?
+          '<i class="wi wi-direction-up" style="font-size : 2em;"></i>':
+          '<i class="wi wi-direction-down" style="font-size : 2em;"></i>');
+        $datetimeTSprev = $datetimeTS;
+        $prev .=  " &nbsp;${hauteur}m à " .strftime('%Hh%M',$datetimeTS);
+        if($type == 'PM') {
+          $pleine = date('Hi',$datetimeTS);
+          self::tideColor($coef,$bgcolor,$txtcolor);
+          $prev .= " <div class=\"tidesTableFactor\" style=\"background-color:$bgcolor; color:$txtcolor\"><center>$coef</center></div>";
+          $maree = $coef;
+        }
+        else $basse = date('Hi',$datetimeTS);
+      }
+      if($datetimeTSnext == $datetimeTS) {
+        $next = (($type=='PM')?
+          '<i class="wi wi-direction-up" style="font-size : 2em;"></i>':
+          '<i class="wi wi-direction-down" style="font-size : 2em;"></i>');
+        $next .= " &nbsp;${hauteur}m à ";
+          $next .= strftime('%H:%M',$datetimeTS);
+        if($type == 'PM') {
+          $pleine = date('Hi',$datetimeTS);
+          self::tideColor($coef,$bgcolor,$txtcolor);
+          $next .= " <div class=\"tidesTableFactor\" style=\"background-color:$bgcolor; color:$txtcolor\"><center>$coef</center></div>";
+          $maree = $coef;
+        }
+        else $basse = date('Hi',$datetimeTS);
+      }
 
-  return ;
+      $jour2 = date('z',$datetimeTS);
+      if($jour != $jour2) {
+        $tidesTable .=  "<tr><td colspan=4><b>" .ucfirst(strftime('%A %e %B',$datetimeTS)) ."</b></td></tr>";
+        $jour = $jour2;
+      }
+      $tidesTable .= "<tr>";
+      $tidesTable .= "<td>&nbsp;" .(($type=='PM')?
+        '<i class="wi wi-direction-up" style="font-size : 1.5em;"></i>':
+        '<i class="wi wi-direction-down" style="font-size : 1.5em;"></i>') ."&nbsp;</td>";
+      $tidesTable .=  "<td>${hauteur}m</td><td>" .strftime('%Hh%M',$datetimeTS) ."</td>";
+      if($type == 'PM') {
+        self::tideColor($coef,$bgcolor,$txtcolor);
+        $tidesTable .= "<td><span class=\"tidesTableFactor\" style=\"background-color:$bgcolor; color:$txtcolor\"><center>$coef</center></span></td>";
+      }
+      else $tidesTable .= "<td></td>";
+      $tidesTable .= "</tr>";
+    }
+  }
+  $tidesTable .= "</table>";
+  if($nbmaree < 10) {
+    unlink($JsonFile); // reste moins de 10 marées. Sera regénéré à la prochaine requete
+    log::add(__CLASS__, 'warning', "Suppression $JsonFile Nb maree = $nbmaree");
+    $nbmaree = 0;
+  }
+
+  log::add(__CLASS__, 'debug', "Port: $harborName Marée: $maree Pleine: $pleine Basse: $basse");
+  $changed = $this->checkAndUpdateCmd('maree', $maree);
+  $changed += $this->checkAndUpdateCmd('pleine', $pleine);
+  $changed += $this->checkAndUpdateCmd('basse', $basse);
+  $changed += $this->checkAndUpdateCmd('harborName', $harborName);
+  $changed += $this->checkAndUpdateCmd('prevTide', $prev);
+  $changed += $this->checkAndUpdateCmd('nextTide', $next);
+  $changed += $this->checkAndUpdateCmd('tidesTable', $tidesTable);
+  $changed += $this->checkAndUpdateCmd('TSnextTide', $datetimeTSnext);
+  $t1 = microtime(true);
+  log::add(__CLASS__, 'debug', __FUNCTION__ ." $harborName Durée: " .round($t1-$t0,1) .'s. Prochaine MAJ: '.date('Y-m-d H:i',$datetimeTSnext) .(($nbmaree)?" Reste $nbmaree marées":''));
+  return($changed);
 }
 
 public function getPlage() {
@@ -750,6 +879,7 @@ public function getSurf() {
   }
   return ;
 }
+
 public function getPollen() {
     $geoloc = $this->getConfiguration('geoloc', 'none');
   if ($geoloc == 'none') {
@@ -1021,7 +1151,29 @@ public function getPollen() {
     return $link;
   }
 
+  public function tideColor($maree,&$bgcolor,&$txtcolor) {
+      if($maree < 41) {
+        $bgcolor='#E9F2F8'; $txtcolor='black';
+      }
+      else if($maree < 61) {
+        $bgcolor='#8DC1E4'; $txtcolor='black';
+      }
+      else if($maree < 81) {
+        $bgcolor='#2E87C8'; $txtcolor='black';
+      }
+      else if($maree < 101) {
+        $bgcolor='#0664AC'; $txtcolor='white';
+      }
+      else {
+        $bgcolor='#024376'; $txtcolor='white';
+      }
+  }
+
   public function toHtml($_version = 'dashboard') {
+    $type = $this->getConfiguration('type');
+    if (($type == 'maree' && $this->getConfiguration('useTideTemplate','1') == '0') ||
+        ($type == 'crue') && $this->getConfiguration('useFloodTemplate','1') == '0')
+      return parent::toHtml($_version);
     $replace = $this->preToHtml($_version);
     if (!is_array($replace)) {
       return $replace;
@@ -1030,6 +1182,7 @@ public function getPollen() {
     if ($this->getDisplay('hideOn' . $version) == 1) {
       return '';
     }
+    setlocale(LC_TIME, config::byKey('language','core','fr_FR') .'.utf8');
     $cmd = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'refresh');
     if(is_object($cmd)) { $replace['#refresh#'] = $cmd->getId();}
     if ($this->getConfiguration('type') == 'vigilance') {
@@ -1058,7 +1211,9 @@ public function getPollen() {
         }
       }
       $templatename = 'vigilancemeteo';
-    } else if ($this->getConfiguration('type') == 'maree') {
+    }
+    
+    else if ($this->getConfiguration('type') == 'maree') {
       $replace['#portid#'] = $this->getConfiguration('port');
 
       foreach ($this->getCmd('info') as $cmd) {
@@ -1071,20 +1226,40 @@ public function getPollen() {
         } else {
           $replace['#' . $logicalId . '#'] = substr_replace(str_pad($cmd->execCmd(), 4, '0', STR_PAD_LEFT),':',-2,0);
         }
+        $replace['#' . $logicalId . '_display#'] = ($cmd->getIsVisible()) ? "visible" : "none";
         $replace['#' . $logicalId . '_collect#'] = $cmd->getCollectDate();
         if ($cmd->getIsHistorized() == 1) {
           $replace['#' . $logicalId . '_history#'] = 'history cursor';
         }
       }
-
-      if (strpos(network::getNetworkAccess('external'),'https') !== false) {
-        $replace['#icone#'] = '<a target="_blank" href="http://maree.info/' . $this->getConfiguration('port') . '"><i class="fas fa-info-circle cursor"></i></a>';
-      } else {
-        $replace['#icone#'] = '<i id="maree' . $this->getId() . '" class="fas fa-info-circle cursor"></i>';
-      }
-
+      $replace['#harborName#'] = '';
+      $cmd = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'harborName');
+      if(is_object($cmd)) $harborName = $cmd->execCmd();
+      $replace['#harborName#'] = $harborName;
+      $cmd = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'basse');
+      $txt = trim($cmd->execCmd());
+      if(strlen($txt) == 3) $txt = '0'.$txt;
+      $replace['#basse#'] = substr($txt,0,2) .':' .substr($txt,-2);
+      $cmd = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'pleine');
+      $txt = trim($cmd->execCmd());
+      if(strlen($txt) == 3) $txt = '0'.$txt;
+      $replace['#pleine#'] = substr($txt,0,2) .':' .substr($txt,-2);
+      $cmd = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'maree');
+      $maree = $cmd->execCmd();
+      self::tideColor($maree,$bgcolor,$txtcolor);
+      $replace['#maree#'] = "<div class=\"tideGeneral\" style=\"background-color:$bgcolor; color:$txtcolor\"><center>$maree</center></div>";;
+      $cmd = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'prevTide');
+      if(is_object($cmd)) $replace['#prevTide#'] = $cmd->execCmd();
+      $cmd = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'nextTide');
+      if(is_object($cmd)) $replace['#nextTide#'] = $cmd->execCmd();
+      $cmd = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'tidesTable');
+      if(is_object($cmd)) $replace['#tidesTable#'] = $cmd->execCmd();
+      else $replace['#tidesTable#'] = 'Missing cmd tidesTable. Equipment should be resaved';
+      $replace['#url_src#'] = "https://marine.meteoconsult.fr";
       $templatename = 'maree';
-    } else if ($this->getConfiguration('type') == 'surf') {
+    }
+
+    else if ($this->getConfiguration('type') == 'surf') {
       foreach ($this->getCmd('info') as $cmd) {
         $replace['#' . $cmd->getLogicalId() . '_history#'] = '';
         $replace['#' . $cmd->getLogicalId() . '_id#'] = $cmd->getId();
@@ -1093,11 +1268,10 @@ public function getPollen() {
         if ($cmd->getIsHistorized() == 1) {
           $replace['#' . $cmd->getLogicalId() . '_history#'] = 'history cursor';
         }
-
       }
-
       $templatename = 'surf';
-    } else if ($this->getConfiguration('type') == 'plage') {
+    }
+    else if ($this->getConfiguration('type') == 'plage') {
       foreach ($this->getCmd('info') as $cmd) {
         $replace['#' . $cmd->getLogicalId() . '_history#'] = '';
         $replace['#' . $cmd->getLogicalId() . '_id#'] = $cmd->getId();
@@ -1221,7 +1395,8 @@ public function getPollen() {
           $replace['#slide#'] .= $repl[$i];
       }
       $templatename = 'pollen';
-    } else if ($this->getConfiguration('type') == 'crue') {
+    }
+    else if ($this->getConfiguration('type') == 'crue') {
       $replace['#crue_history#'] = '';
       $station = $this->getConfiguration('station');
       $replace['#station#'] = $station;
@@ -1377,8 +1552,8 @@ public function getPollen() {
       }
       $templatename = 'previsionpluie';
     }
-    if (file_exists( __DIR__ .'/../template/'.$_version.'/custom.'.$templatename.'.html')) {
-      return $this->postToHtml($_version, template_replace($replace, getTemplate('core', $version, 'custom.'.$templatename, __CLASS__)));
+    if (file_exists( __DIR__ ."/../template/$_version/custom.${templatename}.html")) {
+      return $this->postToHtml($_version, template_replace($replace, getTemplate('core', $version, "custom." .$templatename, __CLASS__)));
     }
     else {
       return $this->postToHtml($_version, template_replace($replace, getTemplate('core', $version, $templatename, __CLASS__)));
@@ -1394,5 +1569,3 @@ class vigilancemeteoCmd extends cmd {
     }
   }
 }
-
-?>
