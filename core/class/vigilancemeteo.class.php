@@ -583,8 +583,8 @@ public function getMaree($_clean=0) {
         $datetimeTSnext = $datetimeTS;
         if(isset($dec['contenu']['marees'][$i]['lieu'])) {
           $harbor = $dec['contenu']['marees'][$i]['lieu'];
-          $pos = strpos($harbor,'© SHOM'); // suppression de: Heures locales
-          if($pos !== false) $harborName = trim(substr($harbor,0,$pos+7));
+          $pos = strpos($harbor,'- Heures locales'); // suppression de: - Heures locales
+          if($pos !== false) $harborName = trim(substr($harbor,0,$pos));
           else $harborName = trim($harbor);
         }
         break;
