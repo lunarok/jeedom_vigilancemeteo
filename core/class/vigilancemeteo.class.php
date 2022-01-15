@@ -1327,7 +1327,7 @@ public function getPollen() {
                 '<i class="wi wi-direction-up" style="font-size : 1.5em;"></i>':
                 '<i class="wi wi-direction-down" style="font-size : 1.5em;"></i>') ."&nbsp;</td>";
               $tidesTableTxt .=  "<td>${hauteur}m</td><td>" .strftime('%Hh%M',$datetimeTS) ."</td>";
-              if($dec['type'] == 'PM' && $coef != -99) {
+              if($type == 'PM' && $coef != -99) {
                 self::tideColor($coef,$bgcolor,$txtcolor);
                 $tidesTableTxt .= "<td><span class=\"tidesTableFactor\" style=\"background-color:$bgcolor; color:$txtcolor\"><center>$coef</center></span></td>";
               }
