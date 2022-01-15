@@ -1166,7 +1166,7 @@ public function getPollen() {
         $bgcolor='#8DC1E4'; $txtcolor='black';
       }
       else if($maree < 81) {
-        $bgcolor='#2E87C8'; $txtcolor='black';
+        $bgcolor='#2E87C8'; $txtcolor='white';
       }
       else if($maree < 101) {
         $bgcolor='#0664AC'; $txtcolor='white';
