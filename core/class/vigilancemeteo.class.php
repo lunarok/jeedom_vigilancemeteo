@@ -425,9 +425,11 @@ $array = json_decode($json,TRUE);
     $link[$type] = $item['link'];
     $date[$type] = $item['pubDate'];
     if ($type == 'DR') {
-      $level[$type] = strtolower(str_replace('.','',end(explode(' ',$item['description']))));
+	    $desc = explode(' ',$item['description']);
+      $level[$type] = strtolower(str_replace('.','',end($desc)));
     } else {
-      $level[$type] = strtolower(reset(explode(' ',$item['title'])));
+      $desc = explode(' ',$item['title']);
+      $level[$type] = strtolower(reset($desc));
     }
   }
   if (isset($title['EQ'])) {
