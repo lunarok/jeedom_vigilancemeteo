@@ -76,6 +76,36 @@ class vigilancemeteo extends eqLogic {
     }
   }
 
+  public static function getJsonTabInfo($cmd_id, $request) {
+      $id = cmd::humanReadableToCmd('#' .$cmd_id .'#');
+      $owmCmd = cmd::byId(trim(str_replace('#', '', $id)));
+      if(is_object($owmCmd)) {
+        $owmJson = $owmCmd->execCmd();
+        $json =json_decode($owmJson,true);
+        if($json === null)
+          log::add(__CLASS__, 'debug', "Unable to decode json: " .substr($owmJson,0,50));
+        else {
+          $tags = explode('>', $request);
+          foreach ($tags as $tag) {
+            $tag = trim($tag);
+            if (isset($json[$tag])) {
+              $json = $json[$tag];
+            } elseif (is_numeric(intval($tag)) && isset($json[intval($tag)])) {
+              $json = $json[intval($tag)];
+            } elseif (is_numeric(intval($tag)) && intval($tag) < 0 && isset($json[count($json) + intval($tag)])) {
+              $json = $json[count($json) + intval($tag)];
+            } else {
+              $json = "Request error: tag[$tag] not found in " .json_encode($json);
+              break;
+            }
+          }
+          return (is_array($json)) ? json_encode($json) : $json;
+        }
+      }
+      else log::add(__CLASS__, 'debug', "Command not found: $cmd");
+      return(null);
+    }
+
   public function getInformations() {
       if ($this->getConfiguration('type') == 'maree') {
         $this->getMaree(0);
@@ -395,9 +425,11 @@ $array = json_decode($json,TRUE);
     $link[$type] = $item['link'];
     $date[$type] = $item['pubDate'];
     if ($type == 'DR') {
-      $level[$type] = strtolower(str_replace('.','',end(explode(' ',$item['description']))));
+	    $desc = explode(' ',$item['description']);
+      $level[$type] = strtolower(str_replace('.','',end($desc)));
     } else {
-      $level[$type] = strtolower(reset(explode(' ',$item['title'])));
+      $desc = explode(' ',$item['title']);
+      $level[$type] = strtolower(reset($desc));
     }
   }
   if (isset($title['EQ'])) {
@@ -553,8 +585,8 @@ public function getMaree($_clean=0) {
         $datetimeTSnext = $datetimeTS;
         if(isset($dec['contenu']['marees'][$i]['lieu'])) {
           $harbor = $dec['contenu']['marees'][$i]['lieu'];
-          $pos = strpos($harbor,'© SHOM'); // suppression de: Heures locales
-          if($pos !== false) $harborName = trim(substr($harbor,0,$pos+7));
+          $pos = stripos($harbor,'- Heures Locales'); // suppression de: - Heures locales
+          if($pos !== false) $harborName = trim(substr($harbor,0,$pos));
           else $harborName = trim($harbor);
         }
         break;
@@ -562,11 +594,10 @@ public function getMaree($_clean=0) {
     }
     if($datetimeTSnext != 0) break;
   }
-  $tidesTable = '<table border=0 width=100%><tr><th></th><th>Hauteur</th><th>Heure</th><th>Coefficient</th></tr>';
-  $jour = 0; $maree = -99;
+  $tidesTable = array();
+  $maree = -99;
   $nbmaree = 0;
-  $prev = $next = '';
-  setlocale(LC_TIME, config::byKey('language','core','fr_FR') .'.utf8');
+  $prevTide = $nextTide = array();
   for($i=0;$i<$nbdays;$i++) {
     $nbEtales = count($dec['contenu']['marees'][$i]['etales']);
     for($j=0;$j<$nbEtales;$j++) {
@@ -575,58 +606,32 @@ public function getMaree($_clean=0) {
       $nbmaree++;
       $hauteur = $dec['contenu']['marees'][$i]['etales'][$j]['hauteur'];
       $type = $dec['contenu']['marees'][$i]['etales'][$j]['type_etale'];
-      if($type == 'PM') $coef = $dec['contenu']['marees'][$i]['etales'][$j]['coef'];
+      if(isset($dec['contenu']['marees'][$i]['etales'][$j]['coef']))
+        $coef = $dec['contenu']['marees'][$i]['etales'][$j]['coef'];
+      else $coef = -99;
       if($datetimeTSprev == $datetimeTS) {
-        $prev = (($type=='PM')?
-          '<i class="wi wi-direction-up" style="font-size : 2em;"></i>':
-          '<i class="wi wi-direction-down" style="font-size : 2em;"></i>');
+        $prevTide = array("type" => $type, "hauteur" => $hauteur, "datetime" => $datetimeTS, "coef" => $coef);
         $datetimeTSprev = $datetimeTS;
-        $prev .=  " &nbsp;${hauteur}m à " .strftime('%Hh%M',$datetimeTS);
         if($type == 'PM') {
           $pleine = date('Hi',$datetimeTS);
-          self::tideColor($coef,$bgcolor,$txtcolor);
-          $prev .= " <div class=\"tidesTableFactor\" style=\"background-color:$bgcolor; color:$txtcolor\"><center>$coef</center></div>";
           $maree = $coef;
         }
         else $basse = date('Hi',$datetimeTS);
       }
       if($datetimeTSnext == $datetimeTS) {
-        $next = (($type=='PM')?
-          '<i class="wi wi-direction-up" style="font-size : 2em;"></i>':
-          '<i class="wi wi-direction-down" style="font-size : 2em;"></i>');
-        $next .= " &nbsp;${hauteur}m à ";
-          $next .= strftime('%H:%M',$datetimeTS);
+        $nextTide = array("type" => $type, "hauteur" => $hauteur, "datetime" => $datetimeTS, "coef" => $coef);
         if($type == 'PM') {
           $pleine = date('Hi',$datetimeTS);
-          self::tideColor($coef,$bgcolor,$txtcolor);
-          $next .= " <div class=\"tidesTableFactor\" style=\"background-color:$bgcolor; color:$txtcolor\"><center>$coef</center></div>";
           $maree = $coef;
         }
         else $basse = date('Hi',$datetimeTS);
       }
-
-      $jour2 = date('z',$datetimeTS);
-      if($jour != $jour2) {
-        $tidesTable .=  "<tr><td colspan=4><b>" .ucfirst(strftime('%A %e %B',$datetimeTS)) ."</b></td></tr>";
-        $jour = $jour2;
-      }
-      $tidesTable .= "<tr>";
-      $tidesTable .= "<td>&nbsp;" .(($type=='PM')?
-        '<i class="wi wi-direction-up" style="font-size : 1.5em;"></i>':
-        '<i class="wi wi-direction-down" style="font-size : 1.5em;"></i>') ."&nbsp;</td>";
-      $tidesTable .=  "<td>${hauteur}m</td><td>" .strftime('%Hh%M',$datetimeTS) ."</td>";
-      if($type == 'PM') {
-        self::tideColor($coef,$bgcolor,$txtcolor);
-        $tidesTable .= "<td><span class=\"tidesTableFactor\" style=\"background-color:$bgcolor; color:$txtcolor\"><center>$coef</center></span></td>";
-      }
-      else $tidesTable .= "<td></td>";
-      $tidesTable .= "</tr>";
+      $tidesTable[] = array("type" => $type, "hauteur" => $hauteur, "datetime" => $datetimeTS, "coef" => $coef);
     }
   }
-  $tidesTable .= "</table>";
-  if($nbmaree < 10) {
-    unlink($JsonFile); // reste moins de 10 marées. Sera regénéré à la prochaine requete
-    log::add(__CLASS__, 'warning', "Suppression $JsonFile Nb maree = $nbmaree");
+  if($nbmaree < 10) { // reste moins de 10 marées. Sera regénéré à la prochaine requete
+    unlink($JsonFile);
+    log::add(__CLASS__, 'debug', "Suppression $JsonFile Nb maree = $nbmaree");
     $nbmaree = 0;
   }
 
@@ -635,9 +640,9 @@ public function getMaree($_clean=0) {
   $changed += $this->checkAndUpdateCmd('pleine', $pleine);
   $changed += $this->checkAndUpdateCmd('basse', $basse);
   $changed += $this->checkAndUpdateCmd('harborName', $harborName);
-  $changed += $this->checkAndUpdateCmd('prevTide', $prev);
-  $changed += $this->checkAndUpdateCmd('nextTide', $next);
-  $changed += $this->checkAndUpdateCmd('tidesTable', $tidesTable);
+  $changed += $this->checkAndUpdateCmd('prevTide', json_encode($prevTide));
+  $changed += $this->checkAndUpdateCmd('nextTide', json_encode($nextTide));
+  $changed += $this->checkAndUpdateCmd('tidesTable', json_encode($tidesTable));
   $changed += $this->checkAndUpdateCmd('TSnextTide', $datetimeTSnext);
   $t1 = microtime(true);
   log::add(__CLASS__, 'debug', __FUNCTION__ ." $harborName Durée: " .round($t1-$t0,1) .'s. Prochaine MAJ: '.date('Y-m-d H:i',$datetimeTSnext) .(($nbmaree)?" Reste $nbmaree marées":''));
@@ -1163,7 +1168,7 @@ public function getPollen() {
         $bgcolor='#8DC1E4'; $txtcolor='black';
       }
       else if($maree < 81) {
-        $bgcolor='#2E87C8'; $txtcolor='black';
+        $bgcolor='#2E87C8'; $txtcolor='white';
       }
       else if($maree < 101) {
         $bgcolor='#0664AC'; $txtcolor='white';
@@ -1253,11 +1258,92 @@ public function getPollen() {
       self::tideColor($maree,$bgcolor,$txtcolor);
       $replace['#maree#'] = "<div class=\"tideGeneral\" style=\"background-color:$bgcolor; color:$txtcolor\"><center>$maree</center></div>";;
       $cmd = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'prevTide');
-      if(is_object($cmd)) $replace['#prevTide#'] = $cmd->execCmd();
+      if(is_object($cmd)) {
+        $prevTide = $cmd->execCmd();
+         if(is_json($prevTide)) {
+          $dec =json_decode($prevTide,true);
+          if(isset($dec['type'])) {
+            $prevTxt = (($dec['type'] == 'PM')?
+              '<i class="wi wi-direction-up" style="font-size : 2em;"></i>':
+              '<i class="wi wi-direction-down" style="font-size : 2em;"></i>');
+            $prevTxt .=  " &nbsp;" .$dec['hauteur'] ."m à " .strftime('%Hh%M',$dec['datetime']);
+            if($dec['type'] == 'PM' && $dec['coef'] != -99) {
+              self::tideColor($dec['coef'],$bgcolor,$txtcolor);
+              $prevTxt .= " <div class=\"tidesTableFactor\" style=\"background-color:$bgcolor; color:$txtcolor\"><center>" .$dec['coef'] ."</center></div>";
+            }
+            $replace['#prevTide#'] = $prevTxt;
+          }
+          else $replace['#prevTide#'] = 'NA';
+        }
+        else {
+          $replace['#prevTide#'] = $prevTide;
+        }
+      }
+      else $replace['#prevTide#'] = 'Missing cmd prevTide';
+
       $cmd = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'nextTide');
-      if(is_object($cmd)) $replace['#nextTide#'] = $cmd->execCmd();
+      if(is_object($cmd)) {
+        $nextTide = $cmd->execCmd();
+        if(is_json($nextTide)) {
+          $dec =json_decode($nextTide,true);
+          if(isset($dec['type'])) {
+            $nextTxt = (($dec['type'] == 'PM')?
+              '<i class="wi wi-direction-up" style="font-size : 2em;"></i>':
+              '<i class="wi wi-direction-down" style="font-size : 2em;"></i>');
+            $nextTxt .=  " &nbsp;" .$dec['hauteur'] ."m à " .strftime('%Hh%M',$dec['datetime']);
+            if($dec['type'] == 'PM' && $dec['coef'] != -99) {
+              self::tideColor($dec['coef'],$bgcolor,$txtcolor);
+              $nextTxt .= " <div class=\"tidesTableFactor\" style=\"background-color:$bgcolor; color:$txtcolor\"><center>" .$dec['coef'] ."</center></div>";
+            }
+            $replace['#nextTide#'] = $nextTxt;
+          }
+          else $replace['#nextTide#'] = 'NA';
+        }
+        else {
+          $replace['#nextTide#'] = $nextTide;
+        }
+      }
+      else $replace['#nextTide#'] = 'Missing cmd nextTide';
+
       $cmd = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'tidesTable');
-      if(is_object($cmd)) $replace['#tidesTable#'] = $cmd->execCmd();
+      if(is_object($cmd)) {
+        $tidesTable = $cmd->execCmd();
+        if(is_json($tidesTable)) {
+          $dec =json_decode($tidesTable,true);
+          $tidesTableTxt = '<table border=0 width=100%><tr><th></th><th>Hauteur</th><th>Heure</th><th>Coefficient</th></tr>';
+          $nb = count($dec);
+          $jour = 0;
+          for($i=0; $i<$nb; $i++) {
+            if(isset($dec[$i]['type'])) {
+              $datetimeTS = $dec[$i]['datetime'];
+              $jour2 = date('z',$datetimeTS);
+              if($jour != $jour2) {
+                $tidesTableTxt .=  "<tr><td colspan=4><b>" .ucfirst(strftime('%A %e %B',$datetimeTS)) ."</b></td></tr>";
+                $jour = $jour2;
+              }
+              $tidesTableTxt .= "<tr>";
+              $type = $dec[$i]['type'];
+              $hauteur = $dec[$i]['hauteur'];
+              $coef = $dec[$i]['coef'];
+              $tidesTableTxt .= "<td>&nbsp;" .(($type=='PM')?
+                '<i class="wi wi-direction-up" style="font-size : 1.5em;"></i>':
+                '<i class="wi wi-direction-down" style="font-size : 1.5em;"></i>') ."&nbsp;</td>";
+              $tidesTableTxt .=  "<td>${hauteur}m</td><td>" .strftime('%Hh%M',$datetimeTS) ."</td>";
+              if($type == 'PM' && $coef != -99) {
+                self::tideColor($coef,$bgcolor,$txtcolor);
+                $tidesTableTxt .= "<td><span class=\"tidesTableFactor\" style=\"background-color:$bgcolor; color:$txtcolor\"><center>$coef</center></span></td>";
+              }
+              else $tidesTableTxt .= "<td></td>";
+              $tidesTableTxt .= "</tr>";
+            }
+          }
+          $tidesTableTxt .= '</table>';
+          $replace['#tidesTable#'] = $tidesTableTxt;
+        }
+        else {
+          $replace['#tidesTable#'] = $tidesTable;
+        }
+      }
       else $replace['#tidesTable#'] = 'Missing cmd tidesTable. Equipment should be resaved';
       $replace['#url_src#'] = "https://marine.meteoconsult.fr";
       $templatename = 'maree';
