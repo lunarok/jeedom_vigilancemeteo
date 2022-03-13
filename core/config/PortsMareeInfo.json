@@ -251,7 +251,7 @@
     },
     { "id":"96", "name":"Hennebont"
     },
-    { "id":"110", "name":"Penerf"
+    { "id":110, "name":"Penerf", "latitude":47.5137, "longitude":-2.62346, "pays": "France", "CP": "56750"
     },
     { "id":"111", "name":"Tréhiguier"
     },
