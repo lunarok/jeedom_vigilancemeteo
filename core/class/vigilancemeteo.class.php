@@ -467,7 +467,7 @@ $array = json_decode($json,TRUE);
 
   /* apiMaree idem HA
    * info maree:
-   * http://webservices.meteoconsult.fr/meteoconsultmarine/androidtab/115/fr/v20/previsionsSpot.php?lat=48.64&lon=-2.02833
+   * http://ws.meteoconsult.fr/meteoconsultmarine/androidtab/115/fr/v30/previsionsSpot.php?lat=48.64&lon=-2.02833
    * */
 
 public static function cmpHarbor($a, $b) {
@@ -549,7 +549,7 @@ public function getMaree($_clean=0) {
   if(!is_dir(__DIR__ ."/../../data"))
     @mkdir(__DIR__ ."/../../data",0777,true);
   if(!file_exists($JsonFile)) {
-    $url = "http://webservices.meteoconsult.fr/meteoconsultmarine/androidtab/115/fr/v20/previsionsSpot.php?lat=$lat&lon=$lon";
+    $url = "http://ws.meteoconsult.fr/meteoconsultmarine/androidtab/115/fr/v30/previsionsSpot.php?lat=$lat&lon=$lon";
     log::add(__CLASS__, 'debug', "Retreiving data for harbor $port from: $url");
     $content = file_get_contents($url);
     log::add(__CLASS__, 'debug', "Creating new cache file $JsonFile");
