@@ -31,7 +31,7 @@
     },
     { "id":17, "name":"Etretat", "latitude":49.6972, "longitude":0.213889, "pays": "France", "CP": "76790"
     },
-    { "id":16, "name":"Fecamp", "latitude":49.765, "longitude":0.363333, "pays": "France", "CP": "76400"
+    { "id":16, "name":"Fecamp", "pays": "France", "CP": "76400"
     },
     { "id":4, "name":"Gravelines", "latitude":51.0167, "longitude":2.09167, "pays": "France", "CP": "59820"
     },
@@ -43,7 +43,7 @@
     },
     { "id":12, "name":"Le-Tréport", "latitude":50.065, "longitude":1.37, "pays": "France", "CP": "76470"
     },
-    { "id":25, "name":"Ouistreham", "latitude":49.2888, "longitude":-0.24339, "pays": "France", "CP": "14121"
+    { "id":25, "name":"Ouistreham", "pays": "France", "CP": "14121"
     },
     { "id":23, "name":"Deauville", "latitude":49.3717, "longitude":0.07, "pays": "France", "CP": "14800"
     },
@@ -55,7 +55,7 @@
     },
     { "id":33, "name":"Cherbourg", "latitude":49.6483, "longitude":-1.61833, "pays": "France", "CP": "50100"
     },
-    { "id":35, "name":"Goury", "latitude":49.7154, "longitude":-1.94584, "pays": "France", "CP": "50440"
+    { "id":35, "name":"Goury","pays": "France", "CP": "50440"
     },
     { "id":37, "name":"Diélette", "latitude":49.5533, "longitude":-1.86333, "pays": "France", "CP": "50340"
     },
@@ -89,7 +89,7 @@
     },
     { "id":"67", "name":"Ploumanac'H", "latitude":48.835, "longitude":-3.48833, "pays": "France", "CP": "22700"
     },
-    { "id":"68", "name":"Trébeurden", "latitude":48.7717, "longitude":-3.58333, "pays": "France", "CP": "22560"
+    { "id":"68", "name":"Trébeurden","pays": "France", "CP": "22560"
     },
     { "id":"69", "name":"Locquirec", "latitude":48.69, "longitude":-3.64833, "pays": "France", "CP": "29241"
     },
@@ -165,27 +165,27 @@
     },
     { "id":"112", "name":"Hoëdic", "latitude":47.3433, "longitude":-2.87333, "pays": "France", "CP": "56170"
     },
-    { "id":"116", "name":"Pornichet", "latitude":47.2583, "longitude":-2.35167, "pays": "France", "CP": "44380"
+    { "id":"116", "name":"Pornichet","pays": "France", "CP": "44380"
     },
     { "id":"117", "name":"Saint-Nazaire-Saint-Brévin", "latitude":47.2733, "longitude":-1.885, "pays": "France", "CP": "44600"
     },
     { "id":"119", "name":"Pornic", "latitude":47.11, "longitude":-2.115, "pays": "France", "CP": "44210"
     },
-    { "id":"120", "name":"L'Herbaudière", "latitude":47.0267, "longitude":-2.29667, "pays": "France", "CP": "85330"
+    { "id":"120", "name":"L'Herbaudière", "pays": "France", "CP": "85330"
     },
     { "id":"121", "name":"Fromentine", "latitude":46.8167, "longitude":-2.13333, "pays": "France", "CP": "85550"
     },
-    { "id":"123", "name":"Ile-d'Yeu-Port Joinville", "latitude":46.7283, "longitude":-2.345, "pays": "France", "CP": "85350"
+    { "id":"123", "name":"Ile-d'Yeu-Port Joinville", "pays": "France", "CP": "85350"
     },
     { "id":"126", "name":"Saint-Martin-en-Ré", "latitude":46.2083, "longitude":-1.365, "pays": "France", "CP": "17410"
     },
     { "id":"153", "name":"La Cotinière", "latitude":45.91, "longitude":-1.32833, "pays": "France", "CP": "17310"
     },
-    { "id":"130", "name":"Cordouan", "latitude":45.5892, "longitude":-1.17369, "pays": "France", "CP": "17420"
+    { "id":"130", "name":"Cordouan", "pays": "France", "CP": "17420"
     },
     { "id":"127", "name":"La-Rochelle", "latitude":46.155, "longitude":-1.15333, "pays": "France", "CP": "17000"
     },
-    { "id":"103", "name":"La-Trinité-sur-Mer", "latitude":47.585, "longitude":-3.02333, "pays": "France", "CP": "56470"
+    { "id":"103", "name":"La-Trinité-sur-Mer", "pays": "France", "CP": "56470"
     },
     { "id":"134", "name":"Lacanau", "latitude":44.9289, "longitude":-1.21444, "pays": "France", "CP": "33680"
     },
@@ -203,13 +203,13 @@
     },
     { "id":"31", "name":"Saint-Vaast-la-Hougue", "latitude":49.5867, "longitude":-1.25833, "pays": "France", "CP": "50550"
     },
-    { "id":"124", "name":"St-Gilles-Croix-de-Vie Port-la-Vie", "latitude":46.6917, "longitude":-1.95333, "pays": "France", "CP": "85800"
+    { "id":"124", "name":"St-Gilles-Croix-de-Vie", "latitude":46.7711, "longitude":-2.05306, "pays": "France", "CP": "85800"
     },
-    { "id":"54", "name":"Saint-Cast", "latitude":48.64, "longitude":-2.24333, "pays": "France", "CP": "22380"
+    { "id":"54", "name":"Saint-Cast", "pays": "France", "CP": "22380"
     },
-    { "id":"59", "name":"Saint-Quay-Portrieux", "latitude":48.6467, "longitude":-2.81667, "pays": "France", "CP": "22410"
+    { "id":"59", "name":"Saint-Quay-Portrieux", "pays": "France", "CP": "22410"
     },
-    { "id":"15", "name":"Saint-Valery-en-Caux", "latitude":49.8659, "longitude":0.710828, "pays": "France", "CP": "76460"
+    { "id":"15", "name":"Saint-Valery-en-Caux", "pays": "France", "CP": "76460"
     },
     { "id":"159", "name":"Saint-Denis-d'Oléron", "latitude":46.035, "longitude":-1.36833, "pays": "France", "CP": "17650"
     },
@@ -251,7 +251,7 @@
     },
     { "id":"96", "name":"Hennebont"
     },
-    { "id":110, "name":"Penerf", "latitude":47.5137, "longitude":-2.62346, "pays": "France", "CP": "56750"
+    { "id":"110", "name":"Penerf", "latitude":47.5137, "longitude":-2.62346, "pays": "France", "CP": "56750"
     },
     { "id":"111", "name":"Tréhiguier"
     },
