@@ -467,7 +467,7 @@ $array = json_decode($json,TRUE);
 
   /* apiMaree idem HA
    * info maree:
-   * http://webservices.meteoconsult.fr/meteoconsultmarine/androidtab/115/fr/v20/previsionsSpot.php?lat=48.64&lon=-2.02833
+   * http://ws.meteoconsult.fr/meteoconsultmarine/androidtab/115/fr/v30/previsionsSpot.php?lat=48.64&lon=-2.02833
    * */
 
 public static function cmpHarbor($a, $b) {
@@ -501,6 +501,7 @@ public function emptyMaree($harborName,$_error='') {
     $this->checkAndUpdateCmd('prevTide', 'NA');
     $this->checkAndUpdateCmd('nextTide', 'NA');
     $this->checkAndUpdateCmd('tidesTable', $_error);
+    $this->checkAndUpdateCmd('TSnextTide', 0);
 }
 
 public function getMaree($_clean=0) {
@@ -512,6 +513,7 @@ public function getMaree($_clean=0) {
     return(-1);
   }
   $JsonFile = __DIR__ ."/../../data/" .__FUNCTION__."-" .$this->getId() .".json";
+  // log::add(__CLASS__, 'debug', "Data will be stored in file: $JsonFile");
   if($_clean == 0) { // Sans nettoyage
     $nextTideCmd = $this->getCmd(null, 'TSnextTide'); 
     if(is_object($nextTideCmd)) {
@@ -543,20 +545,27 @@ public function getMaree($_clean=0) {
     $this->emptyMaree('', "Harbor coordinate not found Port: $port");
     return(-1);
   }
-  log::add(__CLASS__, 'debug', "Port: $port Name $harborName");
+  log::add(__CLASS__, 'debug', "Port: $port Name $harborName $lat,$lon");
 
   // fichier cache retour de MeteoConsult
   if(!is_dir(__DIR__ ."/../../data"))
     @mkdir(__DIR__ ."/../../data",0777,true);
   if(!file_exists($JsonFile)) {
-    $url = "http://webservices.meteoconsult.fr/meteoconsultmarine/androidtab/115/fr/v20/previsionsSpot.php?lat=$lat&lon=$lon";
-    log::add(__CLASS__, 'debug', "Retreiving data for harbor $port from: $url");
-    $content = file_get_contents($url);
-    log::add(__CLASS__, 'debug', "Creating new cache file $JsonFile");
-    $hdle = fopen($JsonFile, "wb");
-    if($hdle !== FALSE) {
-      fwrite($hdle, $content);
-      fclose($hdle);
+    $lastcallTxt = config::byKey('lastcall-meteoconsult', __CLASS__, '0');
+    if($lastcallTxt != '0') $lastcall = strtotime($lastcallTxt);
+    else $lastcall = 0;
+    if($lastcall == 0 || (time() - $lastcall) > 900) {
+      $url = "http://ws.meteoconsult.fr/meteoconsultmarine/androidtab/115/fr/v30/previsionsSpot.php?lat=$lat&lon=$lon";
+      log::add(__CLASS__, 'debug', "Retreiving data for harbor $port from: $url");
+      $content = file_get_contents($url);
+      config::save('lastcall-meteoconsult', date('Y-m-d H:i:s'), __CLASS__);
+      log::add(__CLASS__, 'debug', "Creating new cache file $JsonFile");
+      $hdle = fopen($JsonFile, "wb");
+      if($hdle !== FALSE) { fwrite($hdle, $content); fclose($hdle); }
+    }
+    else {
+      $this->emptyMaree($harborName, "Data for $harborName($port) $lat,$lon will be available after ".date('H:i:s',$lastcall+900) ." (15 minutes betweeen requests)");
+      return(-1);
     }
   }
   else {
@@ -585,7 +594,7 @@ public function getMaree($_clean=0) {
         $datetimeTSnext = $datetimeTS;
         if(isset($dec['contenu']['marees'][$i]['lieu'])) {
           $harbor = $dec['contenu']['marees'][$i]['lieu'];
-          $pos = stripos($harbor,'- Heures Locales'); // suppression de: - Heures locales
+          $pos = stripos($harbor,'Heures Locales'); // suppression de: Heures locales
           if($pos !== false) $harborName = trim(substr($harbor,0,$pos));
           else $harborName = trim($harbor);
         }
@@ -1420,15 +1429,21 @@ public function getPollen() {
       $onetemplate = getTemplate('core', $version, '1pollen', 'vigilancemeteo');
       $replace['#background-color#'] = '#262626';
       $chkDisplay0 = $this->getConfiguration('displayNullPollen');
+      $sort = array();
       foreach ($this->getCmd('info') as $cmd) {
         switch ($cmd->execCmd()) {
           case '-1': $color = 'black'; break;
           case '0':  $color = 'black'; break;
+          case '1':  $color = 'green'; break;
+          case '2':  $color = 'yellow'; break;
+          case '3':  $color = 'red';    break;
+          /*
           case '1':  $color = 'lime';  break;
           case '2':  $color = 'green'; break;
           case '3':  $color = 'yellow'; break;
           case '4':  $color = 'orange'; break;
           case '5':  $color = 'red';    break;
+           */
         }
         if ($cmd->getLogicalId() == 'general') {
           $replace['#general_color#'] = $color;
