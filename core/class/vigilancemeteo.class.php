@@ -728,8 +728,7 @@ public function getPlage() {
   return ;
 }
 
-public function getCrue()
-{
+public function getCrue() {
   $station = $this->getConfiguration('station');
   if ($station == '') {
     log::add(__CLASS__, 'error', 'Station non saisie');
@@ -737,16 +736,31 @@ public function getCrue()
   }
 
   // Niveau
-  $niveauData = file_get_contents('https://www.vigicrues.gouv.fr/services/observations.json/?CdStationHydro=' . $station . '&FormatDate=iso');
+  $url = "https://hubeau.eaufrance.fr/api/v1/hydrometrie/observations_tr?code_entite=$station&size=1&pretty&grandeur_hydro=H&fields=date_obs,resultat_obs,continuite_obs_hydro";
+  $niveauData = file_get_contents($url);
+  /* Format de la réponse: 
+  { "count" : 8645,
+   "first" : "https://hubeau.eaufrance.fr/api/v1/hydrometrie/observations_tr?code_entite=A511061001&pretty&grandeur_hydro=H&fields=date_obs,resultat_obs,continuite_obs_hydro&cursor=&size=1",
+   "prev" : null,
+   "next" : "https://hubeau.eaufrance.fr/api/v1/hydrometrie/observations_tr?code_entite=A511061001&pretty&grandeur_hydro=H&fields=date_obs,resultat_obs,continuite_obs_hydro&cursor=AoJw7P3pi5ADPwxBNTExMDYxMF9BNTExMDYxMDAxX0hfNF8yMDI0LTA2LTE0VDE2OjUwOjAw&size=1",
+   "api_version" : "1.0.1",
+   "data" : 
+     [
+       { "date_obs" : "2024-06-14T16:50:00Z",
+         "resultat_obs" : 1958.0,
+         "continuite_obs_hydro" : true
+       }
+     ]
+  }
+*/
   if ($niveauData === false) {
+    log::add(__CLASS__, 'warning', __FUNCTION__ ." Hauteur. Pas de réponse. URL: $url");
     return;
   }
   $niveauData = json_decode($niveauData, true);
-
-  $niveauLastValue = end($niveauData["Serie"]["ObssHydro"])['ResObsHydro'];
-  $niveauLastDate = end($niveauData["Serie"]["ObssHydro"])['DtObsHydro'];
+  $niveauLastValue = end($niveauData["data"])["resultat_obs"] / 1000; // conversion en mètres
+  $niveauLastDate = end($niveauData["data"])["date_obs"];
   $niveauCollectDate = date('Y-m-d H:i:s', strtotime($niveauLastDate));
-
   log::add(__CLASS__, 'debug', 'Valeur Niveau JSON (value): ' . $niveauLastValue);
   log::add(__CLASS__, 'debug', 'Valeur Niveau JSON (date): ' . $niveauCollectDate);
 
@@ -754,14 +768,15 @@ public function getCrue()
   $this->checkAndUpdateCmd('dateniveau', $niveauCollectDate, $niveauCollectDate);
 
   // Débit
-  $debitData = file_get_contents('https://www.vigicrues.gouv.fr/services/observations.json/?CdStationHydro=' . $station . '&GrdSerie=Q&FormatDate=iso');
+  $url = "https://hubeau.eaufrance.fr/api/v1/hydrometrie/observations_tr?code_entite=$station&size=1&pretty&grandeur_hydro=Q&fields=date_obs,resultat_obs,continuite_obs_hydro";
+  $debitData = file_get_contents($url);
   if ($debitData === false) {
+    log::add(__CLASS__, 'warning', __FUNCTION__ ." Débit. Pas de réponse. URL: $url");
     return;
   }
   $debitData = json_decode($debitData, true);
-
-  $debitLastValue = end($debitData["Serie"]["ObssHydro"])['ResObsHydro'];
-  $debitLastDate = end($debitData["Serie"]["ObssHydro"])['DtObsHydro'];
+  $debitLastValue = end($debitData["data"])['resultat_obs'] / 1000; // Conversion en m3/s
+  $debitLastDate = end($debitData["data"])['date_obs'];
   $debitCollectDate = date('Y-m-d H:i:s', strtotime($debitLastDate));
   log::add(__CLASS__, 'debug', 'Valeur Débit JSON (value): ' . $debitLastValue);
   log::add(__CLASS__, 'debug', 'Valeur Débit JSON (date): ' . $debitCollectDate);
@@ -772,6 +787,7 @@ public function getCrue()
   return;
 }
 
+	
 public function getSeisme() {
   log::add(__CLASS__, 'debug', 'API Seisme removed, no result anymore');
   return;
