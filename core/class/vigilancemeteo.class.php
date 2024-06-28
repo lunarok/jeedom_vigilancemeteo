@@ -1353,7 +1353,7 @@ public function getPollen() {
               $tidesTableTxt .= "<td>&nbsp;" .(($type=='PM')?
                 '<i class="wi wi-direction-up" style="font-size : 1.5em;"></i>':
                 '<i class="wi wi-direction-down" style="font-size : 1.5em;"></i>') ."&nbsp;</td>";
-              $tidesTableTxt .=  "<td>${hauteur}m</td><td>" .strftime('%Hh%M',$datetimeTS) ."</td>";
+              $tidesTableTxt .=  "<td>{$hauteur}m</td><td>" .strftime('%Hh%M',$datetimeTS) ."</td>";
               if($type == 'PM' && $coef != -99) {
                 self::tideColor($coef,$bgcolor,$txtcolor);
                 $tidesTableTxt .= "<td><span class=\"tidesTableFactor\" style=\"background-color:$bgcolor; color:$txtcolor\"><center>$coef</center></span></td>";
@@ -1673,7 +1673,7 @@ public function getPollen() {
       }
       $templatename = 'previsionpluie';
     }
-    if (file_exists( __DIR__ ."/../template/$_version/custom.${templatename}.html")) {
+    if (file_exists( __DIR__ ."/../template/$_version/custom.{$templatename}.html")) {
       return $this->postToHtml($_version, template_replace($replace, getTemplate('core', $version, "custom." .$templatename, __CLASS__)));
     }
     else {
