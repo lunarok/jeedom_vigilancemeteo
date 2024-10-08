@@ -29,7 +29,7 @@ class vigilancemeteo extends eqLogic {
       }
     }
   }
-	
+  
   public static function cron15() {
     foreach (eqLogic::byType(__CLASS__, true) as $vigilancemeteo) {
       if ($vigilancemeteo->getConfiguration('type') == 'vigilance') {
@@ -63,7 +63,7 @@ class vigilancemeteo extends eqLogic {
       else if ($vigilancemeteo->getConfiguration('type') == 'surf') {
         $vigilancemeteo->getSurf();
       }
-        else if ($vigilancemeteo->getConfiguration('type') == 'pollen'&& $dat > 7 && $dat < 20) {
+      else if ($vigilancemeteo->getConfiguration('type') == 'pollen'&& $dat > 7 && $dat < 20) {
         $vigilancemeteo->getPollen();
       }
       else if ($vigilancemeteo->getConfiguration('type') == 'plage') {
@@ -202,12 +202,12 @@ public function postUpdate() {
     $postal = config::byKey('info::postalCode');
     $departement = $postal[0] . $postal[1];
     if ($departement == '20') {
-			if ($postal[2] <= '1') {
-				$departement = '2A';
-			} else {
-				$departement = '2B';
-			}
-		}
+      if ($postal[2] <= '1') {
+        $departement = '2A';
+      } else {
+        $departement = '2B';
+      }
+    }
   } else {
     $departement = geotravCmd::byEqLogicIdAndLogicalId($this->getConfiguration('geoloc'),'location:department')->execCmd();
   }
@@ -425,7 +425,7 @@ $array = json_decode($json,TRUE);
     $link[$type] = $item['link'];
     $date[$type] = $item['pubDate'];
     if ($type == 'DR') {
-	    $desc = explode(' ',$item['description']);
+      $desc = explode(' ',$item['description']);
       $level[$type] = strtolower(str_replace('.','',end($desc)));
     } else {
       $desc = explode(' ',$item['title']);
@@ -507,7 +507,7 @@ public function emptyMaree($harborName,$_error='') {
 public function getMaree($_clean=0) {
   $t0 = microtime(true);
   $port = $this->getConfiguration('port');
-  log::add(__CLASS__, 'debug', "Port: $port Clean = $_clean");
+  // log::add(__CLASS__, 'debug', "Port: $port Clean = $_clean");
   if ($port == '') {
     $this->emptyMaree('', "Marée : Port non saisi; Equipement: " .$this->getName());
     return(-1);
@@ -554,9 +554,23 @@ public function getMaree($_clean=0) {
     $lastcallTxt = config::byKey('lastcall-meteoconsult', __CLASS__, '0');
     if($lastcallTxt != '0') $lastcall = strtotime($lastcallTxt);
     else $lastcall = 0;
-    if($lastcall == 0 || (time() - $lastcall) > 900) {
+    $delay = 10;
+    if($lastcall == 0 || (time() - $lastcall) > $delay) {
       $url = "http://ws.meteoconsult.fr/meteoconsultmarine/androidtab/115/fr/v30/previsionsSpot.php?lat=$lat&lon=$lon";
       log::add(__CLASS__, 'debug', "Retreiving data for harbor $port from: $url");
+/*
+      $opts = array(
+        'http'=>array(
+        'method'=>"GET",
+        'header'=>array(
+          "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0",
+        )
+        )
+      );
+      $context = stream_context_create($opts);
+
+      $content = file_get_contents($url,false,$opts);
+*/
       $content = file_get_contents($url);
       config::save('lastcall-meteoconsult', date('Y-m-d H:i:s'), __CLASS__);
       log::add(__CLASS__, 'debug', "Creating new cache file $JsonFile");
@@ -564,7 +578,7 @@ public function getMaree($_clean=0) {
       if($hdle !== FALSE) { fwrite($hdle, $content); fclose($hdle); }
     }
     else {
-      $this->emptyMaree($harborName, "Data for $harborName($port) $lat,$lon will be available after ".date('H:i:s',$lastcall+900) ." (15 minutes betweeen requests)");
+      $this->emptyMaree($harborName, "Data for $harborName($port) $lat,$lon will be available after ".date('H:i:s',$lastcall+$delay) ." ($delay seconds betweeen requests)");
       return(-1);
     }
   }
@@ -575,7 +589,7 @@ public function getMaree($_clean=0) {
   $dec = json_decode($content,true);
   if($dec === null) {
     log::add(__CLASS__, 'warning', "Unable to decode json file: $JsonFile");
-    unlink($JsonFile); // Suppression fichier non décodable
+    @unlink($JsonFile); // Suppression fichier non décodable
     $this->emptyMaree($harborName, "Unable to decode json file: $JsonFile");
     return(-1);
   }
@@ -639,7 +653,7 @@ public function getMaree($_clean=0) {
     }
   }
   if($nbmaree < 10) { // reste moins de 10 marées. Sera regénéré à la prochaine requete
-    unlink($JsonFile);
+    @unlink($JsonFile);
     log::add(__CLASS__, 'debug', "Suppression $JsonFile Nb maree = $nbmaree");
     $nbmaree = 0;
   }
@@ -730,64 +744,80 @@ public function getPlage() {
 
 public function getCrue() {
   $station = $this->getConfiguration('station');
-  if ($station == '') {
+  if($station == '') {
     log::add(__CLASS__, 'error', 'Station non saisie');
     return;
   }
-
-  // Niveau
-  $url = "https://hubeau.eaufrance.fr/api/v1/hydrometrie/observations_tr?code_entite=$station&size=1&pretty&grandeur_hydro=H&fields=date_obs,resultat_obs,continuite_obs_hydro";
+  // Niveau with vigicrues
+  $niveauOK = 0;
+  $url = "https://www.vigicrues.gouv.fr/services/observations.json/?CdStationHydro=$station&FormatDate=iso";
   $niveauData = file_get_contents($url);
-  /* Format de la réponse: 
-  { "count" : 8645,
-   "first" : "https://hubeau.eaufrance.fr/api/v1/hydrometrie/observations_tr?code_entite=A511061001&pretty&grandeur_hydro=H&fields=date_obs,resultat_obs,continuite_obs_hydro&cursor=&size=1",
-   "prev" : null,
-   "next" : "https://hubeau.eaufrance.fr/api/v1/hydrometrie/observations_tr?code_entite=A511061001&pretty&grandeur_hydro=H&fields=date_obs,resultat_obs,continuite_obs_hydro&cursor=AoJw7P3pi5ADPwxBNTExMDYxMF9BNTExMDYxMDAxX0hfNF8yMDI0LTA2LTE0VDE2OjUwOjAw&size=1",
-   "api_version" : "1.0.1",
-   "data" : 
-     [
-       { "date_obs" : "2024-06-14T16:50:00Z",
-         "resultat_obs" : 1958.0,
-         "continuite_obs_hydro" : true
-       }
-     ]
+  if($niveauData !== false) {
+    $niveauData = json_decode($niveauData, true);
+    if(isset($niveauData["Serie"]["ObssHydro"]) && count($niveauData["Serie"]["ObssHydro"])) {
+      $niveauLastValue = end($niveauData["Serie"]["ObssHydro"])['ResObsHydro'];
+      $niveauLastDate = end($niveauData["Serie"]["ObssHydro"])['DtObsHydro'];
+      $niveauCollectDate = date('Y-m-d H:i:s', strtotime($niveauLastDate));
+      $niveauOK = 1;
+    }
   }
-*/
-  if ($niveauData === false) {
-    log::add(__CLASS__, 'warning', __FUNCTION__ ." Hauteur. Pas de réponse. URL: $url");
-    return;
+  else { // Trying with hubeau
+    log::add(__CLASS__, 'warning', __FUNCTION__ ." Unable to get river height from vigicrues.gouv.fr. Trying hubeau.eaufrance.fr");
+    $url = "https://hubeau.eaufrance.fr/api/v1/hydrometrie/observations_tr?code_entite=$station&size=1&pretty&grandeur_hydro=H&fields=date_obs,resultat_obs,continuite_obs_hydro";
+    $niveauData = file_get_contents($url);
+    if($niveauData !== false) {
+      $niveauData = json_decode($niveauData, true);
+      if(isset($niveauData["data"]) && count($niveauData["data"])) {
+        $niveauLastValue = end($niveauData["data"])["resultat_obs"] / 1000; // conversion en mètres
+        $niveauLastDate = end($niveauData["data"])["date_obs"];
+        $niveauCollectDate = date('Y-m-d H:i:s', strtotime($niveauLastDate));
+        $niveauOK = 1;
+      }
+    }
   }
-  $niveauData = json_decode($niveauData, true);
-  $niveauLastValue = end($niveauData["data"])["resultat_obs"] / 1000; // conversion en mètres
-  $niveauLastDate = end($niveauData["data"])["date_obs"];
-  $niveauCollectDate = date('Y-m-d H:i:s', strtotime($niveauLastDate));
-  log::add(__CLASS__, 'debug', 'Valeur Niveau JSON (value): ' . $niveauLastValue);
-  log::add(__CLASS__, 'debug', 'Valeur Niveau JSON (date): ' . $niveauCollectDate);
+  if($niveauOK ) {
+    log::add(__CLASS__, 'debug', "Valeur Niveau JSON (value): $niveauLastValue (date):  $niveauCollectDate");
+    $this->checkAndUpdateCmd('niveau', $niveauLastValue, $niveauCollectDate);
+    $this->checkAndUpdateCmd('dateniveau', $niveauCollectDate, $niveauCollectDate);
+  }
+  else log::add(__CLASS__, 'warning', __FUNCTION__ ." Unable to get river height. Station: $station");
 
-  $this->checkAndUpdateCmd('niveau', $niveauLastValue, $niveauCollectDate);
-  $this->checkAndUpdateCmd('dateniveau', $niveauCollectDate, $niveauCollectDate);
 
-  // Débit
-  $url = "https://hubeau.eaufrance.fr/api/v1/hydrometrie/observations_tr?code_entite=$station&size=1&pretty&grandeur_hydro=Q&fields=date_obs,resultat_obs,continuite_obs_hydro";
+  // Débit with vigicrues
+  $debitOK = 0;
+  $url = "https://www.vigicrues.gouv.fr/services/observations.json/?CdStationHydro=$station&GrdSerie=Q&FormatDate=iso";
   $debitData = file_get_contents($url);
-  if ($debitData === false) {
-    log::add(__CLASS__, 'warning', __FUNCTION__ ." Débit. Pas de réponse. URL: $url");
-    return;
+  if($debitData !== false) {
+    $debitData = json_decode($debitData, true);
+    if(isset($debitData["Serie"]["ObssHydro"]) && count($debitData["Serie"]["ObssHydro"])) {
+      $debitLastValue = end($debitData["Serie"]["ObssHydro"])['ResObsHydro'];
+      $debitLastDate = end($debitData["Serie"]["ObssHydro"])['DtObsHydro'];
+      $debitCollectDate = date('Y-m-d H:i:s', strtotime($debitLastDate));
+      $debitOK = 1;
+    }
   }
-  $debitData = json_decode($debitData, true);
-  $debitLastValue = end($debitData["data"])['resultat_obs'] / 1000; // Conversion en m3/s
-  $debitLastDate = end($debitData["data"])['date_obs'];
-  $debitCollectDate = date('Y-m-d H:i:s', strtotime($debitLastDate));
-  log::add(__CLASS__, 'debug', 'Valeur Débit JSON (value): ' . $debitLastValue);
-  log::add(__CLASS__, 'debug', 'Valeur Débit JSON (date): ' . $debitCollectDate);
-
-  $this->checkAndUpdateCmd('debit', $debitLastValue, $debitCollectDate);
-  $this->checkAndUpdateCmd('datedebit', $debitCollectDate, $debitCollectDate);
-
-  return;
+  else { // Trying with hubeau
+    log::add(__CLASS__, 'warning', __FUNCTION__ ." Unable to get streamflow from vigicrues.gouv.fr. Trying hubeau.eaufrance.fr");
+    $url = "https://hubeau.eaufrance.fr/api/v1/hydrometrie/observations_tr?code_entite=$station&size=1&pretty&grandeur_hydro=Q&fields=date_obs,resultat_obs,continuite_obs_hydro";
+    $debitData = file_get_contents($url);
+    if($debitData !== false) {
+      $debitData = json_decode($debitData, true);
+      if(isset($debitData["data"]) && count($debitData["data"])) {
+        $debitLastValue = end($debitData["data"])['resultat_obs'] / 1000; // Conversion en m3/s
+        $debitLastDate = end($debitData["data"])['date_obs'];
+        $debitCollectDate = date('Y-m-d H:i:s', strtotime($debitLastDate));
+        $debitOK = 1;
+      }
+    }
+  }
+  if($debitOK ) {
+    log::add(__CLASS__, 'debug', "Valeur Débit JSON (value): $debitLastValue (date): $debitCollectDate");
+    $this->checkAndUpdateCmd('debit', $debitLastValue, $debitCollectDate);
+    $this->checkAndUpdateCmd('datedebit', $debitCollectDate, $debitCollectDate);
+  }
+  else log::add(__CLASS__, 'warning', __FUNCTION__ ." Unable to get streamflow. Station: $station");
 }
 
-	
 public function getSeisme() {
   log::add(__CLASS__, 'debug', 'API Seisme removed, no result anymore');
   return;
@@ -923,12 +953,12 @@ public function getPollen() {
   if ($geoloc == "jeedom") {
     $departement = substr(config::byKey('info::postalCode'),0,2);
     if ($departement == '20') {
-			if ($postal[2] <= '1') {
-				$departement = '2A';
-			} else {
-				$departement = '2B';
-			}
-		}
+      if ($postal[2] <= '1') {
+        $departement = '2A';
+      } else {
+        $departement = '2B';
+      }
+    }
   } else {
     $geotrav = eqLogic::byId($geoloc);
     if (is_object($geotrav) && $geotrav->getEqType_name() == 'geotrav') {
@@ -967,9 +997,10 @@ public function getPollen() {
     $this->checkAndUpdateCmd('general', $pollenData['riskLevel']);
     foreach ( $pollenData['risks'] as $pollen ) {
       $nomPollen = $pollen['pollenName']; $level = $pollen['level'];
+      log::add(__CLASS__, 'debug', "$nomPollen : $level");
       switch ( $nomPollen ) {
         case "Cyprès" :
-	case "Cupressacées" :
+  case "Cupressacées" :
           $this->checkAndUpdateCmd('pollen1', $level); break;
         case "Noisetier" :
           $this->checkAndUpdateCmd('pollen2', $level); break;
@@ -1007,7 +1038,7 @@ public function getPollen() {
           $this->checkAndUpdateCmd('pollen18', $level); break;
         case "Ambroisies" :
           $this->checkAndUpdateCmd('pollen19', $level); break;
-	default:
+  default:
           message::add(__CLASS__ .'-' .__FUNCTION__, "Pollen non traité: $nomPollen");
       }
     }
@@ -1147,12 +1178,12 @@ public function getPollen() {
         $postal = config::byKey('info::postalCode');
         $departement = $postal[0] . $postal[1];
         if ($departement == '20') {
-			if ($postal[2] <= '1') {
-				$departement = '2A';
-			} else {
-				$departement = '2B';
-			}
-		}
+      if ($postal[2] <= '1') {
+        $departement = '2A';
+      } else {
+        $departement = '2B';
+      }
+    }
       } else {
         $departement = geotravCmd::byEqLogicIdAndLogicalId($this->getConfiguration('geoloc'),'location:department')->execCmd();
       }
@@ -1447,12 +1478,16 @@ public function getPollen() {
       $chkDisplay0 = $this->getConfiguration('displayNullPollen');
       $sort = array();
       foreach ($this->getCmd('info') as $cmd) {
-        switch ($cmd->execCmd()) {
+        $val = $cmd->execCmd();
+        switch ($val) {
           case '-1': $color = 'black'; break;
           case '0':  $color = 'black'; break;
           case '1':  $color = 'green'; break;
           case '2':  $color = 'yellow'; break;
           case '3':  $color = 'red';    break;
+          default : $color = 'blue';
+            message::add(__CLASS__, 'error', "Unprocessed pollen value: $val");
+            break;
           /*
           case '1':  $color = 'lime';  break;
           case '2':  $color = 'green'; break;
@@ -1533,12 +1568,9 @@ public function getPollen() {
       $cmd = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'dateniveau');
       $replace['#dateniveau#'] = '';
       if(is_object($cmd)) {
-        $date = $cmd->execCmd();
-        $date = date_create_from_format("Y-m-d\TH:i:sP", $date);
-        if ( $date != false ) {
-          $date = strftime("%A %e %b %H:%M", $date->getTimestamp());
-          $replace['#dateniveau#'] = $date;
-        }
+        $date = strtotime($cmd->execCmd());
+        $dateniveau = strftime("%A %e %b à %H:%M", $date);
+        $replace['#dateniveau#'] = $dateniveau;
       }
       $cmd = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'debit');
       if(is_object($cmd)) {
@@ -1548,18 +1580,14 @@ public function getPollen() {
           $cmddeb = vigilancemeteoCmd::byEqLogicIdAndLogicalId($this->getId(),'datedebit');
           $datedebit = '';
           if(is_object($cmddeb)) {
-            $date = $cmddeb->execCmd();
-            $date = date_create_from_format("Y-m-d\TH:i:sP", $date);
-            if ( $date != false ) {
-              $date = strftime("%A %e %b %H:%M", $date->getTimestamp());
-              $datedebit = $date;
-            }
+            $date = strtotime($cmddeb->execCmd());
+            $datedebit = strftime("%A %e %b à %H:%M", $date);
           }
           $history = '';
-          if ($cmddeb->getIsHistorized() == 1) {
+          if ($cmd->getIsHistorized() == 1) {
             $history = 'history cursor';
           }
-          $replace['#debit#'] = '<span style="margin-left: 30px;" class="debit ' . $history . '" data-cmd_id="' . $cmd->getId() . '" title="Débit mesuré le ' . $datedebit . ' (' . $cmd->getCollectDate() . ')">D=' . $cmd->execCmd() . ' m3/s</span>';
+          $replace['#debit#'] = '<span style="margin-left: 30px;" class="debit ' .$history .'" data-cmd_id="' .$cmd->getId() .'" title="Débit mesuré le ' .$datedebit .'">D=' .$cmd->execCmd() .' m³/s</span>';
         }
       }
       $templatename = 'crue';
