@@ -52,7 +52,8 @@ class vigilancemeteo extends eqLogic {
   }
 
   public static function cronHourly() {
-      $dat = date('G');
+    $dat = date('G');
+log::add(__CLASS__, 'debug', __FUNCTION__ ." Heure: $dat");
     foreach (eqLogic::byType(__CLASS__, true) as $vigilancemeteo) {
       if ($vigilancemeteo->getConfiguration('type') == 'air') {
         $vigilancemeteo->getAir();
@@ -554,23 +555,10 @@ public function getMaree($_clean=0) {
     $lastcallTxt = config::byKey('lastcall-meteoconsult', __CLASS__, '0');
     if($lastcallTxt != '0') $lastcall = strtotime($lastcallTxt);
     else $lastcall = 0;
-    $delay = 10;
+    $delay = 900; // 15 minutes entre requetes
     if($lastcall == 0 || (time() - $lastcall) > $delay) {
       $url = "http://ws.meteoconsult.fr/meteoconsultmarine/androidtab/115/fr/v30/previsionsSpot.php?lat=$lat&lon=$lon";
       log::add(__CLASS__, 'debug', "Retreiving data for harbor $port from: $url");
-/*
-      $opts = array(
-        'http'=>array(
-        'method'=>"GET",
-        'header'=>array(
-          "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:65.0) Gecko/20100101 Firefox/65.0",
-        )
-        )
-      );
-      $context = stream_context_create($opts);
-
-      $content = file_get_contents($url,false,$opts);
-*/
       $content = file_get_contents($url);
       config::save('lastcall-meteoconsult', date('Y-m-d H:i:s'), __CLASS__);
       log::add(__CLASS__, 'debug', "Creating new cache file $JsonFile");
@@ -999,8 +987,7 @@ public function getPollen() {
       $nomPollen = $pollen['pollenName']; $level = $pollen['level'];
       log::add(__CLASS__, 'debug', "$nomPollen : $level");
       switch ( $nomPollen ) {
-        case "Cyprès" :
-  case "Cupressacées" :
+        case "Cyprès" : case "Cupressacées" :
           $this->checkAndUpdateCmd('pollen1', $level); break;
         case "Noisetier" :
           $this->checkAndUpdateCmd('pollen2', $level); break;
@@ -1038,7 +1025,7 @@ public function getPollen() {
           $this->checkAndUpdateCmd('pollen18', $level); break;
         case "Ambroisies" :
           $this->checkAndUpdateCmd('pollen19', $level); break;
-  default:
+        default:
           message::add(__CLASS__ .'-' .__FUNCTION__, "Pollen non traité: $nomPollen");
       }
     }
