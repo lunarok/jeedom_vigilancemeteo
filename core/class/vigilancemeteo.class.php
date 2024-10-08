@@ -53,7 +53,6 @@ class vigilancemeteo extends eqLogic {
 
   public static function cronHourly() {
     $dat = date('G');
-log::add(__CLASS__, 'debug', __FUNCTION__ ." Heure: $dat");
     foreach (eqLogic::byType(__CLASS__, true) as $vigilancemeteo) {
       if ($vigilancemeteo->getConfiguration('type') == 'air') {
         $vigilancemeteo->getAir();
@@ -985,7 +984,6 @@ public function getPollen() {
     $this->checkAndUpdateCmd('general', $pollenData['riskLevel']);
     foreach ( $pollenData['risks'] as $pollen ) {
       $nomPollen = $pollen['pollenName']; $level = $pollen['level'];
-      log::add(__CLASS__, 'debug', "$nomPollen : $level");
       switch ( $nomPollen ) {
         case "Cyprès" : case "Cupressacées" :
           $this->checkAndUpdateCmd('pollen1', $level); break;
@@ -1026,7 +1024,7 @@ public function getPollen() {
         case "Ambroisies" :
           $this->checkAndUpdateCmd('pollen19', $level); break;
         default:
-          message::add(__CLASS__ .'-' .__FUNCTION__, "Pollen non traité: $nomPollen");
+          log::add(__CLASS__, 'info', __FUNCTION__ ." Pollen non traité: $nomPollen");
       }
     }
   }
@@ -1473,7 +1471,7 @@ public function getPollen() {
           case '2':  $color = 'yellow'; break;
           case '3':  $color = 'red';    break;
           default : $color = 'blue';
-            message::add(__CLASS__, 'error', "Unprocessed pollen value: $val");
+            log::add(__CLASS__, 'info', "Unprocessed pollen value: $val");
             break;
           /*
           case '1':  $color = 'lime';  break;
