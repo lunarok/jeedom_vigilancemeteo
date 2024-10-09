@@ -23,9 +23,25 @@ class vigilancemeteo extends eqLogic {
   public static $_widgetPossibility = array('custom' => true);
 
   public static function cron() {
+    $heure = date('G'); $minute = date('i');
     foreach (eqLogic::byType(__CLASS__, true) as $vigilancemeteo) {
       if ($vigilancemeteo->getConfiguration('type') == 'maree') {
         if($vigilancemeteo->getMaree(0) != 0) $vigilancemeteo->refreshWidget();
+      }
+      else if ($vigilancemeteo->getConfiguration('type') == 'pollen') {
+        if($heure > 7 && $heure < 20) {
+          $pollenMinute = $vigilancemeteo->getConfiguration('pollenMinute', -1);
+          if ($pollenMinute == -1) {
+            $pollenMinute = rand(1,59);
+            $vigilancemeteo->setConfiguration('pollenMinute', $pollenMinute);
+            $vigilancemeteo->save(true);
+          }
+          if($minute == $pollenMinute) {
+            log::add(__CLASS__, 'debug', "Updating: Pollen [" .$vigilancemeteo->getName() ."]");
+            $vigilancemeteo->getPollen();
+            $vigilancemeteo->refreshWidget();
+          }
+        }
       }
     }
   }
@@ -63,8 +79,8 @@ class vigilancemeteo extends eqLogic {
       else if ($vigilancemeteo->getConfiguration('type') == 'surf') {
         $vigilancemeteo->getSurf();
       }
-      else if ($vigilancemeteo->getConfiguration('type') == 'pollen'&& $dat > 7 && $dat < 20) {
-        $vigilancemeteo->getPollen();
+      else if ($vigilancemeteo->getConfiguration('type') == 'pollen') {
+        if($dat > 7 && $dat < 20) $vigilancemeteo->getPollen();
       }
       else if ($vigilancemeteo->getConfiguration('type') == 'plage') {
         $vigilancemeteo->getPlage();
@@ -767,7 +783,7 @@ public function getCrue() {
     $this->checkAndUpdateCmd('niveau', $niveauLastValue, $niveauCollectDate);
     $this->checkAndUpdateCmd('dateniveau', $niveauCollectDate, $niveauCollectDate);
   }
-  else log::add(__CLASS__, 'warning', __FUNCTION__ ." Unable to get river height. Station: $station");
+  else log::add(__CLASS__, 'info', __FUNCTION__ ." Unable to get water height. Station: $station");
 
 
   // Débit with vigicrues
@@ -802,7 +818,7 @@ public function getCrue() {
     $this->checkAndUpdateCmd('debit', $debitLastValue, $debitCollectDate);
     $this->checkAndUpdateCmd('datedebit', $debitCollectDate, $debitCollectDate);
   }
-  else log::add(__CLASS__, 'warning', __FUNCTION__ ." Unable to get streamflow. Station: $station");
+  else log::add(__CLASS__, 'info', __FUNCTION__ ." Unable to get water flow. Station: $station");
 }
 
 public function getSeisme() {
@@ -932,13 +948,14 @@ public function getSurf() {
 }
 
 public function getPollen() {
-    $geoloc = $this->getConfiguration('geoloc', 'none');
+  $geoloc = $this->getConfiguration('geoloc', 'none');
   if ($geoloc == 'none') {
     log::add(__CLASS__, 'error', 'Pollen geoloc non configuré.');
     return;
   }
   if ($geoloc == "jeedom") {
-    $departement = substr(config::byKey('info::postalCode'),0,2);
+    $postal = config::byKey('info::postalCode');
+    $departement = substr($postal,0,2);
     if ($departement == '20') {
       if ($postal[2] <= '1') {
         $departement = '2A';
@@ -963,17 +980,17 @@ public function getPollen() {
     }
   }
   if ($departement == "2A" or $departement == "2B") {$departement = "20";}
-  log::add(__CLASS__, 'debug', 'Pollen departement : ' . $departement);
+  log::add(__CLASS__, 'debug', "  Pollen departement : $departement");
   $url = 'https://www.pollens.fr/risks/thea/counties/' .$departement;
   $pollenData = null;
-    $request_http = new com_http($url);
-    $request_http->setNoReportError(true);
-    $pollenJson = $request_http->exec(8);
-    if ($pollenJson == '') {
-      log::add(__CLASS__, 'debug', 'Impossible d\'obtenir les informations pollens.fr');
-      return;
-    }
-    $pollenData = json_decode($pollenJson, true);
+  $request_http = new com_http($url);
+  $request_http->setNoReportError(false);
+  $pollenJson = $request_http->exec(20);
+  if ($pollenJson == '') {
+    log::add(__CLASS__, 'info', "Impossible d'obtenir les informations pollens.fr");
+    return;
+  }
+  $pollenData = json_decode($pollenJson, true);
   if ( is_null($pollenData) ) { // Pas de reponse pollens.fr tous les levels a -1
     $this->checkAndUpdateCmd('general', -1);
     for ( $i=1; $i<20; $i++)
