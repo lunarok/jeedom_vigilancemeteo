@@ -79,9 +79,6 @@ class vigilancemeteo extends eqLogic {
       else if ($vigilancemeteo->getConfiguration('type') == 'surf') {
         $vigilancemeteo->getSurf();
       }
-      else if ($vigilancemeteo->getConfiguration('type') == 'pollen') {
-        if($dat > 7 && $dat < 20) $vigilancemeteo->getPollen();
-      }
       else if ($vigilancemeteo->getConfiguration('type') == 'plage') {
         $vigilancemeteo->getPlage();
       }
