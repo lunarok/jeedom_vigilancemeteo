@@ -763,7 +763,7 @@ public function getCrue() {
   }
   else { // Trying with hubeau
     log::add(__CLASS__, 'warning', __FUNCTION__ ." Unable to get river height from vigicrues.gouv.fr. Trying hubeau.eaufrance.fr");
-    $url = "https://hubeau.eaufrance.fr/api/v1/hydrometrie/observations_tr?code_entite=$station&size=1&pretty&grandeur_hydro=H&fields=date_obs,resultat_obs,continuite_obs_hydro";
+    $url = "https://hubeau.eaufrance.fr/api/v2/hydrometrie/observations_tr?code_entite=$station&size=1&pretty&grandeur_hydro=H&fields=date_obs,resultat_obs,continuite_obs_hydro";
     $niveauData = file_get_contents($url);
     if($niveauData !== false) {
       $niveauData = json_decode($niveauData, true);
@@ -798,7 +798,7 @@ public function getCrue() {
   }
   else { // Trying with hubeau
     log::add(__CLASS__, 'warning', __FUNCTION__ ." Unable to get streamflow from vigicrues.gouv.fr. Trying hubeau.eaufrance.fr");
-    $url = "https://hubeau.eaufrance.fr/api/v1/hydrometrie/observations_tr?code_entite=$station&size=1&pretty&grandeur_hydro=Q&fields=date_obs,resultat_obs,continuite_obs_hydro";
+    $url = "https://hubeau.eaufrance.fr/api/v2/hydrometrie/observations_tr?code_entite=$station&size=1&pretty&grandeur_hydro=Q&fields=date_obs,resultat_obs,continuite_obs_hydro";
     $debitData = file_get_contents($url);
     if($debitData !== false) {
       $debitData = json_decode($debitData, true);
