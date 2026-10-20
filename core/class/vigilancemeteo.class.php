@@ -567,15 +567,32 @@ public function getMaree($_clean=0) {
     $lastcallTxt = config::byKey('lastcall-meteoconsult', __CLASS__, '0');
     if($lastcallTxt != '0') $lastcall = strtotime($lastcallTxt);
     else $lastcall = 0;
-    $delay = 900; // 15 minutes entre requetes
+    $delay = 180; // 3 minutes entre requetes
     if($lastcall == 0 || (time() - $lastcall) > $delay) {
-      $url = "http://ws.meteoconsult.fr/meteoconsultmarine/androidtab/115/fr/v30/previsionsSpot.php?lat=$lat&lon=$lon";
-      log::add(__CLASS__, 'debug', "Retreiving data for harbor $port from: $url");
-      $content = file_get_contents($url);
-      config::save('lastcall-meteoconsult', date('Y-m-d H:i:s'), __CLASS__);
-      log::add(__CLASS__, 'debug', "Creating new cache file $JsonFile");
-      $hdle = fopen($JsonFile, "wb");
-      if($hdle !== FALSE) { fwrite($hdle, $content); fclose($hdle); }
+      $url = "https://ws.meteoconsult.fr/meteoconsultmarine/androidtab/115/fr/v30/previsionsSpot.php?lat=$lat&lon=$lon";
+      log::add(__CLASS__, 'debug', "  Retreiving data for harbor $port from: $url");
+      $ch = curl_init($url);
+      curl_setopt_array($ch, [
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => '',
+        CURLOPT_USERAGENT => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:158.0) Gecko/20100101 Firefox/158.0',
+      ]);
+
+      $content = curl_exec($ch);
+      $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+      $error = curl_error($ch);
+      curl_close($ch);
+
+      if($content === false || $httpCode !== 200) {
+        message::add(__CLASS__, " Meteoconsult HTTP $httpCode, cURL error : $error, answer : " . substr((string) $content, 0, 200));
+        log::add(__CLASS__, 'warning', " Meteoconsult HTTP $httpCode, cURL error : $error, answer : " . substr((string) $content, 0, 200));
+        return -1;
+      } else {
+        config::save('lastcall-meteoconsult', date('Y-m-d H:i:s'), __CLASS__);
+        log::add(__CLASS__, 'debug', "Creating new cache file $JsonFile");
+        $hdle = fopen($JsonFile, "wb");
+        if($hdle !== FALSE) { fwrite($hdle, $content); fclose($hdle); }
+      }
     }
     else {
       $this->emptyMaree($harborName, "Data for $harborName($port) $lat,$lon will be available after ".date('H:i:s',$lastcall+$delay) ." ($delay seconds betweeen requests)");
@@ -671,7 +688,6 @@ public function getMaree($_clean=0) {
   log::add(__CLASS__, 'debug', __FUNCTION__ ." $harborName Durée: " .round($t1-$t0,1) .'s. Prochaine MAJ: '.date('Y-m-d H:i',$datetimeTSnext) .(($nbmaree)?" Reste $nbmaree marées":''));
   return($changed);
 }
-
 public function getPlage() {
   if ($this->getConfiguration('geoloc') == 'jeedom') {
         $city = config::byKey('info::city');
