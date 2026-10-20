@@ -584,7 +584,7 @@ public function getMaree($_clean=0) {
       curl_close($ch);
 
       if($content === false || $httpCode !== 200) {
-        message::add(__CLASS__, " Meteoconsult HTTP $httpCode, cURL error : $error, answer : " . substr((string) $content, 0, 200));
+        // message::add(__CLASS__, " Meteoconsult HTTP $httpCode, cURL error : $error, answer : " . substr((string) $content, 0, 200));
         log::add(__CLASS__, 'warning', " Meteoconsult HTTP $httpCode, cURL error : $error, answer : " . substr((string) $content, 0, 200));
         return -1;
       } else {
@@ -688,6 +688,7 @@ public function getMaree($_clean=0) {
   log::add(__CLASS__, 'debug', __FUNCTION__ ." $harborName Durée: " .round($t1-$t0,1) .'s. Prochaine MAJ: '.date('Y-m-d H:i',$datetimeTSnext) .(($nbmaree)?" Reste $nbmaree marées":''));
   return($changed);
 }
+
 public function getPlage() {
   if ($this->getConfiguration('geoloc') == 'jeedom') {
         $city = config::byKey('info::city');
